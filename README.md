@@ -14,6 +14,11 @@ heroku run python manage.py migrate
 
 ## Further Reading
 
+To update `Pipfile.lock`:
+```
+pipenv lock
+```
+
 - [pipenv](https://docs.pipenv.org/en/latest/)
 - [Gunicorn](https://warehouse.python.org/project/gunicorn/)
 - [WhiteNoise](https://warehouse.python.org/project/whitenoise/)
