@@ -12,6 +12,13 @@ git push heroku master
 heroku run python manage.py migrate
 ```
 
+Make sure that `heroku addons` shows that you have
+heroku-postgresql, hobby-dev plan, enabled.
+
+Also, make sure you have Postgres [running
+locally](https://devcenter.heroku.com/articles/heroku-postgresql#local-setup),
+the same version as when you run `heroku pg`.
+
 ## Further Reading
 
 To update `Pipfile.lock`:
