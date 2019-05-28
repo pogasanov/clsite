@@ -15,9 +15,23 @@ heroku run python manage.py migrate
 Make sure that `heroku addons` shows that you have
 heroku-postgresql, hobby-dev plan, enabled.
 
-Also, make sure you have Postgres [running
+## Local setup
+
+Make sure you have Postgres [running
 locally](https://devcenter.heroku.com/articles/heroku-postgresql#local-setup),
 the same version as when you run `heroku pg`.
+
+Run:
+```
+pipenv install
+pipenv shell
+python manage.py migrate
+python manage.py runserver
+```
+
+(I am not able to get `heroku local` to work.)
+
+If you want to sync from the remote Heroku DB, use `heroku pg:pull`.
 
 ## Further Reading
 
