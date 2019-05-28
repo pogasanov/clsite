@@ -111,3 +111,9 @@ venv
 staticfiles
 .env
 *.sqlite3
+
+.idea/clsite.iml
+.idea/encodings.xml
+.idea/misc.xml
+.idea/modules.xml
+.idea/workspace.xml
