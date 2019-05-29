@@ -10,6 +10,8 @@ here](https://docs.google.com/document/d/1l4YzSrk06nKaHGVJzOCbBEWKw9peXhWLhETk6y
 heroku apps:create ftwcl-yourhandle
 git push heroku master
 heroku run python manage.py migrate
+# Use admin / admin@correspondence.legal / asdfasdf
+heroku run python manage.py createsuperuser
 ```
 
 Make sure that `heroku addons` shows that you have
@@ -26,6 +28,8 @@ Run:
 pipenv install
 pipenv shell
 python manage.py migrate
+# Use admin / admin@correspondence.legal / asdfasdf
+python manage.py createsuperuser
 python manage.py runserver
 ```
 
