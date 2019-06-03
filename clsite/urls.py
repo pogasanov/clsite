@@ -23,12 +23,12 @@ from django.urls import include, path
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-    path('login', auth_views.LoginView.as_view(success_url='/')),
+    path('login', auth_views.LoginView.as_view(success_url='/'), name='login'),
     path('register', CreateView.as_view(
-            template_name='registration/register.html',
-            form_class=UserCreationForm,
-            success_url='/'
-    )),
+        template_name='registration/register.html',
+        form_class=UserCreationForm,
+        success_url='/'
+    ), name='register'),
 
     path('', include('profiles.urls'))
 ]
