@@ -8,6 +8,3 @@ def index(request):
 def profile(request):
     return render(request, "profile-page.html", context={})
 
-
-def login(request):
-    return render(request, "login-page.html", context={})
