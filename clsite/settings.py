@@ -129,3 +129,6 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "clsite/static"),
 ]
+
+LOGIN_URL = '/login'
+LOGOUT_REDIRECT_URL = '/'
