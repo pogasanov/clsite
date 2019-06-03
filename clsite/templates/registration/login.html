@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block body-class %}login-page{% endblock %}
+
+{% block content %}
+    <div class="page-header header-filter"
+         style="background-image: url('https://demos.creative-tim.com/material-kit/assets/img/bg7.jpg'); background-size: cover; background-position: top center;">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 ml-auto mr-auto">
+                    <div class="card card-login">
+                        <form class="form" method="post">
+                            {% csrf_token %}
+
+                            <div class="card-header card-header-primary text-center">
+                                <h4 class="card-title">Login</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                    <span class="input-group-text">
+                      <i class="material-icons">face</i>
+                    </span>
+                                    </div>
+                                    <input type="text" name="username" class="form-control" placeholder="First Name...">
+                                    {{ form.username.errors }}
+                                </div>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                    <span class="input-group-text">
+                      <i class="material-icons">lock_outline</i>
+                    </span>
+                                    </div>
+                                    <input type="password" name="password" class="form-control"
+                                           placeholder="Password...">
+                                    {{ form.password.errors }}
+                                </div>
+                                {{ form.non_field_errors }}
+                            </div>
+                            <div class="footer text-center">
+                                <button type="submit" class="btn btn-primary btn-link btn-wd btn-lg">Get Started
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endblock %}
