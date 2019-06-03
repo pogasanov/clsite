@@ -1,9 +1,13 @@
 from django.shortcuts import render
 
-from django.http import HttpResponse
 
-from account.decorators import login_required
-
-@login_required
 def index(request):
-    return render(request, "profiles.html", context={})
+    return render(request, "landing-page.html", context={})
+
+
+def profile(request):
+    return render(request, "profile-page.html", context={})
+
+
+def login(request):
+    return render(request, "login-page.html", context={})
