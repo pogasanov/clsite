@@ -37,6 +37,14 @@ python manage.py runserver
 
 If you want to sync from the remote Heroku DB, use `heroku pg:pull`.
 
+## Theme
+
+We use [Material Kit](https://demos.creative-tim.com/material-kit/index.html) theme. Github repo is located [here](https://github.com/creativetimofficial/material-kit)
+
+Current version of Material Kit theme is 2.0.5.
+
+All images are not stored here and instead linked from demo website. SCSS files are also not part of this repo, but present in theme repo.
+
 ## Further Reading
 
 To update `Pipfile.lock`:
