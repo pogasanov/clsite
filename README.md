@@ -6,8 +6,11 @@ here](https://docs.google.com/document/d/1l4YzSrk06nKaHGVJzOCbBEWKw9peXhWLhETk6y
 
 ## Initial setup
 
+Install [heroku-cli](https://devcenter.heroku.com/articles/heroku-cli#download-and-install)
+
 ```
-heroku apps:create ftwcl-yourhandle
+heroku login
+heroku create
 git push heroku master
 heroku run python manage.py migrate
 # Use admin / admin@correspondence.legal / asdfasdf
