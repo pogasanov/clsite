@@ -7,5 +7,5 @@ from .choices import USA_STATES
 class Profile(models.Model):
     USA_STATES = USA_STATES
 
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     jurisdiction = models.CharField(max_length=2, choices=USA_STATES, verbose_name='Jurisdiction')
