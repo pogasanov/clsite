@@ -6,8 +6,11 @@ here](https://docs.google.com/document/d/1l4YzSrk06nKaHGVJzOCbBEWKw9peXhWLhETk6y
 
 ## Initial setup
 
+Install [heroku-cli](https://devcenter.heroku.com/articles/heroku-cli#download-and-install)
+
 ```
-heroku apps:create ftwcl-yourhandle
+heroku login
+heroku create
 git push heroku master
 heroku run python manage.py migrate
 # Use admin / admin@correspondence.legal / asdfasdf
@@ -30,12 +33,24 @@ pipenv shell
 python manage.py migrate
 # Use admin / admin@correspondence.legal / asdfasdf
 python manage.py createsuperuser
+# For fresh pgsql install, use heroku suggested url
+# If you have preconfigured pgsql, use your database username and password
+# export DATABASE_URL=postgres://USER:PASSWORD@127.0.0.1:5432/postgres
+export DATABASE_URL=postgres://$(whoami)
 python manage.py runserver
 ```
 
 (I am not able to get `heroku local` to work.)
 
 If you want to sync from the remote Heroku DB, use `heroku pg:pull`.
+
+## Theme
+
+We use [Material Kit](https://demos.creative-tim.com/material-kit/index.html) theme. Github repo is located [here](https://github.com/creativetimofficial/material-kit)
+
+Current version of Material Kit theme is 2.0.5.
+
+All images are not stored here and instead linked from demo website. SCSS files are also not part of this repo, but present in theme repo.
 
 ## Further Reading
 
