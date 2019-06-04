@@ -10,7 +10,9 @@ def index(request):
 
 @login_required
 def profile(request):
-    return render(request, "profile-page.html", context={})
+    return render(request, "profile-page.html", context={
+        'user': request.user
+    })
 
 
 def registration(request):
