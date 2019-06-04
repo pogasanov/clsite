@@ -8,4 +8,4 @@ class Profile(models.Model):
     USA_STATES = USA_STATES
 
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    jurisdiction = models.CharField(max_length=2, choices=USA_STATES, verbose_name='Jurisdiction')
+    jurisdiction = models.CharField(max_length=2, choices=USA_STATES, verbose_name='Jurisdiction', blank=True)
