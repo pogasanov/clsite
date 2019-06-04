@@ -33,8 +33,10 @@ pipenv shell
 python manage.py migrate
 # Use admin / admin@correspondence.legal / asdfasdf
 python manage.py createsuperuser
-# Use your database username, password
-export DATABASE_URL=postgres://USER:PASSWORD@127.0.0.1:5432/posgres
+# For fresh pgsql install, use heroku suggested url
+# If you have preconfigured pgsql, use your database username and password
+# export DATABASE_URL=postgres://USER:PASSWORD@127.0.0.1:5432/postgres
+export DATABASE_URL=postgres://$(whoami)
 python manage.py runserver
 ```
 
