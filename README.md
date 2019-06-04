@@ -44,11 +44,20 @@ python manage.py runserver
 
 If you want to sync from the remote Heroku DB, use `heroku pg:pull`.
 
-## Theme
+## Deployment
+
+### Assets
+
+Whitenoise caching crashes if assets has relative urls that leads outside of staticfiles (for example `../../`).  
+This will cause `SuspiciousFileOperation` with `collectstatic` or `heroku push`.  
+Make sure that new css/js code doesn't violate it.
+
+### Theme
 
 We use [Material Kit](https://demos.creative-tim.com/material-kit/index.html) theme. Github repo is located [here](https://github.com/creativetimofficial/material-kit)
 
-Current version of Material Kit theme is 2.0.5.
+Current version of Material Kit theme is 2.0.5.  
+Has css modified to remove all relative urls (carousel arrows).
 
 All images are not stored here and instead linked from demo website. SCSS files are also not part of this repo, but present in theme repo.
 
