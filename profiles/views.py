@@ -1,5 +1,7 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import get_user_model
+from django.conf import settings
 
 from .forms import RegistrationForm
 
@@ -9,9 +11,13 @@ def index(request):
 
 
 @login_required
-def profile(request):
+def profile(request, username=None):
+    if username:
+        user = get_object_or_404(get_user_model(), username=username)
+    else:
+        user = request.user
     return render(request, "profile-page.html", context={
-        'user': request.user
+        'user': user
     })
 
 
