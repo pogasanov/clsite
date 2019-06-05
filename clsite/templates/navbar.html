@@ -2,7 +2,7 @@
      id="sectionsNav">
     <div class="container">
         <div class="navbar-translate">
-            <a class="navbar-brand" href="/">
+            <a class="navbar-brand" href="{% url 'home' %}">
                 correspondence.legal </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false"
                     aria-label="Toggle navigation">
@@ -19,49 +19,30 @@
                         <i class="material-icons">apps</i> Components
                     </a>
                     <div class="dropdown-menu dropdown-with-icons">
-                        <a href="{% url 'home' %}" class="dropdown-item">
-                            <i class="material-icons">layers</i> Landing
-                        </a>
                         <a href="{% url 'profile' %}" class="dropdown-item">
                             <i class="material-icons">content_paste</i> Profile
                         </a>
-                        <a href="{% url 'login' %}" class="dropdown-item">
-                            <i class="material-icons">content_paste</i> Login
-                        </a>
-                        <a href="{% url 'register' %}" class="dropdown-item">
-                            <i class="material-icons">content_paste</i> Register
-                        </a>
-                        <a href="{% url 'logout' %}" class="dropdown-item">
-                            <i class="material-icons">content_paste</i> Logout
-                        </a>
                     </div>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="javascript:void(0)" onclick="scrollToDownload()">
-                        <i class="material-icons">cloud_download</i> Learn more
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" rel="tooltip" title="" data-placement="bottom"
-                       href="https://twitter.com/TODO" target="_blank"
-                       data-original-title="Follow us on Twitter">
-                        <i class="fa fa-twitter"></i>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" rel="tooltip" title="" data-placement="bottom"
-                       href="https://www.facebook.com/TODO" target="_blank"
-                       data-original-title="Like us on Facebook">
-                        <i class="fa fa-facebook-square"></i>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" rel="tooltip" title="" data-placement="bottom"
-                       href="https://www.instagram.com/TODO" target="_blank"
-                       data-original-title="Follow us on Instagram">
-                        <i class="fa fa-instagram"></i>
-                    </a>
-                </li>
+
+                {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'logout' %}">
+                            Logout
+                        </a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'register' %}">
+                            Register
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login' %}">
+                            Login
+                        </a>
+                    </li>
+                {% endif %}
             </ul>
         </div>
     </div>
