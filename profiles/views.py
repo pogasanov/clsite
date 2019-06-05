@@ -17,7 +17,7 @@ def profile(request, username=None):
     else:
         user = request.user
     return render(request, "profile-page.html", context={
-        'user': user
+        'selected_user': user
     })
 
 
