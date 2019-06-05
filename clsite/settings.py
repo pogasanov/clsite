@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'whitenoise.runserver_nostatic',
     'django.contrib.staticfiles',
     'django.contrib.sites',
-    'profiles'
+    'profiles.apps.ProfilesConfig'
 ]
 
 SITE_ID = 1
