@@ -17,7 +17,7 @@
                                     {% csrf_token %}
                                     <input type="file" name="photo-input" class="photo-input">
                                 </form>
-                                <img src="https://demos.creative-tim.com/material-kit/assets/img/faces/christian.jpg" alt="Circle Image"
+                                <img src="{{selected_user.profile.photo.url}}" alt="Circle Image"
                                      class="img-raised rounded-circle img-fluid photo-view">
                             </div>
                             <div class="name">
