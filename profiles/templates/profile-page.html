@@ -13,9 +13,12 @@
                     <div class="col-md-6 ml-auto mr-auto">
                         <div class="profile">
                             <div class="avatar">
-                                <img src="https://demos.creative-tim.com/material-kit/assets/img/faces/christian.jpg"
-                                     alt="Circle Image"
-                                     class="img-raised rounded-circle img-fluid">
+                                <form action="" method="POST" enctype="multipart/form-data" class="photo-form">
+                                    {% csrf_token %}
+                                    <input type="file" name="photo-input" class="photo-input">
+                                </form>
+                                <img src="{{selected_user.profile.photo.url}}" alt="Circle Image"
+                                     class="img-raised rounded-circle img-fluid photo-view">
                             </div>
                             <div class="name">
                                 <h3 class="title">{{ selected_user.first_name }} {{ selected_user.last_name }}</h3>

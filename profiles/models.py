@@ -1,7 +1,12 @@
 from django.db import models
 from django.conf import settings
+import os
 
 from .choices import USA_STATES
+
+
+def get_image_path(instance, filename):
+    return os.path.join(filename)
 
 
 class Profile(models.Model):
@@ -15,3 +20,4 @@ class Profile(models.Model):
     twitter = models.CharField(max_length=50, blank=True)
     linkedin = models.CharField(max_length=50, blank=True)
     facebook = models.CharField(max_length=50, blank=True)
+    photo = models.ImageField(upload_to=get_image_path, default='dummy-img.png')

@@ -1,5 +1,7 @@
 from django.urls import path, reverse_lazy
 from django.contrib.auth import views as auth_views
+from django.conf.urls.static import static
+from clsite.settings import MEDIA_URL, MEDIA_ROOT
 from django.views.generic.edit import CreateView
 from django.contrib.auth.forms import UserCreationForm
 
@@ -18,4 +20,4 @@ urlpatterns = [
 
     path('profile', views.profile, name='profile'),
     path('profile/<username>', views.profile, name='profile'),
-]
+] + static(MEDIA_URL, document_root=MEDIA_ROOT)
