@@ -19,11 +19,3 @@ def profile(request, username=None):
     return render(request, "profile-page.html", context={
         'selected_user': user
     })
-
-
-def registration(request):
-    form = RegistrationForm(request.POST or None)
-    if request.method == 'POST' and form.is_valid():
-        form.save()
-        return redirect('/')
-    return render(request, "registration/registration.html", context={form: form})
