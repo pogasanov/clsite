@@ -17,4 +17,5 @@ urlpatterns = [
     ), name='register'),
 
     path('profile', views.profile, name='profile'),
+    path('profile/<username>', views.profile, name='profile'),
 ]
