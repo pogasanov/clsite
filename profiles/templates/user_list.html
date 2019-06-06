@@ -1,15 +1,33 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
     <div class="page-header header-filter" data-parallax="true"
          style="background-image: url('https://demos.creative-tim.com/material-kit/assets/img/city-profile.jpg');"></div>
     <div class="main main-raised">
-        <div class="profile-content">
-            <div class="container pb-3">
-                {% for user in object_list %}
-                    {{ user }}
-                {% endfor %}
+        <div class="users-list-content">
+            <div class="container p-3">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Username</th>
+                        <th scope="col">First name</th>
+                        <th scope="col">Last name</th>
+                        <th scope="col">Jurisdiction</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for user in object_list %}
+                        <tr>
+                            <th scope="row">{{ user.id }}</th>
+                            <td>{{ user.username }}</td>
+                            <td>{{ user.first_name }}</td>
+                            <td>{{ user.last_name }}</td>
+                            <td>{{ user.profile.get_jurisdiction_display }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
