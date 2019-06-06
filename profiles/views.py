@@ -10,6 +10,8 @@ def index(request):
 
 @login_required
 def profile(request):
+    if request.method == 'POST':
+        print("hello")
     return render(request, "profile-page.html", context={})
 
 
