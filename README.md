@@ -63,6 +63,14 @@ All images are not stored here and instead linked from demo website. SCSS files 
 
 Iconset is [Font Awesome v.5](https://fontawesome.com/), downloaded via CDN.
 
+## Testing
+
+To run all tests:
+```
+python manage.py collectstatic # required by whitenoise
+python manage.py test
+```
+
 ## Further Reading
 
 To update `Pipfile.lock`:
