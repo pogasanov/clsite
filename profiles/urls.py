@@ -20,4 +20,8 @@ urlpatterns = [
 
     path('profile', views.profile, name='profile'),
     path('profile/<username>', views.profile, name='profile'),
+
+    path('users', views.UserListView.as_view(), name='users')
 ] + static(MEDIA_URL, document_root=MEDIA_ROOT)
+
+
