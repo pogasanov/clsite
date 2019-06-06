@@ -65,6 +65,7 @@ All images are not stored here and instead linked from demo website. SCSS files 
 
 To run all tests:
 ```
+python manage.py collectstatic # required by whitenoise
 python manage.py test
 ```
 
