@@ -49,3 +49,4 @@ class UserRegistrationView(CreateView):
 class UserListView(ListView):
     model = get_user_model()
     template_name = 'user_list.html'
+    ordering = ['id']
