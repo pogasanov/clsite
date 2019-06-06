@@ -13,8 +13,12 @@
                     <div class="col-md-6 ml-auto mr-auto">
                         <div class="profile">
                             <div class="avatar">
+                                <form action="" method="POST" enctype="multipart/form-data" class="photo-form">
+                                    {% csrf_token %}
+                                    <input type="file" name="photo-input" class="photo-input">
+                                </form>
                                 <img src="https://demos.creative-tim.com/material-kit/assets/img/faces/christian.jpg" alt="Circle Image"
-                                     class="img-raised rounded-circle img-fluid">
+                                     class="img-raised rounded-circle img-fluid photo-view">
                             </div>
                             <div class="name">
                                 <h3 class="title">Christian Louboutin</h3>
