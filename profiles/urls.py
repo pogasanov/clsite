@@ -19,4 +19,5 @@ urlpatterns = [
     ), name='register'),
 
     path('profile', views.profile, name='profile'),
+    path('profile/<username>', views.profile, name='profile'),
 ] + static(MEDIA_URL, document_root=MEDIA_ROOT)

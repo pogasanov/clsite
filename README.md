@@ -61,6 +61,16 @@ Has css modified to remove all relative urls (carousel arrows).
 
 All images are not stored here and instead linked from demo website. SCSS files are also not part of this repo, but present in theme repo.
 
+Iconset is [Font Awesome v.5](https://fontawesome.com/), downloaded via CDN.
+
+## Testing
+
+To run all tests:
+```
+python manage.py collectstatic # required by whitenoise
+python manage.py test
+```
+
 ## Further Reading
 
 To update `Pipfile.lock`:
