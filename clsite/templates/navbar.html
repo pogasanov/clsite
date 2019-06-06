@@ -14,22 +14,20 @@
         </div>
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav ml-auto">
-                <li class="dropdown nav-item">
-                    <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
-                        <i class="fas fa-list"></i> Components
-                    </a>
-                    <div class="dropdown-menu dropdown-with-icons">
-                        <a href="{% url 'profile' %}" class="dropdown-item">
-                            <i class="fas fa-layer-group"></i> Profile
-                        </a>
-                    </div>
-                </li>
-
                 {% if user.is_authenticated %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'logout' %}">
-                            Logout
+                    <li class="dropdown nav-item">
+                        <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
+                            <img src="https://via.placeholder.com/24x24"
+                                 alt="Circle Image" class="rounded-circle img-fluid">
                         </a>
+                        <div class="dropdown-menu dropdown-with-icons">
+                            <a href="{% url 'profile' %}" class="dropdown-item">
+                                <i class="material-icons">content_paste</i> Profile
+                            </a>
+                            <a class="nav-link" href="{% url 'logout' %}">
+                                Logout
+                            </a>
+                        </div>
                     </li>
                 {% else %}
                     <li class="nav-item">
