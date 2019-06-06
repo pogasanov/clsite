@@ -6,6 +6,7 @@ from django.http import JsonResponse
 import os
 from django.contrib.auth.forms import UserCreationForm
 from django.views.generic.edit import CreateView
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView
 
 
@@ -46,7 +47,7 @@ class UserRegistrationView(CreateView):
         return response
 
 
-class UserListView(ListView):
+class UserListView(LoginRequiredMixin, ListView):
     model = get_user_model()
     template_name = 'user_list.html'
     ordering = ['id']
