@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
 from django.http import JsonResponse
 import os
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView
 
 from .forms import RegistrationForm
@@ -41,7 +42,7 @@ def registration(request):
     return render(request, "registration/registration.html", context={form: form})
 
 
-class UserListView(ListView):
+class UserListView(LoginRequiredMixin, ListView):
     model = get_user_model()
     template_name = 'user_list.html'
     ordering = ['id']
