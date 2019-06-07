@@ -40,5 +40,6 @@ class UserRegistrationView(CreateView):
 
     def post(self, request, *args, **kwargs):
         response = super().post(request, *args, **kwargs)
-        login(request, self.object)
+        if self.object:
+            login(request, self.object)
         return response
