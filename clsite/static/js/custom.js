@@ -1,6 +1,5 @@
 $(document).ready(function() {
     function setupPictureUpload() {
-        debugger;
         if (window.location.href.split("profile")[1] === ""){
             document.getElementsByClassName("photo-view")[0].style.cursor = "pointer";
             //Upload picture code
