@@ -2,6 +2,10 @@
     display: none;
 }
 
+.card--user a {
+    color: inherit;
+}
+
 .card-deck .card.card--user {
     flex: 0 0 calc(20% - 30px);
 }
