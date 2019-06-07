@@ -22,8 +22,8 @@
                     </li>
                     <li class="dropdown nav-item">
                         <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
-                            <img src="https://via.placeholder.com/24x24"
-                                 alt="Circle Image" class="rounded-circle img-fluid">
+                            <img src="{{user.profile.photo.url}}"
+                                 alt="Circle Image" class="rounded-circle img-fluid navbar-photo">
                         </a>
                         <div class="dropdown-menu dropdown-with-icons">
                             <a href="{% url 'profile' %}" class="dropdown-item">
