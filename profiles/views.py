@@ -6,6 +6,8 @@ from django.http import JsonResponse
 import os
 from django.contrib.auth.forms import UserCreationForm
 from django.views.generic.edit import CreateView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import ListView
 
 
 def index(request):
@@ -43,3 +45,9 @@ class UserRegistrationView(CreateView):
         if self.object:
             login(request, self.object)
         return response
+
+
+class UserListView(LoginRequiredMixin, ListView):
+    model = get_user_model()
+    template_name = 'user_list.html'
+    ordering = ['id']

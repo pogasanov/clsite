@@ -1,6 +1,20 @@
 .photo-form {
     display: none;
 }
+
+.card--user a {
+    color: inherit;
+}
+
+.card-deck .card.card--user {
+    flex: 0 0 calc(20% - 30px);
+}
+
+.card--user__avatar {
+    width: 72px;
+    height: 72px;
+}
+
 .navbar-photo {
     width: 24px;
     height: 24px;

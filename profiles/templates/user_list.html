@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block body-class %}profile-page{% endblock %}
+
+{% block content %}
+    <div class="page-header header-filter" data-parallax="true"
+         style="background-image: url('https://demos.creative-tim.com/material-kit/assets/img/city-profile.jpg');"></div>
+    <div class="main main-raised">
+        <div class="users-list-content">
+            <div class="container p-3">
+                <div class="card-deck">
+                    {% for user in object_list %}
+                        <div class="card card--user">
+                            <div class="card-body">
+                                <a href="{% url 'profile' user.username %}">
+                                    <img src="{{ user.profile.photo.url }}"
+                                         class="d-block mx-auto card--user__avatar rounded-circle">
+                                    <h5 class="card-title my-0 text-center">
+                                        {% if user.first_name or user.last_name %}
+                                            {{ user.first_name }} {{ user.last_name }}
+                                        {% else %}
+                                            {{ user.username }}
+                                        {% endif %}
+                                    </h5>
+                                    <h6 class="my-0 text-center">{{ user.profile.get_jurisdiction_display }}</h6>
+                                    <p>
+                                        {{ user.profile.bio }}
+                                    </p>
+                                </a>
+                            </div>
+                            <div class="card-footer">
+                                <small class="text-muted mx-auto">Joined {{ user.date_joined|date:"d M Y" }}</small>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
