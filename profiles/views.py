@@ -1,9 +1,11 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, get_object_or_404
+from django.urls import reverse_lazy
+from django.contrib.auth import get_user_model, login
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import get_user_model
 from django.http import JsonResponse
 import os
-from .forms import RegistrationForm
+from django.contrib.auth.forms import UserCreationForm
+from django.views.generic.edit import CreateView
 
 
 def index(request):
@@ -31,9 +33,13 @@ def profile(request, username=None):
     })
 
 
-def registration(request):
-    form = RegistrationForm(request.POST or None)
-    if request.method == 'POST' and form.is_valid():
-        form.save()
-        return redirect('/')
-    return render(request, "registration/registration.html", context={form: form})
+class UserRegistrationView(CreateView):
+    template_name = 'registration/register.html'
+    form_class = UserCreationForm
+    success_url = reverse_lazy('profile')
+
+    def post(self, request, *args, **kwargs):
+        response = super().post(request, *args, **kwargs)
+        if self.object:
+            login(request, self.object)
+        return response
