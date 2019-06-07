@@ -41,7 +41,7 @@ $(document).ready(function() {
                 var original_src = picture.attr('src');
 
                 //Set the
-                picture.attr('src', 'static/images/loading.gif');
+                picture.attr('src', 'static/img/loader.gif');
 
                 $.ajax({
                     type: 'POST',
