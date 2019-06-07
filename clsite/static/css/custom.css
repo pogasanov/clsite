@@ -5,3 +5,7 @@
     width: 24px;
     height: 24px;
 }
+.photo-view {
+    max-height: 200px!important;
+    max-width: 200px!important;
+}
