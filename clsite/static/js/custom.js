@@ -8,13 +8,28 @@ $(document).ready(function() {
             });
 
             $('.photo-input').change(function () {
-                var image_size = this.files[0].size;
-                if (image_size > 8000000) {
-                    //Image is too big, must be 8MB or less
-                    alert('Your picture is too big, please make sure the image is 8 MB or less in size.');
-                } else {
-                    $('.photo-form').submit();
-                }
+                img_file = this.files[0]
+                var img = new Image();
+                img.src = window.URL.createObjectURL(img_file);
+                img.onload = function() {
+                    var width = img.naturalWidth;
+                    var height = img.naturalHeight;
+                    window.URL.revokeObjectURL( img.src );
+
+                    if( Math.abs(width - height) < 100 ) {
+                        var image_size = img_file.size;
+                        if (image_size > 8000000) {
+                            //Image is too big, must be 8MB or less
+                            alert('Your photo is too big, please make sure the image is 8 MB or less in size.');
+                        } else {
+                            $('.photo-form').submit();
+                        }
+                    }
+                    else {
+                        //Image is too big, must be 8MB or less
+                        alert('Please make sure the photo is square.');
+                    }
+                };
             });
 
             $('.photo-form').on('submit', function (event) {
@@ -38,6 +53,7 @@ $(document).ready(function() {
                     success: function (resp) {
                         if (resp['url']) {
                             $('.photo-view').attr('src', resp['url']);
+                            $('.navbar-photo').attr('src', resp['url']);
                         } else {
                             alert(resp['msg']);
                             //Set the original picture back
