@@ -18,7 +18,7 @@ $(document).ready(function() {
                         var height = img.naturalHeight;
                         window.URL.revokeObjectURL( img.src );
 
-                        if( Math.abs(width - height) < 100 ) {
+                        if( Math.max(width, height) / Math.min(width, height) < 1.2 ) {
                             var image_size = img_file.size;
                             if (image_size > 8000000) {
                                 //Image is too big, must be 8MB or less
