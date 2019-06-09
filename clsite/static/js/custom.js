@@ -9,27 +9,31 @@ $(document).ready(function() {
 
             $('.photo-input').change(function () {
                 img_file = this.files[0]
-                var img = new Image();
-                img.src = window.URL.createObjectURL(img_file);
-                img.onload = function() {
-                    var width = img.naturalWidth;
-                    var height = img.naturalHeight;
-                    window.URL.revokeObjectURL( img.src );
+                var valid_image_extensions = ["image/jpeg", "image/png"];
+                if(valid_image_extensions.indexOf(img_file.type) > -1){
+                    var img = new Image();
+                    img.src = window.URL.createObjectURL(img_file);
+                    img.onload = function() {
+                        var width = img.naturalWidth;
+                        var height = img.naturalHeight;
+                        window.URL.revokeObjectURL( img.src );
 
-                    if( Math.max(width, height) / Math.min(width, height) < 1.2 ) {
-                        var image_size = img_file.size;
-                        if (image_size > 8000000) {
-                            //Image is too big, must be 8MB or less
-                            alert('Your photo is too big, please make sure the image is 8 MB or less in size.');
+                        if( Math.max(width, height) / Math.min(width, height) < 1.2 ) {
+                            var image_size = img_file.size;
+                            if (image_size > 8000000) {
+                                //Image is too big, must be 8MB or less
+                                alert('Your photo is too big, please make sure the image is 8 MB or less in size.');
+                            } else {
+                                $('.photo-form').submit();
+                            }
                         } else {
-                            $('.photo-form').submit();
+                            //Image is too big, must be 8MB or less
+                            alert('Please make sure the photo is square.');
                         }
-                    }
-                    else {
-                        //Image is too big, must be 8MB or less
-                        alert('Please make sure the photo is square.');
-                    }
-                };
+                    };
+                } else {
+                    alert('invalid file format, please use JPEG/PNG format only.');
+                }
             });
 
             $('.photo-form').on('submit', function (event) {
