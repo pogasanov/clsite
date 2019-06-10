@@ -21,13 +21,13 @@ def profile(request, username=None):
     else:
         user = request.user
         if request.method == 'POST' and request.FILES['photo-input']:
-            previous_photo = user.profile.photo
+            # remove previous photo
+            previous_photo = user.profile.photo.name
+            if previous_photo != "dummy-img.png":
+                user.profile.photo.storage.delete(previous_photo)
+
             user.profile.photo = request.FILES['photo-input']
             user.profile.save()
-
-            # remove previous photo
-            # if previous_photo.url.split('/')[2] != "dummy-img.png":
-            #    os.remove(previous_photo.url[1:])
 
             return JsonResponse({'url': user.profile.photo.url})
     return render(request, "profile-page.html", context={
