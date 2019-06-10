@@ -17,6 +17,8 @@ test:
   stage: test
   variables:
     DATABASE_URL: "postgresql://postgres:postgres@postgres:5432/postgres"
+    LC_ALL: "C.UTF-8"
+    LANG: "C.UTF-8"
   script:
     - apt-get install -y python3-dev python3-pip
     - pip3 install --user pipenv
