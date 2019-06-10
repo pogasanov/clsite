@@ -45,6 +45,29 @@ If you want to sync from the remote Heroku DB, use `heroku pg:pull`.
 
 ## Deployment
 
+### S3
+
+We use S3 to store profile avatars.
+
+If you don't have pre-existing S3 bucket, you will need to create it first:
+
+1. Go to AWS S3 console - https://s3.console.aws.amazon.com/s3/home
+2. Create bucket
+    * *Name and region* - Unique name
+    * *Set permissions* - Allow public access
+    * Remember your `bucket name`!
+3. Go to AWS IAM console - https://console.aws.amazon.com/iam/home
+4. Users -> Add User
+    * Unique name
+    * Programmatic access
+    * Attach existing policies directly -> **AmazonS3FullAccess**
+    * Remember `Access key` and `Secret key`!
+
+Add following environment variables in your environment:
+* `AWS_ACCESS_KEY_ID` - Access key
+* `AWS_SECRET_ACCESS_KEY` - Secret key
+* `AWS_STORAGE_BUCKET_NAME` - Bucket name
+
 ### Assets
 
 Whitenoise caching crashes if assets has relative urls that leads outside of staticfiles (for example `../../`).  
