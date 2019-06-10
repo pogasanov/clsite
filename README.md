@@ -12,7 +12,6 @@ Install [heroku-cli](https://devcenter.heroku.com/articles/heroku-cli#download-a
 heroku login
 heroku create
 git push heroku master
-heroku run python manage.py migrate
 # Use admin / admin@correspondence.legal / asdfasdf
 heroku run python manage.py createsuperuser
 ```
