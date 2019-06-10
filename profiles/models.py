@@ -1,6 +1,6 @@
 from django.db import models
 from django.conf import settings
-from storages.backends.s3boto3 import S3Boto3Storage
+from clsite.storage_backends import variativeStorage
 import os
 
 from .choices import USA_STATES
@@ -21,4 +21,4 @@ class Profile(models.Model):
     twitter = models.CharField(max_length=50, blank=True)
     linkedin = models.CharField(max_length=50, blank=True)
     facebook = models.CharField(max_length=50, blank=True)
-    photo = models.ImageField(upload_to=get_image_path, default='dummy-img.png', storage=S3Boto3Storage())
+    photo = models.ImageField(upload_to=get_image_path, default='dummy-img.png', storage=variativeStorage())

@@ -68,6 +68,8 @@ Add following environment variables in your environment:
 * `AWS_SECRET_ACCESS_KEY` - Secret key
 * `AWS_STORAGE_BUCKET_NAME` - Bucket name
 
+Optionally, you can use default filestorage by not specifying `AWS_ACCESS_KEY_ID` in `settings.py` 
+
 ### Assets
 
 Whitenoise caching crashes if assets has relative urls that leads outside of staticfiles (for example `../../`).  

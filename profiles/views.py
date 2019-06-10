@@ -23,7 +23,6 @@ def profile(request, username=None):
         if request.method == 'POST' and request.FILES['photo-input']:
             previous_photo = user.profile.photo
             user.profile.photo = request.FILES['photo-input']
-            user.profile.name = 'avatar.png'
             user.profile.save()
 
             # remove previous photo
