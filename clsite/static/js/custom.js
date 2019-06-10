@@ -23,6 +23,8 @@ $(document).ready(function() {
                             if (image_size > 8000000) {
                                 //Image is too big, must be 8MB or less
                                 alert('Your photo is too big, please make sure the image is 8 MB or less in size.');
+                            } else if(Math.max(width, height) < 300) {
+                                alert('Your photo dimension is insufficient, please make sure that it is atleast 300 X 300 in pixels.');
                             } else {
                                 $('.photo-form').submit();
                             }
@@ -30,6 +32,7 @@ $(document).ready(function() {
                             //Image is too big, must be 8MB or less
                             alert('Please make sure the photo is square.');
                         }
+                        $('.photo-input')[0].value = '';
                     };
                 } else {
                     alert('invalid file format, please use JPEG/PNG format only.');
