@@ -51,6 +51,8 @@ Requires 2 env variables, that is set in gitlab settings -> CI/CD -> Variables:
 * `HEROKU_APP_NAME` - Your heroku app name
 * `HEROKU_STAGING_API_KEY` - Your heroku API key.
 
+In order to get long-living api key, run `heroku authorizations:create` on machine that is authorized via `heroku login`.
+
 ## Deployment
 
 ### Assets
