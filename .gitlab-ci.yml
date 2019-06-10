@@ -1,0 +1,31 @@
+stages:
+  - test
+  - deploy
+
+services:
+  - postgres:latest
+
+cache:
+  paths:
+    - ~/.cache/pip/
+
+test:
+  stage: test
+  variables:
+    DATABASE_URL: "postgresql://postgres:postgres@postgres:5432/postgres"
+  script:
+    - apt-get update -qy
+    - apt-get install -y python-dev python-pip
+    - pip install --user pipenv
+    - pipenv install
+    - python manage.py test
+
+deploy:
+  stage: deploy
+  script:
+    - apt-get update -qy
+    - apt-get install -y ruby-dev
+    - gem install dpl
+    - dpl --provider=heroku --app=$HEROKU_APP_NAME --api-key=$HEROKU_STAGING_API_KEY
+  only:
+    - master
