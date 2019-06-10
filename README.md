@@ -66,9 +66,12 @@ Iconset is [Font Awesome v.5](https://fontawesome.com/), downloaded via CDN.
 
 To run all tests:
 ```
-python manage.py collectstatic # required by whitenoise
 python manage.py test
 ```
+
+All tests requires `@override_settings(STATICFILES_STORAGE='django.contrib.staticfiles.storage.StaticFilesStorage')`
+decorator to be set for each test class or `python manage.py collectstatic`. Otherwise it will fail because there is no whitenoise manifest.  
+More info can be found in this [SO question](https://stackoverflow.com/questions/44160666/valueerror-missing-staticfiles-manifest-entry-for-favicon-ico)
 
 ## Further Reading
 
