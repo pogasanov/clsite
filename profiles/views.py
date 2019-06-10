@@ -8,6 +8,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.views.generic.edit import CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView
+from .forms import ProfileForm
 
 
 def index(request):
@@ -30,8 +31,10 @@ def profile(request, username=None):
                 os.remove(previous_photo.url[1:])
 
             return JsonResponse({'url': user.profile.photo.url})
+    form = ProfileForm()
     return render(request, "profile-page.html", context={
-        'selected_user': user
+        'selected_user': user,
+        'form': form
     })
 
 
