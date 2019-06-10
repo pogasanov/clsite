@@ -43,6 +43,14 @@ python manage.py runserver
 
 If you want to sync from the remote Heroku DB, use `heroku pg:pull`.
 
+## CI/CD
+
+We are using gitlab CI/CD to automate testing and deployment to heroku.
+
+Requires 2 env variables, that is set in gitlab settings -> CI/CD -> Variables:
+* `HEROKU_APP_NAME` - Your heroku app name
+* `HEROKU_STAGING_API_KEY` - Your heroku API key.
+
 ## Deployment
 
 ### Assets
