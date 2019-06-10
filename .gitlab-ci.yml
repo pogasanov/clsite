@@ -10,25 +10,19 @@ cache:
     - ~/.cache/pip/
     - ~/.cache/pipenv/
 
-before_script:
-  - apt-get update -qy
-
 test:
   stage: test
+  image: python:latest
   variables:
     DATABASE_URL: "postgresql://postgres:postgres@postgres:5432/postgres"
-    LC_ALL: "C.UTF-8"
-    LANG: "C.UTF-8"
   script:
-    - apt-get install -y python3-dev python3-pip
-    - pip3 install --user pipenv
-    - python3 -m pipenv install
+    - pipenv install --system
     - python3 manage.py test
 
 deploy:
   stage: deploy
+  image: ruby:latest
   script:
-    - apt-get install -y ruby-dev
     - gem install dpl
     - dpl --provider=heroku --app=$HEROKU_APP_NAME --api-key=$HEROKU_STAGING_API_KEY
   only:
