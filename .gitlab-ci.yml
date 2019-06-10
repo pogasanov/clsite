@@ -5,19 +5,20 @@ stages:
 services:
   - postgres:latest
 
-cache:
-  paths:
-    - ~/.cache/pip/
-    - ~/.cache/pipenv/
-
 test:
   stage: test
   image: python:latest
   variables:
     DATABASE_URL: "postgresql://postgres:postgres@postgres:5432/postgres"
-  script:
+  before_script:
+    - pip install pipenv
     - pipenv install --system
+  script:
     - python3 manage.py test
+  cache:
+    paths:
+      - ~/.cache/pip/
+      - ~/.cache/pipenv/
 
 deploy:
   stage: deploy
