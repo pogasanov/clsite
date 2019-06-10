@@ -57,10 +57,36 @@ If you don't have pre-existing S3 bucket, you will need to create it first:
     * *Set permissions* - Allow public access
     * Remember your `bucket name`!
 3. Go to AWS IAM console - https://console.aws.amazon.com/iam/home
-4. Users -> Add User
+4. Policies -> Add Policy
+    * *JSON* - replace `YOUR_BUCKET_NAME` with your bucket name
+    ```json
+    {
+        "Version": "2012-10-17",
+        "Statement": [
+            {
+                "Sid": "VisualEditor0",
+                "Effect": "Allow",
+                "Action": [
+                    "s3:PutObject",
+                    "s3:GetObjectAcl",
+                    "s3:GetObject",
+                    "s3:ListBucket",
+                    "s3:DeleteObject",
+                    "s3:PutObjectAcl"
+                ],
+                "Resource": [
+                    "arn:aws:s3:::YOUR_BUCKET_NAME/*",
+                    "arn:aws:s3:::YOUR_BUCKET_NAME"
+                ]
+            }
+        ]
+    }
+    ```
+    * *name* - Unique name
+5. Users -> Add User
     * Unique name
     * Programmatic access
-    * Attach existing policies directly -> **AmazonS3FullAccess**
+    * Attach existing policies directly -> your policy name
     * Remember `Access key` and `Secret key`!
 
 Add following environment variables in your environment:
