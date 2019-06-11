@@ -148,3 +148,16 @@ django_heroku.settings(locals())
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
+
+# AWS setup
+AWS_ACCESS_KEY_ID = os.getenv('CLOUDCUBE_ACCESS_KEY_ID') or os.getenv('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.getenv('CLOUDCUBE_SECRET_ACCESS_KEY') or os.getenv('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = os.getenv('CLOUDCUBE_STORAGE_BUCKET_NAME') or os.getenv('AWS_STORAGE_BUCKET_NAME')
+AWS_LOCATION = os.getenv('CLOUDCUBE_LOCATION', '')
+AWS_DEFAULT_ACL = 'public-read'
+AWS_QUERYSTRING_AUTH = False
+
+if 'CI' in os.environ:
+    DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=False)
+    DATABASES['default']['TEST'] = dj_database_url.config(conn_max_age=600, ssl_require=False)
