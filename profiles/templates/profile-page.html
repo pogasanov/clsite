@@ -67,95 +67,15 @@
                             <form class="form-block profile-form" action="" method="post" enctype="multipart/form-data">
                                 {% csrf_token %}
                                 <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group jurisdiction-field">
-                                            {{ form.first_name.label }}
-                                            {% render_field form.first_name class="form-control" place_holder=form.first_name.value %}
-                                            {% for error in form.first_name.errors %}
-                                            <span style="color: red;">[{{ error }}]</span>
-                                            {% endfor %}
-                                        </div>
+                                    {% for field in form.visible_fields %}
+                                    <div class="col-md-6 field">
+                                        {{ field.label }}
+                                        {{field}}
+                                        {% for error in field.errors %}
+                                        <span style="color: red;">[{{ error }}]</span>
+                                        {% endfor %}
                                     </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            {{ form.last_name.label }}
-                                            {% render_field form.last_name class="form-control" place_holder=form.last_name.value %}
-                                            {% for error in form.last_name.errors %}
-                                            <span style="color: red;">[{{ error }}]</span>
-                                            {% endfor %}
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group jurisdiction-field">
-                                            {{ form.jurisdiction.label }}
-                                            {% render_field form.jurisdiction class="form-control" place_holder=form.jurisdiction.value %}
-                                            {% for error in form.jurisdiction.errors %}
-                                            <span style="color: red;">[{{ error }}]</span>
-                                            {% endfor %}
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            {{ form.headline.label }}
-                                            {% render_field form.headline class="form-control" place_holder=form.headline.value %}
-                                            {% for error in form.headline.errors %}
-                                            <span style="color: red;">[{{ error }}]</span>
-                                            {% endfor %}
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            {{ form.website.label }}
-                                            {% render_field form.website class="form-control" place_holder=form.website.value %}
-                                            {% for error in form.website.errors %}
-                                            <span style="color: red;">[{{ error }}]</span>
-                                            {% endfor %}
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            {{ form.twitter.label }}
-                                            {% render_field form.twitter class="form-control" place_holder=form.twitter.value %}
-                                            {% for error in form.twitter.errors %}
-                                            <span style="color: red;">[{{ error }}]</span>
-                                            {% endfor %}
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            {{ form.linkedin.label }}
-                                            {% render_field form.linkedin class="form-control" place_holder=form.linkedin.value %}
-                                            {% for error in form.linkedin.errors %}
-                                            <span style="color: red;">[{{ error }}]</span>
-                                            {% endfor %}
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            {{ form.facebook.label }}
-                                            {% render_field form.facebook class="form-control" place_holder=form.facebook.value %}
-                                            {% for error in form.facebook.errors %}
-                                            <span style="color: red;">[{{ error }}]</span>
-                                            {% endfor %}
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            {{ form.bio.label }}
-                                            {% render_field form.bio class="form-control" rows="3" place_holder=form.bio.value %}
-                                            {% for error in form.bio.errors %}
-                                            <span style="color: red;">[{{ error }}]</span>
-                                            {% endfor %}
-                                        </div>
-                                    </div>
+                                    {% endfor %}
                                 </div>
                                 <div class="alert alert-dismissible" id="response-message"></div>
                                 <input class="btn btn-primary" type="submit" title="Submit">
