@@ -23,6 +23,9 @@
     max-height: 200px!important;
     max-width: 200px!important;
 }
-.jurisdiction-field{
-    padding-top: 22px;
+.field {
+    margin-top: 20px;
+}
+.jurisdiction-field {
+    height: 36px!important;
 }
