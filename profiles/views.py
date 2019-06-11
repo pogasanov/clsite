@@ -34,17 +34,8 @@ def profile(request, username=None):
 
                 return JsonResponse({'url': user.profile.photo.url})
             else:
-                user.first_name = request.POST.get('first_name') if request.POST.get('first_name') else user.first_name
-                user.last_name = request.POST.get('last_name') if request.POST.get('last_name') else user.last_name
-                user.profile.headline = request.POST.get('headline') if request.POST.get('headline') else user.profile.headline
-                user.profile.jurisdiction = request.POST.get('jurisdiction') if request.POST.get('jurisdiction') else user.profile.jurisdiction
-                user.profile.website = request.POST.get('website') if request.POST.get('website') else user.profile.website
-                user.profile.twitter = request.POST.get('twitter') if request.POST.get('twitter') else user.profile.twitter
-                user.profile.linkedin = request.POST.get('linkedin') if request.POST.get('linkedin') else user.profile.linkedin
-                user.profile.facebook = request.POST.get('facebook') if request.POST.get('facebook') else user.profile.facebook
-                user.profile.bio = request.POST.get('bio') if request.POST.get('bio') else user.profile.bio
-                user.save()
-                user.profile.save()
+                form = ProfileForm(request.POST, instance=user)
+                form.save()
                 return JsonResponse({'message': 'Your data has been updated successfully!'})
         initial_data = {
             'first_name': user.first_name,
