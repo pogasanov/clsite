@@ -47,7 +47,21 @@ If you want to sync from the remote Heroku DB, use `heroku pg:pull`.
 
 ### S3
 
-We use S3 to store profile avatars.
+We use S3 to store profile avatars.  
+Optionally, you can use default filestorage by not specifying `AWS_ACCESS_KEY_ID` in `settings.py` 
+
+#### Heroku CloudCube
+
+1. Install heroku CloudCube from heroku dashboard.  
+    It will add 3 environment variables: `CLOUDCUBE_ACCESS_KEY_ID`, `CLOUDCUBE_SECRET_ACCESS_KEY`, `CLOUDCUBE_URL`.  
+    More info can be found in [CloudCube docs](https://devcenter.heroku.com/articles/cloudcube#s3-api-and-bucket-name)
+2. Add following env variables in Settings -> Config vars:
+    * `CLOUDCUBE_LOCATION` - `YOUR_CUBE_NAME/public`. For example `jsnymx6p2qoc/public`.
+    * `CLOUDCUBE_STORAGE_BUCKET_NAME` - Cloudcube bucket name. For example: `cloud-cube`. More info can be found in [CloudCube docs](https://devcenter.heroku.com/articles/cloudcube#aws-region)
+    
+    Both variables can be found in `CLOUDCUBE_URL`.
+    
+#### AWS
 
 If you don't have pre-existing S3 bucket, you will need to create it first:
 
@@ -93,8 +107,6 @@ Add following environment variables in your environment:
 * `AWS_ACCESS_KEY_ID` - Access key
 * `AWS_SECRET_ACCESS_KEY` - Secret key
 * `AWS_STORAGE_BUCKET_NAME` - Bucket name
-
-Optionally, you can use default filestorage by not specifying `AWS_ACCESS_KEY_ID` in `settings.py` 
 
 ### Assets
 
