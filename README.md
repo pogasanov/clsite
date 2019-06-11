@@ -48,7 +48,7 @@ If you want to sync from the remote Heroku DB, use `heroku pg:pull`.
 ### S3
 
 We use S3 to store profile avatars.  
-Our project supports either **Heroku CloudCube** or **AWS S3 Bucket**.  
+Our project supports **either** [Heroku CloudCube](https://devcenter.heroku.com/articles/cloudcube) or [AWS S3 Bucket](https://aws.amazon.com/s3/).  
 Optionally, you can use default filestorage by not specifying `AWS_ACCESS_KEY_ID` in `settings.py` 
 
 #### Heroku CloudCube
@@ -56,16 +56,24 @@ Optionally, you can use default filestorage by not specifying `AWS_ACCESS_KEY_ID
 1. Install heroku CloudCube from heroku dashboard.  
     It will add 3 environment variables: `CLOUDCUBE_ACCESS_KEY_ID`, `CLOUDCUBE_SECRET_ACCESS_KEY`, `CLOUDCUBE_URL`.  
     More info can be found in [CloudCube docs](https://devcenter.heroku.com/articles/cloudcube#s3-api-and-bucket-name)
-2. Add following [env variables to heroku](https://devcenter.heroku.com/articles/config-vars#managing-config-vars). Go to heroku dashboard. Select **settings tab**. Press **Reveal Config Vars** button.
-    * `CLOUDCUBE_LOCATION` - `YOUR_CUBE_NAME/public`. For example `jsnymx6p2qoc/public`.
-    * `CLOUDCUBE_STORAGE_BUCKET_NAME` - Cloudcube bucket name. For example: `cloud-cube`. More info can be found in [CloudCube docs](https://devcenter.heroku.com/articles/cloudcube#aws-region)
-    
-    Both variables can be found in `CLOUDCUBE_URL`. For example, if you have `CLOUDCUBE_URL` = `https://cloud-cube.s3.amazonaws.com/jsnymx6p2qoc`:
-    * `CLOUDCUBE_LOCATION` - `jsnymx6p2qoc/public`
-    * `CLOUDCUBE_STORAGE_BUCKET_NAME` - `cloud-cube`
+2. Add 2 environment variables to heroku based on `CLOUDCUBE_URL`. Check out [CloudCube docs](https://devcenter.heroku.com/articles/cloudcube#s3-api-and-bucket-name) about how it is constructed.  
+    * `CLOUDCUBE_STORAGE_BUCKET_NAME` should be bucket name.  
+    * `CLOUDCUBE_LOCATION` should be CUBENAME + `/public`  
+    For example:
+    ```bash
+    heroku config
+    # ...
+    # CLOUDCUBE_ACCESS_KEY_ID:       AKIA37SVVXBHRH5CEJ5N
+    # CLOUDCUBE_SECRET_ACCESS_KEY:   zCmoQYKx4IJz/UQ37jwXWv1pFncX61Gvz7735hQD
+    # CLOUDCUBE_URL:                 https://cloud-cube.s3.amazonaws.com/jsnymx6p2qoc
+    # ...
+    heroku config:set CLOUDCUBE_STORAGE_BUCKET_NAME=cloud-cube
+    heroku config:set CLOUDCUBE_LOCATION=jsnymx6p2qoc/public
+    ```
     
 #### AWS
 
+**Don't do this part if you use CloudCube!**  
 If you don't have pre-existing S3 bucket, you will need to create it first:
 
 1. Go to AWS S3 console - https://s3.console.aws.amazon.com/s3/home
