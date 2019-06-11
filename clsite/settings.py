@@ -148,3 +148,7 @@ django_heroku.settings(locals())
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
+if 'CI' in os.environ:
+    DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=False)
+    DATABASES['default']['TEST'] = dj_database_url.config(conn_max_age=600, ssl_require=False)
