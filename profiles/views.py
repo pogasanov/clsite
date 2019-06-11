@@ -21,10 +21,11 @@ def profile(request, username=None):
     else:
         user = request.user
         if request.method == 'POST' and request.FILES['photo-input']:
+            photo_storage = user.profile.photo.storage
             # remove previous photo
             previous_photo = user.profile.photo.name
-            if previous_photo != "dummy-img.png":
-                user.profile.photo.storage.delete(previous_photo)
+            if photo_storage.exists(previous_photo) and previous_photo != "dummy-img.png":
+                photo_storage.delete(previous_photo)
 
             user.profile.photo = request.FILES['photo-input']
             user.profile.save()
