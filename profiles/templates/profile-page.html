@@ -21,6 +21,7 @@
                                 <img src="{{selected_user.profile.photo.url}}" alt="Circle Image"
                                      class="img-raised rounded-circle img-fluid photo-view">
                             </div>
+                            {% if not form %}
                             <div class="name">
                                 <h3 class="title">{{ selected_user.first_name }} {{ selected_user.last_name }}</h3>
 
@@ -56,14 +57,20 @@
                                     </a>
                                 {% endif %}
                             </div>
-                            <!--TODO-->
+                            <div class="description text-center">
+                                <p>{{ selected_user.profile.bio }}</p>
+                                <strong>Jurisdiction:</strong> {{ selected_user.profile.jurisdiction|default:'Not selected' }}
+                            </div>
+                            {% endif %}
+                            <!--Edit Mode for Own Profile-->
+                            {% if form %}
                             <form id="personal-details-form" class="form-block" action="" method="post" enctype="multipart/form-data">
                                 {% csrf_token %}
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group jurisdiction-field">
                                             {{ form.jurisdiction.label }}
-                                            {% render_field form.jurisdiction class="form-control" %}
+                                            {% render_field form.jurisdiction class="form-control" place_holder=form.jurisdiction.value %}
                                             {% for error in form.jurisdiction.errors %}
                                             <span style="color: red;">[{{ error }}]</span>
                                             {% endfor %}
@@ -72,7 +79,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             {{ form.headline.label }}
-                                            {% render_field form.headline class="form-control" %}
+                                            {% render_field form.headline class="form-control" place_holder=form.headline.value %}
                                             {% for error in form.headline.errors %}
                                             <span style="color: red;">[{{ error }}]</span>
                                             {% endfor %}
@@ -83,7 +90,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             {{ form.website.label }}
-                                            {% render_field form.website class="form-control" %}
+                                            {% render_field form.website class="form-control" place_holder=form.website.value %}
                                             {% for error in form.website.errors %}
                                             <span style="color: red;">[{{ error }}]</span>
                                             {% endfor %}
@@ -92,7 +99,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             {{ form.twitter.label }}
-                                            {% render_field form.twitter class="form-control" %}
+                                            {% render_field form.twitter class="form-control" place_holder=form.twitter.value %}
                                             {% for error in form.twitter.errors %}
                                             <span style="color: red;">[{{ error }}]</span>
                                             {% endfor %}
@@ -103,7 +110,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             {{ form.linkedin.label }}
-                                            {% render_field form.linkedin class="form-control" %}
+                                            {% render_field form.linkedin class="form-control" place_holder=form.linkedin.value %}
                                             {% for error in form.linkedin.errors %}
                                             <span style="color: red;">[{{ error }}]</span>
                                             {% endfor %}
@@ -112,7 +119,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             {{ form.facebook.label }}
-                                            {% render_field form.facebook class="form-control" %}
+                                            {% render_field form.facebook class="form-control" place_holder=form.facebook.value %}
                                             {% for error in form.facebook.errors %}
                                             <span style="color: red;">[{{ error }}]</span>
                                             {% endfor %}
@@ -123,7 +130,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             {{ form.bio.label }}
-                                            {% render_field form.bio class="form-control" %}
+                                            {% render_field form.bio class="form-control" rows="5" place_holder=form.bio.value %}
                                             {% for error in form.bio.errors %}
                                             <span style="color: red;">[{{ error }}]</span>
                                             {% endfor %}
@@ -132,13 +139,10 @@
                                 </div>
                                 <input class="btn btn-primary" type="submit" title="Submit">
                             </form>
-                            <!--END TODO-->
+                            {% endif %}
+                            <!--END Edit Field for own profile-->
                         </div>
                     </div>
-                </div>
-                <div class="description text-center">
-                    <p>{{ selected_user.profile.bio }}</p>
-                    <strong>Jurisdiction:</strong> {{ selected_user.profile.jurisdiction|default:'Not selected' }}
                 </div>
             </div>
         </div>

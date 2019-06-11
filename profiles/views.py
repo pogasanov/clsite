@@ -17,24 +17,36 @@ def index(request):
 
 @login_required
 def profile(request, username=None):
+    profile_form = None
     if username:
         user = get_object_or_404(get_user_model(), username=username)
     else:
         user = request.user
-        if request.method == 'POST' and request.FILES['photo-input']:
-            previous_photo = user.profile.photo
-            user.profile.photo = request.FILES['photo-input']
-            user.profile.save()
+        if request.method == 'POST':
+            if request.FILES.get('photo-input'):
+                previous_photo = user.profile.photo
+                user.profile.photo = request.FILES['photo-input']
+                user.profile.save()
 
-            # remove previous photo
-            if previous_photo.url.split('/')[2] != "dummy-img.png":
-                os.remove(previous_photo.url[1:])
+                # remove previous photo
+                if previous_photo.url.split('/')[2] != "dummy-img.png":
+                    os.remove(previous_photo.url[1:])
 
-            return JsonResponse({'url': user.profile.photo.url})
-    form = ProfileForm()
+                return JsonResponse({'url': user.profile.photo.url})
+            else:
+                user.profile.headline = request.POST.get('headline') if request.POST.get('headline') else user.profile.headline
+                user.profile.jurisdiction = request.POST.get('jurisdiction') if request.POST.get('jurisdiction') else user.profile.jurisdiction
+                user.profile.website = request.POST.get('website') if request.POST.get('website') else user.profile.website
+                user.profile.twitter = request.POST.get('twitter') if request.POST.get('twitter') else user.profile.twitter
+                user.profile.linkedin = request.POST.get('linkedin') if request.POST.get('linkedin') else user.profile.linkedin
+                user.profile.facebook = request.POST.get('facebook') if request.POST.get('facebook') else user.profile.facebook
+                user.profile.bio = request.POST.get('bio') if request.POST.get('bio') else user.profile.bio
+                user.save()
+
+        profile_form = ProfileForm(initial=user.profile.__dict__)
     return render(request, "profile-page.html", context={
         'selected_user': user,
-        'form': form
+        'form': profile_form
     })
 
 
