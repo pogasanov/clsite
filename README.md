@@ -43,6 +43,35 @@ python manage.py runserver
 
 If you want to sync from the remote Heroku DB, use `heroku pg:pull`.
 
+## CI/CD
+
+We are using gitlab CI/CD to automate testing and deployment to heroku.
+
+### Setup
+
+Requires 2 env variables, that is set in gitlab settings -> CI/CD -> Variables:
+* `HEROKU_APP_NAME` - Your heroku app name
+* `HEROKU_STAGING_API_KEY` - Your heroku API key.
+
+In order to get long-living api key, run `heroku authorizations:create` on machine that is authorized via `heroku login`.
+
+### Flow
+
+
+
+Consist of 2 jobs - `test` and `deploy`.
+
+#### Test
+
+Runs all tests to make sure that code is working before even consider merging.  
+Testing is done on gitlab side, using postgres database. It doesn't require working webserver, since we don't use selenium.
+
+#### Deploy
+
+Uses [`dpl`](https://github.com/travis-ci/dpl) to push code to heroku via api.  
+Works only on `master` branch.
+Always done after `test` (since merging itself can break code) and if tests passes, code will be deployed.
+
 ## Deployment
 
 ### S3
