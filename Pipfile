@@ -11,5 +11,6 @@ python_version = "3.7"
 django-heroku = "*"
 gunicorn = "*"
 pillow = "*"
+django-widget-tweaks = "*"
 
 [dev-packages]
