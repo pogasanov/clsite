@@ -34,7 +34,7 @@ def profile(request, username=None):
 
                 return JsonResponse({'url': user.profile.photo.url})
             else:
-                form = ProfileForm(request.POST, instance=user)
+                form = ProfileForm(request.POST, instance=user.profile)
                 form.save()
                 return JsonResponse({'message': 'Your data has been updated successfully!'})
         initial_data = {

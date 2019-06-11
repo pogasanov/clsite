@@ -22,14 +22,9 @@ class ProfileForm(ModelForm):
         self.fields['bio'].widget.attrs.update({'class': 'form-control', 'rows': '2'})
 
     def save(self, commit=True):
-        updated_user = super(ProfileForm, self).save(commit=False)
-        updated_user.profile.jurisdiction = self.cleaned_data.get('jurisdiction', updated_user.profile.jurisdiction)
-        updated_user.profile.headline = self.cleaned_data.get('headline', updated_user.profile.headline)
-        updated_user.profile.bio = self.cleaned_data.get('bio', updated_user.profile.bio)
-        updated_user.profile.website = self.cleaned_data.get('website', updated_user.profile.website)
-        updated_user.profile.twitter = self.cleaned_data.get('twitter', updated_user.profile.twitter)
-        updated_user.profile.linkedin = self.cleaned_data.get('linkedin', updated_user.profile.linkedin)
-        updated_user.profile.facebook = self.cleaned_data.get('facebook', updated_user.profile.facebook)
-        updated_user.profile.save()
-        updated_user.save()
-        return updated_user
+        updated_profile = super(ProfileForm, self).save(commit=False)
+        updated_profile.user.first_name = self.cleaned_data.get('first_name', updated_profile.user.first_name)
+        updated_profile.user.last_name = self.cleaned_data.get('last_name', updated_profile.user.last_name)
+        updated_profile.save()
+        updated_profile.user.save()
+        return updated_profile
