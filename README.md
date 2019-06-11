@@ -54,8 +54,7 @@ Optionally, you can use default filestorage by not specifying `AWS_ACCESS_KEY_ID
 #### Heroku CloudCube
 
 1. Install heroku CloudCube from heroku dashboard.  
-    It will add 3 environment variables: `CLOUDCUBE_ACCESS_KEY_ID`, `CLOUDCUBE_SECRET_ACCESS_KEY`, `CLOUDCUBE_URL`.  
-    More info can be found in [CloudCube docs](https://devcenter.heroku.com/articles/cloudcube#s3-api-and-bucket-name)
+    It will add 3 environment variables: `CLOUDCUBE_ACCESS_KEY_ID`, `CLOUDCUBE_SECRET_ACCESS_KEY`, `CLOUDCUBE_URL`.
 2. Add 2 environment variables to heroku based on `CLOUDCUBE_URL`. Check out [CloudCube docs](https://devcenter.heroku.com/articles/cloudcube#s3-api-and-bucket-name) about how it is constructed.  
     * `CLOUDCUBE_STORAGE_BUCKET_NAME` should be bucket name.  
     * `CLOUDCUBE_LOCATION` should be CUBENAME + `/public`  
