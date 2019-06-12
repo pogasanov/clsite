@@ -17,39 +17,39 @@ def index(request):
 
 @login_required
 def profile(request, username=None):
-    profile_form = None
     if username:
         user = get_object_or_404(get_user_model(), username=username)
+        profile_form = None
     else:
         user = request.user
+        profile_form = ProfileForm(request.POST or None, instance=user.profile)
         if request.method == 'POST':
             if request.FILES.get('photo-input'):
-                photo_storage = user.profile.photo.storage
-                # remove previous photo
-                previous_photo = user.profile.photo.name
-                if photo_storage.exists(previous_photo) and previous_photo != "dummy-img.png":
-                    photo_storage.delete(previous_photo)
-
-                user.profile.photo = request.FILES['photo-input']
-                user.profile.save()
-
-                return JsonResponse({'url': user.profile.photo.url})
+                url = update_user_profile_photo(user, request.FILES['photo-input'])
+                return JsonResponse({'url': url})
             else:
-                form = ProfileForm(request.POST, instance=user.profile)
-                if form.is_valid():
-                    form.save()
+                if profile_form.is_valid():
+                    profile_form.save()
                     return JsonResponse({'message': 'Your data has been updated successfully!'})
                 else:
                     return JsonResponse({'message': 'Invalid data provided!'}, status=400)
-        initial_data = {
-            'first_name': user.first_name,
-            'last_name':  user.last_name,
-        }
-        profile_form = ProfileForm(instance=user.profile, initial=initial_data)
     return render(request, "profile-page.html", context={
         'selected_user': user,
         'form': profile_form
     })
+
+
+def update_user_profile_photo(user, photo):
+    photo_storage = user.profile.photo.storage
+    # remove previous photo
+    previous_photo = user.profile.photo.name
+    if photo_storage.exists(previous_photo) and previous_photo != "dummy-img.png":
+        photo_storage.delete(previous_photo)
+
+    user.profile.photo = photo
+    user.profile.save()
+
+    return user.profile.photo.url
 
 
 class UserRegistrationView(CreateView):

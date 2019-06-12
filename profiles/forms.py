@@ -36,15 +36,19 @@ class ProfileForm(ModelForm):
                   ]
 
     def __init__(self, *args, **kwargs):
-        super(ProfileForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
+
+        self.fields['first_name'].initial = self.instance.user.first_name
+        self.fields['last_name'].initial = self.instance.user.last_name
+
         for key, field in self.fields.items():
             field.widget.attrs.update({'class': 'form-control'})
         self.fields['bio'].widget.attrs.update({'rows': '2'})
 
     def save(self, commit=True):
-        updated_profile = super(ProfileForm, self).save(commit=False)
+        updated_profile = super().save(commit=False)
         updated_profile.user.first_name = self.cleaned_data.get('first_name', updated_profile.user.first_name)
         updated_profile.user.last_name = self.cleaned_data.get('last_name', updated_profile.user.last_name)
-        updated_profile.save()
         updated_profile.user.save()
+        updated_profile.save()
         return updated_profile
