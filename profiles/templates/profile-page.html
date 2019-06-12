@@ -60,9 +60,7 @@
                                 <p>{{ selected_user.profile.bio }}</p>
                                 <strong>Jurisdiction:</strong> {{ selected_user.profile.jurisdiction|default:'Not selected' }}
                             </div>
-                            {% endif %}
-                            <!--Edit Mode for Own Profile-->
-                            {% if form %}
+                            {% else %}
                             <form class="form-block profile-form" action="" method="post" enctype="multipart/form-data">
                                 {% csrf_token %}
                                 <div class="row">
