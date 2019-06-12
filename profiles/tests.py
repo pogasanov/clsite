@@ -97,7 +97,7 @@ class ProfileTests(TestCase):
         self.assertRedirects(response, '/profile')
         self.assertTrue(response.context['user'].is_active)
 
-    def test_update(self):
+    def test_update_profile(self):
         # User go to homepage
         response = self.client.get('/')
         # Expects 200 and rendered page
