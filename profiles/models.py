@@ -1,5 +1,6 @@
 from django.db import models
-from django.conf import settings
+from django.contrib.postgres.fields import ArrayField, DateRangeField
+from django.conf import settings, global_settings
 from clsite.storage_backends import variativeStorage
 import os
 
@@ -29,6 +30,33 @@ class Admissions(models.Model):
     year = models.PositiveIntegerField(verbose_name='date of graduation')
 
 
+class LawSchool(models.Model):
+    USA_STATES = USA_STATES
+
+    school = models.CharField(max_length=100, verbose_name='School name')
+    state = models.CharField(max_length=2, choices=USA_STATES, verbose_name='State')
+
+
+class WorkExperience(models.Model):
+    company_name = models.CharField(max_length=100, verbose_name='Company')
+    position = models.CharField(max_length=100, verbose_name='Position')
+    duration = DateRangeField(verbose_name='Duration')
+    responsibility = models.TextField(verbose_name='Responsibility')
+
+
+class Organization(models.Model):
+    name = models.CharField(max_length=100, verbose_name='Organization')
+    position = models.CharField(max_length=100, verbose_name='Position/Designation')
+    duration = DateRangeField(verbose_name='Duration')
+
+
+class Award(models.Model):
+    title = models.CharField(max_length=100, verbose_name='Title')
+    presented_by = models.CharField(max_length=100, verbose_name='Presented by')
+    year = models.PositiveIntegerField(verbose_name='Year')
+    description = models.TextField(verbose_name='Description')
+
+
 def get_image_path(instance, filename):
     return os.path.join(filename)
 
@@ -41,12 +69,17 @@ class Profile(models.Model):
         (2, 'Medium businesses (100-1000 people)'),
         (3, 'Large businesses (1000 upwards)')
     )
-    PREFERRED_COMMUNICATION_METHOD = (
+    PREFERRED_COMMUNICATION_METHODS = (
         (0, 'Whatsapp'),
         (1, 'Email'),
         (2, 'Call'),
         (3, 'In-Person')
     )
+    LICENSE_STATUSES = (
+        (0, 'Active'),
+        (1, 'In good standing')
+    )
+    LANGUAGES = global_settings.LANGUAGES
 
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     address = models.OneToOneField(Address, on_delete=models.PROTECT, verbose_name='Work Address', blank=True,
@@ -62,9 +95,24 @@ class Profile(models.Model):
     current_job = models.CharField(max_length=200, verbose_name='Current Job/Affiliation/Law Firm', blank=True)
     size_of_clients = models.PositiveSmallIntegerField(choices=SIZE_OF_CLIENTS, verbose_name='Size of clients',
                                                        blank=True, null=True)
-    preferred_communication_method = models.PositiveSmallIntegerField(choices=PREFERRED_COMMUNICATION_METHOD,
+    preferred_communication_method = models.PositiveSmallIntegerField(choices=PREFERRED_COMMUNICATION_METHODS,
                                                                       verbose_name='Preferred communication method',
                                                                       blank=True, null=True)
+
+    license_status = models.PositiveSmallIntegerField(choices=LICENSE_STATUSES, verbose_name='License Status',
+                                                      blank=True, null=True)
+    languages = ArrayField(
+        models.CharField(max_length=10, choices=LANGUAGES, verbose_name='Languages'),
+        blank=True, null=True
+    )
+    law_school = models.OneToOneField(LawSchool, on_delete=models.PROTECT, blank=True, null=True)
+    work_experiences = models.ManyToManyField(WorkExperience, blank=True)
+    associations = models.ManyToManyField(Organization, blank=True)
+    clients = ArrayField(
+        models.CharField(max_length=100, verbose_name='Representative Clients'),
+        blank=True, null=True
+    )
+    awards = models.ManyToManyField(Award, blank=True)
 
     jurisdiction = models.CharField(max_length=2, choices=USA_STATES, verbose_name='Jurisdiction', blank=True)
     headline = models.CharField(max_length=120, verbose_name='Headline', blank=True)
