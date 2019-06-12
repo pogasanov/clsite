@@ -25,6 +25,28 @@ class ProfileTests(TestCase):
             'password1': 'test_password',
             'password2': 'test_password'
         }
+        cls.correct_update_data = {
+            'first_name': 'John',
+            'last_name': 'Doe',
+            'jurisdiction': 'AL',
+            'headline': 'Test headline',
+            'bio': 'Test bio',
+            'website': 'http://www.test.com',
+            'twitter': 'Test twitter',
+            'linkedin': 'Test linkedin',
+            'facebook': 'Test facebook'
+        }
+        cls.incorrect_update_data = {
+            'first_name': 'John',
+            'last_name': 'Doe',
+            'jurisdiction': 'Invalid Jurisdiction',
+            'headline': 'Test headline',
+            'bio': 'Test bio',
+            'website': 'http://www.test.com',
+            'twitter': 'Test twitter',
+            'linkedin': 'Test linkedin',
+            'facebook': 'Test facebook'
+        }
 
     def setUp(self):
         get_user_model().objects.create_user(**self.credentials)
@@ -74,3 +96,38 @@ class ProfileTests(TestCase):
         # Expects 302 and redirect to profile)
         self.assertRedirects(response, '/profile')
         self.assertTrue(response.context['user'].is_active)
+
+    def test_update_profile(self):
+        # User go to homepage
+        response = self.client.get('/')
+        # Expects 200 and rendered page
+        self.assertEqual(response.status_code, 200)
+
+        # User types correctly
+        response = self.client.post('/login?next=/profile', self.credentials, follow=True)
+        # Expects 302 and redirect to profile)
+        self.assertRedirects(response, '/profile')
+        self.assertTrue(response.context['user'].is_active)
+
+        # Try to Update the data with incorrect parameters
+        response = self.client.post('/profile', self.incorrect_update_data, follow=True)
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.json().get('message'), 'Invalid data provided!')
+
+        # Update the data with correct parameters
+        response = self.client.post('/profile', self.correct_update_data, follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json().get('message'), 'Your data has been updated successfully!')
+
+        # Go to profile view page to see the updated data
+        response = self.client.get('/profile/' + self.credentials['username'])
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.context['user'].first_name, self.correct_update_data['first_name'])
+        self.assertEqual(response.context['user'].last_name, self.correct_update_data['last_name'])
+        self.assertEqual(response.context['user'].profile.jurisdiction, self.correct_update_data['jurisdiction'])
+        self.assertEqual(response.context['user'].profile.headline, self.correct_update_data['headline'])
+        self.assertEqual(response.context['user'].profile.bio, self.correct_update_data['bio'])
+        self.assertEqual(response.context['user'].profile.website, self.correct_update_data['website'])
+        self.assertEqual(response.context['user'].profile.twitter, self.correct_update_data['twitter'])
+        self.assertEqual(response.context['user'].profile.linkedin, self.correct_update_data['linkedin'])
+        self.assertEqual(response.context['user'].profile.facebook, self.correct_update_data['facebook'])

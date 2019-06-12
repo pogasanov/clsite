@@ -20,6 +20,7 @@
                                 <img src="{{selected_user.profile.photo.url}}" alt="Circle Image"
                                      class="img-raised rounded-circle img-fluid photo-view">
                             </div>
+                            {% if not form %}
                             <div class="name">
                                 <h3 class="title">{{ selected_user.first_name }} {{ selected_user.last_name }}</h3>
 
@@ -55,12 +56,33 @@
                                     </a>
                                 {% endif %}
                             </div>
+                            <div class="description text-center">
+                                <p>{{ selected_user.profile.bio }}</p>
+                                <strong>Jurisdiction:</strong> {{ selected_user.profile.jurisdiction|default:'Not selected' }}
+                            </div>
+                            {% endif %}
+                            <!--Edit Mode for Own Profile-->
+                            {% if form %}
+                            <form class="form-block profile-form" action="" method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <div class="row">
+                                    {% for field in form.visible_fields %}
+                                    <div class="col-md-6 field">
+                                        {{ field.label }}
+                                        {{field}}
+                                        {% for error in field.errors %}
+                                        <span style="color: red;">[{{ error }}]</span>
+                                        {% endfor %}
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                                <div class="alert alert-dismissible" id="response-message"></div>
+                                <input class="btn btn-primary" type="submit" title="Submit">
+                            </form>
+                            {% endif %}
+                            <!--END Edit Field for own profile-->
                         </div>
                     </div>
-                </div>
-                <div class="description text-center">
-                    <p>{{ selected_user.profile.bio }}</p>
-                    <strong>Jurisdiction:</strong> {{ selected_user.profile.jurisdiction|default:'Not selected' }}
                 </div>
             </div>
         </div>

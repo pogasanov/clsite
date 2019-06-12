@@ -73,5 +73,21 @@ $(document).ready(function() {
         }
     }
 
+
+    $('.profile-form').on('submit', function (event) {
+        event.preventDefault();
+        $.ajax({
+            type: 'POST',
+            url: '/profile',
+            data: new FormData(this),
+            contentType: false,
+            cache: false,
+            processData: false,
+            success: function (resp) {
+                document.getElementById("response-message").textContent= resp["message"];
+            }
+        });
+    });
+
     setupPictureUpload();
 });

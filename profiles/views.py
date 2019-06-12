@@ -8,6 +8,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.views.generic.edit import CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView
+from .forms import ProfileForm
 
 
 def index(request):
@@ -16,23 +17,45 @@ def index(request):
 
 @login_required
 def profile(request, username=None):
+    profile_form = None
     if username:
         user = get_object_or_404(get_user_model(), username=username)
     else:
         user = request.user
-        if request.method == 'POST' and request.FILES['photo-input']:
-            photo_storage = user.profile.photo.storage
-            # remove previous photo
-            previous_photo = user.profile.photo.name
-            if photo_storage.exists(previous_photo) and previous_photo != "dummy-img.png":
-                photo_storage.delete(previous_photo)
+        if request.method == 'POST':
+            if request.FILES.get('photo-input'):
+                photo_storage = user.profile.photo.storage
+                # remove previous photo
+                previous_photo = user.profile.photo.name
+                if photo_storage.exists(previous_photo) and previous_photo != "dummy-img.png":
+                    photo_storage.delete(previous_photo)
 
-            user.profile.photo = request.FILES['photo-input']
-            user.profile.save()
+                user.profile.photo = request.FILES['photo-input']
+                user.profile.save()
 
-            return JsonResponse({'url': user.profile.photo.url})
+                return JsonResponse({'url': user.profile.photo.url})
+            else:
+                form = ProfileForm(request.POST, instance=user.profile)
+                if form.is_valid():
+                    form.save()
+                    return JsonResponse({'message': 'Your data has been updated successfully!'})
+                else:
+                    return JsonResponse({'message': 'Invalid data provided!'}, status=400)
+        initial_data = {
+            'first_name': user.first_name,
+            'last_name':  user.last_name,
+            'jurisdiction': user.profile.jurisdiction,
+            'headline': user.profile.headline,
+            'bio': user.profile.bio,
+            'website': user.profile.website,
+            'twitter': user.profile.twitter,
+            'linkedin': user.profile.linkedin,
+            'facebook': user.profile.facebook
+        }
+        profile_form = ProfileForm(initial=initial_data)
     return render(request, "profile-page.html", context={
-        'selected_user': user
+        'selected_user': user,
+        'form': profile_form
     })
 
 
