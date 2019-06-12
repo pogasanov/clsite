@@ -114,7 +114,10 @@ class Profile(models.Model):
     )
     awards = models.ManyToManyField(Award, blank=True)
 
-    jurisdiction = models.CharField(max_length=2, choices=USA_STATES, verbose_name='Jurisdiction', blank=True)
+    jurisdiction = ArrayField(
+        models.CharField(max_length=2, choices=USA_STATES),
+        verbose_name='Jurisdiction', blank=True, null=True
+    )
     headline = models.CharField(max_length=120, verbose_name='Headline', blank=True)
     website = models.URLField(verbose_name='Website URL', blank=True)
     twitter = models.CharField(max_length=50, blank=True)
