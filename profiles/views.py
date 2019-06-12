@@ -44,15 +44,8 @@ def profile(request, username=None):
         initial_data = {
             'first_name': user.first_name,
             'last_name':  user.last_name,
-            'jurisdiction': user.profile.jurisdiction,
-            'headline': user.profile.headline,
-            'bio': user.profile.bio,
-            'website': user.profile.website,
-            'twitter': user.profile.twitter,
-            'linkedin': user.profile.linkedin,
-            'facebook': user.profile.facebook
         }
-        profile_form = ProfileForm(initial=initial_data)
+        profile_form = ProfileForm(instance=user.profile, initial=initial_data)
     return render(request, "profile-page.html", context={
         'selected_user': user,
         'form': profile_form

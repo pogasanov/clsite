@@ -4,22 +4,42 @@ from django import forms
 
 
 class ProfileForm(ModelForm):
-    first_name = forms.CharField(max_length=30, widget=forms.TextInput(attrs={'class': 'form-control'}))
-    last_name = forms.CharField(max_length=150, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    first_name = forms.CharField(max_length=30)
+    last_name = forms.CharField(max_length=150)
 
     class Meta:
         model = Profile
-        fields = ['first_name', 'last_name', 'jurisdiction', 'headline', 'website', 'twitter', 'linkedin', 'facebook','bio']
+        fields = ['first_name',
+                  'last_name',
+                  'address',
+                  'jurisdiction',
+                  'headline',
+                  'education',
+                  'website',
+                  'twitter',
+                  'linkedin',
+                  'facebook',
+                  'phone',
+                  'experience',
+                  'email',
+                  'current_job',
+                  'size_of_clients',
+                  'preferred_communication_method',
+                  'license_status',
+                  'languages',
+                  'law_school',
+                  'work_experiences',
+                  'associations',
+                  'clients',
+                  'awards',
+                  'bio',
+                  ]
 
     def __init__(self, *args, **kwargs):
         super(ProfileForm, self).__init__(*args, **kwargs)
-        self.fields['jurisdiction'].widget.attrs.update({'class': 'form-control jurisdiction-field'})
-        self.fields['headline'].widget.attrs.update({'class': 'form-control'})
-        self.fields['website'].widget.attrs.update({'class': 'form-control'})
-        self.fields['twitter'].widget.attrs.update({'class': 'form-control'})
-        self.fields['linkedin'].widget.attrs.update({'class': 'form-control'})
-        self.fields['facebook'].widget.attrs.update({'class': 'form-control'})
-        self.fields['bio'].widget.attrs.update({'class': 'form-control', 'rows': '2'})
+        for key, field in self.fields.items():
+            field.widget.attrs.update({'class': 'form-control'})
+        self.fields['bio'].widget.attrs.update({'rows': '2'})
 
     def save(self, commit=True):
         updated_profile = super(ProfileForm, self).save(commit=False)
