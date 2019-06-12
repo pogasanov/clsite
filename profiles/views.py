@@ -36,8 +36,11 @@ def profile(request, username=None):
                 return JsonResponse({'url': user.profile.photo.url})
             else:
                 form = ProfileForm(request.POST, instance=user.profile)
-                form.save()
-                return JsonResponse({'message': 'Your data has been updated successfully!'})
+                if form.is_valid():
+                    form.save()
+                    return JsonResponse({'message': 'Your data has been updated successfully!'})
+                else:
+                    return JsonResponse({'message': 'Invalid data provided!'}, status=400)
         initial_data = {
             'first_name': user.first_name,
             'last_name':  user.last_name,
