@@ -3,12 +3,13 @@ from django.urls import reverse_lazy
 from django.contrib.auth import get_user_model, login
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
-import os
+from django.forms import modelformset_factory
 from django.contrib.auth.forms import UserCreationForm
 from django.views.generic.edit import CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView
-from .forms import ProfileForm
+
+from .forms import ProfileForm, EducationFormSet, WorkExperienceFormSet, AddressForm, AddmissionsFormSet, LawSchoolForm, OrganizationFormSet, AwardFormSet
 
 
 def index(request):
@@ -20,22 +21,50 @@ def profile(request, username=None):
     if username:
         user = get_object_or_404(get_user_model(), username=username)
         profile_form = None
+        address_form = None
+        education_formset = None
+        admissions_formset = None
+        lawschool_form = None
+        workexperience_formset = None
+        organization_formset = None
+        award_formset = None
     else:
         user = request.user
         profile_form = ProfileForm(request.POST or None, instance=user.profile)
+        address_form = AddressForm(request.POST or None, instance=getattr(user.profile, 'address', None))
+        education_formset = EducationFormSet(request.POST or None, instance=user.profile)
+        admissions_formset = AddmissionsFormSet(request.POST or None, instance=user.profile)
+        lawschool_form = LawSchoolForm(request.POST or None, instance=getattr(user.profile, 'lawschool', None))
+        workexperience_formset = WorkExperienceFormSet(request.POST or None, instance=user.profile)
+        organization_formset = OrganizationFormSet(request.POST or None, instance=user.profile)
+        award_formset = AwardFormSet(request.POST or None, instance=user.profile)
+
         if request.method == 'POST':
             if request.FILES.get('photo-input'):
                 url = update_user_profile_photo(user, request.FILES['photo-input'])
                 return JsonResponse({'url': url})
             else:
-                if profile_form.is_valid():
+                if profile_form.is_valid() and address_form.is_valid() and workexperience_formset.is_valid():
                     profile_form.save()
+                    address_form.save()
+                    workexperience_formset.instance = user.profile
+                    workexperience_formset.save()
                     return JsonResponse({'message': 'Your data has been updated successfully!'})
                 else:
+                    print(profile_form.errors)
+                    print(workexperience_formset.errors)
                     return JsonResponse({'message': 'Invalid data provided!'}, status=400)
+
     return render(request, "profile-page.html", context={
         'selected_user': user,
-        'form': profile_form
+        'form': profile_form,
+        'address': address_form,
+        'educations': education_formset,
+        'admissions': admissions_formset,
+        'lawschool': lawschool_form,
+        'workexperiences': workexperience_formset,
+        'organizations': organization_formset,
+        'awards': award_formset
     })
 
 

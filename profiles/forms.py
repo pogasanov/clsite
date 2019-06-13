@@ -1,6 +1,7 @@
-from django.forms import ModelForm
-from .models import Profile
+from django.forms import ModelForm, inlineformset_factory
 from django import forms
+
+from .models import Profile, Education, WorkExperience, Address, Admissions, LawSchool, Organization, Award
 
 
 class ProfileForm(ModelForm):
@@ -9,31 +10,25 @@ class ProfileForm(ModelForm):
 
     class Meta:
         model = Profile
-        fields = ['first_name',
+        fields = ('first_name',
                   'last_name',
-                  'address',
-                  'jurisdiction',
                   'headline',
-                  'education',
+                  'experience',
+                  'current_job',
                   'website',
                   'twitter',
                   'linkedin',
                   'facebook',
                   'phone',
-                  'experience',
                   'email',
-                  'current_job',
-                  'size_of_clients',
                   'preferred_communication_method',
+                  'size_of_clients',
                   'license_status',
                   'languages',
-                  'law_school',
-                  'work_experiences',
-                  'associations',
                   'clients',
-                  'awards',
+                  'jurisdiction',
                   'bio',
-                  ]
+                  )
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -52,3 +47,102 @@ class ProfileForm(ModelForm):
         updated_profile.user.save()
         updated_profile.save()
         return updated_profile
+
+
+class AddressForm(ModelForm):
+    class Meta:
+        model = Address
+        exclude = ('profile',)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for key, field in self.fields.items():
+            field.widget.attrs.update({'class': 'form-control'})
+
+
+class EducationForm(ModelForm):
+    class Meta:
+        model = Education
+        fields = '__all__'
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for key, field in self.fields.items():
+            field.widget.attrs.update({'class': 'form-control'})
+
+
+EducationFormSet = inlineformset_factory(Profile, Education,
+                                         form=EducationForm, extra=1)
+
+
+class AdmissionsForm(ModelForm):
+    class Meta:
+        model = Admissions
+        fields = '__all__'
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for key, field in self.fields.items():
+            field.widget.attrs.update({'class': 'form-control'})
+
+
+AddmissionsFormSet = inlineformset_factory(Profile, Admissions,
+                                           form=AdmissionsForm, extra=1)
+
+
+class WorkExperienceForm(ModelForm):
+    class Meta:
+        model = WorkExperience
+        fields = '__all__'
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for key, field in self.fields.items():
+            field.widget.attrs.update({'class': 'form-control'})
+        self.fields['responsibility'].widget.attrs.update({'rows': '2'})
+
+
+WorkExperienceFormSet = inlineformset_factory(Profile, WorkExperience,
+                                              form=WorkExperienceForm, extra=1)
+
+
+class OrganizationForm(ModelForm):
+    class Meta:
+        model = Organization
+        fields = '__all__'
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for key, field in self.fields.items():
+            field.widget.attrs.update({'class': 'form-control'})
+
+
+OrganizationFormSet = inlineformset_factory(Profile, Organization,
+                                            form=OrganizationForm, extra=1)
+
+
+class AwardForm(ModelForm):
+    class Meta:
+        model = Award
+        fields = '__all__'
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for key, field in self.fields.items():
+            field.widget.attrs.update({'class': 'form-control'})
+        self.fields['description'].widget.attrs.update({'rows': '2'})
+
+
+AwardFormSet = inlineformset_factory(Profile, Award,
+                                     form=AwardForm, extra=1)
+
+
+class LawSchoolForm(ModelForm):
+    class Meta:
+        model = LawSchool
+        exclude = ('profile',)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for key, field in self.fields.items():
+            field.widget.attrs.update({'class': 'form-control'})

@@ -10,6 +10,7 @@ from .choices import USA_STATES
 class Address(models.Model):
     USA_STATES = USA_STATES
 
+    profile = models.OneToOneField('Profile', on_delete=models.CASCADE, verbose_name='Profile', related_name='address')
     building = models.CharField(max_length=20, verbose_name='Building/Unit')
     street = models.CharField(max_length=200, verbose_name='Street')
     city = models.CharField(max_length=100, verbose_name='City')
@@ -18,6 +19,7 @@ class Address(models.Model):
 
 
 class Education(models.Model):
+    profile = models.ForeignKey('Profile', on_delete=models.CASCADE, verbose_name='Profile')
     school = models.CharField(max_length=100, verbose_name='School name')
     degree = models.CharField(max_length=100, verbose_name='Degree')
     graduation_date = models.DateField(verbose_name='date of graduation')
@@ -26,6 +28,7 @@ class Education(models.Model):
 class Admissions(models.Model):
     USA_STATES = USA_STATES
 
+    profile = models.ForeignKey('Profile', on_delete=models.CASCADE, verbose_name='Profile')
     state = models.CharField(max_length=2, choices=USA_STATES, verbose_name='State')
     year = models.PositiveIntegerField(verbose_name='date of graduation')
 
@@ -33,11 +36,13 @@ class Admissions(models.Model):
 class LawSchool(models.Model):
     USA_STATES = USA_STATES
 
+    profile = models.OneToOneField('Profile', on_delete=models.CASCADE, verbose_name='Profile')
     school = models.CharField(max_length=100, verbose_name='School name')
     state = models.CharField(max_length=2, choices=USA_STATES, verbose_name='State')
 
 
 class WorkExperience(models.Model):
+    profile = models.ForeignKey('Profile', on_delete=models.CASCADE, verbose_name='Profile')
     company_name = models.CharField(max_length=100, verbose_name='Company')
     position = models.CharField(max_length=100, verbose_name='Position')
     duration = DateRangeField(verbose_name='Duration')
@@ -45,12 +50,14 @@ class WorkExperience(models.Model):
 
 
 class Organization(models.Model):
+    profile = models.ForeignKey('Profile', on_delete=models.CASCADE, verbose_name='Profile')
     name = models.CharField(max_length=100, verbose_name='Organization')
     position = models.CharField(max_length=100, verbose_name='Position/Designation')
     duration = DateRangeField(verbose_name='Duration')
 
 
 class Award(models.Model):
+    profile = models.ForeignKey('Profile', on_delete=models.CASCADE, verbose_name='Profile')
     title = models.CharField(max_length=100, verbose_name='Title')
     presented_by = models.CharField(max_length=100, verbose_name='Presented by')
     year = models.PositiveIntegerField(verbose_name='Year')
@@ -82,13 +89,9 @@ class Profile(models.Model):
     LANGUAGES = global_settings.LANGUAGES
 
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    address = models.OneToOneField(Address, on_delete=models.PROTECT, verbose_name='Work Address', blank=True,
-                                   null=True)
     phone = models.CharField(max_length=20, verbose_name='Contact Number (Office)', blank=True)
     photo = models.ImageField(upload_to=get_image_path, default='dummy-img.png', storage=variativeStorage(),
                               verbose_name='Profile Picture')
-    education = models.OneToOneField(Education, on_delete=models.PROTECT, verbose_name='Education', blank=True,
-                                     null=True)
     bio = models.TextField(verbose_name='Overview (Bio)', blank=True)
     experience = models.CharField(max_length=100, verbose_name='Years of Practice/Experience', blank=True)
     email = models.EmailField(verbose_name='Email', blank=True)
@@ -105,14 +108,10 @@ class Profile(models.Model):
         models.CharField(max_length=10, choices=LANGUAGES, verbose_name='Languages'),
         blank=True, null=True
     )
-    law_school = models.OneToOneField(LawSchool, on_delete=models.PROTECT, blank=True, null=True)
-    work_experiences = models.ManyToManyField(WorkExperience, blank=True)
-    associations = models.ManyToManyField(Organization, blank=True)
     clients = ArrayField(
         models.CharField(max_length=100, verbose_name='Representative Clients'),
         blank=True, null=True
     )
-    awards = models.ManyToManyField(Award, blank=True)
 
     jurisdiction = ArrayField(
         models.CharField(max_length=2, choices=USA_STATES),
