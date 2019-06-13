@@ -77,7 +77,7 @@ def profile(request, username=None):
                         'workexperience': workexperience_formset.errors,
                         'organization': organization_formset.errors,
                         'award': award_formset.errors,
-                        'meesage': 'Invalid data provided!'
+                        'message': 'Invalid data provided!'
                     }
                     return JsonResponse(errors, status=400)
 
