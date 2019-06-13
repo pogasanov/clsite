@@ -54,12 +54,16 @@ def profile(request, username=None):
                         organization_formset.is_valid() and \
                         award_formset.is_valid():
                     profile_form.save()
-                    address_form.save()
+                    af = address_form.save(commit=False)
+                    af.profile = user.profile
+                    af.save()
                     education_formset.instance = user.profile
                     education_formset.save()
                     admissions_formset.instance = user.profile
                     admissions_formset.save()
-                    lawschool_form.save()
+                    lf = lawschool_form.save(commit=False)
+                    lf.profile = user.profile
+                    lf.save()
                     workexperience_formset.instance = user.profile
                     workexperience_formset.save()
                     organization_formset.instance = user.profile

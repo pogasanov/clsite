@@ -26,26 +26,63 @@ class ProfileTests(TestCase):
             'password2': 'test_password'
         }
         cls.correct_update_data = {
-            'first_name': 'John',
-            'last_name': 'Doe',
-            'jurisdiction': 'AL',
-            'headline': 'Test headline',
-            'bio': 'Test bio',
-            'website': 'http://www.test.com',
-            'twitter': 'Test twitter',
-            'linkedin': 'Test linkedin',
-            'facebook': 'Test facebook'
+            'profile-first_name': 'John',
+            'profile-last_name': 'Doe',
+            'profile-languages': 'ru,en',
+            'profile-headline': 'Test headline',
+            'profile-bio': 'Test bio',
+            'profile-phone': '+7(923)111-11-11',
+            'profile-email': 'test@example.com',
+            'profile-website': 'http://www.test.com',
+            'profile-twitter': 'Test twitter',
+            'profile-linkedin': 'Test linkedin',
+            'profile-facebook': 'Test facebook',
+            'profile-preferred_communication_method': 0,
+            'profile-experience': '',
+            'profile-jurisdiction': 'AL',
+
+            'address-state': 'AZ',
+            'address-city': 'City',
+            'address-zipcode': '12345',
+            'address-street': 'Street',
+            'address-building': 'z',
+
+            'lawschool-school': 'school',
+            'lawschool-state': 'AZ',
+
+            'education-TOTAL_FORMS': 0,
+            'education-INITIAL_FORMS': 0,
+            'admissions-TOTAL_FORMS': 0,
+            'admissions-INITIAL_FORMS': 0,
+            'workexperience-TOTAL_FORMS': 0,
+            'workexperience-INITIAL_FORMS': 0,
+            'organization-TOTAL_FORMS': 0,
+            'organization-INITIAL_FORMS': 0,
+            'award-TOTAL_FORMS': 0,
+            'award-INITIAL_FORMS': 0,
+
         }
         cls.incorrect_update_data = {
-            'first_name': 'John',
-            'last_name': 'Doe',
-            'jurisdiction': 'Invalid Jurisdiction',
-            'headline': 'Test headline',
-            'bio': 'Test bio',
-            'website': 'http://www.test.com',
-            'twitter': 'Test twitter',
-            'linkedin': 'Test linkedin',
-            'facebook': 'Test facebook'
+            'profile-first_name': 'John',
+            'profile-last_name': 'Doe',
+            'profile-jurisdiction': 'Invalid Jurisdiction',
+            'profile-headline': 'Test headline',
+            'profile-bio': 'Test bio',
+            'profile-website': 'http://www.test.com',
+            'profile-twitter': 'Test twitter',
+            'profile-linkedin': 'Test linkedin',
+            'profile-facebook': 'Test facebook',
+
+            'education-TOTAL_FORMS': 0,
+            'education-INITIAL_FORMS': 0,
+            'admissions-TOTAL_FORMS': 0,
+            'admissions-INITIAL_FORMS': 0,
+            'workexperience-TOTAL_FORMS': 0,
+            'workexperience-INITIAL_FORMS': 0,
+            'organization-TOTAL_FORMS': 0,
+            'organization-INITIAL_FORMS': 0,
+            'award-TOTAL_FORMS': 0,
+            'award-INITIAL_FORMS': 0,
         }
 
     def setUp(self):
@@ -122,12 +159,12 @@ class ProfileTests(TestCase):
         # Go to profile view page to see the updated data
         response = self.client.get('/profile/' + self.credentials['username'])
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.context['user'].first_name, self.correct_update_data['first_name'])
-        self.assertEqual(response.context['user'].last_name, self.correct_update_data['last_name'])
-        self.assertEqual(response.context['user'].profile.jurisdiction, self.correct_update_data['jurisdiction'])
-        self.assertEqual(response.context['user'].profile.headline, self.correct_update_data['headline'])
-        self.assertEqual(response.context['user'].profile.bio, self.correct_update_data['bio'])
-        self.assertEqual(response.context['user'].profile.website, self.correct_update_data['website'])
-        self.assertEqual(response.context['user'].profile.twitter, self.correct_update_data['twitter'])
-        self.assertEqual(response.context['user'].profile.linkedin, self.correct_update_data['linkedin'])
-        self.assertEqual(response.context['user'].profile.facebook, self.correct_update_data['facebook'])
+        self.assertEqual(response.context['user'].first_name, self.correct_update_data['profile-first_name'])
+        self.assertEqual(response.context['user'].last_name, self.correct_update_data['profile-last_name'])
+        self.assertEqual(response.context['user'].profile.jurisdiction, [self.correct_update_data['profile-jurisdiction']])
+        self.assertEqual(response.context['user'].profile.headline, self.correct_update_data['profile-headline'])
+        self.assertEqual(response.context['user'].profile.bio, self.correct_update_data['profile-bio'])
+        self.assertEqual(response.context['user'].profile.website, self.correct_update_data['profile-website'])
+        self.assertEqual(response.context['user'].profile.twitter, self.correct_update_data['profile-twitter'])
+        self.assertEqual(response.context['user'].profile.linkedin, self.correct_update_data['profile-linkedin'])
+        self.assertEqual(response.context['user'].profile.facebook, self.correct_update_data['profile-facebook'])
