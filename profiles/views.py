@@ -9,7 +9,8 @@ from django.views.generic.edit import CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView
 
-from .forms import ProfileForm, EducationFormSet, WorkExperienceFormSet, AddressForm, AddmissionsFormSet, LawSchoolForm, OrganizationFormSet, AwardFormSet
+from .forms import ProfileForm, EducationFormSet, WorkExperienceFormSet, AddressForm, AddmissionsFormSet, LawSchoolForm, \
+    OrganizationFormSet, AwardFormSet
 
 
 def index(request):
@@ -30,30 +31,55 @@ def profile(request, username=None):
         award_formset = None
     else:
         user = request.user
-        profile_form = ProfileForm(request.POST or None, instance=user.profile)
-        address_form = AddressForm(request.POST or None, instance=getattr(user.profile, 'address', None))
-        education_formset = EducationFormSet(request.POST or None, instance=user.profile)
-        admissions_formset = AddmissionsFormSet(request.POST or None, instance=user.profile)
-        lawschool_form = LawSchoolForm(request.POST or None, instance=getattr(user.profile, 'lawschool', None))
-        workexperience_formset = WorkExperienceFormSet(request.POST or None, instance=user.profile)
-        organization_formset = OrganizationFormSet(request.POST or None, instance=user.profile)
-        award_formset = AwardFormSet(request.POST or None, instance=user.profile)
+        profile_form = ProfileForm(request.POST or None, instance=user.profile, prefix='profile')
+        address_form = AddressForm(request.POST or None, instance=getattr(user.profile, 'address', None), prefix='address')
+        education_formset = EducationFormSet(request.POST or None, instance=user.profile, prefix='education')
+        admissions_formset = AddmissionsFormSet(request.POST or None, instance=user.profile, prefix='admissions')
+        lawschool_form = LawSchoolForm(request.POST or None, instance=getattr(user.profile, 'lawschool', None), prefix='lawschool')
+        workexperience_formset = WorkExperienceFormSet(request.POST or None, instance=user.profile, prefix='workexperience')
+        organization_formset = OrganizationFormSet(request.POST or None, instance=user.profile, prefix='organization')
+        award_formset = AwardFormSet(request.POST or None, instance=user.profile, prefix='award')
 
         if request.method == 'POST':
             if request.FILES.get('photo-input'):
                 url = update_user_profile_photo(user, request.FILES['photo-input'])
                 return JsonResponse({'url': url})
             else:
-                if profile_form.is_valid() and address_form.is_valid() and workexperience_formset.is_valid():
+                if profile_form.is_valid() and \
+                        address_form.is_valid() and \
+                        education_formset.is_valid() and \
+                        admissions_formset.is_valid() and \
+                        lawschool_form.is_valid() and \
+                        workexperience_formset.is_valid() and \
+                        organization_formset.is_valid() and \
+                        award_formset.is_valid():
                     profile_form.save()
                     address_form.save()
+                    education_formset.instance = user.profile
+                    education_formset.save()
+                    admissions_formset.instance = user.profile
+                    admissions_formset.save()
+                    lawschool_form.save()
                     workexperience_formset.instance = user.profile
                     workexperience_formset.save()
+                    organization_formset.instance = user.profile
+                    organization_formset.save()
+                    award_formset.instance = user.profile
+                    award_formset.save()
                     return JsonResponse({'message': 'Your data has been updated successfully!'})
                 else:
-                    print(profile_form.errors)
-                    print(workexperience_formset.errors)
-                    return JsonResponse({'message': 'Invalid data provided!'}, status=400)
+                    errors = {
+                        'profile': profile_form.errors,
+                        'address': address_form.errors,
+                        'education': education_formset.errors,
+                        'admissions': admissions_formset.errors,
+                        'lawschool': lawschool_form.errors,
+                        'workexperience': workexperience_formset.errors,
+                        'organization': organization_formset.errors,
+                        'award': award_formset.errors,
+                        'meesage': 'Invalid data provided!'
+                    }
+                    return JsonResponse(errors, status=400)
 
     return render(request, "profile-page.html", context={
         'selected_user': user,
