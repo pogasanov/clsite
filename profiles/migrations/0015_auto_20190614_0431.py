@@ -15,7 +15,7 @@ def migrate_users_to_profiles(apps, schema_editor):
         profile.first_name = profile.user.first_name
         profile.last_name = profile.user.last_name
         profile.is_superuser = profile.user.is_superuser
-        profile.is_stuff = profile.user.is_stuff
+        profile.is_staff = profile.user.is_staff
         profile.is_active = profile.user.is_active
         profile.date_joined = profile.user.date_joined
         profile.last_login = profile.user.last_login
