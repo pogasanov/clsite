@@ -8,17 +8,21 @@ import django.utils.timezone
 
 def migrate_users_to_profiles(apps, schema_editor):
     Profiles = apps.get_model('profiles', 'Profile')
+    Users = apps.get_model('auth', 'User')
+
     for profile in Profiles.objects.all():
-        profile.username = profile.user.username
-        profile.password = profile.user.password
-        profile.email = None if profile.user.email == '' else profile.user.email
-        profile.first_name = profile.user.first_name
-        profile.last_name = profile.user.last_name
-        profile.is_superuser = profile.user.is_superuser
-        profile.is_staff = profile.user.is_staff
-        profile.is_active = profile.user.is_active
-        profile.date_joined = profile.user.date_joined
-        profile.last_login = profile.user.last_login
+        user = Users.objects.get(profile.user)
+
+        profile.username = user.username
+        profile.password = user.password
+        profile.email = None if user.email == '' else user.email
+        profile.first_name = user.first_name
+        profile.last_name = user.last_name
+        profile.is_superuser = user.is_superuser
+        profile.is_staff = user.is_staff
+        profile.is_active = user.is_active
+        profile.date_joined = user.date_joined
+        profile.last_login = user.last_login
         profile.save()
 
 
