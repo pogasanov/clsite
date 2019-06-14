@@ -100,12 +100,17 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='profile',
             name='email',
-            field=models.EmailField(blank=True, max_length=254, null=True, unique=True, verbose_name='Email address'),
+            field=models.EmailField(blank=True, max_length=254, null=True, verbose_name='Email address'),
         ),
         migrations.RunPython(migrate_users_to_profiles),
         migrations.RemoveField(
             model_name='profile',
             name='user',
+        ),
+        migrations.AlterField(
+            model_name='profile',
+            name='email',
+            field=models.EmailField(blank=True, max_length=254, null=True, unique=True, verbose_name='Email address'),
         ),
         migrations.AlterField(
             model_name='profile',
