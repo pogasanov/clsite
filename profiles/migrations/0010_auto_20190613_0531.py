@@ -5,6 +5,14 @@ from django.db import migrations, models
 import django.db.models.deletion
 
 
+def convert_jurisdiction_to_arrayfield(apps, schema_editor):
+    Profiles = apps.get_model('profiles', 'Profile')
+    for profile in Profiles.objects.all():
+        if profile.jurisdiction:
+            profile.jurisdiction = f"{{{profile.jurisdiction}}}"
+            profile.save()
+
+
 class Migration(migrations.Migration):
 
     dependencies = [
@@ -22,6 +30,7 @@ class Migration(migrations.Migration):
             field=models.ForeignKey(default=0, on_delete=django.db.models.deletion.CASCADE, to='profiles.Profile', verbose_name='Profile'),
             preserve_default=False,
         ),
+        migrations.RunPython(convert_jurisdiction_to_arrayfield),
         migrations.AlterField(
             model_name='profile',
             name='jurisdiction',
