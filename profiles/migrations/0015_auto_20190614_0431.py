@@ -40,10 +40,6 @@ class Migration(migrations.Migration):
                 ('objects', django.contrib.auth.models.UserManager()),
             ],
         ),
-        migrations.RemoveField(
-            model_name='profile',
-            name='user',
-        ),
         migrations.AddField(
             model_name='profile',
             name='date_joined',
@@ -107,6 +103,10 @@ class Migration(migrations.Migration):
             field=models.EmailField(blank=True, max_length=254, null=True, unique=True, verbose_name='Email address'),
         ),
         migrations.RunPython(migrate_users_to_profiles),
+        migrations.RemoveField(
+            model_name='profile',
+            name='user',
+        ),
         migrations.AlterField(
             model_name='profile',
             name='username',
