@@ -4,14 +4,16 @@ import django.contrib.auth.models
 import django.contrib.auth.validators
 from django.db import migrations, models
 import django.utils.timezone
+from django.db import connection
 
 
 def migrate_users_to_profiles(apps, schema_editor):
     Profiles = apps.get_model('profiles', 'Profile')
-    Users = apps.get_model('auth', 'User')
 
     for profile in Profiles.objects.all():
-        user = Users.objects.get(profile.user)
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT * FROM auth_user WHERE id = %s", [profile.user])
+            user = cursor.fetchone()
 
         profile.username = user.username
         profile.password = user.password
