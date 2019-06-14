@@ -99,19 +99,22 @@ class Migration(migrations.Migration):
             name='email',
             field=models.EmailField(blank=True, max_length=254, null=True, verbose_name='Email address'),
         ),
-        migrations.RunSQL("""UPDATE profiles_profile
-        SET username=u.username,
-        password=u.password,
-        email=u.email,
-        first_name=u.first_name,
-        last_name=u.last_name,
-        is_superuser=u.is_superuser,
-        is_staff=u.is_staff,
-        is_active=u.is_active,
-        date_joined=u.date_joined,
-        last_login=u.last_login
-        FROM profiles_profile p
-         LEFT JOIN auth_user u ON p.user_id = u.id"""),
+        migrations.RunSQL("""
+        IF EXISTS (SELECT 1 FROM auth_user) THEN
+            UPDATE profiles_profile
+            SET username=u.username,
+            password=u.password,
+            email=u.email,
+            first_name=u.first_name,
+            last_name=u.last_name,
+            is_superuser=u.is_superuser,
+            is_staff=u.is_staff,
+            is_active=u.is_active,
+            date_joined=u.date_joined,
+            last_login=u.last_login
+            FROM profiles_profile p
+             LEFT JOIN auth_user u ON p.user_id = u.id
+         END IF;"""),
         migrations.RemoveField(
             model_name='profile',
             name='user',
