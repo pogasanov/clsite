@@ -29,6 +29,11 @@ class Migration(migrations.Migration):
             field=models.ForeignKey(default=0, on_delete=django.db.models.deletion.CASCADE, to='profiles.Profile', verbose_name='Profile'),
             preserve_default=False,
         ),
+        migrations.AlterField(
+            model_name='profile',
+            name='jurisdiction',
+            field=models.CharField(blank=True, max_length=4, verbose_name='Jurisdiction'),
+        ),
         migrations.RunPython(convert_jurisdiction_to_arrayfield),
         migrations.AlterField(
             model_name='profile',
