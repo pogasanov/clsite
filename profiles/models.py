@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.postgres.fields import ArrayField, DateRangeField
 from django.conf import settings, global_settings
 from clsite.storage_backends import variativeStorage
+from django.contrib.auth.models import AbstractUser
 import os
 
 from .choices import USA_STATES
@@ -68,7 +69,7 @@ def get_image_path(instance, filename):
     return os.path.join(filename)
 
 
-class Profile(models.Model):
+class Profile(AbstractUser):
     USA_STATES = USA_STATES
     SIZE_OF_CLIENTS = (
         (0, 'Individuals'),
@@ -88,13 +89,13 @@ class Profile(models.Model):
     )
     LANGUAGES = global_settings.LANGUAGES
 
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    email = models.EmailField(verbose_name='Email address', blank=True, null=True, unique=True)
+
     phone = models.CharField(max_length=20, verbose_name='Contact Number (Office)', blank=True)
     photo = models.ImageField(upload_to=get_image_path, default='dummy-img.png', storage=variativeStorage(),
                               verbose_name='Profile Picture')
     bio = models.TextField(verbose_name='Overview (Bio)', blank=True)
     experience = models.CharField(max_length=100, verbose_name='Years of Practice/Experience', blank=True)
-    email = models.EmailField(verbose_name='Email', blank=True)
     current_job = models.CharField(max_length=200, verbose_name='Current Job/Affiliation/Law Firm', blank=True)
     size_of_clients = models.PositiveSmallIntegerField(choices=SIZE_OF_CLIENTS, verbose_name='Size of clients',
                                                        blank=True, null=True)
