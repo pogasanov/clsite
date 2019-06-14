@@ -100,7 +100,15 @@ class Migration(migrations.Migration):
             field=models.EmailField(blank=True, max_length=254, null=True, verbose_name='Email address'),
         ),
         migrations.RunSQL("""
-        IF EXISTS (SELECT 1 FROM auth_user) THEN
+        DO $$
+    BEGIN
+        IF EXISTS
+            ( SELECT 1
+              FROM   information_schema.tables
+              WHERE  table_schema = 'public'
+              AND    table_name = 'auth_user'
+            )
+        THEN
             UPDATE profiles_profile
             SET username=u.username,
             password=u.password,
@@ -113,8 +121,10 @@ class Migration(migrations.Migration):
             date_joined=u.date_joined,
             last_login=u.last_login
             FROM profiles_profile p
-             LEFT JOIN auth_user u ON p.user_id = u.id
-         END IF;"""),
+             LEFT JOIN auth_user u ON p.user_id = u.id;
+         END IF ;
+    END
+   $$ ;"""),
         migrations.RemoveField(
             model_name='profile',
             name='user',
