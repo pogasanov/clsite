@@ -7,29 +7,7 @@ import django.utils.timezone
 from django.db import connection
 
 
-def migrate_users_to_profiles(apps, schema_editor):
-    Profiles = apps.get_model('profiles', 'Profile')
-
-    for profile in Profiles.objects.all():
-        with connection.cursor() as cursor:
-            cursor.execute("SELECT * FROM auth_user WHERE id = %s", [profile.user])
-            user = cursor.fetchone()
-
-        profile.username = user.username
-        profile.password = user.password
-        profile.email = None if user.email == '' else user.email
-        profile.first_name = user.first_name
-        profile.last_name = user.last_name
-        profile.is_superuser = user.is_superuser
-        profile.is_staff = user.is_staff
-        profile.is_active = user.is_active
-        profile.date_joined = user.date_joined
-        profile.last_login = user.last_login
-        profile.save()
-
-
 class Migration(migrations.Migration):
-
     dependencies = [
         ('auth', '0011_update_proxy_permissions'),
         ('profiles', '0014_auto_20190613_0708'),
@@ -59,22 +37,31 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='profile',
             name='groups',
-            field=models.ManyToManyField(blank=True, help_text='The groups this user belongs to. A user will get all permissions granted to each of their groups.', related_name='user_set', related_query_name='user', to='auth.Group', verbose_name='groups'),
+            field=models.ManyToManyField(blank=True,
+                                         help_text='The groups this user belongs to. A user will get all permissions granted to each of their groups.',
+                                         related_name='user_set', related_query_name='user', to='auth.Group',
+                                         verbose_name='groups'),
         ),
         migrations.AddField(
             model_name='profile',
             name='is_active',
-            field=models.BooleanField(default=True, help_text='Designates whether this user should be treated as active. Unselect this instead of deleting accounts.', verbose_name='active'),
+            field=models.BooleanField(default=True,
+                                      help_text='Designates whether this user should be treated as active. Unselect this instead of deleting accounts.',
+                                      verbose_name='active'),
         ),
         migrations.AddField(
             model_name='profile',
             name='is_staff',
-            field=models.BooleanField(default=False, help_text='Designates whether the user can log into this admin site.', verbose_name='staff status'),
+            field=models.BooleanField(default=False,
+                                      help_text='Designates whether the user can log into this admin site.',
+                                      verbose_name='staff status'),
         ),
         migrations.AddField(
             model_name='profile',
             name='is_superuser',
-            field=models.BooleanField(default=False, help_text='Designates that this user has all permissions without explicitly assigning them.', verbose_name='superuser status'),
+            field=models.BooleanField(default=False,
+                                      help_text='Designates that this user has all permissions without explicitly assigning them.',
+                                      verbose_name='superuser status'),
         ),
         migrations.AddField(
             model_name='profile',
@@ -95,12 +82,16 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='profile',
             name='user_permissions',
-            field=models.ManyToManyField(blank=True, help_text='Specific permissions for this user.', related_name='user_set', related_query_name='user', to='auth.Permission', verbose_name='user permissions'),
+            field=models.ManyToManyField(blank=True, help_text='Specific permissions for this user.',
+                                         related_name='user_set', related_query_name='user', to='auth.Permission',
+                                         verbose_name='user permissions'),
         ),
         migrations.AddField(
             model_name='profile',
             name='username',
-            field=models.CharField(default='', error_messages={'unique': 'A user with that username already exists.'}, help_text='Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.', max_length=150, unique=False, verbose_name='username'),
+            field=models.CharField(default='', error_messages={'unique': 'A user with that username already exists.'},
+                                   help_text='Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.',
+                                   max_length=150, unique=False, verbose_name='username'),
             preserve_default=False,
         ),
         migrations.AlterField(
@@ -108,7 +99,19 @@ class Migration(migrations.Migration):
             name='email',
             field=models.EmailField(blank=True, max_length=254, null=True, verbose_name='Email address'),
         ),
-        migrations.RunPython(migrate_users_to_profiles),
+        migrations.RunSQL("""UPDATE profiles_profile
+        SET username=u.username,
+        password=u.password,
+        email=u.email,
+        first_name=u.first_name,
+        last_name=u.last_name,
+        is_superuser=u.is_superuser,
+        is_staff=u.is_staff,
+        is_active=u.is_active,
+        date_joined=u.date_joined,
+        last_login=u.last_login
+        FROM profiles_profile p
+         LEFT JOIN auth_user u ON p.user_id = u.id"""),
         migrations.RemoveField(
             model_name='profile',
             name='user',
@@ -121,7 +124,11 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='profile',
             name='username',
-            field=models.CharField(default='', error_messages={'unique': 'A user with that username already exists.'}, help_text='Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.', max_length=150, unique=True, validators=[django.contrib.auth.validators.UnicodeUsernameValidator()], verbose_name='username'),
+            field=models.CharField(default='', error_messages={'unique': 'A user with that username already exists.'},
+                                   help_text='Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.',
+                                   max_length=150, unique=True,
+                                   validators=[django.contrib.auth.validators.UnicodeUsernameValidator()],
+                                   verbose_name='username'),
             preserve_default=False,
         ),
     ]
