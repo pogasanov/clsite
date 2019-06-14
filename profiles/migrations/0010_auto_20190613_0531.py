@@ -8,9 +8,8 @@ import django.db.models.deletion
 def convert_jurisdiction_to_arrayfield(apps, schema_editor):
     Profiles = apps.get_model('profiles', 'Profile')
     for profile in Profiles.objects.all():
-        if profile.jurisdiction:
-            profile.jurisdiction = f"{{{profile.jurisdiction}}}"
-            profile.save()
+        profile.jurisdiction = f"{{{profile.jurisdiction}}}"
+        profile.save()
 
 
 class Migration(migrations.Migration):
