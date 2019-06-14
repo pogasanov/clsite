@@ -3,14 +3,12 @@ from django.urls import reverse_lazy
 from django.contrib.auth import get_user_model, login
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
-from django.forms import modelformset_factory
-from django.contrib.auth.forms import UserCreationForm
 from django.views.generic.edit import CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView
 
 from .forms import ProfileForm, EducationFormSet, WorkExperienceFormSet, AddressForm, AddmissionsFormSet, LawSchoolForm, \
-    OrganizationFormSet, AwardFormSet
+    OrganizationFormSet, AwardFormSet, ProfileCreationForm
 
 
 def index(request):
@@ -31,14 +29,14 @@ def profile(request, username=None):
         award_formset = None
     else:
         user = request.user
-        profile_form = ProfileForm(request.POST or None, instance=user.profile, prefix='profile')
-        address_form = AddressForm(request.POST or None, instance=getattr(user.profile, 'address', None), prefix='address')
-        education_formset = EducationFormSet(request.POST or None, instance=user.profile, prefix='education')
-        admissions_formset = AddmissionsFormSet(request.POST or None, instance=user.profile, prefix='admissions')
-        lawschool_form = LawSchoolForm(request.POST or None, instance=getattr(user.profile, 'lawschool', None), prefix='lawschool')
-        workexperience_formset = WorkExperienceFormSet(request.POST or None, instance=user.profile, prefix='workexperience')
-        organization_formset = OrganizationFormSet(request.POST or None, instance=user.profile, prefix='organization')
-        award_formset = AwardFormSet(request.POST or None, instance=user.profile, prefix='award')
+        profile_form = ProfileForm(request.POST or None, instance=user, prefix='profile')
+        address_form = AddressForm(request.POST or None, instance=getattr(user, 'address', None), prefix='address')
+        education_formset = EducationFormSet(request.POST or None, instance=user, prefix='education')
+        admissions_formset = AddmissionsFormSet(request.POST or None, instance=user, prefix='admissions')
+        lawschool_form = LawSchoolForm(request.POST or None, instance=getattr(user, 'lawschool', None), prefix='lawschool')
+        workexperience_formset = WorkExperienceFormSet(request.POST or None, instance=user, prefix='workexperience')
+        organization_formset = OrganizationFormSet(request.POST or None, instance=user, prefix='organization')
+        award_formset = AwardFormSet(request.POST or None, instance=user, prefix='award')
 
         if request.method == 'POST':
             if request.FILES.get('photo-input'):
@@ -55,20 +53,20 @@ def profile(request, username=None):
                         award_formset.is_valid():
                     profile_form.save()
                     af = address_form.save(commit=False)
-                    af.profile = user.profile
+                    af.profile = user
                     af.save()
-                    education_formset.instance = user.profile
+                    education_formset.instance = user
                     education_formset.save()
-                    admissions_formset.instance = user.profile
+                    admissions_formset.instance = user
                     admissions_formset.save()
                     lf = lawschool_form.save(commit=False)
-                    lf.profile = user.profile
+                    lf.profile = user
                     lf.save()
-                    workexperience_formset.instance = user.profile
+                    workexperience_formset.instance = user
                     workexperience_formset.save()
-                    organization_formset.instance = user.profile
+                    organization_formset.instance = user
                     organization_formset.save()
-                    award_formset.instance = user.profile
+                    award_formset.instance = user
                     award_formset.save()
                     return JsonResponse({'message': 'Your data has been updated successfully!'})
                 else:
@@ -99,21 +97,21 @@ def profile(request, username=None):
 
 
 def update_user_profile_photo(user, photo):
-    photo_storage = user.profile.photo.storage
+    photo_storage = user.photo.storage
     # remove previous photo
-    previous_photo = user.profile.photo.name
+    previous_photo = user.photo.name
     if photo_storage.exists(previous_photo) and previous_photo != "dummy-img.png":
         photo_storage.delete(previous_photo)
 
-    user.profile.photo = photo
-    user.profile.save()
+    user.photo = photo
+    user.save()
 
-    return user.profile.photo.url
+    return user.photo.url
 
 
 class UserRegistrationView(CreateView):
     template_name = 'registration/register.html'
-    form_class = UserCreationForm
+    form_class = ProfileCreationForm
     success_url = reverse_lazy('profile')
 
     def post(self, request, *args, **kwargs):

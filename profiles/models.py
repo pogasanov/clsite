@@ -89,7 +89,7 @@ class Profile(AbstractUser):
     )
     LANGUAGES = global_settings.LANGUAGES
 
-    email = models.EmailField(verbose_name='Email address', blank=True, null=True, unique=True)
+    email = models.EmailField(verbose_name='Email address', blank=True, null=True)
 
     phone = models.CharField(max_length=20, verbose_name='Contact Number (Office)', blank=True)
     photo = models.ImageField(upload_to=get_image_path, default='dummy-img.png', storage=variativeStorage(),

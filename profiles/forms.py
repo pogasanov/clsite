@@ -1,7 +1,14 @@
 from django.forms import ModelForm, inlineformset_factory
 from django import forms
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import get_user_model
 
 from .models import Profile, Education, WorkExperience, Address, Admissions, LawSchool, Organization, Award
+
+
+class ProfileCreationForm(UserCreationForm):
+    class Meta(UserCreationForm.Meta):
+        model = get_user_model()
 
 
 class ProfileForm(ModelForm):
@@ -33,8 +40,8 @@ class ProfileForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        self.fields['first_name'].initial = self.instance.user.first_name
-        self.fields['last_name'].initial = self.instance.user.last_name
+        self.fields['first_name'].initial = self.instance.first_name
+        self.fields['last_name'].initial = self.instance.last_name
 
         for key, field in self.fields.items():
             field.widget.attrs.update({'class': 'form-control'})
@@ -42,9 +49,8 @@ class ProfileForm(ModelForm):
 
     def save(self, commit=True):
         updated_profile = super().save(commit=False)
-        updated_profile.user.first_name = self.cleaned_data.get('first_name', updated_profile.user.first_name)
-        updated_profile.user.last_name = self.cleaned_data.get('last_name', updated_profile.user.last_name)
-        updated_profile.user.save()
+        updated_profile.first_name = self.cleaned_data.get('first_name', updated_profile.first_name)
+        updated_profile.last_name = self.cleaned_data.get('last_name', updated_profile.last_name)
         updated_profile.save()
         return updated_profile
 
