@@ -3,12 +3,12 @@ from django.urls import reverse_lazy
 from django.contrib.auth import get_user_model, login
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
-import os
-from django.contrib.auth.forms import UserCreationForm
 from django.views.generic.edit import CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView
-from .forms import ProfileForm
+
+from .forms import ProfileForm, EducationFormSet, WorkExperienceFormSet, AddressForm, AddmissionsFormSet, LawSchoolForm, \
+    OrganizationFormSet, AwardFormSet, ProfileCreationForm
 
 
 def index(request):
@@ -17,51 +17,101 @@ def index(request):
 
 @login_required
 def profile(request, username=None):
-    profile_form = None
     if username:
         user = get_object_or_404(get_user_model(), username=username)
+        profile_form = None
+        address_form = None
+        education_formset = None
+        admissions_formset = None
+        lawschool_form = None
+        workexperience_formset = None
+        organization_formset = None
+        award_formset = None
     else:
         user = request.user
+        profile_form = ProfileForm(request.POST or None, instance=user, prefix='profile')
+        address_form = AddressForm(request.POST or None, instance=getattr(user, 'address', None), prefix='address')
+        education_formset = EducationFormSet(request.POST or None, instance=user, prefix='education')
+        admissions_formset = AddmissionsFormSet(request.POST or None, instance=user, prefix='admissions')
+        lawschool_form = LawSchoolForm(request.POST or None, instance=getattr(user, 'lawschool', None), prefix='lawschool')
+        workexperience_formset = WorkExperienceFormSet(request.POST or None, instance=user, prefix='workexperience')
+        organization_formset = OrganizationFormSet(request.POST or None, instance=user, prefix='organization')
+        award_formset = AwardFormSet(request.POST or None, instance=user, prefix='award')
+
         if request.method == 'POST':
             if request.FILES.get('photo-input'):
-                photo_storage = user.profile.photo.storage
-                # remove previous photo
-                previous_photo = user.profile.photo.name
-                if photo_storage.exists(previous_photo) and previous_photo != "dummy-img.png":
-                    photo_storage.delete(previous_photo)
-
-                user.profile.photo = request.FILES['photo-input']
-                user.profile.save()
-
-                return JsonResponse({'url': user.profile.photo.url})
+                url = update_user_profile_photo(user, request.FILES['photo-input'])
+                return JsonResponse({'url': url})
             else:
-                form = ProfileForm(request.POST, instance=user.profile)
-                if form.is_valid():
-                    form.save()
+                if profile_form.is_valid() and \
+                        address_form.is_valid() and \
+                        education_formset.is_valid() and \
+                        admissions_formset.is_valid() and \
+                        lawschool_form.is_valid() and \
+                        workexperience_formset.is_valid() and \
+                        organization_formset.is_valid() and \
+                        award_formset.is_valid():
+                    profile_form.save()
+                    af = address_form.save(commit=False)
+                    af.profile = user
+                    af.save()
+                    education_formset.instance = user
+                    education_formset.save()
+                    admissions_formset.instance = user
+                    admissions_formset.save()
+                    lf = lawschool_form.save(commit=False)
+                    lf.profile = user
+                    lf.save()
+                    workexperience_formset.instance = user
+                    workexperience_formset.save()
+                    organization_formset.instance = user
+                    organization_formset.save()
+                    award_formset.instance = user
+                    award_formset.save()
                     return JsonResponse({'message': 'Your data has been updated successfully!'})
                 else:
-                    return JsonResponse({'message': 'Invalid data provided!'}, status=400)
-        initial_data = {
-            'first_name': user.first_name,
-            'last_name':  user.last_name,
-            'jurisdiction': user.profile.jurisdiction,
-            'headline': user.profile.headline,
-            'bio': user.profile.bio,
-            'website': user.profile.website,
-            'twitter': user.profile.twitter,
-            'linkedin': user.profile.linkedin,
-            'facebook': user.profile.facebook
-        }
-        profile_form = ProfileForm(initial=initial_data)
+                    errors = {
+                        'profile': profile_form.errors,
+                        'address': address_form.errors,
+                        'education': education_formset.errors,
+                        'admissions': admissions_formset.errors,
+                        'lawschool': lawschool_form.errors,
+                        'workexperience': workexperience_formset.errors,
+                        'organization': organization_formset.errors,
+                        'award': award_formset.errors,
+                        'message': 'Invalid data provided!'
+                    }
+                    return JsonResponse(errors, status=400)
+
     return render(request, "profile-page.html", context={
         'selected_user': user,
-        'form': profile_form
+        'form': profile_form,
+        'address': address_form,
+        'educations': education_formset,
+        'admissions': admissions_formset,
+        'lawschool': lawschool_form,
+        'workexperiences': workexperience_formset,
+        'organizations': organization_formset,
+        'awards': award_formset
     })
+
+
+def update_user_profile_photo(user, photo):
+    photo_storage = user.photo.storage
+    # remove previous photo
+    previous_photo = user.photo.name
+    if photo_storage.exists(previous_photo) and previous_photo != "dummy-img.png":
+        photo_storage.delete(previous_photo)
+
+    user.photo = photo
+    user.save()
+
+    return user.photo.url
 
 
 class UserRegistrationView(CreateView):
     template_name = 'registration/register.html'
-    form_class = UserCreationForm
+    form_class = ProfileCreationForm
     success_url = reverse_lazy('profile')
 
     def post(self, request, *args, **kwargs):

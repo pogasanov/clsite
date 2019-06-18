@@ -149,6 +149,7 @@ django_heroku.settings(locals())
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
+AUTH_USER_MODEL = 'profiles.Profile'
 
 # AWS setup
 AWS_ACCESS_KEY_ID = os.getenv('CLOUDCUBE_ACCESS_KEY_ID') or os.getenv('AWS_ACCESS_KEY_ID')

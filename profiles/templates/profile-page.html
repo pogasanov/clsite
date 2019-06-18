@@ -10,75 +10,485 @@
         <div class="profile-content">
             <div class="container pb-3">
                 <div class="row">
-                    <div class="col-md-6 ml-auto mr-auto">
+                    <div class="col-md-8 ml-auto mr-auto">
                         <div class="profile">
                             <div class="avatar">
                                 <form action="" method="POST" enctype="multipart/form-data" class="photo-form">
                                     {% csrf_token %}
                                     <input type="file" name="photo-input" class="photo-input">
                                 </form>
-                                <img src="{{selected_user.profile.photo.url}}" alt="Circle Image"
+                                <img src="{{ selected_user.profile.photo.url }}" alt="Circle Image"
                                      class="img-raised rounded-circle img-fluid photo-view">
                             </div>
                             {% if not form %}
-                            <div class="name">
-                                <h3 class="title">{{ selected_user.first_name }} {{ selected_user.last_name }}</h3>
+                                <div class="name">
+                                    <h3 class="title">{{ selected_user.first_name }} {{ selected_user.last_name }}</h3>
 
-                                {% if selected_user.profile.headline %}
-                                    <h6>{{ selected_user.profile.headline }}</h6>
-                                {% endif %}
+                                    {% if selected_user.profile.headline %}
+                                        <h6>{{ selected_user.profile.headline }}</h6>
+                                    {% endif %}
 
-                                {% if selected_user.profile.website %}
-                                    <a href="{{ selected_user.profile.website }}"
-                                       class="btn btn-just-icon btn-link">
-                                        <i class="fas fa-globe"></i>
-                                    </a>
-                                {% endif %}
+                                    {% if selected_user.profile.website %}
+                                        <a href="{{ selected_user.profile.website }}"
+                                           class="btn btn-just-icon btn-link">
+                                            <i class="fas fa-globe"></i>
+                                        </a>
+                                    {% endif %}
 
-                                {% if selected_user.profile.twitter %}
-                                    <a href="https://twitter.com/{{ selected_user.profile.twitter }}"
-                                       class="btn btn-just-icon btn-link">
-                                        <i class="fab fa-twitter"></i>
-                                    </a>
-                                {% endif %}
+                                    {% if selected_user.profile.twitter %}
+                                        <a href="https://twitter.com/{{ selected_user.profile.twitter }}"
+                                           class="btn btn-just-icon btn-link">
+                                            <i class="fab fa-twitter"></i>
+                                        </a>
+                                    {% endif %}
 
-                                {% if selected_user.profile.linkedin %}
-                                    <a href="https://www.linkedin.com/in/{{ selected_user.profile.linkedin }}"
-                                       class="btn btn-just-icon btn-link">
-                                        <i class="fab fa-linkedin"></i>
-                                    </a>
-                                {% endif %}
+                                    {% if selected_user.profile.linkedin %}
+                                        <a href="https://www.linkedin.com/in/{{ selected_user.profile.linkedin }}"
+                                           class="btn btn-just-icon btn-link">
+                                            <i class="fab fa-linkedin"></i>
+                                        </a>
+                                    {% endif %}
 
-                                {% if selected_user.profile.facebook %}
-                                    <a href="https://www.facebook.com/{{ selected_user.profile.facebook }}"
-                                       class="btn btn-just-icon btn-link">
-                                        <i class="fab fa-facebook"></i>
-                                    </a>
-                                {% endif %}
-                            </div>
-                            <div class="description text-center">
-                                <p>{{ selected_user.profile.bio }}</p>
-                                <strong>Jurisdiction:</strong> {{ selected_user.profile.jurisdiction|default:'Not selected' }}
-                            </div>
-                            {% endif %}
-                            <!--Edit Mode for Own Profile-->
-                            {% if form %}
-                            <form class="form-block profile-form" action="" method="post" enctype="multipart/form-data">
-                                {% csrf_token %}
-                                <div class="row">
-                                    {% for field in form.visible_fields %}
-                                    <div class="col-md-6 field">
-                                        {{ field.label }}
-                                        {{field}}
-                                        {% for error in field.errors %}
-                                        <span style="color: red;">[{{ error }}]</span>
+                                    {% if selected_user.profile.facebook %}
+                                        <a href="https://www.facebook.com/{{ selected_user.profile.facebook }}"
+                                           class="btn btn-just-icon btn-link">
+                                            <i class="fab fa-facebook"></i>
+                                        </a>
+                                    {% endif %}
+                                </div>
+                                <div class="description text-center">
+                                    <p>{{ selected_user.profile.bio }}</p>
+                                    <strong>Jurisdiction:</strong> {{ selected_user.profile.jurisdiction|default:'Not selected' }}
+                                </div>
+                            {% else %}
+                                <form class="form-block profile-form" action="" method="post"
+                                      enctype="multipart/form-data">
+                                    {% csrf_token %}
+
+                                    <div class="row">
+                                        <div class="col-md-6 field">
+                                            {{ form.first_name.label_tag }}
+                                            {{ form.first_name }}
+                                            {% for error in form.first_name.errors %}
+                                                <span style="color: red;">[{{ error }}]</span>
+                                            {% endfor %}
+                                        </div>
+                                        <div class="col-md-6 field">
+                                            {{ form.last_name.label_tag }}
+                                            {{ form.last_name }}
+                                            {% for error in form.last_name.errors %}
+                                                <span style="color: red;">[{{ error }}]</span>
+                                            {% endfor %}
+                                        </div>
+                                        <div class="col-md-6 field">
+                                            {{ form.languages.label_tag }}
+                                            {{ form.languages }}
+                                            {% for error in form.languages.errors %}
+                                                <span style="color: red;">[{{ error }}]</span>
+                                            {% endfor %}
+                                        </div>
+                                        <div class="col-md-6 field">
+                                            {{ form.headline.label_tag }}
+                                            {{ form.headline }}
+                                            {% for error in form.headline.errors %}
+                                                <span style="color: red;">[{{ error }}]</span>
+                                            {% endfor %}
+                                        </div>
+                                        <div class="col-md-12 field">
+                                            {{ form.bio.label_tag }}
+                                            {{ form.bio }}
+                                            {% for error in form.bio.errors %}
+                                                <span style="color: red;">[{{ error }}]</span>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h3>Contact</h3>
+                                        </div>
+                                        <div class="col-md-6 field">
+                                            {{ form.phone.label_tag }}
+                                            {{ form.phone }}
+                                            {% for error in form.phone.errors %}
+                                                <span style="color: red;">[{{ error }}]</span>
+                                            {% endfor %}
+                                        </div>
+                                        <div class="col-md-6 field">
+                                            {{ form.email.label_tag }}
+                                            {{ form.email }}
+                                            {% for error in form.email.errors %}
+                                                <span style="color: red;">[{{ error }}]</span>
+                                            {% endfor %}
+                                        </div>
+                                        <div class="col-md-6 field">
+                                            {{ form.website.label_tag }}
+                                            {{ form.website }}
+                                            {% for error in form.website.errors %}
+                                                <span style="color: red;">[{{ error }}]</span>
+                                            {% endfor %}
+                                        </div>
+                                        <div class="col-md-6 field">
+                                            {{ form.twitter.label_tag }}
+                                            {{ form.twitter }}
+                                            {% for error in form.twitter.errors %}
+                                                <span style="color: red;">[{{ error }}]</span>
+                                            {% endfor %}
+                                        </div>
+                                        <div class="col-md-6 field">
+                                            {{ form.linkedin.label_tag }}
+                                            {{ form.linkedin }}
+                                            {% for error in form.linkedin.errors %}
+                                                <span style="color: red;">[{{ error }}]</span>
+                                            {% endfor %}
+                                        </div>
+                                        <div class="col-md-6 field">
+                                            {{ form.facebook.label_tag }}
+                                            {{ form.facebook }}
+                                            {% for error in form.facebook.errors %}
+                                                <span style="color: red;">[{{ error }}]</span>
+                                            {% endfor %}
+                                        </div>
+                                        <div class="col-md-6 field">
+                                            {{ form.preferred_communication_method.label_tag }}
+                                            {{ form.preferred_communication_method }}
+                                            {% for error in form.preferred_communication_method.errors %}
+                                                <span style="color: red;">[{{ error }}]</span>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h3>Address</h3>
+                                        </div>
+                                        <div class="col-md-4 field">
+                                            {{ address.state.label_tag }}
+                                            {{ address.state }}
+                                            {% for error in address.state.errors %}
+                                                <span style="color: red;">[{{ error }}]</span>
+                                            {% endfor %}
+                                        </div>
+                                        <div class="col-md-4 field">
+                                            {{ address.city.label_tag }}
+                                            {{ address.city }}
+                                            {% for error in address.city.errors %}
+                                                <span style="color: red;">[{{ error }}]</span>
+                                            {% endfor %}
+                                        </div>
+
+                                        <div class="col-md-4 field">
+                                            {{ address.zipcode.label_tag }}
+                                            {{ address.zipcode }}
+                                            {% for error in address.zipcode.errors %}
+                                                <span style="color: red;">[{{ error }}]</span>
+                                            {% endfor %}
+                                        </div>
+
+                                        <div class="col-md-8 field">
+                                            {{ address.street.label_tag }}
+                                            {{ address.street }}
+                                            {% for error in address.street.errors %}
+                                                <span style="color: red;">[{{ error }}]</span>
+                                            {% endfor %}
+                                        </div>
+                                        <div class="col-md-4 field">
+                                            {{ address.building.label_tag }}
+                                            {{ address.building }}
+                                            {% for error in address.building.errors %}
+                                                <span style="color: red;">[{{ error }}]</span>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h3>Professional details</h3>
+                                        </div>
+                                        <div class="col-md-6 field">
+                                            {{ form.experience.label_tag }}
+                                            {{ form.experience }}
+                                            {% for error in form.experience.errors %}
+                                                <span style="color: red;">[{{ error }}]</span>
+                                            {% endfor %}
+                                        </div>
+                                        <div class="col-md-6 field">
+                                            {{ form.jurisdiction.label_tag }}
+                                            {{ form.jurisdiction }}
+                                            {% for error in form.jurisdiction.errors %}
+                                                <span style="color: red;">[{{ error }}]</span>
+                                            {% endfor %}
+                                        </div>
+
+                                        <div class="col-md-6 field">
+                                            {{ form.current_job.label_tag }}
+                                            {{ form.current_job }}
+                                            {% for error in form.current_job.errors %}
+                                                <span style="color: red;">[{{ error }}]</span>
+                                            {% endfor %}
+                                        </div>
+
+                                        <div class="col-md-6 field">
+                                            {{ form.size_of_clients.label_tag }}
+                                            {{ form.size_of_clients }}
+                                            {% for error in form.size_of_clients.errors %}
+                                                <span style="color: red;">[{{ error }}]</span>
+                                            {% endfor %}
+                                        </div>
+
+
+                                        <div class="col-md-6 field">
+                                            {{ form.clients.label_tag }}
+                                            {{ form.clients }}
+                                            {% for error in form.clients.errors %}
+                                                <span style="color: red;">[{{ error }}]</span>
+                                            {% endfor %}
+                                        </div>
+
+                                        <div class="col-md-6 field">
+                                            {{ form.license_status.label_tag }}
+                                            {{ form.license_status }}
+                                            {% for error in form.license_status.errors %}
+                                                <span style="color: red;">[{{ error }}]</span>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h3>Law school</h3>
+                                        </div>
+                                        <div class="col-md-6 field">
+                                            {{ lawschool.school.label_tag }}
+                                            {{ lawschool.school }}
+                                            {% for error in lawschool.school.errors %}
+                                                <span style="color: red;">[{{ error }}]</span>
+                                            {% endfor %}
+                                        </div>
+                                        <div class="col-md-6 field">
+                                            {{ lawschool.state.label_tag }}
+                                            {{ lawschool.state }}
+                                            {% for error in lawschool.state.errors %}
+                                                <span style="color: red;">[{{ error }}]</span>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h3>Educations</h3>
+                                        </div>
+                                        {{ educations.management_form }}
+                                        {% for education in educations.forms %}
+                                            {% for hidden in education.hidden_fields %}
+                                                {{ hidden }}
+                                            {% endfor %}
+                                            <div class="col-md-3 field">
+                                                {{ education.school.label_tag }}
+                                                {{ education.school }}
+                                                {% for error in education.school.errors %}
+                                                    <span style="color: red;">[{{ error }}]</span>
+                                                {% endfor %}
+                                            </div>
+                                            <div class="col-md-3 field">
+                                                {{ education.degree.label_tag }}
+                                                {{ education.degree }}
+                                                {% for error in education.degree.errors %}
+                                                    <span style="color: red;">[{{ error }}]</span>
+                                                {% endfor %}
+                                            </div>
+                                            <div class="col-md-3 field">
+                                                {{ education.graduation_date.label_tag }}
+                                                {{ education.graduation_date }}
+                                                {% for error in education.graduation_date.errors %}
+                                                    <span style="color: red;">[{{ error }}]</span>
+                                                {% endfor %}
+                                            </div>
+
+                                            <div class="col-md-3 field">
+                                                {% if educations.can_delete %}
+                                                    {{ education.DELETE.label_tag }}
+                                                    {{ education.DELETE }}
+                                                {% endif %}
+                                            </div>
                                         {% endfor %}
                                     </div>
-                                    {% endfor %}
-                                </div>
-                                <div class="alert alert-dismissible" id="response-message"></div>
-                                <input class="btn btn-primary" type="submit" title="Submit">
-                            </form>
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h3>Admissions</h3>
+                                        </div>
+                                        {{ admissions.management_form }}
+                                        {% for admission in admissions.forms %}
+                                            {% for hidden in admission.hidden_fields %}
+                                                {{ hidden }}
+                                            {% endfor %}
+                                            <div class="col-md-4 field">
+                                                {{ admission.state.label_tag }}
+                                                {{ admission.state }}
+                                                {% for error in admission.state.errors %}
+                                                    <span style="color: red;">[{{ error }}]</span>
+                                                {% endfor %}
+                                            </div>
+
+                                            <div class="col-md-4 field">
+                                                {{ admission.year.label_tag }}
+                                                {{ admission.year }}
+                                                {% for error in admission.year.errors %}
+                                                    <span style="color: red;">[{{ error }}]</span>
+                                                {% endfor %}
+                                            </div>
+
+                                            <div class="col-md-4 field">
+                                                {% if admissions.can_delete %}
+                                                    {{ admission.DELETE.label_tag }}
+                                                    {{ admission.DELETE }}
+                                                {% endif %}
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h3>Work experience</h3>
+                                        </div>
+                                        {{ workexperiences.management_form }}
+                                        {% for workexperience in workexperiences.forms %}
+                                            {% for hidden in workexperience.hidden_fields %}
+                                                {{ hidden }}
+                                            {% endfor %}
+                                            <div class="col-md-4 field">
+                                                {{ workexperience.company_name.label_tag }}
+                                                {{ workexperience.company_name }}
+                                                {% for error in workexperience.company_name.errors %}
+                                                    <span style="color: red;">[{{ error }}]</span>
+                                                {% endfor %}
+                                            </div>
+
+                                            <div class="col-md-4 field">
+                                                {{ workexperience.position.label_tag }}
+                                                {{ workexperience.position }}
+                                                {% for error in workexperience.position.errors %}
+                                                    <span style="color: red;">[{{ error }}]</span>
+                                                {% endfor %}
+                                            </div>
+
+                                            <div class="col-md-4 field">
+                                                {{ workexperience.duration.label_tag }}
+                                                {{ workexperience.duration }}
+                                                {% for error in workexperience.duration.errors %}
+                                                    <span style="color: red;">[{{ error }}]</span>
+                                                {% endfor %}
+                                            </div>
+
+                                            <div class="col-md-8 field">
+                                                {{ workexperience.responsibility.label_tag }}
+                                                {{ workexperience.responsibility }}
+                                                {% for error in workexperience.responsibility.errors %}
+                                                    <span style="color: red;">[{{ error }}]</span>
+                                                {% endfor %}
+                                            </div>
+
+                                            <div class="col-md-4 field">
+                                                {% if workexperiences.can_delete %}
+                                                    {{ workexperience.DELETE.label_tag }}
+                                                    {{ workexperience.DELETE }}
+                                                {% endif %}
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h3>Professional Associations/Organizations</h3>
+                                        </div>
+                                        {{ organizations.management_form }}
+                                        {% for organization in organizations.forms %}
+                                            {% for hidden in organization.hidden_fields %}
+                                                {{ hidden }}
+                                            {% endfor %}
+                                            <div class="col-md-3 field">
+                                                {{ organization.name.label_tag }}
+                                                {{ organization.name }}
+                                                {% for error in organization.name.errors %}
+                                                    <span style="color: red;">[{{ error }}]</span>
+                                                {% endfor %}
+                                            </div>
+
+                                            <div class="col-md-3 field">
+                                                {{ organization.position.label_tag }}
+                                                {{ organization.position }}
+                                                {% for error in organization.position.errors %}
+                                                    <span style="color: red;">[{{ error }}]</span>
+                                                {% endfor %}
+                                            </div>
+                                            <div class="col-md-3 field">
+                                                {{ organization.duration.label_tag }}
+                                                {{ organization.duration }}
+                                                {% for error in organization.duration.errors %}
+                                                    <span style="color: red;">[{{ error }}]</span>
+                                                {% endfor %}
+                                            </div>
+
+                                            <div class="col-md-3 field">
+                                                {% if organizations.can_delete %}
+                                                    {{ organization.DELETE.label_tag }}
+                                                    {{ organization.DELETE }}
+                                                {% endif %}
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h3>Awards</h3>
+                                        </div>
+                                        {{ awards.management_form }}
+                                        {% for award in awards.forms %}
+                                            {% for hidden in award.hidden_fields %}
+                                                {{ hidden }}
+                                            {% endfor %}
+                                            <div class="col-md-4 field">
+                                                {{ award.title.label_tag }}
+                                                {{ award.title }}
+                                                {% for error in award.title.errors %}
+                                                    <span style="color: red;">[{{ error }}]</span>
+                                                {% endfor %}
+                                            </div>
+                                            <div class="col-md-4 field">
+                                                {{ award.presented_by.label_tag }}
+                                                {{ award.presented_by }}
+                                                {% for error in award.presented_by.errors %}
+                                                    <span style="color: red;">[{{ error }}]</span>
+                                                {% endfor %}
+                                            </div>
+                                            <div class="col-md-4 field">
+                                                {{ award.year.label_tag }}
+                                                {{ award.year }}
+                                                {% for error in award.year.errors %}
+                                                    <span style="color: red;">[{{ error }}]</span>
+                                                {% endfor %}
+                                            </div>
+                                            <div class="col-md-8 field">
+                                                {{ award.description.label_tag }}
+                                                {{ award.description }}
+                                                {% for error in award.description.errors %}
+                                                    <span style="color: red;">[{{ error }}]</span>
+                                                {% endfor %}
+                                            </div>
+
+                                            <div class="col-md-4 field">
+                                                {% if awards.can_delete %}
+                                                    {{ award.DELETE.label_tag }}
+                                                    {{ award.DELETE }}
+                                                {% endif %}
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+
+                                    <div class="alert alert-dismissible" id="response-message"></div>
+                                    <input class="btn btn-primary" type="submit" title="Submit">
+                                </form>
                             {% endif %}
                             <!--END Edit Field for own profile-->
                         </div>
