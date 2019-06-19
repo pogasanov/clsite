@@ -17,48 +17,48 @@
                                     {% csrf_token %}
                                     <input type="file" name="photo-input" class="photo-input">
                                 </form>
-                                <img src="{{ selected_user.profile.photo.url }}" alt="Circle Image"
+                                <img src="{{ selected_user.photo.url }}" alt="Circle Image"
                                      class="img-raised rounded-circle img-fluid photo-view">
                             </div>
                             {% if not form %}
                                 <div class="name">
                                     <h3 class="title">{{ selected_user.first_name }} {{ selected_user.last_name }}</h3>
 
-                                    {% if selected_user.profile.headline %}
-                                        <h6>{{ selected_user.profile.headline }}</h6>
+                                    {% if selected_user.headline %}
+                                        <h6>{{ selected_user.headline }}</h6>
                                     {% endif %}
 
-                                    {% if selected_user.profile.website %}
-                                        <a href="{{ selected_user.profile.website }}"
+                                    {% if selected_user.website %}
+                                        <a href="{{ selected_user.website }}"
                                            class="btn btn-just-icon btn-link">
                                             <i class="fas fa-globe"></i>
                                         </a>
                                     {% endif %}
 
-                                    {% if selected_user.profile.twitter %}
-                                        <a href="https://twitter.com/{{ selected_user.profile.twitter }}"
+                                    {% if selected_user.twitter %}
+                                        <a href="https://twitter.com/{{ selected_user.twitter }}"
                                            class="btn btn-just-icon btn-link">
                                             <i class="fab fa-twitter"></i>
                                         </a>
                                     {% endif %}
 
-                                    {% if selected_user.profile.linkedin %}
-                                        <a href="https://www.linkedin.com/in/{{ selected_user.profile.linkedin }}"
+                                    {% if selected_user.linkedin %}
+                                        <a href="https://www.linkedin.com/in/{{ selected_user.linkedin }}"
                                            class="btn btn-just-icon btn-link">
                                             <i class="fab fa-linkedin"></i>
                                         </a>
                                     {% endif %}
 
-                                    {% if selected_user.profile.facebook %}
-                                        <a href="https://www.facebook.com/{{ selected_user.profile.facebook }}"
+                                    {% if selected_user.facebook %}
+                                        <a href="https://www.facebook.com/{{ selected_user.facebook }}"
                                            class="btn btn-just-icon btn-link">
                                             <i class="fab fa-facebook"></i>
                                         </a>
                                     {% endif %}
                                 </div>
                                 <div class="description text-center">
-                                    <p>{{ selected_user.profile.bio }}</p>
-                                    <strong>Jurisdiction:</strong> {{ selected_user.profile.jurisdiction|default:'Not selected' }}
+                                    <p>{{ selected_user.bio }}</p>
+                                    <strong>Jurisdiction:</strong> {{ selected_user.jurisdiction|default:'Not selected' }}
                                 </div>
                             {% else %}
                                 <form class="form-block profile-form" action="" method="post"
