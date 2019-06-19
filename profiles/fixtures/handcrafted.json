@@ -1,0 +1,141 @@
+[
+  {
+    "model": "profiles.profile",
+    "pk": 202,
+    "fields": {
+      "password": "pbkdf2_sha256$150000$ue6q3BjGqHm5$+24wBYGsZPSaKQcrnIhqlVMERh9oijkE8V7I/vXejkI=",
+      "last_login": "2019-06-19T07:48:57.518Z",
+      "is_superuser": false,
+      "username": "celia",
+      "first_name": "Celia",
+      "last_name": "Lerman",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2019-06-19T07:48:57.435Z",
+      "email": "celia@celialerman.com",
+      "phone": "+54 911 4076 0000",
+      "photo": "0.jpeg",
+      "bio": "I am a lawyer that helps technology companies protect their intellectual property, in the United States and Argentina. I am also on the faculty of the Torcuato Di Tella Law School.\r\n\r\nThe focus of the my career since I was 21 has been connecting Latin America and the United States, two cultures that I understand on a deep level. On the Latin American side, I grew up in Buenos Aires, was the valedictorian of the Di Tella Law School, I\u2019ve been an associate at a law firm in Buenos Aires and have resolved complex international cases. On the American side, I received my Masters in Law from Stanford and lived in Silicon Valley, I was a research fellow at Columbia and lived in New York, I\u2019ve been working with American companies for a decade \u2014 and, perhaps most importantly, my husband and two children are American.",
+      "experience": "16",
+      "current_job": "Partner at Lerman & Szlak",
+      "size_of_clients": 3,
+      "preferred_communication_method": 3,
+      "license_status": 0,
+      "languages": "[\"en\", \"es\"]",
+      "clients": "[]",
+      "jurisdiction": "[\"CA\"]",
+      "headline": "Intellectual Property Lawyer in California & Argentina",
+      "website": "https://celialerman.com/",
+      "twitter": "celialerman",
+      "linkedin": "celialerman",
+      "facebook": "celialerman",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "profiles.workexperience",
+    "pk": 101,
+    "fields": {
+      "profile": 202,
+      "company_name": "Lerman & Szlak",
+      "position": "Partner",
+      "duration": "{\"bounds\": \"[)\", \"lower\": \"2017-11-01\", \"upper\": \"2019-06-19\"}",
+      "responsibility": "Partner"
+    }
+  },
+  {
+    "model": "profiles.workexperience",
+    "pk": 102,
+    "fields": {
+      "profile": 202,
+      "company_name": "Universidad Torcuato Di Tella",
+      "position": "Title Director - Executive Legal Education Data Privacy Program",
+      "duration": "{\"bounds\": \"[)\", \"lower\": \"2019-05-01\", \"upper\": \"2019-06-19\"}",
+      "responsibility": "Director of the Executive Legal Education program, focused on providing leading training skills to privacy professionals in Argentina and Latin America."
+    }
+  },
+  {
+    "model": "profiles.workexperience",
+    "pk": 103,
+    "fields": {
+      "profile": 202,
+      "company_name": "Universidad Torcuato Di Tella",
+      "position": "Title Adjunct Professor of Law",
+      "duration": "{\"bounds\": \"[)\", \"lower\": \"2010-03-01\", \"upper\": \"2019-06-19\"}",
+      "responsibility": "I am an Adjunct Professor of Law (2015-Present). I lead the Law & Innovation Law Lab (http://clinica.legal), where students provide free legal orientation to tech start-ups in Argentina. As an Intellectual Property Fellow (2010-2014) I have taught \u201cIntellectual Property 2: Trademarks & Patents\u201d, \u201cPrivate International Law\"\u200b and \"Seminar on Internet Law\". I have co-founded the Di Tella Law Alumni Club."
+    }
+  },
+  {
+    "model": "profiles.workexperience",
+    "pk": 104,
+    "fields": {
+      "profile": 202,
+      "company_name": "Of Counsel",
+      "position": "Head of IP Department",
+      "duration": "{\"bounds\": \"[)\", \"lower\": \"2012-12-01\", \"upper\": \"2019-06-19\"}",
+      "responsibility": "Leading WSC's international IP work and IP due diligences in the context of M&A transactions."
+    }
+  },
+  {
+    "model": "profiles.lawschool",
+    "pk": 101,
+    "fields": {
+      "profile": 202,
+      "school": "Stanford University Law School",
+      "state": "CA"
+    }
+  },
+  {
+    "model": "profiles.education",
+    "pk": 101,
+    "fields": {
+      "profile": 202,
+      "school": "Stanford Law School",
+      "degree": "Intellectual Property Law",
+      "graduation_date": "2015-12-30"
+    }
+  },
+  {
+    "model": "profiles.education",
+    "pk": 102,
+    "fields": {
+      "profile": 202,
+      "school": "Universidad Austral, Buenos Aires",
+      "degree": "Master's Program, Intellectual Property",
+      "graduation_date": "2009-12-30"
+    }
+  },
+  {
+    "model": "profiles.education",
+    "pk": 103,
+    "fields": {
+      "profile": 202,
+      "school": "Fulbright Commission",
+      "degree": "Alumni",
+      "graduation_date": "2007-12-30"
+    }
+  },
+  {
+    "model": "profiles.education",
+    "pk": 104,
+    "fields": {
+      "profile": 202,
+      "school": "Universidad Torcuato Di Tella",
+      "degree": "Major in Law & Economics",
+      "graduation_date": "2007-12-30"
+    }
+  },
+  {
+    "model": "profiles.address",
+    "pk": 101,
+    "fields": {
+      "profile": 202,
+      "building": "c",
+      "street": "Street",
+      "city": "NY",
+      "state": "CA",
+      "zipcode": "12345"
+    }
+  }
+]
