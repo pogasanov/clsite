@@ -48,7 +48,7 @@ class ProfileProvider(BaseProvider):
         return Education(
             profile=profile,
             school=self.generator.company(),
-            degree=self.generator.words(),
+            degree=' '.join(self.generator.words()),
             graduation_date=self.generator.date_object()
         )
 
