@@ -17,7 +17,7 @@
                                     {% csrf_token %}
                                     <input type="file" name="photo-input" class="photo-input">
                                 </form>
-                                <img src="{{ selected_user.profile.photo.url }}" alt="Circle Image"
+                                <img src="{{ selected_user.photo.url }}" alt="Circle Image"
                                      class="img-raised rounded-circle img-fluid photo-view">
                             </div>
                             {% if not form %}
