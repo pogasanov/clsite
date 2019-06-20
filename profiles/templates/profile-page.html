@@ -57,9 +57,212 @@
                                     {% endif %}
                                 </div>
                                 <div class="description text-center">
-                                    <p>{{ selected_user.bio }}</p>
-                                    <strong>Jurisdiction:</strong> {{ selected_user.jurisdiction|default:'Not selected' }}
+                                    <p>{{ selected_user.bio|safe }}</p>
                                 </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h3>Contact</h3>
+                                    </div>
+                                    <div class="col-md-6 field">
+                                        <h5 class="mt-0 mb-1" style="font-weight: 700;">Phone:</h5>
+                                        {{ selected_user.phone }}
+                                    </div>
+                                    <div class="col-md-6 field">
+                                        <h5 class="mt-0 mb-1" style="font-weight: 700;">Email:</h5>
+                                        {{ selected_user.email }}
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h3>Address</h3>
+                                    </div>
+                                    <div class="col-md-4 field">
+                                        <h5 class="mt-0 mb-1" style="font-weight: 700;">State:</h5>
+                                        {{ selected_user.address.state }}
+                                    </div>
+                                    <div class="col-md-4 field">
+                                        <h5 class="mt-0 mb-1" style="font-weight: 700;">City:</h5>
+                                        {{ selected_user.address.city }}
+                                    </div>
+
+                                    <div class="col-md-4 field">
+                                        <h5 class="mt-0 mb-1" style="font-weight: 700;">Zipcode:</h5>
+                                        {{ selected_user.address.zipcode }}
+                                    </div>
+
+                                    <div class="col-md-8 field">
+                                        <h5 class="mt-0 mb-1" style="font-weight: 700;">Street:</h5>
+                                        {{ selected_user.address.street }}
+                                    </div>
+                                    <div class="col-md-4 field">
+                                        <h5 class="mt-0 mb-1" style="font-weight: 700;">Building:</h5>
+                                        {{ selected_user.address.building }}
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h3>Professional details</h3>
+                                    </div>
+                                    <div class="col-md-6 field">
+                                        <h5 class="mt-0 mb-1" style="font-weight: 700;">Experience:</h5>
+                                        {{ selected_user.experience }} years
+                                    </div>
+                                    <div class="col-md-6 field">
+                                        <h5 class="mt-0 mb-1" style="font-weight: 700;">Jurisdictions:</h5>
+                                        {% for jurisdiction in selected_user.jurisdiction %}
+                                            {{ jurisdiction }}
+                                        {% endfor %}
+                                    </div>
+
+                                    <div class="col-md-6 field">
+                                        <h5 class="mt-0 mb-1" style="font-weight: 700;">Current job:</h5>
+                                        {{ selected_user.current_job }}
+                                    </div>
+
+                                    <div class="col-md-6 field">
+                                        <h5 class="mt-0 mb-1" style="font-weight: 700;">Size of clients:</h5>
+                                        {{ selected_user.get_size_of_clients_display }}
+                                    </div>
+
+                                    <div class="col-md-6 field">
+                                        <h5 class="mt-0 mb-1" style="font-weight: 700;">Clients:</h5>
+                                        {% for client in selected_user.clients %}
+                                            {{ client }}
+                                        {% endfor %}
+                                    </div>
+
+                                    <div class="col-md-6 field">
+                                        <h5 class="mt-0 mb-1" style="font-weight: 700;">License status:</h5>
+                                        {{ selected_user.get_license_status_display }}
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h3>Law school</h3>
+                                    </div>
+                                    <div class="col-md-6 field">
+                                        <h5 class="mt-0 mb-1" style="font-weight: 700;">School:</h5>
+                                        {{ selected_user.lawschool.school }}
+                                    </div>
+                                    <div class="col-md-6 field">
+                                        <h5 class="mt-0 mb-1" style="font-weight: 700;">State:</h5>
+                                        {{ selected_user.lawschool.get_state_display }}
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h3>Educations</h3>
+                                    </div>
+                                    {% for education in selected_user.education_set.all %}
+                                        <div class="col-md-4 field">
+                                            <h5 class="mt-0 mb-1" style="font-weight: 700;">School:</h5>
+                                            {{ education.school }}
+                                        </div>
+                                        <div class="col-md-4 field">
+                                            <h5 class="mt-0 mb-1" style="font-weight: 700;">Degree:</h5>
+                                            {{ education.degree }}
+                                        </div>
+                                        <div class="col-md-4 field">
+                                            <h5 class="mt-0 mb-1" style="font-weight: 700;">Graduation date:</h5>
+                                            {{ education.graduation_date }}
+                                        </div>
+                                    {% endfor %}
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h3>Admissions</h3>
+                                    </div>
+                                    {% for admission in selected_user.admissions_set.all %}
+                                        <div class="col-md-6 field">
+                                            <h5 class="mt-0 mb-1" style="font-weight: 700;">State:</h5>
+                                            {{ admission.get_state_display }}
+                                        </div>
+
+                                        <div class="col-md-6 field">
+                                            <h5 class="mt-0 mb-1" style="font-weight: 700;">Year:</h5>
+                                            {{ admission.year }}
+                                        </div>
+                                    {% endfor %}
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h3>Work experience</h3>
+                                    </div>
+                                    {% for workexperience in selected_user.workexperience_set.all %}
+                                        <div class="col-md-4 field">
+                                            <h5 class="mt-0 mb-1" style="font-weight: 700;">Company name:</h5>
+                                            {{ workexperience.company_name }}
+                                        </div>
+
+                                        <div class="col-md-4 field">
+                                            <h5 class="mt-0 mb-1" style="font-weight: 700;">Position:</h5>
+                                            {{ workexperience.position }}
+                                        </div>
+
+                                        <div class="col-md-4 field">
+                                            <h5 class="mt-0 mb-1" style="font-weight: 700;">Duration:</h5>
+                                            from {{ workexperience.duration.lower }} till {{ workexperience.duration.upper }}
+                                        </div>
+
+                                        <div class="col-md-12 field">
+                                            <h5 class="mt-0 mb-1" style="font-weight: 700;">Responsibility:</h5>
+                                            {{ workexperience.responsibility }}
+                                        </div>
+                                    {% endfor %}
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h3>Professional Associations/Organizations</h3>
+                                    </div>
+                                    {% for organization in selected_user.organization_set.all %}
+                                        <div class="col-md-4 field">
+                                            <h5 class="mt-0 mb-1" style="font-weight: 700;">Name:</h5>
+                                            {{ organization.name }}
+                                        </div>
+
+                                        <div class="col-md-4 field">
+                                            <h5 class="mt-0 mb-1" style="font-weight: 700;">Position:</h5>
+                                            {{ organization.position }}
+                                        </div>
+                                        <div class="col-md-4 field">
+                                            <h5 class="mt-0 mb-1" style="font-weight: 700;">Duration:</h5>
+                                            from {{ organization.duration.lower }} till {{ organization.duration.upper }}
+                                        </div>
+                                    {% endfor %}
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h3>Awards</h3>
+                                    </div>
+                                    {% for award in selected_user.award_set.all %}
+                                        <div class="col-md-4 field">
+                                            <h5 class="mt-0 mb-1" style="font-weight: 700;">Title:</h5>
+                                            {{ award.title }}
+                                        </div>
+                                        <div class="col-md-4 field">
+                                            <h5 class="mt-0 mb-1" style="font-weight: 700;">Presented by:</h5>
+                                            {{ award.presented_by }}
+                                        </div>
+                                        <div class="col-md-4 field">
+                                            <h5 class="mt-0 mb-1" style="font-weight: 700;">Year:</h5>
+                                            {{ award.year }}
+                                        </div>
+                                        <div class="col-md-12 field">
+                                            <h5 class="mt-0 mb-1" style="font-weight: 700;">Description:</h5>
+                                            {{ award.description }}
+                                        </div>
+                                    {% endfor %}
+                                </div>
+
                             {% else %}
                                 <form class="form-block profile-form" action="" method="post"
                                       enctype="multipart/form-data">
