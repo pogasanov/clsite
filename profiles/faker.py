@@ -9,10 +9,11 @@ class ProfileProvider(BaseProvider):
     def profile(self):
         return Profile(
             # Abstract user fields
+            # Password is 'password'
             username=self.generator.user_name(),
             first_name=self.generator.first_name(),
             last_name=self.generator.last_name(),
-            password=self.generator.word(),
+            password='pbkdf2_sha256$150000$2bhhJByaRefj$YjOjogq8+zzorhEeQgTyLYFSZD+tOLgYNeOWbSYhIVg=',
             date_joined=self.generator.date_object(),
 
             # Contacts
