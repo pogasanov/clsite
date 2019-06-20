@@ -43,6 +43,20 @@ python manage.py runserver
 
 If you want to sync from the remote Heroku DB, use `heroku pg:pull`.
 
+## Fixtures
+
+**Optionally** you can populate database with pregenerated data:
+
+```bash
+python manage.py loaddata admin dummy handcrafted
+```
+
+* `admin` - adds admin profile. Password is **asdfasdf**.
+* `dummy` - adds 100 randomized profiles.
+* `handcrafted` - adds real-life manually crafted profiles for display purposes.
+
+**Note:** those fixtures has predefined `id`, so it might overwrite existing data. Those `id` are forced to properly populate related tables.
+
 ## CI/CD
 
 We are using gitlab CI/CD to automate testing and deployment to heroku.
