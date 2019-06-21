@@ -37,6 +37,8 @@ export DATABASE_URL=postgres://postgres@localhost/postgres
 python manage.py migrate
 # Use admin / admin@correspondence.legal / asdfasdf
 python manage.py createsuperuser
+# Optionally activate DEBUG mode
+export DEBUG=1
 python manage.py runserver
 ```
 
