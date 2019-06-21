@@ -159,6 +159,6 @@ AWS_LOCATION = os.getenv('CLOUDCUBE_LOCATION', '')
 AWS_DEFAULT_ACL = 'public-read'
 AWS_QUERYSTRING_AUTH = False
 
-if 'CI' in os.environ:
+if DEBUG or 'CI' in os.environ:
     DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=False)
     DATABASES['default']['TEST'] = dj_database_url.config(conn_max_age=600, ssl_require=False)
