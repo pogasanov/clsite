@@ -1,0 +1,36 @@
+[
+  {
+    "model": "profiles.profile",
+    "pk": 101,
+    "fields": {
+      "password": "pbkdf2_sha256$150000$xB784W4ZKgSf$GmKdCdBjAfxXPzVZflUiDEppAwd+IIT0ckHL5Sk02L0=",
+      "last_login": "2019-06-19T06:28:57.833Z",
+      "is_superuser": true,
+      "username": "admin",
+      "first_name": "",
+      "last_name": "",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2019-06-19T06:25:02.826Z",
+      "email": "admin@correspondence.legal",
+      "phone": "",
+      "photo": "dummy-img.png",
+      "bio": "",
+      "experience": "",
+      "current_job": "",
+      "size_of_clients": null,
+      "preferred_communication_method": null,
+      "license_status": null,
+      "languages": null,
+      "clients": null,
+      "jurisdiction": null,
+      "headline": "",
+      "website": "",
+      "twitter": "",
+      "linkedin": "",
+      "facebook": "",
+      "groups": [],
+      "user_permissions": []
+    }
+  }
+]
