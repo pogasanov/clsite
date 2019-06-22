@@ -2,8 +2,6 @@ from django.urls import path
 from django.contrib.auth import views as auth_views
 from django.conf.urls.static import static
 from clsite.settings import MEDIA_URL, MEDIA_ROOT
-from django.views.generic.edit import CreateView
-from django.contrib.auth.forms import UserCreationForm
 
 from . import views
 
