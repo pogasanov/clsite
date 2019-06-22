@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.postgres.fields import ArrayField, DateRangeField
 from django.conf import settings, global_settings
 from clsite.storage_backends import variativeStorage
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser, BaseUserManager
 import os
 
 from .choices import USA_STATES
@@ -69,6 +69,44 @@ def get_image_path(instance, filename):
     return os.path.join(filename)
 
 
+class UserManager(BaseUserManager):
+    """
+    Custom model manager for User model with no username field.
+    """
+
+    use_in_migrations = True
+
+    def _create_user(self, email, password, **extra_fields):
+        """
+        Create and save a User with the given email and password.
+        """
+        if not email:
+            raise ValueError('The given email must be set')
+        email = self.normalize_email(email)
+        user = self.model(email=email, **extra_fields)
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+    def create_user(self, email, password=None, **extra_fields):
+        """
+        Create and save a regular User with the given email and password.
+        """
+        extra_fields.setdefault('is_staff', False)
+        extra_fields.setdefault('is_superuser', False)
+        extra_fields.setdefault('is_active', True)
+        return self._create_user(email, password, **extra_fields)
+
+    def create_superuser(self, email, password, **extra_fields):
+        """
+        Create and save a SuperUser with the given email and password.
+        """
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+        extra_fields.setdefault('is_active', True)
+        return self._create_user(email, password, **extra_fields)
+
+
 class Profile(AbstractUser):
     USA_STATES = USA_STATES
     SIZE_OF_CLIENTS = (
@@ -88,8 +126,10 @@ class Profile(AbstractUser):
         (1, 'In good standing')
     )
     LANGUAGES = global_settings.LANGUAGES
+    username = None
 
-    email = models.EmailField(verbose_name='Email address', blank=True, null=True)
+    handle = models.CharField(max_length=50, unique=True, null=True)
+    email = models.EmailField(verbose_name='Email address', unique=True)
 
     phone = models.CharField(max_length=20, verbose_name='Contact Number (Office)', blank=True)
     photo = models.ImageField(upload_to=get_image_path, default='dummy-img.png', storage=variativeStorage(),
@@ -123,3 +163,14 @@ class Profile(AbstractUser):
     twitter = models.CharField(max_length=50, blank=True)
     linkedin = models.CharField(max_length=50, blank=True)
     facebook = models.CharField(max_length=50, blank=True)
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = []
+
+    objects = UserManager()
+
+    def save(self, *args, **kwargs):
+        super(Profile, self).save(*args, **kwargs)
+        if not self.handle:
+            self.handle = self.email.split('@')[0] + str(self.id)
+            self.save(*args, **kwargs)
