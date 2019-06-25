@@ -25,18 +25,32 @@ Make sure you have Postgres [running
 locally](https://devcenter.heroku.com/articles/heroku-postgresql#local-setup),
 the same version as when you run `heroku pg`.
 
+App requires several environment variables:
+* `DATABASE_URL` - uri to your database. Should be in form of `postgres://USER:PASSWORD@HOST:PORT/DATABASE_NAME`.
+* `DEBUG` - set if you want to turn debug mode on
+
+Set those variables in either `~/.bashrc` or `~/.bash_profile`. If you are using pycharm, you can set them in Run -> Edit configurations -> Environmnet variables.
+
 Run:
 ```
 pipenv install
 pipenv shell
+
 # For fresh pgsql install, use heroku suggested url
 # If you have preconfigured pgsql, use your database username and password
 # export DATABASE_URL=postgres://USER:PASSWORD@127.0.0.1:5432/postgres
 # on OSX you can just use:
 export DATABASE_URL=postgres://postgres@localhost/postgres
+
 python manage.py migrate
+
 # Use admin / admin@correspondence.legal / asdfasdf
+# Alternatively use fixtures which is described in fixtures section
 python manage.py createsuperuser
+
+# Optionally activate DEBUG mode
+export DEBUG=1
+
 python manage.py runserver
 ```
 
