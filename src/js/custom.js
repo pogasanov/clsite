@@ -1,3 +1,5 @@
+import LoaderSpinner from '../img/loader.gif'
+
 $(document).ready(function() {
     function setupPictureUpload() {
         if (window.location.href.split("profile")[1] === ""){
@@ -8,7 +10,7 @@ $(document).ready(function() {
             });
 
             $('.photo-input').change(function () {
-                img_file = this.files[0]
+                var img_file = this.files[0]
                 var valid_image_extensions = ["image/jpeg", "image/png"];
                 if(valid_image_extensions.indexOf(img_file.type) > -1){
                     var img = new Image();
