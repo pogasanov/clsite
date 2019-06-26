@@ -10,7 +10,8 @@ class ProfileProvider(BaseProvider):
         return Profile(
             # Abstract user fields
             # Password is 'password'
-            username=self.generator.user_name(),
+            handle=self.generator.user_name(),
+            email=self.generator.email(),
             first_name=self.generator.first_name(),
             last_name=self.generator.last_name(),
             password='pbkdf2_sha256$150000$2bhhJByaRefj$YjOjogq8+zzorhEeQgTyLYFSZD+tOLgYNeOWbSYhIVg=',
