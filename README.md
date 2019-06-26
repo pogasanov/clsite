@@ -26,6 +26,7 @@ locally](https://devcenter.heroku.com/articles/heroku-postgresql#local-setup),
 the same version as when you run `heroku pg`.
 
 Requires [Pipenv](https://docs.pipenv.org/en/latest/) and [Nodejs](https://nodejs.org/en/).
+We need nodejs (and npm) to manage frontend dependencies. 
 
 App requires several environment variables:
 * `DATABASE_URL` - uri to your database. Should be in form of `postgres://USER:PASSWORD@HOST:PORT/DATABASE_NAME`.
