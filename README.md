@@ -13,7 +13,7 @@ heroku login
 heroku create
 git push heroku master
 # Use admin / admin@correspondence.legal / asdfasdf
-heroku run python manage.py createsuperuser
+heroku run python app/manage.py createsuperuser
 ```
 
 Make sure that `heroku addons` shows that you have
@@ -54,13 +54,13 @@ npm run build
 # on OSX you can just use:
 export DATABASE_URL=postgres://postgres@localhost/postgres
 
-python manage.py migrate
+python app/manage.py migrate
 
 # Use admin / admin@correspondence.legal / asdfasdf
 # Alternatively use fixtures which is described in fixtures section
-python manage.py createsuperuser
+python app/manage.py createsuperuser
 
-python manage.py runserver
+python app/manage.py runserver
 ```
 
 (I am not able to get `heroku local` to work.)
@@ -72,7 +72,7 @@ If you want to sync from the remote Heroku DB, use `heroku pg:pull`.
 **Optionally** you can populate database with pregenerated data:
 
 ```bash
-python manage.py loaddata admin dummy handcrafted
+python app/manage.py loaddata admin dummy handcrafted
 ```
 
 * `admin` - adds admin profile. For login Email is **admin@correspondence.legal** and Password is **asdfasdf**.
@@ -206,7 +206,7 @@ Iconset is [Font Awesome v.5](https://fontawesome.com/), downloaded via CDN.
 
 To run all tests:
 ```
-python manage.py test
+python app/manage.py test
 ```
 
 All tests requires `@override_settings(STATICFILES_STORAGE='django.contrib.staticfiles.storage.StaticFilesStorage')`
