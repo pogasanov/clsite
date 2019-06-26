@@ -52,9 +52,9 @@ If you want to sync from the remote Heroku DB, use `heroku pg:pull`.
 python manage.py loaddata admin dummy handcrafted
 ```
 
-* `admin` - adds admin profile.For login Email is **admin@correspondence.legal** and Password is **asdfasdf**.
+* `admin` - adds admin profile. For login Email is **admin@correspondence.legal** and Password is **asdfasdf**.
 * `dummy` - adds 100 randomized profiles. Password is **password**.
-* `handcrafted` - adds real-life manually crafted profiles for display purposes.For login Email is **celia@celialerman.com** Password is their first name + last name lowercase. For example, **celialerman**.
+* `handcrafted` - adds real-life manually crafted profiles for display purposes. For login Email is **celia@celialerman.com** Password is their first name + last name lowercase. For example, **celialerman**.
 
 **Note:** those fixtures has predefined `id`, so it might overwrite existing data. Those `id` are forced to properly populate related tables.
 
