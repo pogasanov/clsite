@@ -25,6 +25,8 @@ Make sure you have Postgres [running
 locally](https://devcenter.heroku.com/articles/heroku-postgresql#local-setup),
 the same version as when you run `heroku pg`.
 
+Requires [Pipenv](https://docs.pipenv.org/en/latest/) and [Nodejs](https://nodejs.org/en/).
+
 App requires several environment variables:
 * `DATABASE_URL` - uri to your database. Should be in form of `postgres://USER:PASSWORD@HOST:PORT/DATABASE_NAME`.
 * `DEBUG` - set if you want to turn debug mode on
@@ -33,8 +35,13 @@ Set those variables in either `~/.bashrc` or `~/.bash_profile`. If you are using
 
 Run:
 ```
+# Install django dependencies
 pipenv install
 pipenv shell
+
+# Install and build frontend dependencies
+npm install
+npm run build
 
 # For fresh pgsql install, use heroku suggested url
 # If you have preconfigured pgsql, use your database username and password
