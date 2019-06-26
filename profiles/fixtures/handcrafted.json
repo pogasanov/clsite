@@ -6,7 +6,7 @@
       "password": "pbkdf2_sha256$150000$ue6q3BjGqHm5$+24wBYGsZPSaKQcrnIhqlVMERh9oijkE8V7I/vXejkI=",
       "last_login": "2019-06-19T07:48:57.518Z",
       "is_superuser": false,
-      "username": "celia",
+      "handle": "celia",
       "first_name": "Celia",
       "last_name": "Lerman",
       "is_staff": false,
