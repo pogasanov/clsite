@@ -1,0 +1,47 @@
+@import "material-kit-variables";
+@import "~material-kit/assets/scss/material-kit/mixins";
+@import "~material-kit/assets/scss/material-kit/core-bootstrap";
+@import "~material-kit/assets/scss/material-kit/reboot";
+// Core Components
+@import "~material-kit/assets/scss/material-kit/layout";
+@import "~material-kit/assets/scss/material-kit/buttons";
+@import "~material-kit/assets/scss/material-kit/misc";
+@import "~material-kit/assets/scss/material-kit/checkboxes";
+@import "~material-kit/assets/scss/material-kit/custom-forms";
+@import "~material-kit/assets/scss/material-kit/switches";
+@import "~material-kit/assets/scss/material-kit/radios";
+@import "~material-kit/assets/scss/material-kit/carousel";
+@import "~material-kit/assets/scss/material-kit/forms";
+@import "~material-kit/assets/scss/material-kit/input-group";
+@import "~material-kit/assets/scss/material-kit/list-group";
+@import "~material-kit/assets/scss/material-kit/nav";
+@import "~material-kit/assets/scss/material-kit/images";
+@import "~material-kit/assets/scss/material-kit/navbar";
+@import "~material-kit/assets/scss/material-kit/badges";
+@import "~material-kit/assets/scss/material-kit/alerts";
+@import "~material-kit/assets/scss/material-kit/pagination";
+@import "~material-kit/assets/scss/material-kit/pills";
+@import "~material-kit/assets/scss/material-kit/info-areas";
+@import "~material-kit/assets/scss/material-kit/type";
+@import "~material-kit/assets/scss/material-kit/tabs";
+@import "~material-kit/assets/scss/material-kit/tooltip";
+@import "~material-kit/assets/scss/material-kit/popover";
+@import "~material-kit/assets/scss/material-kit/modal";
+@import "~material-kit/assets/scss/material-kit/dropdown";
+@import "~material-kit/assets/scss/material-kit/drawer";
+@import "~material-kit/assets/scss/material-kit/progress";
+@import "~material-kit/assets/scss/material-kit/togglebutton";
+@import "~material-kit/assets/scss/material-kit/ripples";
+@import "~material-kit/assets/scss/material-kit/headers";
+@import "~material-kit/assets/scss/material-kit/footers";
+// Cards
+@import '~material-kit/assets/scss/material-kit/cards';
+@import '~material-kit/assets/scss/material-kit/cards/card-carousel';
+@import '~material-kit/assets/scss/material-kit/cards/card-login';
+@import '~material-kit/assets/scss/material-kit/cards/card-plain';
+// Core Plugins
+@import '~material-kit/assets/scss/material-kit/plugins/plugin-datetime-picker';
+@import '~material-kit/assets/scss/material-kit/plugins/plugin-nouislider';
+// Sections and Example pages
+@import "~material-kit/assets/scss/material-kit/example-pages";
+@import "~material-kit/assets/scss/material-kit/responsive";

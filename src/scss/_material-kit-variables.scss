@@ -1,0 +1,38 @@
+@import "~material-kit/assets/scss/material-kit/variables/colors";
+@import "~material-kit/assets/scss/material-kit/variables/shadow";
+@import "~material-kit/assets/scss/material-kit/variables/bootstrap-material-design-base";
+// Customized BS material-kit/variables
+@import "~material-kit/assets/scss/material-kit/variables/custom-forms";
+@import "~material-kit/assets/scss/material-kit/variables/spacing";
+@import "~material-kit/assets/scss/material-kit/variables/body";
+@import "~material-kit/assets/scss/material-kit/variables/brand";
+@import "~material-kit/assets/scss/material-kit/variables/buttons";
+@import "~material-kit/assets/scss/material-kit/variables/card";
+@import "~material-kit/assets/scss/material-kit/variables/code";
+@import "~material-kit/assets/scss/material-kit/variables/dropdown";
+@import "~material-kit/assets/scss/material-kit/variables/forms";
+@import "~material-kit/assets/scss/material-kit/variables/list-group";
+@import "~material-kit/assets/scss/material-kit/variables/nav";
+@import "~material-kit/assets/scss/material-kit/variables/pagination";
+@import "~material-kit/assets/scss/material-kit/variables/state";
+@import "~material-kit/assets/scss/material-kit/variables/tables";
+@import "~material-kit/assets/scss/material-kit/variables/tooltip";
+@import "~material-kit/assets/scss/material-kit/variables/type";
+@import "~material-kit/assets/scss/material-kit/variables/modals";
+// This import is commented because original one references to missing images
+// @import "~material-kit/assets/scss/material-kit/variables/carousel";
+
+// import their vars after customization for use below
+$enable-flex: true; // fully adopt flexbox layouts
+$enable-shadows: true; // enable shadows, set to false to turn off shadows
+
+// Core Bootstrap material-kit/variables
+@import "~material-kit/assets/scss/material-kit/bootstrap/scss/functions";
+@import "~material-kit/assets/scss/material-kit/bootstrap/scss/variables";
+
+@import "~material-kit/assets/scss/material-kit/variables/layout";
+@import "~material-kit/assets/scss/material-kit/variables/menu";
+@import "~material-kit/assets/scss/material-kit/variables/drawer";
+@import "~material-kit/assets/scss/material-kit/variables/snackbar";
+
+@import "~material-kit/assets/scss/material-kit/variables/bootstrap-material-design";
