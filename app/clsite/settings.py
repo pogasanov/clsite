@@ -64,7 +64,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            'clsite/templates'
+            os.path.join(BASE_DIR, 'clsite/templates')
         ],
         'APP_DIRS': True,
         'OPTIONS': {
