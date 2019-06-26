@@ -1,0 +1,19 @@
+{
+  "name": "clsite",
+  "version": "0.1.0",
+  "description": "[correspondence.legal](https://correspondence.legal) site, which is [spec'ed here](https://docs.google.com/document/d/1l4YzSrk06nKaHGVJzOCbBEWKw9peXhWLhETk6y3_9wM/edit).",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@gitlab.com/ftwlegal/clsite.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://gitlab.com/ftwlegal/clsite/issues"
+  },
+  "homepage": "https://gitlab.com/ftwlegal/clsite#readme"
+}
