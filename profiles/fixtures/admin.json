@@ -6,7 +6,7 @@
       "password": "pbkdf2_sha256$150000$xB784W4ZKgSf$GmKdCdBjAfxXPzVZflUiDEppAwd+IIT0ckHL5Sk02L0=",
       "last_login": "2019-06-19T06:28:57.833Z",
       "is_superuser": true,
-      "username": "admin",
+      "handle": "admin",
       "first_name": "",
       "last_name": "",
       "is_staff": true,

@@ -16,9 +16,9 @@ def index(request):
 
 
 @login_required
-def profile(request, username=None):
-    if username:
-        user = get_object_or_404(get_user_model(), username=username)
+def profile(request, handle=None):
+    if handle:
+        user = get_object_or_404(get_user_model(), handle=handle)
         profile_form = None
         address_form = None
         education_formset = None

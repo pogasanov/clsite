@@ -9,6 +9,7 @@ from .models import Profile, Education, WorkExperience, Address, Admissions, Law
 class ProfileCreationForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model = get_user_model()
+        fields = ('email',)
 
 
 class ProfileForm(ModelForm):
@@ -28,6 +29,7 @@ class ProfileForm(ModelForm):
                   'facebook',
                   'phone',
                   'email',
+                  'handle',
                   'preferred_communication_method',
                   'size_of_clients',
                   'license_status',
