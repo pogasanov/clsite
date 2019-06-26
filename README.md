@@ -29,10 +29,14 @@ Requires [Pipenv](https://docs.pipenv.org/en/latest/) and [Nodejs](https://nodej
 We need nodejs (and npm) to manage frontend dependencies. 
 
 App requires several environment variables:
-* `DATABASE_URL` - uri to your database. Should be in form of `postgres://USER:PASSWORD@HOST:PORT/DATABASE_NAME`.
-* `DEBUG` - set if you want to turn debug mode on
+* `DATABASE_URL` - uri to your database. Should be in form of
+`postgres://USER:PASSWORD@HOST:PORT/DATABASE_NAME`.
+* `DEBUG` - set if you want to turn debug mode on. You should use
+`DEBUG=1` for local testing, but *not* on Heroku.
 
-Set those variables in either `~/.bashrc` or `~/.bash_profile`. If you are using pycharm, you can set them in Run -> Edit configurations -> Environmnet variables.
+Set those variables in either `~/.bashrc` or `~/.bash_profile`. If
+you are using pycharm, you can set them in Run -> Edit configurations
+-> Environmnet variables.
 
 Run:
 ```
@@ -55,9 +59,6 @@ python manage.py migrate
 # Use admin / admin@correspondence.legal / asdfasdf
 # Alternatively use fixtures which is described in fixtures section
 python manage.py createsuperuser
-
-# Optionally activate DEBUG mode
-export DEBUG=1
 
 python manage.py runserver
 ```
