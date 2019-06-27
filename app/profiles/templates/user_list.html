@@ -11,14 +11,14 @@
                     {% for user in object_list %}
                         <div class="card card--user">
                             <div class="card-body">
-                                <a href="{% url 'profile' user.username %}">
+                                <a href="{% url 'profile' user.handle %}">
                                     <img src="{{ user.photo_url_or_default }}"
                                          class="d-block mx-auto card--user__avatar rounded-circle">
                                     <h5 class="card-title my-0 text-center">
                                         {% if user.first_name or user.last_name %}
                                             {{ user.first_name }} {{ user.last_name }}
                                         {% else %}
-                                            {{ user.username }}
+                                            {{ user.handle }}
                                         {% endif %}
                                     </h5>
                                     <h6 class="my-0 text-center">{{ user.get_jurisdiction_display }}</h6>
