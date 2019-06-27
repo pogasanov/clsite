@@ -11,6 +11,13 @@ Install [heroku-cli](https://devcenter.heroku.com/articles/heroku-cli#download-a
 ```
 heroku login
 heroku create
+
+# Set buildpacks for heroku
+# It will first install all python dependencies
+heroku buildpacks:set heroku/python
+# And then will install node-js dependencies and build code
+heroku buildpacks:add --index 1 heroku/nodejs
+
 git push heroku master
 # Use admin / admin@correspondence.legal / asdfasdf
 heroku run python app/manage.py createsuperuser
