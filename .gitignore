@@ -120,3 +120,5 @@ staticfiles
 .idea/inspectionProfiles/Project_Default.xml
 
 node_modules
+# frontend assets
+app/clsite/static
