@@ -118,3 +118,5 @@ staticfiles
 .idea/modules.xml
 .idea/workspace.xml
 .idea/inspectionProfiles/Project_Default.xml
+
+node_modules
