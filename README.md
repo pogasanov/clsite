@@ -8,6 +8,8 @@ here](https://docs.google.com/document/d/1l4YzSrk06nKaHGVJzOCbBEWKw9peXhWLhETk6y
 
 Install [heroku-cli](https://devcenter.heroku.com/articles/heroku-cli#download-and-install)
 
+Note that you have to set [buildpacks](https://devcenter.heroku.com/articles/buildpacks) for both django and nodejs to get dependencies for both backend and frontend. It will also build frontend assets, as our repo does not includes them.
+
 ```
 heroku login
 heroku create
@@ -35,7 +37,7 @@ the same version as when you run `heroku pg`.
 Requires [Pipenv](https://docs.pipenv.org/en/latest/) and [Nodejs](https://nodejs.org/en/).
 We need nodejs (and npm) to manage frontend dependencies. 
 
-App requires several environment variables:
+Django app requires several environment variables:
 * `DATABASE_URL` - uri to your database. Should be in form of
 `postgres://USER:PASSWORD@HOST:PORT/DATABASE_NAME`.
 * `DEBUG` - set if you want to turn debug mode on. You should use
@@ -44,6 +46,10 @@ App requires several environment variables:
 Set those variables in either `~/.bashrc` or `~/.bash_profile`. If
 you are using pycharm, you can set them in Run -> Edit configurations
 -> Environmnet variables.
+
+Nodejs comes with 2 commands to build frontend:
+1. `npm run watch` - will build development version of frontend and watch for changes;
+2.`npm run build` - will build optimized version;
 
 Run:
 ```
