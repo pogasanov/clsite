@@ -1,36 +1,50 @@
 @import "material-kit";
 
+.page-header {
+  background-image: url('~material-kit/assets/img/city-profile.jpg');
+}
+
+.page-header--landing {
+  background-image: url('~material-kit/assets/img/profile_city.jpg');
+}
+
+.page-header--auth {
+  background-image: url('~material-kit/assets/img/bg7.jpg');
+  background-size: cover;
+  background-position: top center;
+}
+
 .photo-form {
-    display: none;
+  display: none;
 }
 
 .card--user a {
-    color: inherit;
+  color: inherit;
 }
 
 .card-deck .card.card--user {
-    flex: 0 0 calc(20% - 30px);
+  flex: 0 0 calc(20% - 30px);
 }
 
 .card--user__avatar {
-    width: 72px;
-    height: 72px;
+  width: 72px;
+  height: 72px;
 }
 
 .navbar-photo {
-    width: 24px;
-    height: 24px;
+  width: 24px;
+  height: 24px;
 }
 
 .photo-view {
-    max-height: 200px !important;
-    max-width: 200px !important;
+  max-height: 200px !important;
+  max-width: 200px !important;
 }
 
 .field {
-    margin-top: 20px;
+  margin-top: 20px;
 }
 
 select.form-control {
-    height: 36px !important;
+  height: 36px !important;
 }
