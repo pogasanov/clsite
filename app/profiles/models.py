@@ -132,8 +132,8 @@ class Profile(AbstractUser):
     email = models.EmailField(verbose_name='Email address', unique=True)
 
     phone = models.CharField(max_length=20, verbose_name='Contact Number (Office)', blank=True)
-    photo = models.ImageField(upload_to=get_image_path, default='dummy-img.png', storage=variativeStorage(),
-                              verbose_name='Profile Picture')
+    photo = models.ImageField(upload_to=get_image_path, storage=variativeStorage(), verbose_name='Profile Picture',
+                              blank=True, null=True)
     bio = models.TextField(verbose_name='Overview (Bio)', blank=True)
     experience = models.CharField(max_length=100, verbose_name='Years of Practice/Experience', blank=True)
     current_job = models.CharField(max_length=200, verbose_name='Current Job/Affiliation/Law Firm', blank=True)
