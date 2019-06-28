@@ -21,7 +21,6 @@ heroku buildpacks:set heroku/python
 heroku buildpacks:add --index 1 heroku/nodejs
 
 git push heroku master
-heroku run python app/manage.py migrate
 # Use admin / admin@correspondence.legal / asdfasdf
 heroku run python app/manage.py createsuperuser
 ```
