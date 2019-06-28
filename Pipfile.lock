@@ -45,6 +45,13 @@
             ],
             "version": "==2.2.2"
         },
+        "django-appconf": {
+            "hashes": [
+                "sha256:35f13ca4d567f132b960e2cd4c832c2d03cb6543452d34e29b7ba10371ba80e3",
+                "sha256:c98a7af40062e996b921f5962a1c4f3f0c979fa7885f7be4710cceb90ebe13a6"
+            ],
+            "version": "==1.0.3"
+        },
         "django-heroku": {
             "hashes": [
                 "sha256:2bc690aab89eedbe01311752320a9a12e7548e3b0ed102681acc5736a41a4762",
@@ -52,6 +59,14 @@
             ],
             "index": "pypi",
             "version": "==0.3.1"
+        },
+        "django-select2": {
+            "hashes": [
+                "sha256:107c7b708dff2408b8dcc786e0962fa29838783e6e0428f46aee0f6af7b87e6a",
+                "sha256:ef0a07955c54854a8207b66e62b8b42e9f401dd9b353aa11df72b1e66b7838e5"
+            ],
+            "index": "pypi",
+            "version": "==7.0.5"
         },
         "django-storages": {
             "hashes": [
