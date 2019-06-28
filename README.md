@@ -228,9 +228,23 @@ More info can be found in this [SO question](https://stackoverflow.com/questions
 
 ## Further Reading
 
-To update `Pipfile.lock`:
+###### To update `Pipfile.lock`:
 ```
 pipenv lock
+```
+
+###### To update law-type-tag DAG `profiles/tags/law-type-tag.json`:
+In order to add a new AREA, use this command:
+```
+python app/profiles/tags/utilities.py --operation=add-area --name=AREA_NAME
+```
+In order to add a new SUBAREA, use this command:
+```
+python app/profiles/tags/utilities.py --operation=add-subarea --name=AREA_NAME --parent=PARENT_AREA_ID
+```
+For more detail on argument types use:
+```
+python app/profiles/tags/utilities.py --help
 ```
 
 - [pipenv](https://docs.pipenv.org/en/latest/)
