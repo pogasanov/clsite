@@ -2,6 +2,10 @@ from django.forms import ModelForm, inlineformset_factory
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
+from django_select2.forms import Select2TagWidget
+from .tags.utilities import get_all_tags_tuple
+from .choices import USA_STATES
+from django.conf.global_settings import LANGUAGES
 
 from .models import Profile, Education, WorkExperience, Address, Admissions, LawSchool, Organization, Award
 
@@ -10,6 +14,16 @@ class ProfileCreationForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model = get_user_model()
         fields = ('email',)
+
+
+class MultiSelectArrayFieldWidget(Select2TagWidget):
+    def value_from_datadict(self, data, files, name):
+        values = super().value_from_datadict(data, files, name)
+        return ",".join(values)
+
+    def optgroups(self, name, value, attrs=None):
+        value = value[0].split(',') if value[0] else []
+        return super().optgroups(name, value, attrs)
 
 
 class ProfileForm(ModelForm):
@@ -36,6 +50,7 @@ class ProfileForm(ModelForm):
                   'languages',
                   'clients',
                   'jurisdiction',
+                  'law_type_tags',
                   'bio',
                   )
 
@@ -48,6 +63,18 @@ class ProfileForm(ModelForm):
         for key, field in self.fields.items():
             field.widget.attrs.update({'class': 'form-control'})
         self.fields['bio'].widget.attrs.update({'rows': '2'})
+        self.fields['law_type_tags'].widget = MultiSelectArrayFieldWidget(
+            choices=get_all_tags_tuple(), attrs={'data-tags': False, 'class': 'form-control'}
+        )
+        self.fields['jurisdiction'].widget =  MultiSelectArrayFieldWidget(
+            choices=USA_STATES, attrs={'data-tags': False, 'class': 'form-control'}
+        )
+        self.fields['clients'].widget =  MultiSelectArrayFieldWidget(
+            attrs={'class': 'form-control'}
+        )
+        self.fields['languages'].widget =  MultiSelectArrayFieldWidget(
+            choices=LANGUAGES, attrs={'data-tags': False, 'class': 'form-control'}
+        )
 
     def save(self, commit=True):
         updated_profile = super().save(commit=False)
