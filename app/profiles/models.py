@@ -7,6 +7,7 @@ from django.contrib.staticfiles.templatetags.staticfiles import static
 import os
 
 from .choices import USA_STATES
+from profiles.tags.utilities import get_all_tags_tuple
 
 
 class Address(models.Model):
@@ -158,6 +159,10 @@ class Profile(AbstractUser):
     jurisdiction = ArrayField(
         models.CharField(max_length=2, choices=USA_STATES),
         verbose_name='Jurisdiction', blank=True, null=True
+    )
+    law_type_tags = ArrayField(
+        models.IntegerField(choices=get_all_tags_tuple()),
+        verbose_name='Law Type Tags', blank=True, null=True
     )
     headline = models.CharField(max_length=120, verbose_name='Headline', blank=True)
     website = models.URLField(verbose_name='Website URL', blank=True)
