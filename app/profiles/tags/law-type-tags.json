@@ -1,0 +1,1486 @@
+[
+  {
+    "id": 1,
+    "name": "Admiralty & Maritime",
+    "subareas": [
+      {
+        "id": 30,
+        "name": "Boating Accident"
+      },
+      {
+        "id": 31,
+        "name": "Commercial Ship Accident"
+      },
+      {
+        "id": 32,
+        "name": "Cruise Ship Accidents"
+      },
+      {
+        "id": 33,
+        "name": "Jones Act"
+      },
+      {
+        "id": 34,
+        "name": "Ship Registration"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Antitrust & Trade Regulation",
+    "subareas": [
+      {
+        "id": 35,
+        "name": "Competition Law"
+      },
+      {
+        "id": 36,
+        "name": "Trade"
+      },
+      {
+        "id": 37,
+        "name": "Unfair Competition"
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "name": "Aviation Law",
+    "subareas": [
+      {
+        "id": 38,
+        "name": "Aerospace Law"
+      },
+      {
+        "id": 39,
+        "name": "Aviation Accidents"
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "name": "Banking & Finance",
+    "subareas": [
+      {
+        "id": 40,
+        "name": "Asset Protection"
+      },
+      {
+        "id": 41,
+        "name": "Banking Law"
+      },
+      {
+        "id": 42,
+        "name": "Capital Markets"
+      },
+      {
+        "id": 43,
+        "name": "Corporate Finance"
+      },
+      {
+        "id": 44,
+        "name": "Finance"
+      },
+      {
+        "id": 45,
+        "name": "Financial Services Law"
+      },
+      {
+        "id": 46,
+        "name": "Investment Law"
+      },
+      {
+        "id": 47,
+        "name": "Private Equity"
+      },
+      {
+        "id": 48,
+        "name": "Project Finance"
+      },
+      {
+        "id": 49,
+        "name": "Public Finance"
+      },
+      {
+        "id": 50,
+        "name": "Securities"
+      },
+      {
+        "id": 51,
+        "name": "Trade Investment"
+      },
+      {
+        "id": 52,
+        "name": "Venture Capital"
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "name": "Bankruptcy",
+    "subareas": [
+      {
+        "id": 53,
+        "name": "Credit & Mortgage"
+      },
+      {
+        "id": 54,
+        "name": "Debt Relief/Restructuring"
+      },
+      {
+        "id": 55,
+        "name": "Debtor & Creditor"
+      },
+      {
+        "id": 56,
+        "name": "Insolvency"
+      },
+      {
+        "id": 57,
+        "name": "Bankruptcy Chapter 7"
+      },
+      {
+        "id": 58,
+        "name": "Bankruptcy Chapter 11"
+      },
+      {
+        "id": 59,
+        "name": "Bankruptcy Chapter 13"
+      },
+      {
+        "id": 60,
+        "name": "Commercial Bankruptcy"
+      },
+      {
+        "id": 61,
+        "name": "Consumer Bankruptcy"
+      },
+      {
+        "id": 62,
+        "name": "Consumer Bankruptcy"
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "name": "Business & Industry",
+    "subareas": [
+      {
+        "id": 63,
+        "name": "Agency & Distributorship"
+      },
+      {
+        "id": 64,
+        "name": "Business Formation"
+      },
+      {
+        "id": 65,
+        "name": "Business Law"
+      },
+      {
+        "id": 66,
+        "name": "Buying And Selling Of Businesses"
+      },
+      {
+        "id": 67,
+        "name": "Closely Held Business Law"
+      },
+      {
+        "id": 68,
+        "name": "Commercial Law"
+      },
+      {
+        "id": 69,
+        "name": "Commercial Leasing"
+      },
+      {
+        "id": 70,
+        "name": "Commercial Real Estate"
+      },
+      {
+        "id": 71,
+        "name": "Commodities"
+      },
+      {
+        "id": 72,
+        "name": "Consular Law"
+      },
+      {
+        "id": 73,
+        "name": "Contracts"
+      },
+      {
+        "id": 74,
+        "name": "Conveyancing"
+      },
+      {
+        "id": 75,
+        "name": "Corporate Governance"
+      },
+      {
+        "id": 76,
+        "name": "Corporate Law"
+      },
+      {
+        "id": 77,
+        "name": "Directors And Officers Liability"
+      },
+      {
+        "id": 78,
+        "name": "E-Commerce"
+      },
+      {
+        "id": 79,
+        "name": "Food & Beverages Law"
+      },
+      {
+        "id": 80,
+        "name": "Franchising"
+      },
+      {
+        "id": 81,
+        "name": "Industrial & Manufacturing"
+      },
+      {
+        "id": 82,
+        "name": "Initial Public Offerings"
+      },
+      {
+        "id": 83,
+        "name": "Joint Ventures"
+      },
+      {
+        "id": 84,
+        "name": "Legal Economics"
+      },
+      {
+        "id": 85,
+        "name": "Mergers & Acquisitions"
+      },
+      {
+        "id": 86,
+        "name": "Partnerships"
+      },
+      {
+        "id": 87,
+        "name": "Privatization Law"
+      },
+      {
+        "id": 88,
+        "name": "Retail"
+      },
+      {
+        "id": 89,
+        "name": "Shareholders Rights"
+      },
+      {
+        "id": 90,
+        "name": "Utilitites"
+      },
+      {
+        "id": 91,
+        "name": "Warranty Law"
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "name": "Civil Rights",
+    "subareas": [
+      {
+        "id": 92,
+        "name": "Constitutional Law"
+      },
+      {
+        "id": 93,
+        "name": "Consumer Law"
+      },
+      {
+        "id": 94,
+        "name": "Human Rights"
+      },
+      {
+        "id": 95,
+        "name": "Native Populations"
+      },
+      {
+        "id": 96,
+        "name": "Privacy Law"
+      },
+      {
+        "id": 97,
+        "name": "Police Brutality"
+      },
+      {
+        "id": 98,
+        "name": "Police Misconduct"
+      },
+      {
+        "id": 99,
+        "name": "Excessive Force"
+      },
+      {
+        "id": 100,
+        "name": "False Arrest"
+      }
+    ]
+  },
+  {
+    "id": 8,
+    "name": "Communication",
+    "subareas": [
+      {
+        "id": 101,
+        "name": "Advertising"
+      },
+      {
+        "id": 102,
+        "name": "Internet Law"
+      },
+      {
+        "id": 103,
+        "name": "Marketing Law"
+      },
+      {
+        "id": 104,
+        "name": "Media"
+      }
+    ]
+  },
+  {
+    "id": 9,
+    "name": "Criminal Law",
+    "subareas": [
+      {
+        "id": 105,
+        "name": "Arson"
+      },
+      {
+        "id": 106,
+        "name": "Assault"
+      },
+      {
+        "id": 107,
+        "name": "Bail Bonds"
+      },
+      {
+        "id": 108,
+        "name": "Battery"
+      },
+      {
+        "id": 109,
+        "name": "Bribery"
+      },
+      {
+        "id": 110,
+        "name": "Burglary"
+      },
+      {
+        "id": 111,
+        "name": "CDL Violation"
+      },
+      {
+        "id": 112,
+        "name": "Child Abuse"
+      },
+      {
+        "id": 113,
+        "name": "Child Pornography"
+      },
+      {
+        "id": 114,
+        "name": "Computer Crime/Fraud"
+      },
+      {
+        "id": 115,
+        "name": "Controlled Substances"
+      },
+      {
+        "id": 116,
+        "name": "Credit Card Fraud"
+      },
+      {
+        "id": 117,
+        "name": "Criminal Defense"
+      },
+      {
+        "id": 118,
+        "name": "Drug Crime"
+      },
+      {
+        "id": 119,
+        "name": "DUI"
+      },
+      {
+        "id": 120,
+        "name": "DWI"
+      },
+      {
+        "id": 121,
+        "name": "Embezzlement"
+      },
+      {
+        "id": 122,
+        "name": "Expungements"
+      },
+      {
+        "id": 123,
+        "name": "Felonies"
+      },
+      {
+        "id": 124,
+        "name": "Fraud"
+      },
+      {
+        "id": 125,
+        "name": "Homicide"
+      },
+      {
+        "id": 126,
+        "name": "Identity Theft"
+      },
+      {
+        "id": 127,
+        "name": "Juvenile Crime"
+      },
+      {
+        "id": 128,
+        "name": "Manslaughter"
+      },
+      {
+        "id": 129,
+        "name": "Misdemeanors"
+      },
+      {
+        "id": 130,
+        "name": "Money Laundering"
+      },
+      {
+        "id": 131,
+        "name": "Motor Vehicle Theft"
+      },
+      {
+        "id": 132,
+        "name": "Murder"
+      },
+      {
+        "id": 133,
+        "name": "Narcotics"
+      },
+      {
+        "id": 134,
+        "name": "Parole And Probation"
+      },
+      {
+        "id": 135,
+        "name": "Perjury"
+      },
+      {
+        "id": 136,
+        "name": "Prostitution"
+      },
+      {
+        "id": 137,
+        "name": "Rape"
+      },
+      {
+        "id": 138,
+        "name": "RICO"
+      },
+      {
+        "id": 139,
+        "name": "Robbery"
+      },
+      {
+        "id": 140,
+        "name": "Sex Crimes"
+      },
+      {
+        "id": 141,
+        "name": "Sexual Abuse"
+      },
+      {
+        "id": 142,
+        "name": "Shoplifting"
+      },
+      {
+        "id": 143,
+        "name": "Theft"
+      },
+      {
+        "id": 144,
+        "name": "Weapons"
+      },
+      {
+        "id": 145,
+        "name": "White Collar Crime"
+      },
+      {
+        "id": 146,
+        "name": "Wire Fraud"
+      }
+    ]
+  },
+  {
+    "id": 10,
+    "name": "Family Law",
+    "subareas": [
+      {
+        "id": 147,
+        "name": "Alimony / Spousal Support"
+      },
+      {
+        "id": 148,
+        "name": "Adoptions"
+      },
+      {
+        "id": 149,
+        "name": "Annulment"
+      },
+      {
+        "id": 150,
+        "name": "Child Abuse And Neglect"
+      },
+      {
+        "id": 151,
+        "name": "Child Custody and Visitation"
+      },
+      {
+        "id": 152,
+        "name": "Child Support"
+      },
+      {
+        "id": 153,
+        "name": "Civil Unions"
+      },
+      {
+        "id": 154,
+        "name": "Collaborative Family Law"
+      },
+      {
+        "id": 155,
+        "name": "Divorce"
+      },
+      {
+        "id": 156,
+        "name": "Domestic Partnerships"
+      },
+      {
+        "id": 157,
+        "name": "Domestic Violence/Abuse"
+      },
+      {
+        "id": 158,
+        "name": "Elder Law"
+      },
+      {
+        "id": 159,
+        "name": "Family Mediation"
+      },
+      {
+        "id": 160,
+        "name": "Guardianship And Conservatorship"
+      },
+      {
+        "id": 161,
+        "name": "Juvenile Law"
+      },
+      {
+        "id": 162,
+        "name": "Legal Separation"
+      },
+      {
+        "id": 163,
+        "name": "Paternity"
+      },
+      {
+        "id": 164,
+        "name": "Pre-nuptial Agreement"
+      },
+      {
+        "id": 165,
+        "name": "Property Division"
+      },
+      {
+        "id": 166,
+        "name": "Same Sex Marriage"
+      },
+      {
+        "id": 167,
+        "name": "Surrogacy Law"
+      }
+    ]
+  },
+  {
+    "id": 11,
+    "name": "Employment",
+    "subareas": [
+      {
+        "id": 168,
+        "name": "Discrimination"
+      },
+      {
+        "id": 169,
+        "name": "Employee Benefits"
+      },
+      {
+        "id": 170,
+        "name": "Employees Rights"
+      },
+      {
+        "id": 171,
+        "name": "Employment Contracts"
+      },
+      {
+        "id": 172,
+        "name": "Family And Medical Leave Act"
+      },
+      {
+        "id": 173,
+        "name": "ERISA"
+      },
+      {
+        "id": 174,
+        "name": "FLSA Overtime Claim"
+      },
+      {
+        "id": 175,
+        "name": "Human Resources Law"
+      },
+      {
+        "id": 176,
+        "name": "Labor and Employment"
+      },
+      {
+        "id": 177,
+        "name": "Occupational Safety And Health "
+      },
+      {
+        "id": 178,
+        "name": "Outsourcing"
+      },
+      {
+        "id": 179,
+        "name": "Qui Tam False Claims Act"
+      },
+      {
+        "id": 180,
+        "name": "Sexual Harassment"
+      },
+      {
+        "id": 181,
+        "name": "Taft-hartley Plans"
+      },
+      {
+        "id": 182,
+        "name": "Wage And Hour Law"
+      },
+      {
+        "id": 183,
+        "name": "Whistleblower Litigation"
+      },
+      {
+        "id": 184,
+        "name": "Work Permits"
+      },
+      {
+        "id": 185,
+        "name": "Workers Compensation"
+      },
+      {
+        "id": 186,
+        "name": "Wrongful Termination"
+      }
+    ]
+  },
+  {
+    "id": 12,
+    "name": "Environmental",
+    "subareas": [
+      {
+        "id": 187,
+        "name": "Agricultural Law"
+      },
+      {
+        "id": 188,
+        "name": "Animal Law"
+      },
+      {
+        "id": 189,
+        "name": "Energy"
+      },
+      {
+        "id": 190,
+        "name": "Environmental Law"
+      },
+      {
+        "id": 191,
+        "name": "Equine Law"
+      },
+      {
+        "id": 192,
+        "name": "Forestry & Fisheries"
+      },
+      {
+        "id": 193,
+        "name": "Natural Resources"
+      },
+      {
+        "id": 194,
+        "name": "Oil & Gas"
+      }
+    ]
+  },
+  {
+    "id": 13,
+    "name": "Estate Planning",
+    "subareas": [
+      {
+        "id": 195,
+        "name": "Estate & Trust"
+      },
+      {
+        "id": 196,
+        "name": "Inheritance Law"
+      },
+      {
+        "id": 197,
+        "name": "Personal Property"
+      },
+      {
+        "id": 198,
+        "name": "Probate"
+      },
+      {
+        "id": 199,
+        "name": "Will"
+      }
+    ]
+  },
+  {
+    "id": 14,
+    "name": "Ethics",
+    "subareas": [
+      {
+        "id": 200,
+        "name": "Malpractice"
+      },
+      {
+        "id": 201,
+        "name": "Professional Liability"
+      },
+      {
+        "id": 202,
+        "name": "Professional Malpractice"
+      }
+    ]
+  },
+  {
+    "id": 15,
+    "name": "Government",
+    "subareas": [
+      {
+        "id": 203,
+        "name": "Administrative Law"
+      },
+      {
+        "id": 204,
+        "name": "Case Law"
+      },
+      {
+        "id": 205,
+        "name": "Election & Political Law"
+      },
+      {
+        "id": 206,
+        "name": "Federal Law"
+      },
+      {
+        "id": 207,
+        "name": "Government Contracts"
+      },
+      {
+        "id": 208,
+        "name": "Government Investigations"
+      },
+      {
+        "id": 209,
+        "name": "Military Law"
+      },
+      {
+        "id": 210,
+        "name": "Municipal & State Law"
+      },
+      {
+        "id": 211,
+        "name": "Public Law"
+      },
+      {
+        "id": 212,
+        "name": "Regulatory Law"
+      },
+      {
+        "id": 213,
+        "name": "US Federal Courts"
+      },
+      {
+        "id": 214,
+        "name": "Veteran Benefits"
+      }
+    ]
+  },
+  {
+    "id": 16,
+    "name": "Health Care & Social",
+    "subareas": [
+      {
+        "id": 215,
+        "name": "Defective Drugs"
+      },
+      {
+        "id": 216,
+        "name": "Failure to Diagnose"
+      },
+      {
+        "id": 217,
+        "name": "Health Care"
+      },
+      {
+        "id": 218,
+        "name": "Informed Consent"
+      },
+      {
+        "id": 219,
+        "name": "Medical Law"
+      },
+      {
+        "id": 220,
+        "name": "Medical Malpractice"
+      },
+      {
+        "id": 221,
+        "name": "Medicare & Medicaid"
+      },
+      {
+        "id": 222,
+        "name": "Medication Errors"
+      },
+      {
+        "id": 223,
+        "name": "Pharmaceutical Law"
+      },
+      {
+        "id": 224,
+        "name": "Social Security"
+      },
+      {
+        "id": 225,
+        "name": "Social Security Disability"
+      },
+      {
+        "id": 226,
+        "name": "Social Services Law"
+      },
+      {
+        "id": 227,
+        "name": "Surgical Errors"
+      }
+    ]
+  },
+  {
+    "id": 17,
+    "name": "Immigration",
+    "subareas": [
+      {
+        "id": 228,
+        "name": "Asylum"
+      },
+      {
+        "id": 229,
+        "name": "Citizenship"
+      },
+      {
+        "id": 230,
+        "name": "Deportation"
+      },
+      {
+        "id": 231,
+        "name": "Extradition"
+      },
+      {
+        "id": 232,
+        "name": "Green Cards"
+      },
+      {
+        "id": 233,
+        "name": "Naturalization"
+      },
+      {
+        "id": 234,
+        "name": "Visa"
+      },
+      {
+        "id": 235,
+        "name": "Work Permit"
+      }
+    ]
+  },
+  {
+    "id": 18,
+    "name": "Insurance",
+    "subareas": [
+      {
+        "id": 236,
+        "name": "Bad Faith Insurance"
+      },
+      {
+        "id": 237,
+        "name": "Insurance Defense"
+      },
+      {
+        "id": 238,
+        "name": "Insurance Fraud"
+      },
+      {
+        "id": 239,
+        "name": "Medical Insurance"
+      },
+      {
+        "id": 240,
+        "name": "Automobile Insurance"
+      },
+      {
+        "id": 241,
+        "name": "Commercial Insurance"
+      }
+    ]
+  },
+  {
+    "id": 19,
+    "name": "Intellectual Property",
+    "subareas": [
+      {
+        "id": 242,
+        "name": "Copyright"
+      },
+      {
+        "id": 243,
+        "name": "Domain Names"
+      },
+      {
+        "id": 244,
+        "name": "Entertainment Law"
+      },
+      {
+        "id": 245,
+        "name": "Licensing Law"
+      },
+      {
+        "id": 246,
+        "name": "Patents"
+      },
+      {
+        "id": 247,
+        "name": "Trade Secrets"
+      },
+      {
+        "id": 248,
+        "name": "Trademark"
+      }
+    ]
+  },
+  {
+    "id": 20,
+    "name": "International Law",
+    "subareas": [
+      {
+        "id": 249,
+        "name": "Customs Law"
+      },
+      {
+        "id": 250,
+        "name": "European Community Law"
+      },
+      {
+        "id": 251,
+        "name": "Import & Export"
+      },
+      {
+        "id": 252,
+        "name": "International Arbitration"
+      },
+      {
+        "id": 253,
+        "name": "International Investments"
+      },
+      {
+        "id": 254,
+        "name": "International Trade"
+      },
+      {
+        "id": 255,
+        "name": "Islamic Law"
+      },
+      {
+        "id": 256,
+        "name": "Offshore Services"
+      }
+    ]
+  },
+  {
+    "id": 21,
+    "name": "Leisure",
+    "subareas": [
+      {
+        "id": 257,
+        "name": "Art & Culture"
+      },
+      {
+        "id": 258,
+        "name": "Land-based Gaming"
+      },
+      {
+        "id": 259,
+        "name": "Hospitality Law"
+      },
+      {
+        "id": 260,
+        "name": "Sports & Recreation"
+      },
+      {
+        "id": 261,
+        "name": "Tourism & Travel"
+      },
+      {
+        "id": 262,
+        "name": "Online/Internet Gaming"
+      }
+    ]
+  },
+  {
+    "id": 22,
+    "name": "Litigation",
+    "subareas": [
+      {
+        "id": 263,
+        "name": "Alternative Dispute Resolution"
+      },
+      {
+        "id": 264,
+        "name": "Appellate Practice"
+      },
+      {
+        "id": 265,
+        "name": "Arbitration"
+      },
+      {
+        "id": 266,
+        "name": "Business Litigation"
+      },
+      {
+        "id": 267,
+        "name": "Civil Litigation"
+      },
+      {
+        "id": 268,
+        "name": "Class Actions"
+      },
+      {
+        "id": 269,
+        "name": "Commercial Litigation"
+      },
+      {
+        "id": 270,
+        "name": "Complex Litigation"
+      },
+      {
+        "id": 271,
+        "name": "Construction Litigation"
+      },
+      {
+        "id": 272,
+        "name": "Corporate Litigation"
+      },
+      {
+        "id": 273,
+        "name": "Drug Litigation"
+      },
+      {
+        "id": 274,
+        "name": "Financial Litigation"
+      },
+      {
+        "id": 275,
+        "name": "Health Care Litigation"
+      },
+      {
+        "id": 276,
+        "name": "Mediation"
+      },
+      {
+        "id": 277,
+        "name": "Pharmaceutical Litigation"
+      },
+      {
+        "id": 278,
+        "name": "Product Liability Litigation"
+      }
+    ]
+  },
+  {
+    "id": 23,
+    "name": "Motor Vehicles",
+    "subareas": [
+      {
+        "id": 279,
+        "name": "Auto Dealer Fraud"
+      },
+      {
+        "id": 280,
+        "name": "Automotive"
+      },
+      {
+        "id": 281,
+        "name": "Bus Accidents"
+      },
+      {
+        "id": 282,
+        "name": "Car Accident"
+      },
+      {
+        "id": 283,
+        "name": "Lemon Law"
+      },
+      {
+        "id": 284,
+        "name": "Motor Vehicle Accidents"
+      },
+      {
+        "id": 285,
+        "name": "Motorcycle Accident"
+      },
+      {
+        "id": 286,
+        "name": "Railroad Accidents"
+      },
+      {
+        "id": 287,
+        "name": "Rollover Accident"
+      },
+      {
+        "id": 288,
+        "name": "Traffic Ticket"
+      },
+      {
+        "id": 289,
+        "name": "Transportation"
+      },
+      {
+        "id": 290,
+        "name": "Truck Accident"
+      }
+    ]
+  },
+  {
+    "id": 24,
+    "name": "Personal Injury",
+    "subareas": [
+      {
+        "id": 291,
+        "name": "Accident"
+      },
+      {
+        "id": 292,
+        "name": "Airbag Injury"
+      },
+      {
+        "id": 293,
+        "name": "Animal Bites"
+      },
+      {
+        "id": 294,
+        "name": "Asbestos Mesothelioma"
+      },
+      {
+        "id": 295,
+        "name": "Back & Neck Injury"
+      },
+      {
+        "id": 296,
+        "name": "Bicycle Accident"
+      },
+      {
+        "id": 297,
+        "name": "Birth Injury"
+      },
+      {
+        "id": 298,
+        "name": "Brain Injury"
+      },
+      {
+        "id": 299,
+        "name": "Burn Injuries"
+      },
+      {
+        "id": 300,
+        "name": "Catastrophic Injuries"
+      },
+      {
+        "id": 301,
+        "name": "Construction Accidents"
+      },
+      {
+        "id": 302,
+        "name": "Construction Injuries"
+      },
+      {
+        "id": 303,
+        "name": "Defamation, Libel & Slander"
+      },
+      {
+        "id": 304,
+        "name": "Defective Products"
+      },
+      {
+        "id": 305,
+        "name": "FELA Railroad Injuries"
+      },
+      {
+        "id": 306,
+        "name": "Food Poisoning"
+      },
+      {
+        "id": 307,
+        "name": "Head And Spinal Injuries"
+      },
+      {
+        "id": 308,
+        "name": "Industrial Injuries"
+      },
+      {
+        "id": 309,
+        "name": "Lead Poisoning"
+      },
+      {
+        "id": 310,
+        "name": "Mass Tort"
+      },
+      {
+        "id": 311,
+        "name": "Negligence"
+      },
+      {
+        "id": 312,
+        "name": "Nursing Home Abuse"
+      },
+      {
+        "id": 313,
+        "name": "Offshore Accidents"
+      },
+      {
+        "id": 314,
+        "name": "Pedestrian Accident"
+      },
+      {
+        "id": 315,
+        "name": "Premises Liability"
+      },
+      {
+        "id": 316,
+        "name": "Product Liability"
+      },
+      {
+        "id": 317,
+        "name": "Seat Belt Injury"
+      },
+      {
+        "id": 318,
+        "name": "Sinkhole Claims"
+      },
+      {
+        "id": 319,
+        "name": "Slip & Fall"
+      },
+      {
+        "id": 320,
+        "name": "Torts"
+      },
+      {
+        "id": 321,
+        "name": "Toxic Mold"
+      },
+      {
+        "id": 322,
+        "name": "Toxic Torts"
+      },
+      {
+        "id": 323,
+        "name": "Whiplash"
+      },
+      {
+        "id": 324,
+        "name": "Workplace Injuries"
+      },
+      {
+        "id": 325,
+        "name": "Wrongful Death"
+      }
+    ]
+  },
+  {
+    "id": 25,
+    "name": "Real Estate",
+    "subareas": [
+      {
+        "id": 326,
+        "name": "Affordable Housing"
+      },
+      {
+        "id": 327,
+        "name": "Commercial Real Estate"
+      },
+      {
+        "id": 328,
+        "name": "Condominium Law"
+      },
+      {
+        "id": 329,
+        "name": "Construction Law"
+      },
+      {
+        "id": 330,
+        "name": "Cooperative Housing Law"
+      },
+      {
+        "id": 331,
+        "name": "Easements"
+      },
+      {
+        "id": 332,
+        "name": "Eminent Domain"
+      },
+      {
+        "id": 333,
+        "name": "Environmental Permitting"
+      },
+      {
+        "id": 334,
+        "name": "Fair Housing"
+      },
+      {
+        "id": 335,
+        "name": "Foreclosures"
+      },
+      {
+        "id": 336,
+        "name": "Homeowners Association Law"
+      },
+      {
+        "id": 337,
+        "name": "Housing Law"
+      },
+      {
+        "id": 338,
+        "name": "Land Use & Zoning"
+      },
+      {
+        "id": 339,
+        "name": "Landlord & Tenant Law"
+      },
+      {
+        "id": 340,
+        "name": "Mortgages"
+      },
+      {
+        "id": 341,
+        "name": "Property Law"
+      },
+      {
+        "id": 342,
+        "name": "Property Management"
+      },
+      {
+        "id": 343,
+        "name": "Residential Real Estate"
+      },
+      {
+        "id": 344,
+        "name": "Resorts And Leisure"
+      }
+    ]
+  },
+  {
+    "id": 26,
+    "name": "Science & Technology",
+    "subareas": [
+      {
+        "id": 345,
+        "name": "Biotechnology"
+      },
+      {
+        "id": 346,
+        "name": "Chemical Law"
+      },
+      {
+        "id": 347,
+        "name": "Computer & Software"
+      },
+      {
+        "id": 348,
+        "name": "Data Privacy"
+      },
+      {
+        "id": 349,
+        "name": "Data Protection"
+      },
+      {
+        "id": 350,
+        "name": "Data Regulation"
+      },
+      {
+        "id": 351,
+        "name": "Information Technology"
+      },
+      {
+        "id": 352,
+        "name": "Research & Development"
+      },
+      {
+        "id": 353,
+        "name": "Telecommunications Law"
+      }
+    ]
+  },
+  {
+    "id": 27,
+    "name": "Tax",
+    "subareas": [
+      {
+        "id": 354,
+        "name": "Corporate/Business Taxation"
+      },
+      {
+        "id": 355,
+        "name": "Property Tax"
+      },
+      {
+        "id": 356,
+        "name": "Tax Audits"
+      },
+      {
+        "id": 357,
+        "name": "Tax Planning"
+      }
+    ]
+  },
+  {
+    "id": 28,
+    "name": "Education Law",
+    "subareas": []
+  },
+  {
+    "id": 29,
+    "name": "General Practice",
+    "subareas": []
+  }
+]
