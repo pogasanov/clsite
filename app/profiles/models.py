@@ -3,6 +3,7 @@ from django.contrib.postgres.fields import ArrayField, DateRangeField
 from django.conf import settings, global_settings
 from clsite.storage_backends import variativeStorage
 from django.contrib.auth.models import AbstractUser, BaseUserManager
+from django.contrib.staticfiles.templatetags.staticfiles import static
 import os
 
 from .choices import USA_STATES
@@ -132,8 +133,8 @@ class Profile(AbstractUser):
     email = models.EmailField(verbose_name='Email address', unique=True)
 
     phone = models.CharField(max_length=20, verbose_name='Contact Number (Office)', blank=True)
-    photo = models.ImageField(upload_to=get_image_path, default='dummy-img.png', storage=variativeStorage(),
-                              verbose_name='Profile Picture')
+    photo = models.ImageField(upload_to=get_image_path, storage=variativeStorage(), verbose_name='Profile Picture',
+                              blank=True, null=True)
     bio = models.TextField(verbose_name='Overview (Bio)', blank=True)
     experience = models.CharField(max_length=100, verbose_name='Years of Practice/Experience', blank=True)
     current_job = models.CharField(max_length=200, verbose_name='Current Job/Affiliation/Law Firm', blank=True)
@@ -174,3 +175,8 @@ class Profile(AbstractUser):
         if not self.handle:
             self.handle = self.email.split('@')[0] + str(self.id)
             self.save(*args, **kwargs)
+
+    def photo_url_or_default(self):
+        if self.photo:
+            return self.photo.url
+        return static('dummy-img.png')

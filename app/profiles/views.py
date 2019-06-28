@@ -97,11 +97,12 @@ def profile(request, handle=None):
 
 
 def update_user_profile_photo(user, photo):
-    photo_storage = user.photo.storage
-    # remove previous photo
-    previous_photo = user.photo.name
-    if photo_storage.exists(previous_photo) and previous_photo != "dummy-img.png":
-        photo_storage.delete(previous_photo)
+    if user.photo:
+        # remove previous photo
+        photo_storage = user.photo.storage
+        previous_photo = user.photo.name
+        if photo_storage.exists(previous_photo):
+            photo_storage.delete(previous_photo)
 
     user.photo = photo
     user.save()
