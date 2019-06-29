@@ -75,6 +75,17 @@ $(document).ready(function() {
         }
     }
 
+    function appendToErrorDetail(errorDiv, errorTitle, errorDescription){
+        let errorTitleDiv = document.createElement("div");
+        let errorDescriptionDiv = document.createElement("div");
+        errorTitleDiv.classList.add('col-md-3');
+        errorDescriptionDiv.classList.add('col-md-9');
+        errorTitleDiv.innerText = "[" + errorTitle + "]";
+        errorTitleDiv.style.color = "red";
+        errorDescriptionDiv.innerText = errorDescription;
+        errorDiv.appendChild(errorTitleDiv);
+        errorDiv.appendChild(errorDescriptionDiv);
+    }
 
     $('.profile-form').on('submit', function (event) {
         event.preventDefault();
@@ -86,6 +97,26 @@ $(document).ready(function() {
             cache: false,
             processData: false,
             success: function (resp) {
+                document.getElementById("response-message").textContent= resp["message"];
+            },
+            error: function(resp) {
+                let errorsDetailDiv = document.getElementById("response-details");
+                while(errorsDetailDiv.hasChildNodes()) {errorsDetailDiv.removeChild(errorsDetailDiv.lastChild);}
+                for(let key in resp["responseJSON"]){
+                    if(resp["responseJSON"][key] !== undefined){
+                        if(Object.prototype.toString.call(resp["responseJSON"][key]) == "[object Array]"){
+                            if(resp["responseJSON"][key].length !== 0 && Object.keys(resp["responseJSON"][key][0]).length !== 0){
+                                appendToErrorDetail(errorsDetailDiv, key, JSON.stringify(resp["responseJSON"][key][0]));
+                            }
+                        }else if(Object.prototype.toString.call(resp["responseJSON"][key]) == "[object Object]"){
+                            if(Object.keys(resp["responseJSON"][key]).length !== 0){
+                                for(let errorTitle in resp["responseJSON"][key]){
+                                    appendToErrorDetail(errorsDetailDiv, errorTitle, resp["responseJSON"][key][errorTitle]);
+                                }
+                            }
+                        }
+                    }
+                }
                 document.getElementById("response-message").textContent= resp["message"];
             }
         });
