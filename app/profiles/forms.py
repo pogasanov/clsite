@@ -22,7 +22,7 @@ class MultiSelectArrayFieldWidget(Select2TagWidget):
         return ",".join(values)
 
     def optgroups(self, name, value, attrs=None):
-        value = value[0].split(',') if value[0] else []
+        value = value[0].split(',') if value else []
         return super().optgroups(name, value, attrs)
 
 
