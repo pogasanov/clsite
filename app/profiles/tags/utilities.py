@@ -1,5 +1,4 @@
 import json
-import argparse
 
 
 def read_json(path):
@@ -21,7 +20,7 @@ def get_all_tags_tuple(file_path='app/profiles/tags/law-type-tags.json'):
     for area in tags_dict:
         if area.get("subareas") != None:
             subarea_list = area.pop("subareas")
-            area_tuple = (area['name'], tuple([tuple(subarea.values()) for subarea in subarea_list]))
+            area_tuple = (area['name'], tuple([(subarea['name'], subarea['name']) for subarea in subarea_list]))
             result_list.append(area_tuple)
     return tuple(result_list)
 
@@ -81,23 +80,3 @@ def add_subarea(subarea_name, parent_id, file_path='app/profiles/tags/law-type-t
 
             return True
     return False
-
-
-if __name__=='__main__':
-    parser = argparse.ArgumentParser("law_type_tags")
-    parser.add_argument('--operation', choices=['add-area', 'add-subarea'], type=str, help="Name of Operation.")
-    parser.add_argument('--name', type=str, help="Name of Area or SubArea you want to add.")
-    parser.add_argument('--parent', type=int, help="Id of parent Area.")
-    args = parser.parse_args()
-    if args.operation == "add-area":
-        if not args.name:
-            print("Please add a value for Area Name(--name).")
-        else:
-            success = add_area(args.name)
-            print("A new area has been added successfully." if success else "Error occurred while adding area.")
-    elif args.operation == "add-subarea":
-        if not args.name or not args.parent:
-            print("Please add a value for SubArea Name(--name) and SubArea Parent Id(--parent).")
-        else:
-            success = add_subarea(args.name, args.parent)
-            print("A new subarea has been added successfully" if success else "No match found for parent id.")
