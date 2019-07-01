@@ -226,25 +226,16 @@ All tests requires `@override_settings(STATICFILES_STORAGE='django.contrib.stati
 decorator to be set for each test class or `python manage.py collectstatic`. Otherwise it will fail because there is no whitenoise manifest.  
 More info can be found in this [SO question](https://stackoverflow.com/questions/44160666/valueerror-missing-staticfiles-manifest-entry-for-favicon-ico)
 
+## Manipulating law-type-tag ontology:
+You can manipulate the law-type-tags ontology by editing this json file: `profiles/tags/law-type-tag.json`.
+
+Every tag has a name and a subarea, at this time we are supporting two levels only. 
+
 ## Further Reading
 
-###### To update `Pipfile.lock`:
+To update `Pipfile.lock`:
 ```
 pipenv lock
-```
-
-###### To update law-type-tag DAG `profiles/tags/law-type-tag.json`:
-In order to add a new AREA, use this command:
-```
-python app/profiles/tags/utilities.py --operation=add-area --name=AREA_NAME
-```
-In order to add a new SUBAREA, use this command:
-```
-python app/profiles/tags/utilities.py --operation=add-subarea --name=AREA_NAME --parent=PARENT_AREA_ID
-```
-For more detail on argument types use:
-```
-python app/profiles/tags/utilities.py --help
 ```
 
 - [pipenv](https://docs.pipenv.org/en/latest/)
