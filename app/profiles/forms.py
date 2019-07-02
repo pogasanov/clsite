@@ -35,6 +35,7 @@ class ProfileForm(ModelForm):
         fields = ('first_name',
                   'last_name',
                   'headline',
+                  'summary',
                   'experience',
                   'current_job',
                   'website',
