@@ -1,4 +1,6 @@
 import json
+import os
+from clsite.settings import BASE_DIR
 
 
 def read_json(path):
@@ -11,7 +13,7 @@ def read_json(path):
         return data
 
 
-def get_all_tags_tuple(file_path='app/profiles/lawtypetags/law-type-tags-ontology.json'):
+def get_all_tags_tuple(file_path= os.path.join(BASE_DIR, 'profiles/lawtypetags/law-type-tags-ontology.json')):
     """
     Returns all the law type tags present in law-type-tags-ontology.json file in the form of choices readable tuple.
     """
@@ -19,8 +21,15 @@ def get_all_tags_tuple(file_path='app/profiles/lawtypetags/law-type-tags-ontolog
     result_list = []
     for area in tags_dict:
         if area.get("subareas") != None:
-            subarea_list = area.pop("subareas")  #only extracts two levels of ontology
-            area_tuple = (area['name'], tuple([(subarea['name'], subarea['name']) for subarea in subarea_list]))
+            subarea_list = area.pop("subareas")
+            subarea_names_list = []
+            for subarea in subarea_list:
+                subarea_names_list.append((subarea['name'], subarea['name']))
+                # throw value error if ontology exceeds two levels
+                if subarea.get('subareas'):
+                    raise ValueError("Only two levels are allowed in law-tag-type-ontology.json")
+
+            area_tuple = (area['name'], tuple(subarea_names_list))
             result_list.append(area_tuple)
     return tuple(result_list)
 
