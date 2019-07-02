@@ -70,7 +70,7 @@ class ProfileForm(ModelForm):
             choices=USA_STATES, attrs={'data-tags': False, 'class': 'form-control'}
         )
         self.fields['clients'].widget =  MultiSelectArrayFieldWidget(
-            attrs={'class': 'form-control'}
+            attrs={'class': 'form-control', 'data-token-separators': [',']}
         )
         self.fields['languages'].widget =  MultiSelectArrayFieldWidget(
             choices=LANGUAGES, attrs={'data-tags': False, 'class': 'form-control'}
