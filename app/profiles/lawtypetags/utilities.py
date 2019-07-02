@@ -13,7 +13,7 @@ def read_json(path):
 
 def get_all_tags_tuple(file_path='app/profiles/lawtypetags/law-type-tags-ontology.json'):
     """
-    Returns all the tags present in json file in the form of model choices readable tuple.
+    Returns all the law type tags present in law-type-tags-ontology.json file in the form of choices readable tuple.
     """
     tags_dict = read_json(file_path)
     result_list = []
