@@ -226,6 +226,11 @@ All tests requires `@override_settings(STATICFILES_STORAGE='django.contrib.stati
 decorator to be set for each test class or `python manage.py collectstatic`. Otherwise it will fail because there is no whitenoise manifest.  
 More info can be found in this [SO question](https://stackoverflow.com/questions/44160666/valueerror-missing-staticfiles-manifest-entry-for-favicon-ico)
 
+## Manipulating law-type-tag ontology:
+You can manipulate the law-type-tags ontology by editing this json file: `profiles/tags/law-type-tag.json`.
+
+Every tag has a name and a subarea, at this time we are supporting two levels only. 
+
 ## Further Reading
 
 To update `Pipfile.lock`:

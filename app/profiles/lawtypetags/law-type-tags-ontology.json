@@ -1,0 +1,1457 @@
+[
+  {
+    "name": "Admiralty & Maritime",
+    "subareas": [
+      {
+        "name": "Boating Accident",
+        "subareas": []
+      },
+      {
+        "name": "Commercial Ship Accident",
+        "subareas": []
+      },
+      {
+        "name": "Cruise Ship Accidents",
+        "subareas": []
+      },
+      {
+        "name": "Jones Act",
+        "subareas": []
+      },
+      {
+        "name": "Ship Registration",
+        "subareas": []
+      }
+    ]
+  },
+  {
+    "name": "Antitrust & Trade Regulation",
+    "subareas": [
+      {
+        "name": "Competition Law",
+        "subareas": []
+      },
+      {
+        "name": "Trade",
+        "subareas": []
+      },
+      {
+        "name": "Unfair Competition",
+        "subareas": []
+      }
+    ]
+  },
+  {
+    "name": "Aviation Law",
+    "subareas": [
+      {
+        "name": "Aerospace Law",
+        "subareas": []
+      },
+      {
+        "name": "Aviation Accidents",
+        "subareas": []
+      }
+    ]
+  },
+  {
+    "name": "Banking & Finance",
+    "subareas": [
+      {
+        "name": "Asset Protection",
+        "subareas": []
+      },
+      {
+        "name": "Banking Law",
+        "subareas": []
+      },
+      {
+        "name": "Capital Markets",
+        "subareas": []
+      },
+      {
+        "name": "Corporate Finance",
+        "subareas": []
+      },
+      {
+        "name": "Finance",
+        "subareas": []
+      },
+      {
+        "name": "Financial Services Law",
+        "subareas": []
+      },
+      {
+        "name": "Investment Law",
+        "subareas": []
+      },
+      {
+        "name": "Private Equity",
+        "subareas": []
+      },
+      {
+        "name": "Project Finance",
+        "subareas": []
+      },
+      {
+        "name": "Public Finance",
+        "subareas": []
+      },
+      {
+        "name": "Securities",
+        "subareas": []
+      },
+      {
+        "name": "Trade Investment",
+        "subareas": []
+      },
+      {
+        "name": "Venture Capital",
+        "subareas": []
+      }
+    ]
+  },
+  {
+    "name": "Bankruptcy",
+    "subareas": [
+      {
+        "name": "Credit & Mortgage",
+        "subareas": []
+      },
+      {
+        "name": "Debt Relief/Restructuring",
+        "subareas": []
+      },
+      {
+        "name": "Debtor & Creditor",
+        "subareas": []
+      },
+      {
+        "name": "Insolvency",
+        "subareas": []
+      },
+      {
+        "name": "Bankruptcy Chapter 7",
+        "subareas": []
+      },
+      {
+        "name": "Bankruptcy Chapter 11",
+        "subareas": []
+      },
+      {
+        "name": "Bankruptcy Chapter 13",
+        "subareas": []
+      },
+      {
+        "name": "Commercial Bankruptcy",
+        "subareas": []
+      },
+      {
+        "name": "Consumer Bankruptcy",
+        "subareas": []
+      },
+      {
+        "name": "Consumer Bankruptcy",
+        "subareas": []
+      }
+    ]
+  },
+  {
+    "name": "Business & Industry",
+    "subareas": [
+      {
+        "name": "Agency & Distributorship",
+        "subareas": []
+      },
+      {
+        "name": "Business Formation",
+        "subareas": []
+      },
+      {
+        "name": "Business Law",
+        "subareas": []
+      },
+      {
+        "name": "Buying And Selling Of Businesses",
+        "subareas": []
+      },
+      {
+        "name": "Closely Held Business Law",
+        "subareas": []
+      },
+      {
+        "name": "Commercial Law",
+        "subareas": []
+      },
+      {
+        "name": "Commercial Leasing",
+        "subareas": []
+      },
+      {
+        "name": "Commercial Real Estate",
+        "subareas": []
+      },
+      {
+        "name": "Commodities",
+        "subareas": []
+      },
+      {
+        "name": "Consular Law",
+        "subareas": []
+      },
+      {
+        "name": "Contracts",
+        "subareas": []
+      },
+      {
+        "name": "Conveyancing",
+        "subareas": []
+      },
+      {
+        "name": "Corporate Governance",
+        "subareas": []
+      },
+      {
+        "name": "Corporate Law",
+        "subareas": []
+      },
+      {
+        "name": "Directors And Officers Liability",
+        "subareas": []
+      },
+      {
+        "name": "E-Commerce",
+        "subareas": []
+      },
+      {
+        "name": "Food & Beverages Law",
+        "subareas": []
+      },
+      {
+        "name": "Franchising",
+        "subareas": []
+      },
+      {
+        "name": "Industrial & Manufacturing",
+        "subareas": []
+      },
+      {
+        "name": "Initial Public Offerings",
+        "subareas": []
+      },
+      {
+        "name": "Joint Ventures",
+        "subareas": []
+      },
+      {
+        "name": "Legal Economics",
+        "subareas": []
+      },
+      {
+        "name": "Mergers & Acquisitions",
+        "subareas": []
+      },
+      {
+        "name": "Partnerships",
+        "subareas": []
+      },
+      {
+        "name": "Privatization Law",
+        "subareas": []
+      },
+      {
+        "name": "Retail",
+        "subareas": []
+      },
+      {
+        "name": "Shareholders Rights",
+        "subareas": []
+      },
+      {
+        "name": "Utilitites",
+        "subareas": []
+      },
+      {
+        "name": "Warranty Law",
+        "subareas": []
+      }
+    ]
+  },
+  {
+    "name": "Civil Rights",
+    "subareas": [
+      {
+        "name": "Constitutional Law",
+        "subareas": []
+      },
+      {
+        "name": "Consumer Law",
+        "subareas": []
+      },
+      {
+        "name": "Human Rights",
+        "subareas": []
+      },
+      {
+        "name": "Native Populations",
+        "subareas": []
+      },
+      {
+        "name": "Privacy Law",
+        "subareas": []
+      },
+      {
+        "name": "Police Brutality",
+        "subareas": []
+      },
+      {
+        "name": "Police Misconduct",
+        "subareas": []
+      },
+      {
+        "name": "Excessive Force",
+        "subareas": []
+      },
+      {
+        "name": "False Arrest",
+        "subareas": []
+      }
+    ]
+  },
+  {
+    "name": "Communication",
+    "subareas": [
+      {
+        "name": "Advertising",
+        "subareas": []
+      },
+      {
+        "name": "Internet Law",
+        "subareas": []
+      },
+      {
+        "name": "Marketing Law",
+        "subareas": []
+      },
+      {
+        "name": "Media",
+        "subareas": []
+      }
+    ]
+  },
+  {
+    "name": "Criminal Law",
+    "subareas": [
+      {
+        "name": "Arson",
+        "subareas": []
+      },
+      {
+        "name": "Assault",
+        "subareas": []
+      },
+      {
+        "name": "Bail Bonds",
+        "subareas": []
+      },
+      {
+        "name": "Battery",
+        "subareas": []
+      },
+      {
+        "name": "Bribery",
+        "subareas": []
+      },
+      {
+        "name": "Burglary",
+        "subareas": []
+      },
+      {
+        "name": "CDL Violation",
+        "subareas": []
+      },
+      {
+        "name": "Child Abuse",
+        "subareas": []
+      },
+      {
+        "name": "Child Pornography",
+        "subareas": []
+      },
+      {
+        "name": "Computer Crime/Fraud",
+        "subareas": []
+      },
+      {
+        "name": "Controlled Substances",
+        "subareas": []
+      },
+      {
+        "name": "Credit Card Fraud",
+        "subareas": []
+      },
+      {
+        "name": "Criminal Defense",
+        "subareas": []
+      },
+      {
+        "name": "Drug Crime",
+        "subareas": []
+      },
+      {
+        "name": "DUI",
+        "subareas": []
+      },
+      {
+        "name": "DWI",
+        "subareas": []
+      },
+      {
+        "name": "Embezzlement",
+        "subareas": []
+      },
+      {
+        "name": "Expungements",
+        "subareas": []
+      },
+      {
+        "name": "Felonies",
+        "subareas": []
+      },
+      {
+        "name": "Fraud",
+        "subareas": []
+      },
+      {
+        "name": "Homicide",
+        "subareas": []
+      },
+      {
+        "name": "Identity Theft",
+        "subareas": []
+      },
+      {
+        "name": "Juvenile Crime",
+        "subareas": []
+      },
+      {
+        "name": "Manslaughter",
+        "subareas": []
+      },
+      {
+        "name": "Misdemeanors",
+        "subareas": []
+      },
+      {
+        "name": "Money Laundering",
+        "subareas": []
+      },
+      {
+        "name": "Motor Vehicle Theft",
+        "subareas": []
+      },
+      {
+        "name": "Murder",
+        "subareas": []
+      },
+      {
+        "name": "Narcotics",
+        "subareas": []
+      },
+      {
+        "name": "Parole And Probation",
+        "subareas": []
+      },
+      {
+        "name": "Perjury",
+        "subareas": []
+      },
+      {
+        "name": "Prostitution",
+        "subareas": []
+      },
+      {
+        "name": "Rape",
+        "subareas": []
+      },
+      {
+        "name": "RICO",
+        "subareas": []
+      },
+      {
+        "name": "Robbery",
+        "subareas": []
+      },
+      {
+        "name": "Sex Crimes",
+        "subareas": []
+      },
+      {
+        "name": "Sexual Abuse",
+        "subareas": []
+      },
+      {
+        "name": "Shoplifting",
+        "subareas": []
+      },
+      {
+        "name": "Theft",
+        "subareas": []
+      },
+      {
+        "name": "Weapons",
+        "subareas": []
+      },
+      {
+        "name": "White Collar Crime",
+        "subareas": []
+      },
+      {
+        "name": "Wire Fraud",
+        "subareas": []
+      }
+    ]
+  },
+  {
+    "name": "Family Law",
+    "subareas": [
+      {
+        "name": "Alimony / Spousal Support",
+        "subareas": []
+      },
+      {
+        "name": "Adoptions",
+        "subareas": []
+      },
+      {
+        "name": "Annulment",
+        "subareas": []
+      },
+      {
+        "name": "Child Abuse And Neglect",
+        "subareas": []
+      },
+      {
+        "name": "Child Custody and Visitation",
+        "subareas": []
+      },
+      {
+        "name": "Child Support",
+        "subareas": []
+      },
+      {
+        "name": "Civil Unions",
+        "subareas": []
+      },
+      {
+        "name": "Collaborative Family Law",
+        "subareas": []
+      },
+      {
+        "name": "Divorce",
+        "subareas": []
+      },
+      {
+        "name": "Domestic Partnerships",
+        "subareas": []
+      },
+      {
+        "name": "Domestic Violence/Abuse",
+        "subareas": []
+      },
+      {
+        "name": "Elder Law",
+        "subareas": []
+      },
+      {
+        "name": "Family Mediation",
+        "subareas": []
+      },
+      {
+        "name": "Guardianship And Conservatorship",
+        "subareas": []
+      },
+      {
+        "name": "Juvenile Law",
+        "subareas": []
+      },
+      {
+        "name": "Legal Separation",
+        "subareas": []
+      },
+      {
+        "name": "Paternity",
+        "subareas": []
+      },
+      {
+        "name": "Pre-nuptial Agreement",
+        "subareas": []
+      },
+      {
+        "name": "Property Division",
+        "subareas": []
+      },
+      {
+        "name": "Same Sex Marriage",
+        "subareas": []
+      },
+      {
+        "name": "Surrogacy Law",
+        "subareas": []
+      }
+    ]
+  },
+  {
+    "name": "Employment",
+    "subareas": [
+      {
+        "name": "Discrimination",
+        "subareas": []
+      },
+      {
+        "name": "Employee Benefits",
+        "subareas": []
+      },
+      {
+        "name": "Employees Rights",
+        "subareas": []
+      },
+      {
+        "name": "Employment Contracts",
+        "subareas": []
+      },
+      {
+        "name": "Family And Medical Leave Act",
+        "subareas": []
+      },
+      {
+        "name": "ERISA",
+        "subareas": []
+      },
+      {
+        "name": "FLSA Overtime Claim",
+        "subareas": []
+      },
+      {
+        "name": "Human Resources Law",
+        "subareas": []
+      },
+      {
+        "name": "Labor and Employment",
+        "subareas": []
+      },
+      {
+        "name": "Occupational Safety And Health ",
+        "subareas": []
+      },
+      {
+        "name": "Outsourcing",
+        "subareas": []
+      },
+      {
+        "name": "Qui Tam False Claims Act",
+        "subareas": []
+      },
+      {
+        "name": "Sexual Harassment",
+        "subareas": []
+      },
+      {
+        "name": "Taft-hartley Plans",
+        "subareas": []
+      },
+      {
+        "name": "Wage And Hour Law",
+        "subareas": []
+      },
+      {
+        "name": "Whistleblower Litigation",
+        "subareas": []
+      },
+      {
+        "name": "Work Permits",
+        "subareas": []
+      },
+      {
+        "name": "Workers Compensation",
+        "subareas": []
+      },
+      {
+        "name": "Wrongful Termination",
+        "subareas": []
+      }
+    ]
+  },
+  {
+    "name": "Environmental",
+    "subareas": [
+      {
+        "name": "Agricultural Law",
+        "subareas": []
+      },
+      {
+        "name": "Animal Law",
+        "subareas": []
+      },
+      {
+        "name": "Energy",
+        "subareas": []
+      },
+      {
+        "name": "Environmental Law",
+        "subareas": []
+      },
+      {
+        "name": "Equine Law",
+        "subareas": []
+      },
+      {
+        "name": "Forestry & Fisheries",
+        "subareas": []
+      },
+      {
+        "name": "Natural Resources",
+        "subareas": []
+      },
+      {
+        "name": "Oil & Gas",
+        "subareas": []
+      }
+    ]
+  },
+  {
+    "name": "Estate Planning",
+    "subareas": [
+      {
+        "name": "Estate & Trust",
+        "subareas": []
+      },
+      {
+        "name": "Inheritance Law",
+        "subareas": []
+      },
+      {
+        "name": "Personal Property",
+        "subareas": []
+      },
+      {
+        "name": "Probate",
+        "subareas": []
+      },
+      {
+        "name": "Will",
+        "subareas": []
+      }
+    ]
+  },
+  {
+    "name": "Ethics",
+    "subareas": [
+      {
+        "name": "Malpractice",
+        "subareas": []
+      },
+      {
+        "name": "Professional Liability",
+        "subareas": []
+      },
+      {
+        "name": "Professional Malpractice",
+        "subareas": []
+      }
+    ]
+  },
+  {
+    "name": "Government",
+    "subareas": [
+      {
+        "name": "Administrative Law",
+        "subareas": []
+      },
+      {
+        "name": "Case Law",
+        "subareas": []
+      },
+      {
+        "name": "Election & Political Law",
+        "subareas": []
+      },
+      {
+        "name": "Federal Law",
+        "subareas": []
+      },
+      {
+        "name": "Government Contracts",
+        "subareas": []
+      },
+      {
+        "name": "Government Investigations",
+        "subareas": []
+      },
+      {
+        "name": "Military Law",
+        "subareas": []
+      },
+      {
+        "name": "Municipal & State Law",
+        "subareas": []
+      },
+      {
+        "name": "Public Law",
+        "subareas": []
+      },
+      {
+        "name": "Regulatory Law",
+        "subareas": []
+      },
+      {
+        "name": "US Federal Courts",
+        "subareas": []
+      },
+      {
+        "name": "Veteran Benefits",
+        "subareas": []
+      }
+    ]
+  },
+  {
+    "name": "Health Care & Social",
+    "subareas": [
+      {
+        "name": "Defective Drugs",
+        "subareas": []
+      },
+      {
+        "name": "Failure to Diagnose",
+        "subareas": []
+      },
+      {
+        "name": "Health Care",
+        "subareas": []
+      },
+      {
+        "name": "Informed Consent",
+        "subareas": []
+      },
+      {
+        "name": "Medical Law",
+        "subareas": []
+      },
+      {
+        "name": "Medical Malpractice",
+        "subareas": []
+      },
+      {
+        "name": "Medicare & Medicaid",
+        "subareas": []
+      },
+      {
+        "name": "Medication Errors",
+        "subareas": []
+      },
+      {
+        "name": "Pharmaceutical Law",
+        "subareas": []
+      },
+      {
+        "name": "Social Security",
+        "subareas": []
+      },
+      {
+        "name": "Social Security Disability",
+        "subareas": []
+      },
+      {
+        "name": "Social Services Law",
+        "subareas": []
+      },
+      {
+        "name": "Surgical Errors",
+        "subareas": []
+      }
+    ]
+  },
+  {
+    "name": "Immigration",
+    "subareas": [
+      {
+        "name": "Asylum",
+        "subareas": []
+      },
+      {
+        "name": "Citizenship",
+        "subareas": []
+      },
+      {
+        "name": "Deportation",
+        "subareas": []
+      },
+      {
+        "name": "Extradition",
+        "subareas": []
+      },
+      {
+        "name": "Green Cards",
+        "subareas": []
+      },
+      {
+        "name": "Naturalization",
+        "subareas": []
+      },
+      {
+        "name": "Visa",
+        "subareas": []
+      },
+      {
+        "name": "Work Permit",
+        "subareas": []
+      }
+    ]
+  },
+  {
+    "name": "Insurance",
+    "subareas": [
+      {
+        "name": "Bad Faith Insurance",
+        "subareas": []
+      },
+      {
+        "name": "Insurance Defense",
+        "subareas": []
+      },
+      {
+        "name": "Insurance Fraud",
+        "subareas": []
+      },
+      {
+        "name": "Medical Insurance",
+        "subareas": []
+      },
+      {
+        "name": "Automobile Insurance",
+        "subareas": []
+      },
+      {
+        "name": "Commercial Insurance",
+        "subareas": []
+      }
+    ]
+  },
+  {
+    "name": "Intellectual Property",
+    "subareas": [
+      {
+        "name": "Copyright",
+        "subareas": []
+      },
+      {
+        "name": "Domain Names",
+        "subareas": []
+      },
+      {
+        "name": "Entertainment Law",
+        "subareas": []
+      },
+      {
+        "name": "Licensing Law",
+        "subareas": []
+      },
+      {
+        "name": "Patents",
+        "subareas": []
+      },
+      {
+        "name": "Trade Secrets",
+        "subareas": []
+      },
+      {
+        "name": "Trademark",
+        "subareas": []
+      }
+    ]
+  },
+  {
+    "name": "International Law",
+    "subareas": [
+      {
+        "name": "Customs Law",
+        "subareas": []
+      },
+      {
+        "name": "European Community Law",
+        "subareas": []
+      },
+      {
+        "name": "Import & Export",
+        "subareas": []
+      },
+      {
+        "name": "International Arbitration",
+        "subareas": []
+      },
+      {
+        "name": "International Investments",
+        "subareas": []
+      },
+      {
+        "name": "International Trade",
+        "subareas": []
+      },
+      {
+        "name": "Islamic Law",
+        "subareas": []
+      },
+      {
+        "name": "Offshore Services",
+        "subareas": []
+      }
+    ]
+  },
+  {
+    "name": "Leisure",
+    "subareas": [
+      {
+        "name": "Art & Culture",
+        "subareas": []
+      },
+      {
+        "name": "Land-based Gaming",
+        "subareas": []
+      },
+      {
+        "name": "Hospitality Law",
+        "subareas": []
+      },
+      {
+        "name": "Sports & Recreation",
+        "subareas": []
+      },
+      {
+        "name": "Tourism & Travel",
+        "subareas": []
+      },
+      {
+        "name": "Online/Internet Gaming",
+        "subareas": []
+      }
+    ]
+  },
+  {
+    "name": "Litigation",
+    "subareas": [
+      {
+        "name": "Alternative Dispute Resolution",
+        "subareas": []
+      },
+      {
+        "name": "Appellate Practice",
+        "subareas": []
+      },
+      {
+        "name": "Arbitration",
+        "subareas": []
+      },
+      {
+        "name": "Business Litigation",
+        "subareas": []
+      },
+      {
+        "name": "Civil Litigation",
+        "subareas": []
+      },
+      {
+        "name": "Class Actions",
+        "subareas": []
+      },
+      {
+        "name": "Commercial Litigation",
+        "subareas": []
+      },
+      {
+        "name": "Complex Litigation",
+        "subareas": []
+      },
+      {
+        "name": "Construction Litigation",
+        "subareas": []
+      },
+      {
+        "name": "Corporate Litigation",
+        "subareas": []
+      },
+      {
+        "name": "Drug Litigation",
+        "subareas": []
+      },
+      {
+        "name": "Financial Litigation",
+        "subareas": []
+      },
+      {
+        "name": "Health Care Litigation",
+        "subareas": []
+      },
+      {
+        "name": "Mediation",
+        "subareas": []
+      },
+      {
+        "name": "Pharmaceutical Litigation",
+        "subareas": []
+      },
+      {
+        "name": "Product Liability Litigation",
+        "subareas": []
+      }
+    ]
+  },
+  {
+    "name": "Motor Vehicles",
+    "subareas": [
+      {
+        "name": "Auto Dealer Fraud",
+        "subareas": []
+      },
+      {
+        "name": "Automotive",
+        "subareas": []
+      },
+      {
+        "name": "Bus Accidents",
+        "subareas": []
+      },
+      {
+        "name": "Car Accident",
+        "subareas": []
+      },
+      {
+        "name": "Lemon Law",
+        "subareas": []
+      },
+      {
+        "name": "Motor Vehicle Accidents",
+        "subareas": []
+      },
+      {
+        "name": "Motorcycle Accident",
+        "subareas": []
+      },
+      {
+        "name": "Railroad Accidents",
+        "subareas": []
+      },
+      {
+        "name": "Rollover Accident",
+        "subareas": []
+      },
+      {
+        "name": "Traffic Ticket",
+        "subareas": []
+      },
+      {
+        "name": "Transportation",
+        "subareas": []
+      },
+      {
+        "name": "Truck Accident",
+        "subareas": []
+      }
+    ]
+  },
+  {
+    "name": "Personal Injury",
+    "subareas": [
+      {
+        "name": "Accident",
+        "subareas": []
+      },
+      {
+        "name": "Airbag Injury",
+        "subareas": []
+      },
+      {
+        "name": "Animal Bites",
+        "subareas": []
+      },
+      {
+        "name": "Asbestos Mesothelioma",
+        "subareas": []
+      },
+      {
+        "name": "Back & Neck Injury",
+        "subareas": []
+      },
+      {
+        "name": "Bicycle Accident",
+        "subareas": []
+      },
+      {
+        "name": "Birth Injury",
+        "subareas": []
+      },
+      {
+        "name": "Brain Injury",
+        "subareas": []
+      },
+      {
+        "name": "Burn Injuries",
+        "subareas": []
+      },
+      {
+        "name": "Catastrophic Injuries",
+        "subareas": []
+      },
+      {
+        "name": "Construction Accidents",
+        "subareas": []
+      },
+      {
+        "name": "Construction Injuries",
+        "subareas": []
+      },
+      {
+        "name": "Defamation, Libel & Slander",
+        "subareas": []
+      },
+      {
+        "name": "Defective Products",
+        "subareas": []
+      },
+      {
+        "name": "FELA Railroad Injuries",
+        "subareas": []
+      },
+      {
+        "name": "Food Poisoning",
+        "subareas": []
+      },
+      {
+        "name": "Head And Spinal Injuries",
+        "subareas": []
+      },
+      {
+        "name": "Industrial Injuries",
+        "subareas": []
+      },
+      {
+        "name": "Lead Poisoning",
+        "subareas": []
+      },
+      {
+        "name": "Mass Tort",
+        "subareas": []
+      },
+      {
+        "name": "Negligence",
+        "subareas": []
+      },
+      {
+        "name": "Nursing Home Abuse",
+        "subareas": []
+      },
+      {
+        "name": "Offshore Accidents",
+        "subareas": []
+      },
+      {
+        "name": "Pedestrian Accident",
+        "subareas": []
+      },
+      {
+        "name": "Premises Liability",
+        "subareas": []
+      },
+      {
+        "name": "Product Liability",
+        "subareas": []
+      },
+      {
+        "name": "Seat Belt Injury",
+        "subareas": []
+      },
+      {
+        "name": "Sinkhole Claims",
+        "subareas": []
+      },
+      {
+        "name": "Slip & Fall",
+        "subareas": []
+      },
+      {
+        "name": "Torts",
+        "subareas": []
+      },
+      {
+        "name": "Toxic Mold",
+        "subareas": []
+      },
+      {
+        "name": "Toxic Torts",
+        "subareas": []
+      },
+      {
+        "name": "Whiplash",
+        "subareas": []
+      },
+      {
+        "name": "Workplace Injuries",
+        "subareas": []
+      },
+      {
+        "name": "Wrongful Death",
+        "subareas": []
+      }
+    ]
+  },
+  {
+    "name": "Real Estate",
+    "subareas": [
+      {
+        "name": "Affordable Housing",
+        "subareas": []
+      },
+      {
+        "name": "Commercial Real Estate",
+        "subareas": []
+      },
+      {
+        "name": "Condominium Law",
+        "subareas": []
+      },
+      {
+        "name": "Construction Law",
+        "subareas": []
+      },
+      {
+        "name": "Cooperative Housing Law",
+        "subareas": []
+      },
+      {
+        "name": "Easements",
+        "subareas": []
+      },
+      {
+        "name": "Eminent Domain",
+        "subareas": []
+      },
+      {
+        "name": "Environmental Permitting",
+        "subareas": []
+      },
+      {
+        "name": "Fair Housing",
+        "subareas": []
+      },
+      {
+        "name": "Foreclosures",
+        "subareas": []
+      },
+      {
+        "name": "Homeowners Association Law",
+        "subareas": []
+      },
+      {
+        "name": "Housing Law",
+        "subareas": []
+      },
+      {
+        "name": "Land Use & Zoning",
+        "subareas": []
+      },
+      {
+        "name": "Landlord & Tenant Law",
+        "subareas": []
+      },
+      {
+        "name": "Mortgages",
+        "subareas": []
+      },
+      {
+        "name": "Property Law",
+        "subareas": []
+      },
+      {
+        "name": "Property Management",
+        "subareas": []
+      },
+      {
+        "name": "Residential Real Estate",
+        "subareas": []
+      },
+      {
+        "name": "Resorts And Leisure",
+        "subareas": []
+      }
+    ]
+  },
+  {
+    "name": "Science & Technology",
+    "subareas": [
+      {
+        "name": "Biotechnology",
+        "subareas": []
+      },
+      {
+        "name": "Chemical Law",
+        "subareas": []
+      },
+      {
+        "name": "Computer & Software",
+        "subareas": []
+      },
+      {
+        "name": "Data Privacy",
+        "subareas": []
+      },
+      {
+        "name": "Data Protection",
+        "subareas": []
+      },
+      {
+        "name": "Data Regulation",
+        "subareas": []
+      },
+      {
+        "name": "Information Technology",
+        "subareas": []
+      },
+      {
+        "name": "Research & Development",
+        "subareas": []
+      },
+      {
+        "name": "Telecommunications Law",
+        "subareas": []
+      }
+    ]
+  },
+  {
+    "name": "Tax",
+    "subareas": [
+      {
+        "name": "Corporate/Business Taxation",
+        "subareas": []
+      },
+      {
+        "name": "Property Tax",
+        "subareas": []
+      },
+      {
+        "name": "Tax Audits",
+        "subareas": []
+      },
+      {
+        "name": "Tax Planning",
+        "subareas": []
+      }
+    ]
+  },
+  {
+    "name": "Education Law",
+    "subareas": []
+  },
+  {
+    "name": "General Practice",
+    "subareas": []
+  }
+]

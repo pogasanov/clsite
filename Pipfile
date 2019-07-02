@@ -14,5 +14,6 @@ pillow = "*"
 django-storages = "*"
 boto3 = "*"
 faker = "*"
+django-select2 = "*"
 
 [dev-packages]

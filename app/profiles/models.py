@@ -159,6 +159,10 @@ class Profile(AbstractUser):
         models.CharField(max_length=2, choices=USA_STATES),
         verbose_name='Jurisdiction', blank=True, null=True
     )
+    law_type_tags = ArrayField(
+        models.CharField(max_length=50),
+        verbose_name='Law Type Tags', blank=True, null=True
+    )
     headline = models.CharField(max_length=120, verbose_name='Headline', blank=True)
     website = models.URLField(verbose_name='Website URL', blank=True)
     twitter = models.CharField(max_length=50, blank=True)
