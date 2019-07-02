@@ -34,6 +34,7 @@ class ProfileTests(TestCase):
             'profile-last_name': 'Doe',
             'profile-languages': 'ru,en',
             'profile-headline': 'Test headline',
+            'profile-summary': 'Test Summary for having 5 years of experience in the field of shipping.',
             'profile-bio': 'Test bio',
             'profile-phone': '+7(923)111-11-11',
             'profile-email': 'test@example.com',
@@ -168,6 +169,7 @@ class ProfileTests(TestCase):
         self.assertEqual(response.context['user'].last_name, self.correct_update_data['profile-last_name'])
         self.assertEqual(response.context['user'].jurisdiction, [self.correct_update_data['profile-jurisdiction']])
         self.assertEqual(response.context['user'].headline, self.correct_update_data['profile-headline'])
+        self.assertEqual(response.context['user'].summary, self.correct_update_data['profile-summary'])
         self.assertEqual(response.context['user'].bio, self.correct_update_data['profile-bio'])
         self.assertEqual(response.context['user'].website, self.correct_update_data['profile-website'])
         self.assertEqual(response.context['user'].twitter, self.correct_update_data['profile-twitter'])
