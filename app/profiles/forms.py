@@ -3,7 +3,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
 from django_select2.forms import Select2TagWidget
-from .tags.utilities import get_all_tags_tuple
+from .lawtypetags.utilities import LAW_TYPE_TAGS_CHOICES
 from .choices import USA_STATES
 from django.conf.global_settings import LANGUAGES
 
@@ -64,7 +64,7 @@ class ProfileForm(ModelForm):
             field.widget.attrs.update({'class': 'form-control'})
         self.fields['bio'].widget.attrs.update({'rows': '2'})
         self.fields['law_type_tags'].widget = MultiSelectArrayFieldWidget(
-            choices=get_all_tags_tuple(), attrs={'data-tags': False, 'class': 'form-control'}
+            choices=LAW_TYPE_TAGS_CHOICES, attrs={'data-tags': False, 'class': 'form-control'}
         )
         self.fields['jurisdiction'].widget =  MultiSelectArrayFieldWidget(
             choices=USA_STATES, attrs={'data-tags': False, 'class': 'form-control'}
