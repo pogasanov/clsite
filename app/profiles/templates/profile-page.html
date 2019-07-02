@@ -121,9 +121,7 @@
                                     </div>
                                     <div class="col-md-6 field">
                                         <h5 class="mt-0 mb-1" style="font-weight: 700;">Law Type Tags:</h5>
-                                        {% for law_type_tags in selected_user.law_type_tags %}
-                                            {{ law_type_tags }}
-                                        {% endfor %}
+                                        {{ selected_user.law_type_tags|join:", " }}
                                     </div>
 
                                     <div class="col-md-6 field">
