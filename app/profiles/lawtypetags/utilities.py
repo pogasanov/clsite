@@ -1,4 +1,6 @@
 import json
+import os
+from clsite.settings import BASE_DIR
 
 
 def read_json(path):
@@ -11,7 +13,7 @@ def read_json(path):
         return data
 
 
-def get_all_tags_tuple(file_path='app/profiles/lawtypetags/law-type-tags-ontology.json'):
+def get_all_tags_tuple(file_path= os.path.join(BASE_DIR, 'profiles/lawtypetags/law-type-tags-ontology.json')):
     """
     Returns all the law type tags present in law-type-tags-ontology.json file in the form of choices readable tuple.
     """
