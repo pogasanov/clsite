@@ -53,6 +53,7 @@ class ProfileForm(ModelForm):
                   'jurisdiction',
                   'law_type_tags',
                   'bio',
+                  'publish_to_thb',
                   )
 
     def __init__(self, *args, **kwargs):
