@@ -46,6 +46,7 @@ class ProfileTests(TestCase):
             'profile-preferred_communication_method': 0,
             'profile-experience': '',
             'profile-jurisdiction': 'AL',
+            'profile-publish_to_thb': True,
 
             'address-state': 'AZ',
             'address-city': 'City',
@@ -175,3 +176,4 @@ class ProfileTests(TestCase):
         self.assertEqual(response.context['user'].twitter, self.correct_update_data['profile-twitter'])
         self.assertEqual(response.context['user'].linkedin, self.correct_update_data['profile-linkedin'])
         self.assertEqual(response.context['user'].facebook, self.correct_update_data['profile-facebook'])
+        self.assertEqual(response.context['user'].publish_to_thb, self.correct_update_data['profile-publish_to_thb'])
