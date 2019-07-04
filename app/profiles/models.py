@@ -220,6 +220,6 @@ class Transaction(models.Model):
                                                 verbose_name='Requestee\'s Transaction Proof', blank=True, null=True)
 
     is_confirmed = models.NullBooleanField(default=None, verbose_name='Confirmed from Requestee')
-    is_verified = models.BooleanField(default=False, verbose_name='Verified from Admin')
+    is_verified = models.NullBooleanField(default=None, verbose_name='Verified from Admin')
     amount = models.FloatField(verbose_name='Amount of Transaction')
     is_requester_principal = models.BooleanField(default=False, verbose_name='Requester Payed')
