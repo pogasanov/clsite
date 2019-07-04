@@ -6,10 +6,13 @@ from django.http import JsonResponse
 from django.views.generic.edit import CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView
+from django.views import View
 
 from .forms import ProfileForm, EducationFormSet, WorkExperienceFormSet, AddressForm, AddmissionsFormSet, LawSchoolForm, \
     OrganizationFormSet, AwardFormSet, ProfileCreationForm
 
+from .choices import USA_STATES
+from .lawtypetags.utilities import LAW_TYPE_TAGS_CHOICES, get_all_tags_flat_list
 
 def index(request):
     return render(request, "landing-page.html", context={})
@@ -126,3 +129,21 @@ class UserListView(LoginRequiredMixin, ListView):
     model = get_user_model()
     template_name = 'user_list.html'
     ordering = ['id']
+
+
+
+class ProfileBrowsingView(View):
+    template_name = 'profile-browsing.html'
+    # form_class = ProfileCreationForm
+    # success_url = reverse_lazy('profile')
+
+    def get(self, request, *args, **kwargs):
+        list_jurisdictions = [state[1] for state in USA_STATES]
+        list_law_type_tags = get_all_tags_flat_list(LAW_TYPE_TAGS_CHOICES)
+        return render(request, self.template_name, {'jurisdictions': list_jurisdictions})
+
+    # def post(self, request, *args, **kwargs):
+    #     response = super().post(request, *args, **kwargs)
+    #     if self.object:
+    #         login(request, self.object)
+    #     return response

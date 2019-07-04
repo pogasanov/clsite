@@ -34,4 +34,11 @@ def get_all_tags_tuple(file_path= os.path.join(BASE_DIR, 'profiles/lawtypetags/l
     return tuple(result_list)
 
 
+def get_all_tags_flat_list(tags_tuple=[]):
+    flat_tags_list = []
+    for area in tags_tuple:
+        flat_tags_list.extend([subarea[0 ]for subarea in area[1]])
+    return flat_tags_list
+
+
 LAW_TYPE_TAGS_CHOICES = get_all_tags_tuple()

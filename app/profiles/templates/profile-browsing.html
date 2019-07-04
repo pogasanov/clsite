@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block body-class %}profile-page{% endblock %}
+
+{% block content %}
+    <div class="page-header header-filter" data-parallax="true"></div>
+    <div class="main main-raised">
+        <div class="users-list-content">
+            <div class="container p-3">
+                <div class="row">
+                    <div class="col-md-3">
+                        <ul class="list-group">
+                            <li class="list-group-item list-group-item-dark browsing-title">
+                                <b>Jurisdictions</b>
+                            </li>
+                            {% for value in jurisdictions %}
+                            <li class="list-group-item browsing-li jurisdiction-option">
+                                <div>{{value}}</div><div> > </div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="col-md-4">
+                        <ul class="list-group">
+                            <li class="list-group-item list-group-item-dark browsing-title">
+                                <b>Law Type Tags</b>
+                            </li>
+                            {% if law_type_tags %}
+                            {% for tag in law_type_tags %}
+                            <li class="list-group-item browsing-li">
+                                <div>{{tag}}</div><div> > </div>
+                            </li>
+                            {% endfor %}
+                            {% else %}
+                            <li class="list-group-item">Please select a Jurisdiction.</li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                    <div class="col-md-5">
+                        <ul class="list-group">
+                            <li class="list-group-item list-group-item-dark browsing-title">
+                                <b>Results</b>
+                            </li>
+                            {% if results %}
+                            {% for user in results %}
+                            <li class="list-group-item browsing-li">
+                                <div>{{user}}</div>
+                            </li>
+                            {% endfor %}
+                            {% else %}
+                            <li class="list-group-item">Please select a Jurisdiction and Law Type Tag to see results.</li>
+                            {% endif %}
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

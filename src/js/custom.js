@@ -87,6 +87,10 @@ $(document).ready(function() {
         errorDiv.appendChild(errorDescriptionDiv);
     }
 
+    $('.jurisdiction-option').on('click', function (event){
+        console.log($(event.currentTarget).children()[0].innerText);
+    });
+
     $('.profile-form').on('submit', function (event) {
         event.preventDefault();
         $.ajax({

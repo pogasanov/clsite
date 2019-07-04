@@ -14,6 +14,7 @@ urlpatterns = [
 
     path('profile', views.profile, name='profile'),
     path('profile/<handle>', views.profile, name='profile'),
+    path('browsing', views.ProfileBrowsingView.as_view(), name='browsing'),
 
     path('users', views.UserListView.as_view(), name='users')
 ] + static(MEDIA_URL, document_root=MEDIA_ROOT)

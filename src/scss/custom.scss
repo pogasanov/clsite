@@ -48,3 +48,19 @@
 select.form-control {
   height: 36px !important;
 }
+
+.browsing-title {
+  display:flex;
+  justify-content:center;
+}
+
+.browsing-li{
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem;
+}
+
+.browsing-li:hover {
+  color:blue;
+  cursor: pointer;
+}
