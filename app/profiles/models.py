@@ -187,3 +187,39 @@ class Profile(AbstractUser):
         if self.photo:
             return self.photo.url
         return static('dummy-img.png')
+
+
+class Transaction(models.Model):
+    REVIEW_CHOICES = (
+        ('SD', 'Strongly Disagree'),
+        ('D', 'Disagree'),
+        ('N', 'Neutral'),
+        ('A', 'Agree'),
+        ('SA', 'Strongly Agree')
+    )
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    requester = models.ForeignKey('Profile', on_delete=models.CASCADE,
+                                  related_name='requester', verbose_name='Requester')
+    proof_receipt_requester = models.ImageField(upload_to=get_image_path, storage=variativeStorage(),
+                                                verbose_name='Requester\'s Transaction Proof', blank=True, null=True)
+    requester_review = models.CharField(max_length=2, choices=REVIEW_CHOICES,
+                                        default=None, verbose_name='Requester\'s Review')
+    requester_recommendation = models.TextField(null=True, blank=True,
+                                                default=None, verbose_name='Requester\'s recommendation')
+
+    requestee = models.ForeignKey('Profile', on_delete=models.CASCADE,
+                                  related_name='requestee', verbose_name='Requestee')
+    requestee_review = models.CharField(max_length=2, choices=REVIEW_CHOICES,
+                                        default=None, verbose_name='Requestee\'s Review')
+    requestee_recommendation = models.TextField(null=True, blank=True,
+                                                default=None, verbose_name='Requestee\'s recommendation')
+    proof_receipt_requestee = models.ImageField(upload_to=get_image_path, storage=variativeStorage(),
+                                                verbose_name='Requestee\'s Transaction Proof', blank=True, null=True)
+
+    is_confirmed = models.NullBooleanField(default=None, verbose_name='Confirmed from Requestee')
+    is_verified = models.BooleanField(default=False, verbose_name='Verified from Admin')
+    amount = models.FloatField(verbose_name='Amount of Transaction')
+    is_requester_principal = models.BooleanField(default=False, verbose_name='Requester Payed')
