@@ -148,7 +148,7 @@ class ProfileBrowsingView(View):
                 flat_tags_list.extend(tag_set)
 
         tags_with_occurence = [{"name": tag, "number_profile": len(list(group))} for tag, group in groupby(sorted(flat_tags_list))]
-        return tags_with_occurence
+        return sorted(tags_with_occurence, key=lambda k: k['number_profile'], reverse=True)
 
     def get(self, request, *args, **kwargs):
         list_jurisdictions = [state[1] for state in USA_STATES]
