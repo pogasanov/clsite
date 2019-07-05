@@ -87,9 +87,137 @@ $(document).ready(function() {
         errorDiv.appendChild(errorDescriptionDiv);
     }
 
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = jQuery.trim(cookies[i]);
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    let selected_jurisdiction;
     $('.jurisdiction-option').on('click', function (event){
-        console.log($(event.currentTarget).children()[0].innerText);
+        window.selected_jursidiction = $(event.currentTarget).children()[0].innerText;
+        var csrftoken = getCookie('csrftoken');
+        $.ajax({
+            type: 'POST',
+            url: '/browsing',
+            headers: {'X-CSRFToken': csrftoken},
+            data: {'jurisdiction': selected_jursidiction},
+            success: function (resp) {
+                let tags_list = document.getElementById("law-tags");
+                const tags_list_title = tags_list.firstElementChild;
+                while(tags_list.hasChildNodes()) {tags_list.removeChild(tags_list.lastChild);}
+                tags_list.appendChild(tags_list_title);
+                const law_type_tags = resp["law_type_tags"];
+                if (law_type_tags.length < 1){
+                    let tag_li = document.createElement("LI");
+                    tag_li.classList.add("list-group-item");
+                    let tags_not_found = document.createTextNode("No Result Found Please choose some other jurisdiction!");
+                    tags_list.appendChild(tags_not_found);
+                }
+                else {
+                    law_type_tags.forEach((tag) => {
+                        let tag_li = document.createElement("LI");
+                        tag_li.classList.add("list-group-item");
+                        tag_li.classList.add("browsing-li");
+                        tag_li.classList.add("tag-option");
+                        let tag_title = document.createElement("DIV");
+                        let tag_navigator = document.createElement("DIV");
+                        let profiles_count = document.createElement("DIV");
+                        tag_title.textContent = tag.name;
+                        profiles_count.textContent = ' (' + tag.number_profile + ')';
+                        tag_navigator.textContent = ">";
+                        tag_li.appendChild(tag_title);
+                        tag_li.appendChild(profiles_count);
+                        tag_li.appendChild(tag_navigator);
+
+                        tag_li.addEventListener('click', lawTypeTagClickListener);
+                        tags_list.appendChild(tag_li);
+                    });
+                }
+            }
+        });
     });
+
+    function lawTypeTagClickListener(){
+        let selected_tag = $(event.currentTarget).children()[0].innerText;
+        var csrftoken = getCookie('csrftoken');
+        $.ajax({
+            type: 'POST',
+            url: '/browsing',
+            headers: {'X-CSRFToken': csrftoken},
+            data: {'jurisdiction': selected_jursidiction, 'law_type_tag': selected_tag},
+            success: function (resp) {
+                let resultProfilesList = document.getElementById("result-profiles");
+                const resultProfilesTitle = resultProfilesList.firstElementChild;
+                while(resultProfilesList.hasChildNodes()) {resultProfilesList.removeChild(resultProfilesList.lastChild);}
+                resultProfilesList.appendChild(resultProfilesTitle);
+                const profilesList = resp["result_profiles"];
+                if (profilesList.length < 1){
+                    let profile_not_found = document.createTextNode("No Result Found Please choose some other law type tag!");
+                    resultProfilesList.appendChild(profile_not_found);
+                }
+                else {
+                    profilesList.forEach((profile) => {
+                        // profile LI
+                        let profile_li = document.createElement("LI");
+                        profile_li.classList.add("list-group-item");
+                        profile_li.classList.add("browsing-li");
+                        profile_li.classList.add("tag-option");
+
+                        // profile link
+                        let profile_link = document.createElement("a");
+                        profile_link.href = "/profile/" + profile.handle;
+
+                        // profile row
+                        let profile_row = document.createElement("DIV");
+                        profile_row.style.display = "flex";
+                        profile_row.style.alignItems = "center";
+                        profile_row.style.justifyContent = "space-between";
+
+                        // photo
+                        let photo_col = document.createElement("DIV");
+                        let photo = document.createElement("IMG");
+                        photo.classList.add("d-block");
+                        photo.classList.add("card--user__avatar");
+                        photo.classList.add("rounded-circle");
+                        photo.src = profile.photo_url_or_default;
+                        photo_col.appendChild(photo);
+
+                        // details
+                        let detail_col = document.createElement("DIV");
+                        let name_div = document.createElement("DIV");
+                        let name = document.createElement('b');
+                        name.textContent = (profile.first_name + " " + profile.last_name);
+                        name_div.appendChild(name);
+
+                        let headline = document.createElement("DIV");
+                        headline.textContent = profile.headline;
+
+                        detail_col.appendChild(name_div);
+                        detail_col.appendChild(headline);
+
+                        // assemble together
+                        profile_row.appendChild(photo_col);
+                        profile_row.appendChild(detail_col);
+
+                        profile_link.appendChild(profile_row);
+                        profile_li.appendChild(profile_link);
+                        resultProfilesList.appendChild(profile_li);
+                    });
+                }
+            }
+        });
+    }
 
     $('.profile-form').on('submit', function (event) {
         event.preventDefault();
