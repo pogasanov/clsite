@@ -2,13 +2,14 @@ from django.forms import ModelForm, inlineformset_factory
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
-from django_select2.forms import Select2TagWidget
-from .lawtypetags.utilities import LAW_TYPE_TAGS_CHOICES
-from .subjectivetags.utilities import SUBJECTIVE_TAGS_CHOICES
-from .choices import USA_STATES
 from django.conf.global_settings import LANGUAGES
 
-from .models import Profile, Education, WorkExperience, Address, Admissions, LawSchool, Organization, Award
+from django_select2.forms import Select2TagWidget
+
+from .utils import LAW_TYPE_TAGS_CHOICES, SUBJECTIVE_TAGS_CHOICES
+from .choices import USA_STATES
+from .models import (Profile, Education, WorkExperience, Address, Admissions,
+                     LawSchool, Organization, Award)
 
 
 class ProfileCreationForm(UserCreationForm):
@@ -87,26 +88,32 @@ class ProfileForm(ModelForm):
             field.widget.attrs.update({'class': 'form-control'})
         self.fields['bio'].widget.attrs.update({'rows': '2'})
         self.fields['law_type_tags'].widget = MultiSelectArrayFieldWidget(
-            choices=LAW_TYPE_TAGS_CHOICES, attrs={'data-tags': False, 'class': 'form-control'}
+            choices=LAW_TYPE_TAGS_CHOICES, attrs={
+                'data-tags': False, 'class': 'form-control'}
         )
         self.fields['subjective_tags'].widget = DynamicMultiSelectArrayFieldWidget(
             choices=SUBJECTIVE_TAGS_CHOICES, attrs={'class': 'form-control',
-            'data-maximum-selection-length': 3, 'data-token-separators': [',']}
+                                                    'data-maximum-selection-length': 3,
+                                                    'data-token-separators': [',']}
         )
         self.fields['jurisdiction'].widget = MultiSelectArrayFieldWidget(
-            choices=USA_STATES, attrs={'data-tags': False, 'class': 'form-control'}
+            choices=USA_STATES, attrs={
+                'data-tags': False, 'class': 'form-control'}
         )
         self.fields['clients'].widget = MultiSelectArrayFieldWidget(
             attrs={'class': 'form-control', 'data-token-separators': [',']}
         )
         self.fields['languages'].widget = MultiSelectArrayFieldWidget(
-            choices=LANGUAGES, attrs={'data-tags': False, 'class': 'form-control'}
+            choices=LANGUAGES, attrs={
+                'data-tags': False, 'class': 'form-control'}
         )
 
     def save(self, commit=True):
         updated_profile = super().save(commit=False)
-        updated_profile.first_name = self.cleaned_data.get('first_name', updated_profile.first_name)
-        updated_profile.last_name = self.cleaned_data.get('last_name', updated_profile.last_name)
+        updated_profile.first_name = self.cleaned_data.get(
+            'first_name', updated_profile.first_name)
+        updated_profile.last_name = self.cleaned_data.get(
+            'last_name', updated_profile.last_name)
         updated_profile.save()
         return updated_profile
 

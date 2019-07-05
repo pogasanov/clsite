@@ -1,182 +1,62 @@
 [
-    {
-        "name": "Acknowledged"
-    },
-    {
-        "name": "Active"
-    },
-    {
-        "name": "Adept"
-    },
-    {
-        "name": "Admired"
-    },
-    {
-        "name": "Aggressive"
-    },
-    {
-        "name": "Business oriented"
-    },
-    {
-        "name": "Careful Listener"
-    },
-    {
-        "name": "Challenging"
-    },
-    {
-        "name": "Client-focused"
-    },
-    {
-        "name": "Committed"
-    },
-    {
-        "name": "Creative"
-    },
-    {
-        "name": "Dedicated"
-    },
-    {
-        "name": "Detail-oriented"
-    },
-    {
-        "name": "Driven"
-    },
-    {
-        "name": "Effective"
-    },
-    {
-        "name": "Efficient"
-    },
-    {
-        "name": "Energetic"
-    },
-    {
-        "name": "Excellene"
-    },
-    {
-        "name": "Exceptional"
-    },
-    {
-        "name": "Experienced"
-    },
-    {
-        "name": "Extensive"
-    },
-    {
-        "name": "Extraordinary"
-    },
-    {
-        "name": "Fast"
-    },
-    {
-        "name": "Fearless"
-    },
-    {
-        "name": "Focused"
-    },
-    {
-        "name": "Friendly"
-    },
-    {
-        "name": "High-Quality"
-    },
-    {
-        "name": "Highly Responsive"
-    },
-    {
-        "name": "Inexpensive"
-    },
-    {
-        "name": "Informed"
-    },
-    {
-        "name": "Nice"
-    },
-    {
-        "name": "Open Listener"
-    },
-    {
-        "name": "Outstanding"
-    },
-    {
-        "name": "Passionate"
-    },
-    {
-        "name": "Patient"
-    },
-    {
-        "name": "Persuasive"
-    },
-    {
-        "name": "Pointed"
-    },
-    {
-        "name": "Premier"
-    },
-    {
-        "name": "Premium"
-    },
-    {
-        "name": "Prestigious"
-    },
-    {
-        "name": "Professional"
-    },
-    {
-        "name": "Qualified"
-    },
-    {
-        "name": "Razor-sharp"
-    },
-    {
-        "name": "Recognized"
-    },
-    {
-        "name": "Rising"
-    },
-    {
-        "name": "Savvy"
-    },
-    {
-        "name": "Serious"
-    },
-    {
-        "name": "Skilled"
-    },
-    {
-        "name": "Smart"
-    },
-    {
-        "name": "Solution-focused"
-    },
-    {
-        "name": "Sophisticated"
-    },
-    {
-        "name": "Startup-y"
-    },
-    {
-        "name": "Stimulating"
-    },
-    {
-        "name": "Straightforward"
-    },
-    {
-        "name": "Strong"
-    },
-    {
-        "name": "Successful"
-    },
-    {
-        "name": "Systemic thinker"
-    },
-    {
-        "name": "Thorough"
-    },
-    {
-        "name": "Tougher"
-    },
-    {
-        "name": "Unique"
-    }
+    "Acknowledged",
+    "Active",
+    "Adept",
+    "Admired",
+    "Aggressive",
+    "Business oriented",
+    "Careful Listener",
+    "Challenging",
+    "Client-focused",
+    "Committed",
+    "Creative",
+    "Dedicated",
+    "Detail-oriented",
+    "Driven",
+    "Effective",
+    "Efficient",
+    "Energetic",
+    "Excellene",
+    "Exceptional",
+    "Experienced",
+    "Extensive",
+    "Extraordinary",
+    "Fast",
+    "Fearless",
+    "Focused",
+    "Friendly",
+    "High-Quality",
+    "Highly Responsive",
+    "Inexpensive",
+    "Informed",
+    "Nice",
+    "Open Listener",
+    "Outstanding",
+    "Passionate",
+    "Patient",
+    "Persuasive",
+    "Pointed",
+    "Premier",
+    "Premium",
+    "Prestigious",
+    "Professional",
+    "Qualified",
+    "Razor-sharp",
+    "Recognized",
+    "Rising",
+    "Savvy",
+    "Serious",
+    "Skilled",
+    "Smart",
+    "Solution-focused",
+    "Sophisticated",
+    "Startup-y",
+    "Stimulating",
+    "Straightforward",
+    "Strong",
+    "Successful",
+    "Systemic thinker",
+    "Thorough",
+    "Tougher",
+    "Unique"
 ]
