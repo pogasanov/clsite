@@ -200,6 +200,7 @@ class Transaction(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    date = models.DateField(verbose_name='Transaction Date')
 
     requester = models.ForeignKey('Profile', on_delete=models.CASCADE,
                                   related_name='requester', verbose_name='Requester')
