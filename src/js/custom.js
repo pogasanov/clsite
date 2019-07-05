@@ -106,6 +106,17 @@ $(document).ready(function() {
     let selected_jurisdiction;
     $('.jurisdiction-option').on('click', function (event){
         window.selected_jursidiction = $(event.currentTarget).children()[0].innerText;
+        // clear law type tags
+        let tags_list = document.getElementById("law-tags");
+        const tags_list_title = tags_list.firstElementChild;
+        while(tags_list.hasChildNodes()) {tags_list.removeChild(tags_list.lastChild);}
+        tags_list.appendChild(tags_list_title);
+        // clear profile results
+        let resultProfilesList = document.getElementById("result-profiles");
+        const resultProfilesTitle = resultProfilesList.firstElementChild;
+        while(resultProfilesList.hasChildNodes()) {resultProfilesList.removeChild(resultProfilesList.lastChild);}
+        resultProfilesList.appendChild(resultProfilesTitle);
+
         var csrftoken = getCookie('csrftoken');
         $.ajax({
             type: 'POST',
@@ -113,10 +124,6 @@ $(document).ready(function() {
             headers: {'X-CSRFToken': csrftoken},
             data: {'jurisdiction': selected_jursidiction},
             success: function (resp) {
-                let tags_list = document.getElementById("law-tags");
-                const tags_list_title = tags_list.firstElementChild;
-                while(tags_list.hasChildNodes()) {tags_list.removeChild(tags_list.lastChild);}
-                tags_list.appendChild(tags_list_title);
                 const law_type_tags = resp["law_type_tags"];
                 if (law_type_tags.length < 1){
                     let tag_li = document.createElement("LI");
@@ -150,6 +157,10 @@ $(document).ready(function() {
 
     function lawTypeTagClickListener(){
         let selected_tag = $(event.currentTarget).children()[0].innerText;
+        let resultProfilesList = document.getElementById("result-profiles");
+        const resultProfilesTitle = resultProfilesList.firstElementChild;
+        while(resultProfilesList.hasChildNodes()) {resultProfilesList.removeChild(resultProfilesList.lastChild);}
+        resultProfilesList.appendChild(resultProfilesTitle);
         var csrftoken = getCookie('csrftoken');
         $.ajax({
             type: 'POST',
@@ -157,10 +168,6 @@ $(document).ready(function() {
             headers: {'X-CSRFToken': csrftoken},
             data: {'jurisdiction': selected_jursidiction, 'law_type_tag': selected_tag},
             success: function (resp) {
-                let resultProfilesList = document.getElementById("result-profiles");
-                const resultProfilesTitle = resultProfilesList.firstElementChild;
-                while(resultProfilesList.hasChildNodes()) {resultProfilesList.removeChild(resultProfilesList.lastChild);}
-                resultProfilesList.appendChild(resultProfilesTitle);
                 const profilesList = resp["result_profiles"];
                 if (profilesList.length < 1){
                     let profile_not_found = document.createTextNode("No Result Found Please choose some other law type tag!");
