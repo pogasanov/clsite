@@ -181,4 +181,4 @@ class ProfileBrowsingView(View):
                 flat_law_type_tags = self.get_flat_tags_and_usage(profiles_law_type_tags)
                 return JsonResponse({ "law_type_tags": flat_law_type_tags}, status=200)
         else:
-            return JsonResponse("Invalid Request", status=400)
+            return JsonResponse({"message": "Invalid Request"}, status=400)
