@@ -27,7 +27,6 @@ def get_all_tags_tuple(file_path=None):
     for area in tags_dict:
         area_tuple = area['name'], area['name']
         result_list.append(area_tuple)
-    print(result_list)
     return tuple(result_list)
 
 

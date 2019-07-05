@@ -90,7 +90,8 @@ class ProfileForm(ModelForm):
             choices=LAW_TYPE_TAGS_CHOICES, attrs={'data-tags': False, 'class': 'form-control'}
         )
         self.fields['subjective_tags'].widget = DynamicMultiSelectArrayFieldWidget(
-            choices=SUBJECTIVE_TAGS_CHOICES, attrs={'class': 'form-control', 'data-token-separators': [',']}
+            choices=SUBJECTIVE_TAGS_CHOICES, attrs={'class': 'form-control',
+            'data-maximum-selection-length': 3, 'data-token-separators': [',']}
         )
         self.fields['jurisdiction'].widget = MultiSelectArrayFieldWidget(
             choices=USA_STATES, attrs={'data-tags': False, 'class': 'form-control'}
