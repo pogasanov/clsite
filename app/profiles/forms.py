@@ -34,8 +34,8 @@ class DynamicMultiSelectArrayFieldWidget(MultiSelectArrayFieldWidget):
     """
 
     def optgroups(self, name, value, attrs=None):
-        values = value[0].split(',') if value[0] else []
-        selected_values = set(values)
+        values = value[0].split(',') if value else []
+        selected_values = set(filter(None, values))
         tags = super().optgroups(name, value, attrs)
         choices = set((item[0] for item in SUBJECTIVE_TAGS_CHOICES))
         custom_tags = selected_values - choices
