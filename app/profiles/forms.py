@@ -4,6 +4,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
 from django_select2.forms import Select2TagWidget
 from .lawtypetags.utilities import LAW_TYPE_TAGS_CHOICES
+from .subjectivetags.utilities import SUBJECTIVE_TAGS_CHOICES
 from .choices import USA_STATES
 from django.conf.global_settings import LANGUAGES
 
@@ -24,6 +25,25 @@ class MultiSelectArrayFieldWidget(Select2TagWidget):
     def optgroups(self, name, value, attrs=None):
         value = value[0].split(',') if value else []
         return super().optgroups(name, value, attrs)
+
+
+class DynamicMultiSelectArrayFieldWidget(MultiSelectArrayFieldWidget):
+    """
+    Allow user to create custom tags dynamically or user can select
+    form existing predefined tags list
+    """
+
+    def optgroups(self, name, value, attrs=None):
+        values = value[0].split(',') if value[0] else []
+        selected_values = set(values)
+        tags = super().optgroups(name, value, attrs)
+        choices = set((item[0] for item in SUBJECTIVE_TAGS_CHOICES))
+        custom_tags = selected_values - choices
+        if custom_tags:
+            custom_tag_items = [self.create_option(name, v, v, custom_tags, i)
+                                for i, v in enumerate(custom_tags, len(choices))]
+            tags.append((None, custom_tag_items, 0))
+        return tags
 
 
 class ProfileForm(ModelForm):
@@ -52,6 +72,7 @@ class ProfileForm(ModelForm):
                   'clients',
                   'jurisdiction',
                   'law_type_tags',
+                  'subjective_tags',
                   'bio',
                   'publish_to_thb',
                   )
@@ -68,13 +89,16 @@ class ProfileForm(ModelForm):
         self.fields['law_type_tags'].widget = MultiSelectArrayFieldWidget(
             choices=LAW_TYPE_TAGS_CHOICES, attrs={'data-tags': False, 'class': 'form-control'}
         )
-        self.fields['jurisdiction'].widget =  MultiSelectArrayFieldWidget(
+        self.fields['subjective_tags'].widget = DynamicMultiSelectArrayFieldWidget(
+            choices=SUBJECTIVE_TAGS_CHOICES, attrs={'class': 'form-control', 'data-token-separators': [',']}
+        )
+        self.fields['jurisdiction'].widget = MultiSelectArrayFieldWidget(
             choices=USA_STATES, attrs={'data-tags': False, 'class': 'form-control'}
         )
-        self.fields['clients'].widget =  MultiSelectArrayFieldWidget(
+        self.fields['clients'].widget = MultiSelectArrayFieldWidget(
             attrs={'class': 'form-control', 'data-token-separators': [',']}
         )
-        self.fields['languages'].widget =  MultiSelectArrayFieldWidget(
+        self.fields['languages'].widget = MultiSelectArrayFieldWidget(
             choices=LANGUAGES, attrs={'data-tags': False, 'class': 'form-control'}
         )
 
