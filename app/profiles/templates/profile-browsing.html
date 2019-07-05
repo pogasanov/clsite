@@ -21,35 +21,19 @@
                         </ul>
                     </div>
                     <div class="col-md-4">
-                        <ul class="list-group">
+                        <ul class="list-group" id="law-tags">
                             <li class="list-group-item list-group-item-dark browsing-title">
                                 <b>Law Type Tags</b>
                             </li>
-                            {% if law_type_tags %}
-                            {% for tag in law_type_tags %}
-                            <li class="list-group-item browsing-li">
-                                <div>{{tag}}</div><div> > </div>
-                            </li>
-                            {% endfor %}
-                            {% else %}
                             <li class="list-group-item">Please select a Jurisdiction.</li>
-                            {% endif %}
                         </ul>
                     </div>
                     <div class="col-md-5">
-                        <ul class="list-group">
+                        <ul class="list-group" id="result-profiles">
                             <li class="list-group-item list-group-item-dark browsing-title">
                                 <b>Results</b>
                             </li>
-                            {% if results %}
-                            {% for user in results %}
-                            <li class="list-group-item browsing-li">
-                                <div>{{user}}</div>
-                            </li>
-                            {% endfor %}
-                            {% else %}
                             <li class="list-group-item">Please select a Jurisdiction and Law Type Tag to see results.</li>
-                            {% endif %}
                         </ul>
                     </div>
 
