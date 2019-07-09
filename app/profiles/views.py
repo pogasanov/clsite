@@ -6,9 +6,12 @@ from django.http import JsonResponse
 from django.views.generic.edit import CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView
+from itertools import groupby
 
 from .forms import ProfileForm, EducationFormSet, WorkExperienceFormSet, AddressForm, AddmissionsFormSet, LawSchoolForm, \
     OrganizationFormSet, AwardFormSet, ProfileCreationForm
+from .models import Profile
+from .choices import USA_STATES
 
 
 def index(request):
@@ -126,3 +129,64 @@ class UserListView(LoginRequiredMixin, ListView):
     model = get_user_model()
     template_name = 'user_list.html'
     ordering = ['id']
+
+    def get_tuple_key_from_value(self, tuple=(), value=None):
+        for row in tuple:
+            if row[1] == value:
+                return row[0]
+        return None
+
+    def get_tuple_display_from_value(self, search_tuple, list_values=[]):
+        display_list = []
+        for value in list_values:
+            if dict(search_tuple).get(value):
+                display_list.append(dict(search_tuple)[value])
+        return display_list
+
+    def get_flat_tags_and_usage(self, profiles_law_type_tags):
+        flat_law_tags = []
+        flat_jurisdictions = []
+        for profile in profiles_law_type_tags:
+            if profile.law_type_tags:
+                flat_law_tags.extend(profile.law_type_tags)
+            if profile.jurisdiction:
+                flat_jurisdictions.extend(self.get_tuple_display_from_value(USA_STATES, profile.jurisdiction))
+
+        law_tags_with_occurrence = [{"name": tag, "occurrence": len(list(group))} for tag, group in groupby(sorted(flat_law_tags))]
+        jurisdiction_with_occurrence = [
+            {"name": jurisdiction, "occurrence": len(list(group))} for jurisdiction, group in groupby(sorted(flat_jurisdictions))
+        ]
+
+        return sorted(law_tags_with_occurrence, key=lambda k: k['occurrence'], reverse=True), \
+               sorted(jurisdiction_with_occurrence, key=lambda k: k['occurrence'], reverse=True)
+
+    def get(self, request, *args, **kwargs):
+        list_users = Profile.objects.all()
+        profiles_law_type_tags = list_users.only('law_type_tags', 'jurisdiction')
+        list_law_type_tags, list_jurisdictions = self.get_flat_tags_and_usage(profiles_law_type_tags)
+        return render(request, self.template_name, {'jurisdictions': list_jurisdictions,
+                                                    'law_type_tags': list_law_type_tags,
+                                                    'users': list_users})
+
+    def post(self, request, *args, **kwargs):
+        list_users = []
+        selected_jurisdiction = request.POST.get('jurisdiction')
+        selected_law_tag = request.POST.get('law_type_tag')
+        if selected_jurisdiction:
+            jurisdiction_value = self.get_tuple_key_from_value(USA_STATES, selected_jurisdiction)
+            profiles = Profile.objects.filter(jurisdiction__contains=[jurisdiction_value])
+        elif selected_law_tag:
+            profiles = Profile.objects.filter(law_type_tags__contains=[selected_law_tag])
+        else:
+            return JsonResponse({"users": list_users, "message": "Invalid Request"}, status=400)
+
+        for match in profiles:
+            profile_json ={
+                'first_name': match.first_name,
+                'last_name': match.last_name,
+                'handle': match.handle,
+                'headline': match.headline,
+                'photo_url_or_default': match.photo_url_or_default()
+            }
+            list_users.append(profile_json)
+        return JsonResponse({ "users": list(list_users)}, status=200)

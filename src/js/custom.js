@@ -123,4 +123,122 @@ $(document).ready(function() {
     });
 
     setupPictureUpload();
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = jQuery.trim(cookies[i]);
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    $('.jurisdiction-display').on('click', function (event){
+        // toggle active class
+        event.currentTarget.classList.add('active');
+        $('.law-type-tag-display')[0].classList.remove('active');
+        // toggle selection options
+        $('#jurisdictions-row').show();
+        $('#law-type-tag-row').hide();
+    });
+
+    $('.law-type-tag-display').on('click', function (event){
+        // toggle active class
+        event.currentTarget.classList.add('active');
+        $('.jurisdiction-display')[0].classList.remove('active');
+        // toggle selection options
+        $('#law-type-tag-row').show();
+        $('#jurisdictions-row').hide();
+    });
+
+    $('.jurisdiction').on('click', function(event){
+        browsingPostAPI(event, 'jurisdiction')
+    });
+
+    $('.law-type-tag').on('click', function(event){
+        browsingPostAPI(event, 'law_type_tag')
+    });
+
+    function browsingPostAPI(event, key){
+        let value = $(event.currentTarget).children()[0].innerText;
+        // clear user cards
+        let userCards = document.getElementsByClassName("card-deck")[0];
+        while(userCards.hasChildNodes()) {userCards.removeChild(userCards.lastChild);}
+
+        var csrftoken = getCookie('csrftoken');
+        $.ajax({
+            type: 'POST',
+            url: '/users',
+            headers: {'X-CSRFToken': csrftoken},
+            data: {[key]: value},
+            success: function (resp) {
+                const users = resp["users"];
+                if (users.length > 0){
+                    users.forEach((user) => {
+                        // card
+                        let card = document.createElement("DIV");
+                        card.classList.add("card");
+                        card.classList.add("card--user");
+
+                        // card body
+                        let cardBody = document.createElement("DIV");
+                        cardBody.classList.add("card-body");
+
+                        let profile_link = document.createElement("a");
+                        profile_link.href = "/profile/" + user.handle;
+
+
+                        let photo = document.createElement("IMG");
+                        photo.classList.add("d-block");
+                        photo.classList.add("mx-auto");
+                        photo.classList.add("card--user__avatar");
+                        photo.classList.add("rounded-circle");
+                        photo.src = user.photo_url_or_default;
+
+                        let name = document.createElement("h5");
+                        name.classList.add("card-title");
+                        name.classList.add("text-center");
+                        name.classList.add("my-0");
+                        name.textContent = user.first_name + " " + user.last_name;
+
+                        let jurisdiction = document.createElement("h6");
+                        jurisdiction.classList.add("my-0");
+                        jurisdiction.classList.add("text-center");
+                        jurisdiction.textContent = user.jurisdiction;
+
+                        let headline = document.createElement("p");
+                        headline.textContent = user.headline;
+
+                        profile_link.appendChild(photo);
+                        profile_link.appendChild(name);
+                        profile_link.appendChild(jurisdiction);
+                        profile_link.appendChild(headline);
+
+                        cardBody.appendChild(profile_link);
+                        // card footer
+                        let cardFooter = document.createElement("DIV");
+                        cardFooter.classList.add("card-footer");
+
+                        let footerText = document.createElement('small');
+                        footerText.textContent = user.date_joined;
+
+                        cardFooter.appendChild(footerText);
+
+                        // wrap up
+                        card.appendChild(cardBody);
+                        card.appendChild(cardFooter);
+
+                        userCards.appendChild(card);
+
+                    });
+                }
+            }
+        });
+    }
 });
