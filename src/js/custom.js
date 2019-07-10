@@ -121,6 +121,27 @@ $(document).ready(function() {
             }
         });
     });
-
     setupPictureUpload();
+    function setDatePicker() {
+        window.$(".datepicker").datepicker({
+        changeMonth: true,
+        changeYear: true,
+        maxDate : 0,
+        showAnim: 'slideDown'
+    });
+    }
+    setDatePicker();
+    
+    var recommendationFieldSelector = '#id_requester_recommendation';
+    var recommendationLabelSelector = '[for="id_requester_recommendation"]';
+
+    $(recommendationFieldSelector).hide();
+    $(recommendationLabelSelector).hide();
+    $('#add-recommendation').on('click', function (e) {
+        e.preventDefault();
+        $(this).hide();
+        $(recommendationFieldSelector).show();
+        $(recommendationLabelSelector).show();
+    });
+
 });
