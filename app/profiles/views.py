@@ -130,12 +130,6 @@ class UserListView(LoginRequiredMixin, ListView):
     template_name = 'user_list.html'
     ordering = ['id']
 
-    def get_tuple_key_from_value(self, tuple=(), value=None):
-        for row in tuple:
-            if row[1] == value:
-                return row[0]
-        return None
-
     def get_tuple_display_from_value(self, search_tuple, list_values=[]):
         display_list = []
         for value in list_values:
@@ -168,25 +162,43 @@ class UserListView(LoginRequiredMixin, ListView):
                                                     'law_type_tags': list_law_type_tags,
                                                     'users': list_users})
 
-    def post(self, request, *args, **kwargs):
-        list_users = []
-        selected_jurisdiction = request.POST.get('jurisdiction')
-        selected_law_tag = request.POST.get('law_type_tag')
-        if selected_jurisdiction:
-            jurisdiction_value = self.get_tuple_key_from_value(USA_STATES, selected_jurisdiction)
-            profiles = Profile.objects.filter(jurisdiction__contains=[jurisdiction_value])
-        elif selected_law_tag:
-            profiles = Profile.objects.filter(law_type_tags__contains=[selected_law_tag])
-        else:
-            return JsonResponse({"users": list_users, "message": "Invalid Request"}, status=400)
 
-        for match in profiles:
-            profile_json ={
-                'first_name': match.first_name,
-                'last_name': match.last_name,
-                'handle': match.handle,
-                'headline': match.headline,
-                'photo_url_or_default': match.photo_url_or_default()
-            }
-            list_users.append(profile_json)
-        return JsonResponse({ "users": list(list_users)}, status=200)
+class BrowsingView(LoginRequiredMixin, ListView):
+    model = get_user_model()
+    template_name = 'browsing.html'
+    ordering = ['id']
+
+    def get_tuple_key_from_value(self, tuple=(), value=None):
+        for row in tuple:
+            if row[1] == value:
+                return row[0]
+        return None
+
+    def get_tuple_value_from_key(self, tuple=(), value=None):
+        for row in tuple:
+            if row[0] == value:
+                return row[1]
+        return None
+
+    def get_unique_options(self, list_values):
+        unique_list = []
+        for row in list_values:
+            if row:
+                unique_list = list(set(unique_list) | set(row))
+        return unique_list
+
+    def get(self, request, *args, **kwargs):
+        list_users = Profile.objects.all()
+        jurisdiction = kwargs.get('jurisdiction_value') if kwargs.get('jurisdiction_value') != 'all' else None
+        law_tags_value = kwargs.get('law_tags_value') if kwargs.get('law_tags_value') != 'all' else None
+        law_tags_list = None
+        jurisdiction_list = None
+        if jurisdiction:
+            jurisdiction = self.get_tuple_key_from_value(USA_STATES, jurisdiction)
+            list_users = list_users.filter(jurisdiction__contains=[jurisdiction])
+            law_tags_list = self.get_unique_options(list_users.values_list('law_type_tags', flat=True))
+        if law_tags_value:
+            list_users = list_users.filter(law_type_tags__contains=[law_tags_value])
+            jurisdiction_list_values = self.get_unique_options(list_users.values_list('jurisdiction', flat=True))
+            jurisdiction_list = [self.get_tuple_value_from_key(USA_STATES, value) for value in jurisdiction_list_values]
+        return render(request, self.template_name, {'users': list_users, 'jurisdiction_list': jurisdiction_list, 'law_tags_list': law_tags_list})

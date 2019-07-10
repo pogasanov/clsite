@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block body-class %}profile-page{% endblock %}
+
+{% block content %}
+<div class="page-header header-filter" data-parallax="true"></div>
+<div class="main main-raised">
+    <div class="users-list-content">
+        <div class="container p-3">
+            <div class="row">
+                <div class="col-md-2">
+                    <a id="navigate-back" href="#"><b> < Go Back </b></a>
+                </div>
+                <div class="col-md-10" align="center">
+                    {% if jurisdiction_list and law_tags_list %}
+
+                    {% else %}
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="jurisdictionMenuButton" data-toggle="dropdown">
+                            {% if jurisdiction_list != None %} Jurisdictions {% else %} Law Type Tags {% endif %}
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="jurisdictionMenuButton">
+                            {% if jurisdiction_list %}
+
+                                {% for jurisdiction in jurisdiction_list %}
+                                <a class="dropdown-item"
+                                   href="{% url 'profiles-browsing' jurisdiction_value=jurisdiction law_tags_value=request.resolver_match.kwargs.law_tags_value %}">
+                                    {{jurisdiction}}
+                                </a>
+                                {% endfor %}
+
+                            {% elif law_tags_list %}
+
+                                {% for law_tag in law_tags_list %}
+                                <a class="dropdown-item"
+                                   href="{% url 'profiles-browsing' law_tags_value=law_tag jurisdiction_value=request.resolver_match.kwargs.jurisdiction_value %}">
+                                    {{law_tag}}
+                                </a>
+                                {% endfor %}
+
+                            {% else %}
+                                <a class="dropdown-item" href="#">No Options Available</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="card-deck">
+                {% for user in users %}
+                <div class="card card--user">
+                    <div class="card-body">
+                        <a href="{% url 'profile' user.handle %}">
+                            <img src="{{ user.photo_url_or_default }}"
+                                 class="d-block mx-auto card--user__avatar rounded-circle">
+                            <h5 class="card-title my-0 text-center">
+                                {% if user.first_name or user.last_name %}
+                                {{ user.first_name }} {{ user.last_name }}
+                                {% else %}
+                                {{ user.handle }}
+                                {% endif %}
+                            </h5>
+                            <h6 class="my-0 text-center">{{ user.get_jurisdiction_display }}</h6>
+                            <p>
+                                {{ user.headline }}
+                            </p>
+                        </a>
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-muted mx-auto">Joined {{ user.date_joined|date:"d M Y" }}</small>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
