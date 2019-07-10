@@ -17,7 +17,7 @@
                     {% else %}
                     <div class="dropdown">
                         <button class="btn btn-secondary dropdown-toggle" type="button" id="jurisdictionMenuButton" data-toggle="dropdown">
-                            {% if jurisdiction_list %} Jurisdictions {% else %} Law Type Tags {% endif %}
+                            {% if jurisdiction_list != None %} Jurisdictions {% else %} Law Type Tags {% endif %}
                         </button>
                         <div class="dropdown-menu" aria-labelledby="jurisdictionMenuButton">
                             {% if jurisdiction_list %}
