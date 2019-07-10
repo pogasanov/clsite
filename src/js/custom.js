@@ -150,4 +150,9 @@ $(document).ready(function() {
         window.location.href= '/profiles/jurisdictions/all/law-type-tags/' + $(event.currentTarget).children()[0].innerText;
     });
 
+    $('#navigate-back').on('click', function(event){
+        window.history.back();
+        return false;
+    });
+
 });
