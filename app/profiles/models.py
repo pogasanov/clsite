@@ -163,6 +163,10 @@ class Profile(AbstractUser):
         models.CharField(max_length=50),
         verbose_name='Law Type Tags', blank=True, null=True
     )
+    subjective_tags = ArrayField(
+        models.CharField(max_length=50),
+        verbose_name='Subjective Tags', blank=True, null=True
+    )
     headline = models.CharField(max_length=120, verbose_name='Headline', blank=True)
     summary = models.CharField(max_length=140, verbose_name='Summary', blank=True)
     website = models.URLField(verbose_name='Website URL', blank=True)
