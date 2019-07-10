@@ -7,7 +7,45 @@
 <div class="main main-raised">
     <div class="users-list-content">
         <div class="container p-3">
-            <a href="{{request.META.HTTP_REFERER}}"><b> < Go Back </b></a>
+            <div class="row">
+                <div class="col-md-2">
+                    <a id="navigate-back" href="#"><b> < Go Back </b></a>
+                </div>
+                <div class="col-md-10" align="center">
+                    {% if jurisdiction_list and law_tags_list %}
+
+                    {% else %}
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="jurisdictionMenuButton" data-toggle="dropdown">
+                            {% if jurisdiction_list %} Jurisdictions {% else %} Law Type Tags {% endif %}
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="jurisdictionMenuButton">
+                            {% if jurisdiction_list %}
+
+                                {% for jurisdiction in jurisdiction_list %}
+                                <a class="dropdown-item"
+                                   href="{% url 'profiles' jurisdiction_value=jurisdiction law_tags_value=request.resolver_match.kwargs.law_tags_value %}">
+                                    {{jurisdiction}}
+                                </a>
+                                {% endfor %}
+
+                            {% elif law_tags_list %}
+
+                                {% for law_tag in law_tags_list %}
+                                <a class="dropdown-item"
+                                   href="{% url 'profiles' law_tags_value=law_tag jurisdiction_value=request.resolver_match.kwargs.jurisdiction_value %}">
+                                    {{law_tag}}
+                                </a>
+                                {% endfor %}
+
+                            {% else %}
+                                <a class="dropdown-item" href="#">No Options Available</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
             <div class="card-deck">
                 {% for user in users %}
                 <div class="card card--user">
