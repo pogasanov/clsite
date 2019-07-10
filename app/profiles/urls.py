@@ -14,9 +14,9 @@ urlpatterns = [
 
     path('profile', views.profile, name='profile'),
     path('profile/<handle>', views.profile, name='profile'),
-    path('profiles/jurisdictions/<jurisdiction_value>/law-type-tags/<law_tags_value>', views.BrowsingView.as_view(), name='profiles'),
+    path('profiles/jurisdictions/<jurisdiction_value>/law-type-tags/<law_tags_value>', views.BrowsingView.as_view(), name='profiles-browsing'),
 
-    path('users', views.UserListView.as_view(), name='users')
+    path('profiles', views.UserListView.as_view(), name='profiles')
 ] + static(MEDIA_URL, document_root=MEDIA_ROOT)
 
 

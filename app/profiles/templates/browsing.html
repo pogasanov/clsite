@@ -24,7 +24,7 @@
 
                                 {% for jurisdiction in jurisdiction_list %}
                                 <a class="dropdown-item"
-                                   href="{% url 'profiles' jurisdiction_value=jurisdiction law_tags_value=request.resolver_match.kwargs.law_tags_value %}">
+                                   href="{% url 'profiles-browsing' jurisdiction_value=jurisdiction law_tags_value=request.resolver_match.kwargs.law_tags_value %}">
                                     {{jurisdiction}}
                                 </a>
                                 {% endfor %}
@@ -33,7 +33,7 @@
 
                                 {% for law_tag in law_tags_list %}
                                 <a class="dropdown-item"
-                                   href="{% url 'profiles' law_tags_value=law_tag jurisdiction_value=request.resolver_match.kwargs.jurisdiction_value %}">
+                                   href="{% url 'profiles-browsing' law_tags_value=law_tag jurisdiction_value=request.resolver_match.kwargs.jurisdiction_value %}">
                                     {{law_tag}}
                                 </a>
                                 {% endfor %}
