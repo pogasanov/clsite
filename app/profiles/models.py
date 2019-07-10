@@ -1,12 +1,13 @@
+import os
+
 from django.db import models
 from django.contrib.postgres.fields import ArrayField, DateRangeField
 from django.conf import settings, global_settings
-from clsite.storage_backends import variativeStorage
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.contrib.staticfiles.templatetags.staticfiles import static
-import os
+from clsite.storage_backends import variativeStorage
 
-from .choices import USA_STATES
+from .choices import USA_STATES, CURRENCIES
 
 
 class Address(models.Model):
@@ -197,6 +198,7 @@ class Transaction(models.Model):
         ('A', 'Agree'),
         ('SA', 'Strongly Agree')
     )
+    CURRENCY_CHOICES = CURRENCIES
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -214,7 +216,7 @@ class Transaction(models.Model):
     requestee = models.ForeignKey('Profile', on_delete=models.CASCADE,
                                   related_name='requestee', verbose_name='Requestee')
     requestee_review = models.CharField(max_length=2, choices=REVIEW_CHOICES,
-                                        default=None, verbose_name='Requestee\'s Review')
+                                        default=None, verbose_name='Requestee\'s Review', null=True)
     requestee_recommendation = models.TextField(null=True, blank=True,
                                                 default=None, verbose_name='Requestee\'s recommendation')
     proof_receipt_requestee = models.ImageField(upload_to=get_image_path, storage=variativeStorage(),
@@ -222,5 +224,7 @@ class Transaction(models.Model):
 
     is_confirmed = models.NullBooleanField(default=None, verbose_name='Confirmed from Requestee')
     is_verified = models.NullBooleanField(default=None, verbose_name='Verified from Admin')
-    amount = models.FloatField(verbose_name='Amount of Transaction')
+    amount = models.DecimalField(max_digits=14, decimal_places=2, verbose_name='Transaction Amount')
+    currency = models.CharField(max_length=3, choices=CURRENCY_CHOICES ,
+                                default='USD', verbose_name='Transaction Currency')
     is_requester_principal = models.BooleanField(default=False, verbose_name='Requester Payed')
