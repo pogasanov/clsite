@@ -174,6 +174,12 @@ class BrowsingView(LoginRequiredMixin, ListView):
                 return row[0]
         return None
 
+    def get_tuple_value_from_key(self, tuple=(), value=None):
+        for row in tuple:
+            if row[0] == value:
+                return row[1]
+        return None
+
     def get_unique_options(self, list_values):
         unique_list = []
         for row in list_values:
@@ -194,5 +200,5 @@ class BrowsingView(LoginRequiredMixin, ListView):
         if law_tags_value:
             list_users = list_users.filter(law_type_tags__contains=[law_tags_value])
             jurisdiction_list_values = self.get_unique_options(list_users.values_list('jurisdiction', flat=True))
-            jurisdiction_list = [self.get_tuple_key_from_value(USA_STATES, value) for value in jurisdiction_list_values]
+            jurisdiction_list = [self.get_tuple_value_from_key(USA_STATES, value) for value in jurisdiction_list_values]
         return render(request, self.template_name, {'users': list_users, 'jurisdiction_list': jurisdiction_list, 'law_tags_list': law_tags_list})
