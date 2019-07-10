@@ -44,7 +44,20 @@ class DynamicMultiSelectArrayFieldWidget(MultiSelectArrayFieldWidget):
             custom_tag_items = [self.create_option(name, v, v, custom_tags, i)
                                 for i, v in enumerate(custom_tags, len(choices))]
             tags.append((None, custom_tag_items, 0))
-        return tags
+
+        selected_tags = []
+        available_tags = []
+        # To preserve the selected tags order on edit action
+        for _, item, index in tags:
+            tag_name = item[0]['value']
+            if tag_name in values:
+                selected_tags.append((None, item, values.index(tag_name)))
+            else:
+                available_tags.append((None, item, index+len(values)))
+        # pre-append selected tags of into options
+        options = sorted(selected_tags, key=lambda tag: tag[-1])
+        options.extend(available_tags)
+        return options
 
 
 class ProfileForm(ModelForm):
