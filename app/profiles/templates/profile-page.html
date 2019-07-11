@@ -128,6 +128,10 @@
                                         <h5 class="mt-0 mb-1" style="font-weight: 700;">Law Type Tags:</h5>
                                         {{ selected_user.law_type_tags|join:", " }}
                                     </div>
+                                    <div class="col-md-6 field">
+                                        <h5 class="mt-0 mb-1" style="font-weight: 700;">Subective Tags:</h5>
+                                        {{ selected_user.subjective_tags|join:", "|capfirst }}
+                                    </div>
 
                                     <div class="col-md-6 field">
                                         <h5 class="mt-0 mb-1" style="font-weight: 700;">Current job:</h5>
@@ -457,6 +461,13 @@
                                             {{ form.law_type_tags.label_tag }}
                                             {{ form.law_type_tags }}
                                             {% for error in form.law_type_tags.errors %}
+                                                <span style="color: red;">[{{ error }}]</span>
+                                            {% endfor %}
+                                        </div>
+                                        <div class="col-md-6 field">
+                                            {{ form.subjective_tags.label_tag | capfirst }}
+                                            {{ form.subjective_tags | capfirst }}
+                                            {% for error in form.subjective_tags.errors %}
                                                 <span style="color: red;">[{{ error }}]</span>
                                             {% endfor %}
                                         </div>

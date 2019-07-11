@@ -58,3 +58,17 @@ input::-webkit-inner-spin-button {
 input[type=number] {
     -moz-appearance:textfield;
 }
+
+
+.browsing-li{
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.browsing-li:hover {
+  color:blue;
+  cursor: pointer;
+}

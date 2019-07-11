@@ -7,8 +7,38 @@
     <div class="main main-raised">
         <div class="users-list-content">
             <div class="container p-3">
+                <div class="row">
+                    <div class="col-md-6">
+                        <button type="button" class="btn btn-light btn-block active jurisdiction-display">
+                            <b>Jurisdictions</b>
+                        </button>
+                    </div>
+                    <div class="col-md-6">
+                        <button type="button" class="btn btn-light btn-block law-type-tag-display">
+                            <b>Law Type Tags</b>
+                        </button>
+                    </div>
+                </div>
+                <div class="row" id="jurisdictions-row">
+                    {% for value in jurisdictions %}
+                    <div class="col-md-3 browsing-li jurisdiction">
+                        <div>{{value.name}}</div>
+                        <div>({{value.occurrence}}) ></div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="row" id="law-type-tag-row" style="display: none">
+                    {% for value in law_type_tags %}
+                    <div class="col-md-3 browsing-li law-type-tag">
+                        <div>{{value.name}}</div>
+                        <div>({{value.occurrence}}) ></div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="container p-3">
                 <div class="card-deck">
-                    {% for user in object_list %}
+                    {% for user in users %}
                         <div class="card card--user">
                             <div class="card-body">
                                 <a href="{% url 'profile' user.handle %}">
