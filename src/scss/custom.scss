@@ -49,6 +49,17 @@ select.form-control {
   height: 36px !important;
 }
 
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+input[type=number] {
+    -moz-appearance:textfield;
+}
+
+
 .browsing-li{
   display: flex;
   justify-content: space-between;

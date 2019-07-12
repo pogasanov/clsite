@@ -1,15 +1,15 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.contrib.auth import get_user_model, login
 from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseBadRequest
 from django.views.generic.edit import CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView
 from itertools import groupby
 
 from .forms import ProfileForm, EducationFormSet, WorkExperienceFormSet, AddressForm, AddmissionsFormSet, LawSchoolForm, \
-    OrganizationFormSet, AwardFormSet, ProfileCreationForm
+    OrganizationFormSet, AwardFormSet, ProfileCreationForm, TransactionForm
 from .models import Profile
 from .choices import USA_STATES
 
@@ -97,6 +97,22 @@ def profile(request, handle=None):
         'organizations': organization_formset,
         'awards': award_formset
     })
+
+@login_required
+def transaction(request, handle):
+    user = request.user
+    receiver = get_object_or_404(get_user_model(), handle=handle)
+
+    if user == receiver:
+        return HttpResponseBadRequest()
+
+    transaction_form = TransactionForm(request.POST or None)
+
+    if transaction_form.is_valid():
+        transaction_form.save(requester=user, requestee=receiver)
+        return redirect('home')
+
+    return render(request, "transaction.html", context={'form': transaction_form})
 
 
 def update_user_profile_photo(user, photo):

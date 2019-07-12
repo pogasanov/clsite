@@ -59,6 +59,9 @@
                                         </a>
                                     {% endif %}
                                 </div>
+                                {% if user != selected_user %}
+                                    <a href="{% url 'create_transaction' selected_user.handle %}" class="btn">Add Correspondence with {{ selected_user.first_name }} {{ selected_user.last_name }}</a>
+                                {% endif %}
                                 <div class="description text-center">
                                     <p>{{ selected_user.bio|safe }}</p>
                                 </div>

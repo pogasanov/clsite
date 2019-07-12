@@ -1,15 +1,14 @@
-from django.forms import ModelForm, inlineformset_factory
 from django import forms
+from django.forms import ModelForm, inlineformset_factory
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
-from django.conf.global_settings import LANGUAGES
-
 from django_select2.forms import Select2TagWidget
+from django.conf.global_settings import LANGUAGES
 
 from .utils import LAW_TYPE_TAGS_CHOICES, SUBJECTIVE_TAGS_CHOICES
 from .choices import USA_STATES
 from .models import (Profile, Education, WorkExperience, Address, Admissions,
-                     LawSchool, Organization, Award)
+                     LawSchool, Organization, Award, Transaction)
 
 
 class ProfileCreationForm(UserCreationForm):
@@ -228,3 +227,37 @@ class LawSchoolForm(ModelForm):
         super().__init__(*args, **kwargs)
         for key, field in self.fields.items():
             field.widget.attrs.update({'class': 'form-control'})
+
+
+class TransactionForm(ModelForm):
+    class Meta:
+        model = Transaction
+        fields = ['is_requester_principal', 'requester_review', 'date',
+                  'amount', 'currency', 'requester_recommendation']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['is_requester_principal'].widget = forms.NullBooleanSelect()
+        self.fields['is_requester_principal'].widget.choices = (
+            (True, "I paid them"),
+            (False, "They paid me")
+        )
+
+        for key, field in self.fields.items():
+            field.widget.attrs.update({'class': 'form-control'})
+
+        self.fields['amount'].widget.attrs['class'] = 'form-control col-md-4 mr-2'
+        self.fields['currency'].widget.attrs['class'] = 'form-control col-md-4 mr-2'
+
+        self.fields['is_requester_principal'].label = 'Did one of you pay the other?'
+        self.fields['requester_recommendation'].label = 'Write a brief written recommendation'
+        self.fields['requester_review'].label = 'Would you work with them again?'
+        self.fields['date'].label = 'What was the date of the transaction?'
+        self.fields['date'].widget.attrs['class'] += ' datepicker'
+
+    def save(self, requester, requestee, commit=True):
+        transaction = super().save(commit=False)
+        transaction.requester = requester
+        transaction.requestee = requestee
+        transaction.save()
+        return transaction
