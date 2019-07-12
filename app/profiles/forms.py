@@ -126,6 +126,7 @@ class ProfileForm(ModelForm):
             'first_name', updated_profile.first_name)
         updated_profile.last_name = self.cleaned_data.get(
             'last_name', updated_profile.last_name)
+        updated_profile.subjective_tags = list(map(str.capitalize, self.cleaned_data.get('subjective_tags')))
         updated_profile.save()
         return updated_profile
 

@@ -6,9 +6,12 @@ from django.http import JsonResponse
 from django.views.generic.edit import CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView
+from itertools import groupby
 
 from .forms import ProfileForm, EducationFormSet, WorkExperienceFormSet, AddressForm, AddmissionsFormSet, LawSchoolForm, \
     OrganizationFormSet, AwardFormSet, ProfileCreationForm
+from .models import Profile
+from .choices import USA_STATES
 
 
 def index(request):
@@ -126,3 +129,76 @@ class UserListView(LoginRequiredMixin, ListView):
     model = get_user_model()
     template_name = 'user_list.html'
     ordering = ['id']
+
+    def get_tuple_display_from_value(self, search_tuple, list_values=[]):
+        display_list = []
+        for value in list_values:
+            if dict(search_tuple).get(value):
+                display_list.append(dict(search_tuple)[value])
+        return display_list
+
+    def get_flat_tags_and_usage(self, profiles_law_type_tags):
+        flat_law_tags = []
+        flat_jurisdictions = []
+        for profile in profiles_law_type_tags:
+            if profile.law_type_tags:
+                flat_law_tags.extend(profile.law_type_tags)
+            if profile.jurisdiction:
+                flat_jurisdictions.extend(self.get_tuple_display_from_value(USA_STATES, profile.jurisdiction))
+
+        law_tags_with_occurrence = [{"name": tag, "occurrence": len(list(group))} for tag, group in groupby(sorted(flat_law_tags))]
+        jurisdiction_with_occurrence = [
+            {"name": jurisdiction, "occurrence": len(list(group))} for jurisdiction, group in groupby(sorted(flat_jurisdictions))
+        ]
+
+        return sorted(law_tags_with_occurrence, key=lambda k: k['occurrence'], reverse=True), \
+               sorted(jurisdiction_with_occurrence, key=lambda k: k['occurrence'], reverse=True)
+
+    def get(self, request, *args, **kwargs):
+        list_users = Profile.objects.all()
+        profiles_law_type_tags = list_users.only('law_type_tags', 'jurisdiction')
+        list_law_type_tags, list_jurisdictions = self.get_flat_tags_and_usage(profiles_law_type_tags)
+        return render(request, self.template_name, {'jurisdictions': list_jurisdictions,
+                                                    'law_type_tags': list_law_type_tags,
+                                                    'users': list_users})
+
+
+class BrowsingView(LoginRequiredMixin, ListView):
+    model = get_user_model()
+    template_name = 'browsing.html'
+    ordering = ['id']
+
+    def get_tuple_key_from_value(self, tuple=(), value=None):
+        for row in tuple:
+            if row[1] == value:
+                return row[0]
+        return None
+
+    def get_tuple_value_from_key(self, tuple=(), value=None):
+        for row in tuple:
+            if row[0] == value:
+                return row[1]
+        return None
+
+    def get_unique_options(self, list_values):
+        unique_list = []
+        for row in list_values:
+            if row:
+                unique_list = list(set(unique_list) | set(row))
+        return unique_list
+
+    def get(self, request, *args, **kwargs):
+        list_users = Profile.objects.all()
+        jurisdiction = kwargs.get('jurisdiction_value') if kwargs.get('jurisdiction_value') != 'all' else None
+        law_tags_value = kwargs.get('law_tags_value') if kwargs.get('law_tags_value') != 'all' else None
+        law_tags_list = None
+        jurisdiction_list = None
+        if jurisdiction:
+            jurisdiction = self.get_tuple_key_from_value(USA_STATES, jurisdiction)
+            list_users = list_users.filter(jurisdiction__contains=[jurisdiction])
+            law_tags_list = self.get_unique_options(list_users.values_list('law_type_tags', flat=True))
+        if law_tags_value:
+            list_users = list_users.filter(law_type_tags__contains=[law_tags_value])
+            jurisdiction_list_values = self.get_unique_options(list_users.values_list('jurisdiction', flat=True))
+            jurisdiction_list = [self.get_tuple_value_from_key(USA_STATES, value) for value in jurisdiction_list_values]
+        return render(request, self.template_name, {'users': list_users, 'jurisdiction_list': jurisdiction_list, 'law_tags_list': law_tags_list})
