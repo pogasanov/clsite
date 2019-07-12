@@ -6,7 +6,8 @@ from django.conf.global_settings import LANGUAGES
 
 from django_select2.forms import Select2TagWidget
 
-from .utils import LAW_TYPE_TAGS_CHOICES, SUBJECTIVE_TAGS_CHOICES
+from .utils import (LAW_TYPE_TAGS_CHOICES, SUBJECTIVE_TAGS_CHOICES,
+                    LANGUAGES_CHOICES)
 from .choices import USA_STATES
 from .models import (Profile, Education, WorkExperience, Address, Admissions,
                      LawSchool, Organization, Award)
@@ -116,7 +117,7 @@ class ProfileForm(ModelForm):
             attrs={'class': 'form-control', 'data-token-separators': [',']}
         )
         self.fields['languages'].widget = MultiSelectArrayFieldWidget(
-            choices=LANGUAGES, attrs={
+            choices=LANGUAGES_CHOICES, attrs={
                 'data-tags': False, 'class': 'form-control'}
         )
 

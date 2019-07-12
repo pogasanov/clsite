@@ -1,6 +1,14 @@
 import json
 import os
+
+from django.conf.global_settings import LANGUAGES
+
 from clsite.settings import BASE_DIR
+
+
+LANGUAGES_PROFICIENCY_LEVEL = (('NS', 'Native speaker'),
+                               ('PF', 'professional fluency'),
+                               ('CF', 'conversational fluency'))
 
 
 def _read_json(path):
@@ -55,6 +63,19 @@ def _get_all_law_type_tags_tuple():
     return tuple(result_list)
 
 
+def _get_language_selection_tuple():
+    result_list = []
+    for symbol, language in LANGUAGES:
+        choices = []
+        for i, level in LANGUAGES_PROFICIENCY_LEVEL:
+            choices.append((symbol + '-' + i, language + ' ' + level))
+        result_list.append((language, tuple(choices)))
+
+    return tuple(result_list)
+
+
 LAW_TYPE_TAGS_CHOICES = _get_all_law_type_tags_tuple()
 
 SUBJECTIVE_TAGS_CHOICES = _get_all_subjective_tags_tuple()
+
+LANGUAGES_CHOICES = _get_language_selection_tuple()

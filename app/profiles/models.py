@@ -7,6 +7,7 @@ from django.contrib.staticfiles.templatetags.staticfiles import static
 import os
 
 from .choices import USA_STATES
+from .utils import LANGUAGES_CHOICES
 
 
 class Address(models.Model):
@@ -126,7 +127,7 @@ class Profile(AbstractUser):
         (0, 'Active'),
         (1, 'In good standing')
     )
-    LANGUAGES = global_settings.LANGUAGES
+    LANGUAGES = LANGUAGES_CHOICES
     username = None
 
     handle = models.CharField(max_length=50, unique=True, null=True, blank=True)
