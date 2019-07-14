@@ -59,7 +59,7 @@ def user_relationships(user):
         relationship['jurisdiction']= [states[j] for j in other_user.jurisdiction or []]
         relationship['law_type_tags'] = other_user.law_type_tags or []
 
-        if not (amount_given and amount_received):
+        if not amount_given and not amount_received:
             continue
 
         relationships.append(relationship)
