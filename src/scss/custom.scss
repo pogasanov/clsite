@@ -41,6 +41,11 @@
   max-width: 200px !important;
 }
 
+.correspondence-photo {
+  max-height: 50px !important;
+  max-width: 50px !important;
+}
+
 .field {
   margin-top: 20px;
 }
@@ -71,4 +76,9 @@ input[type=number] {
 .browsing-li:hover {
   color:blue;
   cursor: pointer;
+}
+
+.user-relationships{
+  padding-left: 0px !important;
+  padding-right: 0px !important;
 }
