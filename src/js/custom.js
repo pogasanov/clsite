@@ -1,6 +1,7 @@
 import LoaderSpinner from '../img/loader.gif'
 
 $(document).ready(function() {
+    // PROFILE PAGE
     function setupPictureUpload() {
         if (window.location.href.split("profile")[1] === ""){
             document.getElementsByClassName("photo-view")[0].style.cursor = "pointer";
@@ -146,7 +147,18 @@ $(document).ready(function() {
         $(recommendationLabelSelector).show();
     });
 
+    $('.jurisdiction-country').on('change', function(e){
+        let stateDiv = $(e.currentTarget).parent().siblings('.state-div')[0];
+        console.log($(stateDiv).children('select')[0]);
+        console.log('country changed')
+    });
+    $('.jurisdiction-state').on('change', function(e){
+        let cityDiv = $(e.currentTarget).parent().siblings('.city-div')[0];
+        console.log($(cityDiv).children('select')[0]);
+        console.log('state changed')
+    });
 
+    // BROWSING PAGE
     $('.jurisdiction-display').on('click', function (event){
         // toggle active class
         event.currentTarget.classList.add('active');

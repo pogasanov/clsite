@@ -121,10 +121,6 @@
                                         {{ selected_user.experience }} years
                                     </div>
                                     <div class="col-md-6 field">
-                                        <h5 class="mt-0 mb-1" style="font-weight: 700;">Jurisdictions:</h5>
-                                        {{ selected_user.jurisdiction|join:", " }}
-                                    </div>
-                                    <div class="col-md-6 field">
                                         <h5 class="mt-0 mb-1" style="font-weight: 700;">Law Type Tags:</h5>
                                         {{ selected_user.law_type_tags|join:", " }}
                                     </div>
@@ -388,7 +384,49 @@
                                             {% endfor %}
                                         </div>
                                     </div>
-
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h3>Jurisdictions</h3>
+                                        </div>
+                                        {{ jurisdiction.management_form }}
+                                        {% for jurisdiction in jurisdiction.forms %}
+                                            {% for hidden in jurisdiction.hidden_fields %}
+                                                {{ hidden }}
+                                            {% endfor %}
+                                            <div class="col-md-3 field country-div">
+                                                {{ jurisdiction.country.label_tag }}
+                                                {{ jurisdiction.country }}
+                                                {% for error in jurisdiction.country.errors %}
+                                                    <span style="color: red;">[{{ error }}]</span>
+                                                {% endfor %}
+                                            </div>
+                                            <div class="col-md-3 field state-div">
+                                                {{ jurisdiction.state.label_tag }}
+                                                {{ jurisdiction.state }}
+                                                {% for error in jurisdiction.state.errors %}
+                                                    <span style="color: red;">[{{ error }}]</span>
+                                                {% endfor %}
+                                            </div>
+                                            <div class="col-md-3 field city-div">
+                                                {{ jurisdiction.city.label_tag }}
+                                                {{ jurisdiction.city }}
+                                                {% for error in jurisdiction.city.errors %}
+                                                    <span style="color: red;">[{{ error }}]</span>
+                                                {% endfor %}
+                                            </div>
+                                            <div class="col-md-3 field">
+                                                {% if jurisdiction.can_delete %}
+                                                {{ jurisdiction.DELETE.label_tag }}
+                                                {{ jurisdiction.DELETE }}
+                                                {% endif %}
+                                            </div>
+                                        {% endfor %}
+                                        <div class="col-md-12 field">
+                                            <a href="#" id="jurisdiction-cloner">
+                                                <h3>+</h3>
+                                            </a>
+                                        </div>
+                                    </div>
                                     <div class="row">
                                         <div class="col-md-12">
                                             <h3>Address</h3>
@@ -440,13 +478,6 @@
                                             {{ form.experience.label_tag }}
                                             {{ form.experience }}
                                             {% for error in form.experience.errors %}
-                                                <span style="color: red;">[{{ error }}]</span>
-                                            {% endfor %}
-                                        </div>
-                                        <div class="col-md-6 field">
-                                            {{ form.jurisdiction.label_tag }}
-                                            {{ form.jurisdiction }}
-                                            {% for error in form.jurisdiction.errors %}
                                                 <span style="color: red;">[{{ error }}]</span>
                                             {% endfor %}
                                         </div>
