@@ -9,7 +9,7 @@ from django.views.generic import ListView
 from itertools import groupby
 
 from .forms import ProfileForm, EducationFormSet, WorkExperienceFormSet, AddressForm, AddmissionsFormSet, LawSchoolForm, \
-    OrganizationFormSet, AwardFormSet, ProfileCreationForm, TransactionForm
+    OrganizationFormSet, AwardFormSet, ProfileCreationForm, TransactionForm, JurisdictionFormSet
 from .models import Profile
 from .choices import USA_STATES
 
@@ -23,6 +23,7 @@ def profile(request, handle=None):
     if handle:
         user = get_object_or_404(get_user_model(), handle=handle)
         profile_form = None
+        jurisdiction_formset = None
         address_form = None
         education_formset = None
         admissions_formset = None
@@ -33,6 +34,7 @@ def profile(request, handle=None):
     else:
         user = request.user
         profile_form = ProfileForm(request.POST or None, instance=user, prefix='profile')
+        jurisdiction_formset = JurisdictionFormSet(request.POST or None, instance=user, prefix='jurisdiction')
         address_form = AddressForm(request.POST or None, instance=getattr(user, 'address', None), prefix='address')
         education_formset = EducationFormSet(request.POST or None, instance=user, prefix='education')
         admissions_formset = AddmissionsFormSet(request.POST or None, instance=user, prefix='admissions')
@@ -47,6 +49,7 @@ def profile(request, handle=None):
                 return JsonResponse({'url': url})
             else:
                 if profile_form.is_valid() and \
+                        jurisdiction_formset.is_valid() and \
                         address_form.is_valid() and \
                         education_formset.is_valid() and \
                         admissions_formset.is_valid() and \
@@ -75,6 +78,7 @@ def profile(request, handle=None):
                 else:
                     errors = {
                         'profile': profile_form.errors,
+                        'jurisdiction': jurisdiction_formset.errors,
                         'address': address_form.errors,
                         'education': education_formset.errors,
                         'admissions': admissions_formset.errors,
@@ -89,6 +93,7 @@ def profile(request, handle=None):
     return render(request, "profile-page.html", context={
         'selected_user': user,
         'form': profile_form,
+        'jurisdiction': jurisdiction_formset,
         'address': address_form,
         'educations': education_formset,
         'admissions': admissions_formset,

@@ -8,7 +8,7 @@ from django.conf.global_settings import LANGUAGES
 from .utils import LAW_TYPE_TAGS_CHOICES, SUBJECTIVE_TAGS_CHOICES
 from .choices import USA_STATES
 from .models import (Profile, Education, WorkExperience, Address, Admissions,
-                     LawSchool, Organization, Award, Transaction)
+                     LawSchool, Organization, Award, Transaction, Jurisdiction)
 
 
 class ProfileCreationForm(UserCreationForm):
@@ -83,7 +83,6 @@ class ProfileForm(ModelForm):
                   'license_status',
                   'languages',
                   'clients',
-                  'jurisdiction',
                   'law_type_tags',
                   'subjective_tags',
                   'bio',
@@ -106,10 +105,6 @@ class ProfileForm(ModelForm):
             choices=SUBJECTIVE_TAGS_CHOICES, attrs={'class': 'form-control',
                                                     'data-maximum-selection-length': 3,
                                                     'data-token-separators': [',']}
-        )
-        self.fields['jurisdiction'].widget = MultiSelectArrayFieldWidget(
-            choices=USA_STATES, attrs={
-                'data-tags': False, 'class': 'form-control'}
         )
         self.fields['clients'].widget = MultiSelectArrayFieldWidget(
             attrs={'class': 'form-control', 'data-token-separators': [',']}
@@ -261,3 +256,25 @@ class TransactionForm(ModelForm):
         transaction.requestee = requestee
         transaction.save()
         return transaction
+
+
+class JurisdictionForm(ModelForm):
+    class Meta:
+        model = Jurisdiction
+        exclude = ('profile',)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['state'].widget = forms.Select(attrs={'class': 'form-control'})
+        self.fields['city'].widget = forms.Select(attrs={'class': 'form-control'})
+        for key, field in self.fields.items():
+            if key=='country':
+                field.widget.attrs.update({'class': 'form-control jurisdiction-country'})
+            elif key=='state':
+                field.widget.attrs.update({'class': 'form-control jurisdiction-state'})
+            else:
+                field.widget.attrs.update({'class': 'form-control'})
+
+
+JurisdictionFormSet = inlineformset_factory(Profile, Jurisdiction,
+                                         form=JurisdictionForm, extra=1)
