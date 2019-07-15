@@ -8,6 +8,7 @@ from django.contrib.staticfiles.templatetags.staticfiles import static
 from clsite.storage_backends import variativeStorage
 
 from .choices import USA_STATES, CURRENCIES
+from .utils import COUNTRIES_CHOICES
 
 
 class Address(models.Model):
@@ -26,6 +27,13 @@ class Education(models.Model):
     school = models.CharField(max_length=100, verbose_name='School name')
     degree = models.CharField(max_length=100, verbose_name='Degree')
     graduation_date = models.DateField(verbose_name='date of graduation')
+
+
+class Jurisdiction(models.Model):
+    profile = models.ForeignKey('Profile', on_delete=models.CASCADE, verbose_name='Profile')
+    country = models.CharField(max_length=100, verbose_name='Country', choices=COUNTRIES_CHOICES)
+    state = models.CharField(max_length=100, verbose_name='State', null=True, blank=True)
+    city = models.CharField(max_length=100, verbose_name='City', null=True, blank=True)
 
 
 class Admissions(models.Model):
@@ -154,11 +162,6 @@ class Profile(AbstractUser):
     clients = ArrayField(
         models.CharField(max_length=100, verbose_name='Representative Clients'),
         blank=True, null=True
-    )
-
-    jurisdiction = ArrayField(
-        models.CharField(max_length=2, choices=USA_STATES),
-        verbose_name='Jurisdiction', blank=True, null=True
     )
     law_type_tags = ArrayField(
         models.CharField(max_length=50),
