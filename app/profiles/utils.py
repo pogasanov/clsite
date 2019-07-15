@@ -55,6 +55,60 @@ def _get_all_law_type_tags_tuple():
     return tuple(result_list)
 
 
+def _get_all_countries_tuple():
+    """
+    Returns all countries in the form of choices readable tuple.
+    """
+
+    path = 'profiles/countriesstatescities/countries+states+cities.json'
+    file_path = os.path.join(BASE_DIR, path)
+    countries_states_cities = _read_json(file_path)
+    result_list = []
+    for row in countries_states_cities:
+        country_tuple = (row['name'], row['name'])
+        result_list.append(country_tuple)
+
+    return tuple(result_list)
+
+
+def _get_states_for_country(country_name):
+    """
+    Returns all the states of a given country in the form of choices readable tuple.
+    """
+
+    path = 'profiles/countriesstatescities/countries+states+cities.json'
+    file_path = os.path.join(BASE_DIR, path)
+    countries_states_cities = _read_json(file_path)
+    result_list = []
+    for row in countries_states_cities:
+        if row['name'] == country_name:
+            list_states = list(row['states'].keys())
+            result_list = [(state, state) for state in list_states]
+            return tuple(result_list)
+
+    return tuple(result_list)
+
+
+def _get_cities_for_state(country_name, state_name):
+    """
+    Returns all the cities of a given state in the form of choices readable tuple.
+    """
+
+    path = 'profiles/countriesstatescities/countries+states+cities.json'
+    file_path = os.path.join(BASE_DIR, path)
+    countries_states_cities = _read_json(file_path)
+    result_list = []
+    for row in countries_states_cities:
+        if row['name'] == country_name:
+            list_cities = row['states'][state_name]
+            result_list = [(city, city) for city in list_cities]
+            return tuple(result_list)
+
+    return tuple(result_list)
+
+
 LAW_TYPE_TAGS_CHOICES = _get_all_law_type_tags_tuple()
 
 SUBJECTIVE_TAGS_CHOICES = _get_all_subjective_tags_tuple()
+
+COUNTRIES_CHOICES = _get_all_countries_tuple()
