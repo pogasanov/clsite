@@ -232,6 +232,7 @@ class Transaction(models.Model):
     is_confirmed = models.NullBooleanField(default=None, verbose_name='Confirmed from Requestee')
     is_verified = models.NullBooleanField(default=None, verbose_name='Verified from Admin')
     amount = models.DecimalField(max_digits=14, decimal_places=2, verbose_name='Transaction Amount')
+    value_in_usd = models.DecimalField(max_digits=14, decimal_places=2, verbose_name='Value in USD', null=True)
     currency = models.CharField(max_length=3, choices=CURRENCY_CHOICES ,
                                 default='USD', verbose_name='Transaction Currency')
     is_requester_principal = models.BooleanField(default=False, verbose_name='Requester Payed')

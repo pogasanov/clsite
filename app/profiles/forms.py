@@ -254,6 +254,10 @@ class TransactionForm(ModelForm):
         transaction = super().save(commit=False)
         transaction.requester = requester
         transaction.requestee = requestee
+
+        if transaction.currency == 'USD':
+            transaction.value_in_usd = transaction.amount
+
         transaction.save()
         return transaction
 
