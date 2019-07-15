@@ -10,7 +10,7 @@ from .utils import (LAW_TYPE_TAGS_CHOICES, SUBJECTIVE_TAGS_CHOICES,
                     LANGUAGES_CHOICES)
 from .choices import USA_STATES
 from .models import (Profile, Education, WorkExperience, Address, Admissions,
-                     LawSchool, Organization, Award)
+                     LawSchool, Organization, Award, Language)
 
 
 class ProfileCreationForm(UserCreationForm):
@@ -229,3 +229,18 @@ class LawSchoolForm(ModelForm):
         super().__init__(*args, **kwargs)
         for key, field in self.fields.items():
             field.widget.attrs.update({'class': 'form-control'})
+
+
+class LanguageForm(ModelForm):
+    class Meta:
+        model = Language
+        exclude = ('profile', )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for _, field in self.fields.items():
+            field.widget.attrs.update({'class': 'form-control'})
+
+
+LanguageFormSet = inlineformset_factory(Profile, Language,
+                                         form=LanguageForm, extra=1)

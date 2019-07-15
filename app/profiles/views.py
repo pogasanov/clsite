@@ -1,3 +1,5 @@
+from itertools import groupby
+
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
 from django.contrib.auth import get_user_model, login
@@ -6,10 +8,11 @@ from django.http import JsonResponse
 from django.views.generic.edit import CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView
-from itertools import groupby
 
-from .forms import ProfileForm, EducationFormSet, WorkExperienceFormSet, AddressForm, AddmissionsFormSet, LawSchoolForm, \
-    OrganizationFormSet, AwardFormSet, ProfileCreationForm
+from .forms import (ProfileForm, EducationFormSet, WorkExperienceFormSet,
+                    AddressForm, AddmissionsFormSet, LawSchoolForm,
+                    OrganizationFormSet, AwardFormSet, ProfileCreationForm,
+                    LanguageFormSet)
 from .models import Profile
 from .choices import USA_STATES
 
@@ -30,6 +33,7 @@ def profile(request, handle=None):
         workexperience_formset = None
         organization_formset = None
         award_formset = None
+        language_formset = None
     else:
         user = request.user
         profile_form = ProfileForm(request.POST or None, instance=user, prefix='profile')
@@ -40,6 +44,7 @@ def profile(request, handle=None):
         workexperience_formset = WorkExperienceFormSet(request.POST or None, instance=user, prefix='workexperience')
         organization_formset = OrganizationFormSet(request.POST or None, instance=user, prefix='organization')
         award_formset = AwardFormSet(request.POST or None, instance=user, prefix='award')
+        language_formset = LanguageFormSet(request.POST or None, instance=user, prefix='language')
 
         if request.method == 'POST':
             if request.FILES.get('photo-input'):
@@ -53,7 +58,8 @@ def profile(request, handle=None):
                         lawschool_form.is_valid() and \
                         workexperience_formset.is_valid() and \
                         organization_formset.is_valid() and \
-                        award_formset.is_valid():
+                        award_formset.is_valid() and \
+                        language_formset.is_valid():
                     profile_form.save()
                     af = address_form.save(commit=False)
                     af.profile = user
@@ -71,6 +77,8 @@ def profile(request, handle=None):
                     organization_formset.save()
                     award_formset.instance = user
                     award_formset.save()
+                    language_formset.instance = user
+                    language_formset.save()
                     return JsonResponse({'message': 'Your data has been updated successfully!'})
                 else:
                     errors = {
@@ -82,6 +90,7 @@ def profile(request, handle=None):
                         'workexperience': workexperience_formset.errors,
                         'organization': organization_formset.errors,
                         'award': award_formset.errors,
+                        'language': language_formset.errors,
                         'message': 'Invalid data provided!'
                     }
                     return JsonResponse(errors, status=400)
@@ -95,7 +104,8 @@ def profile(request, handle=None):
         'lawschool': lawschool_form,
         'workexperiences': workexperience_formset,
         'organizations': organization_formset,
-        'awards': award_formset
+        'awards': award_formset,
+        'languages': language_formset,
     })
 
 

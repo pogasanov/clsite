@@ -1,10 +1,13 @@
+import os
+
 from django.db import models
 from django.contrib.postgres.fields import ArrayField, DateRangeField
 from django.conf import settings, global_settings
-from clsite.storage_backends import variativeStorage
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.contrib.staticfiles.templatetags.staticfiles import static
-import os
+from django.conf.global_settings import LANGUAGES
+
+from clsite.storage_backends import variativeStorage
 
 from .choices import USA_STATES
 from .utils import LANGUAGES_CHOICES
@@ -65,6 +68,18 @@ class Award(models.Model):
     presented_by = models.CharField(max_length=100, verbose_name='Presented by')
     year = models.PositiveIntegerField(verbose_name='Year')
     description = models.TextField(verbose_name='Description')
+
+class Language(models.Model):
+    PROFICIENCY_LEVEL = (('NS', 'Native speaker'),
+                        ('PF', 'professional fluency'),
+                        ('CF', 'conversational fluency'))
+
+    profile = models.ForeignKey('Profile', on_delete=models.CASCADE, verbose_name='Profile')
+    name = models.CharField(max_length=10, choices=LANGUAGES)
+    proficiency_level = models.CharField(max_length=20, choices=PROFICIENCY_LEVEL)
+
+    class Meta:
+        unique_together = ('profile', 'name')
 
 
 def get_image_path(instance, filename):
