@@ -5,8 +5,7 @@ from django.contrib.auth import get_user_model
 from django_select2.forms import Select2TagWidget
 from django.conf.global_settings import LANGUAGES
 
-from .utils import LAW_TYPE_TAGS_CHOICES, SUBJECTIVE_TAGS_CHOICES
-from .choices import USA_STATES
+from .utils import LAW_TYPE_TAGS_CHOICES, SUBJECTIVE_TAGS_CHOICES, _get_states_for_country
 from .models import (Profile, Education, WorkExperience, Address, Admissions,
                      LawSchool, Organization, Award, Transaction, Jurisdiction)
 
@@ -274,8 +273,10 @@ class JurisdictionForm(ModelForm):
         for key, field in self.fields.items():
             if key=='country':
                 field.widget.attrs.update({'class': 'form-control jurisdiction-country'})
+                field.initial = 'United States'
             elif key=='state':
                 field.widget.attrs.update({'class': 'form-control jurisdiction-state'})
+                field.widget.choices = (('', '------'),) + _get_states_for_country('United States')
             else:
                 field.widget.attrs.update({'class': 'form-control'})
 
