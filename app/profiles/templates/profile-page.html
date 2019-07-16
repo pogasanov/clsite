@@ -148,6 +148,14 @@
                                         <h5 class="mt-0 mb-1" style="font-weight: 700;">License status:</h5>
                                         {{ selected_user.get_license_status_display }}
                                     </div>
+                                    <div class="col-md-6 field">
+                                        <h5 class="mt-0 mb-1" style="font-weight: 700;">Jurisdictions:</h5>
+                                        {% for jurisdiction in selected_user.jurisdiction_set.all %}
+                                            <div class="row">
+                                                {{ jurisdiction.country }} - {{ jurisdiction.state }} - {{ jurisdiction.city }}
+                                            </div>
+                                        {% endfor %}
+                                    </div>
                                 </div>
 
                                 <div class="row">

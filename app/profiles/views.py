@@ -99,7 +99,7 @@ def profile(request, handle=None):
     else:
         user = request.user
         profile_form = ProfileForm(request.POST or None, instance=user, prefix='profile')
-        jurisdiction_formset = JurisdictionFormSet(request.POST or None, instance=user, prefix='jurisdiction', initial=None)
+        jurisdiction_formset = JurisdictionFormSet(request.POST or None, instance=user, prefix='jurisdiction')
         address_form = AddressForm(request.POST or None, instance=getattr(user, 'address', None), prefix='address')
         education_formset = EducationFormSet(request.POST or None, instance=user, prefix='education')
         admissions_formset = AddmissionsFormSet(request.POST or None, instance=user, prefix='admissions')
