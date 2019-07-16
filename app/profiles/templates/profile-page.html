@@ -389,42 +389,78 @@
                                             <h3>Jurisdictions</h3>
                                         </div>
                                         {{ jurisdiction.management_form }}
-                                        {% for jurisdiction in jurisdiction.forms %}
-                                            {% for hidden in jurisdiction.hidden_fields %}
-                                                {{ hidden }}
+                                        <div class="col-md-12" id="jurisdiction-formset">
+                                            {% for jurisdiction in jurisdiction.forms %}
+                                            <div class="row">
+                                                {% for hidden in jurisdiction.hidden_fields %}
+                                                    {{ hidden }}
+                                                {% endfor %}
+                                                <div class="col-md-3 field country-div">
+                                                    {{ jurisdiction.country.label_tag }}
+                                                    {{ jurisdiction.country }}
+                                                    {% for error in jurisdiction.country.errors %}
+                                                        <span style="color: red;">[{{ error }}]</span>
+                                                    {% endfor %}
+                                                </div>
+                                                <div class="col-md-3 field state-div">
+                                                    {{ jurisdiction.state.label_tag }}
+                                                    {{ jurisdiction.state }}
+                                                    {% for error in jurisdiction.state.errors %}
+                                                        <span style="color: red;">[{{ error }}]</span>
+                                                    {% endfor %}
+                                                </div>
+                                                <div class="col-md-3 field city-div">
+                                                    {{ jurisdiction.city.label_tag }}
+                                                    {{ jurisdiction.city }}
+                                                    {% for error in jurisdiction.city.errors %}
+                                                        <span style="color: red;">[{{ error }}]</span>
+                                                    {% endfor %}
+                                                </div>
+                                                <div class="col-md-3 field">
+                                                    {% if jurisdiction.can_delete %}
+                                                    {{ jurisdiction.DELETE.label_tag }}
+                                                    {{ jurisdiction.DELETE }}
+                                                    {% endif %}
+                                                </div>
+                                            </div>
                                             {% endfor %}
-                                            <div class="col-md-3 field country-div">
-                                                {{ jurisdiction.country.label_tag }}
-                                                {{ jurisdiction.country }}
-                                                {% for error in jurisdiction.country.errors %}
-                                                    <span style="color: red;">[{{ error }}]</span>
-                                                {% endfor %}
-                                            </div>
-                                            <div class="col-md-3 field state-div">
-                                                {{ jurisdiction.state.label_tag }}
-                                                {{ jurisdiction.state }}
-                                                {% for error in jurisdiction.state.errors %}
-                                                    <span style="color: red;">[{{ error }}]</span>
-                                                {% endfor %}
-                                            </div>
-                                            <div class="col-md-3 field city-div">
-                                                {{ jurisdiction.city.label_tag }}
-                                                {{ jurisdiction.city }}
-                                                {% for error in jurisdiction.city.errors %}
-                                                    <span style="color: red;">[{{ error }}]</span>
-                                                {% endfor %}
-                                            </div>
-                                            <div class="col-md-3 field">
-                                                {% if jurisdiction.can_delete %}
-                                                {{ jurisdiction.DELETE.label_tag }}
-                                                {{ jurisdiction.DELETE }}
-                                                {% endif %}
-                                            </div>
-                                        {% endfor %}
+                                        </div>
                                         <div class="col-md-12 field">
-                                            <a href="#" id="jurisdiction-cloner">
+                                            <a href="#" id="jurisdiction-clone">
                                                 <h3>+</h3>
                                             </a>
+                                        </div>
+                                        <!--empty form to clone dynamically-->
+                                        <div id="empty_form" style="display:none">
+                                            <div class='row'>
+                                                <div class="col-md-3 field country-div">
+                                                    {{ jurisdiction.empty_form.country.label_tag }}
+                                                    {{ jurisdiction.empty_form.country }}
+                                                    {% for error in jurisdiction.empty_form.country.errors %}
+                                                    <span style="color: red;">[{{ error }}]</span>
+                                                    {% endfor %}
+                                                </div>
+                                                <div class="col-md-3 field state-div">
+                                                    {{ jurisdiction.empty_form.state.label_tag }}
+                                                    {{ jurisdiction.empty_form.state }}
+                                                    {% for error in jurisdiction.empty_form.state.errors %}
+                                                    <span style="color: red;">[{{ error }}]</span>
+                                                    {% endfor %}
+                                                </div>
+                                                <div class="col-md-3 field city-div">
+                                                    {{ jurisdiction.empty_form.city.label_tag }}
+                                                    {{ jurisdiction.empty_form.city }}
+                                                    {% for error in jurisdiction.empty_form.city.errors %}
+                                                    <span style="color: red;">[{{ error }}]</span>
+                                                    {% endfor %}
+                                                </div>
+                                                <div class="col-md-3 field">
+                                                    {% if jurisdiction.empty_form.can_delete %}
+                                                    {{ jurisdiction.empty_form.DELETE.label_tag }}
+                                                    {{ jurisdiction.empty_form.DELETE }}
+                                                    {% endif %}
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="row">

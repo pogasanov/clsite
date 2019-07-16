@@ -149,13 +149,69 @@ $(document).ready(function() {
 
     $('.jurisdiction-country').on('change', function(e){
         let stateDiv = $(e.currentTarget).parent().siblings('.state-div')[0];
-        console.log($(stateDiv).children('select')[0]);
-        console.log('country changed')
+        let stateDropdown = $(stateDiv).children('select')[0];
+        let countryName = $(e.currentTarget).children("option").filter(":selected").text();
+        let csrfToken = getCookie('csrftoken');
+        while(stateDropdown.hasChildNodes()) {stateDropdown.removeChild(stateDropdown.lastChild);}
+        $.ajax({
+            type: 'POST',
+            url: '/statescities',
+            headers: {'X-CSRFToken': csrfToken},
+            data: {'country': countryName},
+            success: function (resp) {
+                resp['data'].forEach(value => {
+                    $(stateDropdown).append('<option value="' + value[0] + '">' + value[1] + '</option>');
+                });
+            }
+        });
     });
+
     $('.jurisdiction-state').on('change', function(e){
+        let stateName = $(e.currentTarget).children("option").filter(":selected").text();
+
         let cityDiv = $(e.currentTarget).parent().siblings('.city-div')[0];
-        console.log($(cityDiv).children('select')[0]);
-        console.log('state changed')
+        let cityDropdown = $(cityDiv).children('select')[0];
+
+        let countryDiv = $(e.currentTarget).parent().siblings(".country-div")[0];
+        let countryDropdown = $(countryDiv).children('select')[0];
+        let countryName = $(countryDropdown).children("option").filter(":selected").text();
+
+        let csrfToken = getCookie('csrftoken');
+        while(cityDropdown.hasChildNodes()) {cityDropdown.removeChild(cityDropdown.lastChild);}
+        $.ajax({
+            type: 'POST',
+            url: '/statescities',
+            headers: {'X-CSRFToken': csrfToken},
+            data: {'state': stateName, 'country': countryName},
+            success: function (resp) {
+                resp['data'].forEach(value => {
+                    $(cityDropdown).append('<option value="' + value[0] + '">' + value[1] + '</option>');
+                });
+            }
+        });
+    });
+
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = jQuery.trim(cookies[i]);
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    $('#jurisdiction-clone').on('click', function (event){
+        event.preventDefault();
+        var form_idx = $('#id_jurisdiction-TOTAL_FORMS').val();
+        $('#jurisdiction-formset').append($('#empty_form').html().replace(/__prefix__/g, form_idx));
+        $('#id_jurisdiction-TOTAL_FORMS').val(parseInt(form_idx) + 1);
     });
 
     // BROWSING PAGE
