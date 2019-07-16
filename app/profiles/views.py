@@ -12,7 +12,7 @@ from .forms import ProfileForm, EducationFormSet, WorkExperienceFormSet, Address
     OrganizationFormSet, AwardFormSet, ProfileCreationForm, TransactionForm, JurisdictionFormSet
 from .models import Profile
 from .choices import USA_STATES
-from .utils import LAW_TYPE_TAGS_CHOICES
+from .utils import _get_states_for_country, _get_cities_for_state
 from .helpers import get_user_relationships
 
 
@@ -68,6 +68,22 @@ def user_relationships(user):
 
 
 @login_required
+def get_state_or_cities(request, handle=None):
+    if request.method == 'POST':
+        country = request.POST.get('country')
+        state = request.POST.get('state')
+        if state and country:
+            cities = (('', '------'),) + _get_cities_for_state(country, state)
+            return JsonResponse({'data': cities})
+        elif country:
+            states = (('', '------'),) + _get_states_for_country(country)
+            return JsonResponse({'data': states})
+        else:
+            pass
+        return JsonResponse({'data': []})
+
+
+@login_required
 def profile(request, handle=None):
     if handle:
         user = get_object_or_404(get_user_model(), handle=handle)
@@ -83,7 +99,7 @@ def profile(request, handle=None):
     else:
         user = request.user
         profile_form = ProfileForm(request.POST or None, instance=user, prefix='profile')
-        jurisdiction_formset = JurisdictionFormSet(request.POST or None, instance=user, prefix='jurisdiction')
+        jurisdiction_formset = JurisdictionFormSet(request.POST or None, instance=user, prefix='jurisdiction', initial=None)
         address_form = AddressForm(request.POST or None, instance=getattr(user, 'address', None), prefix='address')
         education_formset = EducationFormSet(request.POST or None, instance=user, prefix='education')
         admissions_formset = AddmissionsFormSet(request.POST or None, instance=user, prefix='admissions')
@@ -107,6 +123,8 @@ def profile(request, handle=None):
                         organization_formset.is_valid() and \
                         award_formset.is_valid():
                     profile_form.save()
+                    jurisdiction_formset.instance = user
+                    jurisdiction_formset.save()
                     af = address_form.save(commit=False)
                     af.profile = user
                     af.save()
