@@ -269,14 +269,13 @@ class JurisdictionForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['state'].widget = forms.Select(attrs={'class': 'form-control'})
-        self.fields['city'].widget = forms.Select(attrs={'class': 'form-control'})
         for key, field in self.fields.items():
             if key=='country':
                 field.widget.attrs.update({'class': 'form-control jurisdiction-country'})
-                field.initial = 'United States'
+                field.initial = 'United States of America'
             elif key=='state':
                 field.widget.attrs.update({'class': 'form-control jurisdiction-state'})
-                field.widget.choices = (('', '------'),) + _get_states_for_country('United States')
+                field.widget.choices = (('', '------'),) + _get_states_for_country('United States of America')
             else:
                 field.widget.attrs.update({'class': 'form-control'})
 
