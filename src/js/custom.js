@@ -155,37 +155,12 @@ $(document).ready(function() {
         while(stateDropdown.hasChildNodes()) {stateDropdown.removeChild(stateDropdown.lastChild);}
         $.ajax({
             type: 'POST',
-            url: '/statescities',
+            url: '/states',
             headers: {'X-CSRFToken': csrfToken},
             data: {'country': countryName},
             success: function (resp) {
                 resp['data'].forEach(value => {
                     $(stateDropdown).append('<option value="' + value[0] + '">' + value[1] + '</option>');
-                });
-            }
-        });
-    });
-
-    $('.jurisdiction-state').on('change', function(e){
-        let stateName = $(e.currentTarget).children("option").filter(":selected").text();
-
-        let cityDiv = $(e.currentTarget).parent().siblings('.city-div')[0];
-        let cityDropdown = $(cityDiv).children('select')[0];
-
-        let countryDiv = $(e.currentTarget).parent().siblings(".country-div")[0];
-        let countryDropdown = $(countryDiv).children('select')[0];
-        let countryName = $(countryDropdown).children("option").filter(":selected").text();
-
-        let csrfToken = getCookie('csrftoken');
-        while(cityDropdown.hasChildNodes()) {cityDropdown.removeChild(cityDropdown.lastChild);}
-        $.ajax({
-            type: 'POST',
-            url: '/statescities',
-            headers: {'X-CSRFToken': csrfToken},
-            data: {'state': stateName, 'country': countryName},
-            success: function (resp) {
-                resp['data'].forEach(value => {
-                    $(cityDropdown).append('<option value="' + value[0] + '">' + value[1] + '</option>');
                 });
             }
         });
