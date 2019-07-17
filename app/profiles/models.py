@@ -162,10 +162,6 @@ class Profile(AbstractUser):
 
     license_status = models.PositiveSmallIntegerField(choices=LICENSE_STATUSES, verbose_name='License Status',
                                                       blank=True, null=True)
-    languages = ArrayField(
-        models.CharField(max_length=10, choices=LANGUAGES, verbose_name='Languages'),
-        blank=True, null=True
-    )
     clients = ArrayField(
         models.CharField(max_length=100, verbose_name='Representative Clients'),
         blank=True, null=True
