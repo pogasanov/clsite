@@ -12,7 +12,7 @@ from .forms import ProfileForm, EducationFormSet, WorkExperienceFormSet, Address
     OrganizationFormSet, AwardFormSet, ProfileCreationForm, TransactionForm, JurisdictionFormSet
 from .models import Profile, Jurisdiction
 from .choices import USA_STATES
-from .utils import _get_states_for_country, _get_cities_for_state
+from .utils import _get_states_for_country
 from .helpers import get_user_relationships
 
 
@@ -68,14 +68,10 @@ def user_relationships(user):
 
 
 @login_required
-def get_state_or_cities(request, handle=None):
+def get_states(request, handle=None):
     if request.method == 'POST':
         country = request.POST.get('country')
-        state = request.POST.get('state')
-        if state and country:
-            cities = (('', '------'),) + _get_cities_for_state(country, state)
-            return JsonResponse({'data': cities})
-        elif country:
+        if country:
             states = (('', '------'),) + _get_states_for_country(country)
             return JsonResponse({'data': states})
         else:
