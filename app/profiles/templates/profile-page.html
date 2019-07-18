@@ -59,6 +59,9 @@
                                         </a>
                                     {% endif %}
                                 </div>
+                                {% if user != selected_user %}
+                                    <a href="{% url 'create_transaction' selected_user.handle %}" class="btn col-md-6">Add Correspondence with {{ selected_user.first_name }} {{ selected_user.last_name }}</a>
+                                {% endif %}
                                 <div class="description text-center">
                                     <p>{{ selected_user.bio|safe }}</p>
                                 </div>
@@ -319,13 +322,6 @@
                                             {{ form.bio.label_tag }}
                                             {{ form.bio }}
                                             {% for error in form.bio.errors %}
-                                                <span style="color: red;">[{{ error }}]</span>
-                                            {% endfor %}
-                                        </div>
-                                        <div class="col-md-12 field">
-                                            {{ form.publish_to_thb.label_tag }}
-                                            {{ form.publish_to_thb }}
-                                            {% for error in form.publish_to_thb.errors %}
                                                 <span style="color: red;">[{{ error }}]</span>
                                             {% endfor %}
                                         </div>
@@ -743,6 +739,42 @@
                             <!--END Edit Field for own profile-->
                         </div>
                     </div>
+                {% if relationships %}
+                    <div class="col-md-2 mt-4 ml-auto mr-auto user-relationships">
+                        <h3>Correspondence</h3>
+                        {% for relationship in relationships %}
+                            <div class="row relationship-card card p-2">
+                                <div class="text-center">
+                                    <a href="{{ relationship.url }}">
+                                    <img src="{{ relationship.photo }}" alt="Circle Image"
+                                         class="img-raised rounded-circle img-fluid correspondence-photo mb-1">
+                                    <p class="card-title">{{ relationship.name }}</p>
+                                    </a>
+                                    Verified amount:
+                                    <p> <span class="text-success" title="Verified">{{ relationship.verified_amount }}</span> vs <span class="text-danger" title="Unverified">{{ relationship.unverified_amount }}</span></p>
+
+                                    Total Amount:
+                                    <p> <span class="text-success" title="Given">{{ relationship.amount_given }}</span> vs <span class="text-danger" title="Received">{{ relationship.amount_received }}</span></p>
+                                    {% if relationship.jurisdiction %}
+                                        <h6>Jurisdiction</h6>
+                                        {% for jurisdiction in relationship.jurisdiction %}
+                                            <span class="badge badge-primary">{{ jurisdiction }}</span>
+                                        {% endfor %}
+                                    {% endif %}
+
+                                    {% if relationship.law_type_tags %}
+                                        <h6>Tags</h6>
+                                        {% for law_type_tag in relationship.law_type_tags %}
+                                            <span class="badge badge-info">{{ law_type_tag }}</span>
+                                        {% endfor %}
+                                    {% endif %}
+
+                                </div>
+
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
                 </div>
             </div>
         </div>

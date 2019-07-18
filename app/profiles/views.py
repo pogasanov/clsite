@@ -1,21 +1,70 @@
-from django.shortcuts import render, get_object_or_404
-from django.urls import reverse_lazy
+from django.shortcuts import render, get_object_or_404, redirect
+from django.urls import reverse_lazy, reverse
 from django.contrib.auth import get_user_model, login
 from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseBadRequest
 from django.views.generic.edit import CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView
 from itertools import groupby
 
 from .forms import ProfileForm, EducationFormSet, WorkExperienceFormSet, AddressForm, AddmissionsFormSet, LawSchoolForm, \
-    OrganizationFormSet, AwardFormSet, ProfileCreationForm
+    OrganizationFormSet, AwardFormSet, ProfileCreationForm, TransactionForm
 from .models import Profile
 from .choices import USA_STATES
+from .utils import LAW_TYPE_TAGS_CHOICES
+from .helpers import get_user_relationships
 
 
 def index(request):
     return render(request, "landing-page.html", context={})
+
+
+def user_relationships(user):
+    user_relations = get_user_relationships(user)
+    # User with highest cumulative verified transactions amount first and so on. Secondly sorted by highest amount
+    sorted_user_relationships = sorted(
+        user_relations.items(),
+        key=lambda x: (
+            sum([t.value_in_usd or 0 for t in x[1] if t.is_verified]),
+            sum([t.value_in_usd or 0 for t in x[1]])
+        ),
+        reverse=True
+    )
+    relationships = []
+    states = dict(USA_STATES)
+
+
+    for user_handle, transactions in sorted_user_relationships:
+        relationship = {}
+
+        other_user = get_object_or_404(get_user_model(), handle=user_handle)
+        relationship['name'] = other_user.get_full_name()
+        relationship['url'] = reverse('profile', args=[other_user.handle])
+        relationship['photo'] = other_user.photo_url_or_default()
+
+        relationship['verified_amount']= sum([t.value_in_usd or 0 for t in transactions if t.is_verified])
+        relationship['unverified_amount'] = sum([t.value_in_usd or 0 for t in transactions if not t.is_verified])
+
+        amount_given = 0
+        amount_given += sum([t.value_in_usd or 0 for t in transactions if t.requester == user and t.is_requester_principal])
+        amount_given += sum([t.value_in_usd or 0 for t in transactions if t.requestee == user and not t.is_requester_principal])
+        relationship['amount_given'] = amount_given
+
+        amount_received = 0
+        amount_received += sum([t.value_in_usd or 0 for t in transactions if t.requester == user and not t.is_requester_principal])
+        amount_received += sum([t.value_in_usd or 0 for t in transactions if t.requestee == user and t.is_requester_principal])
+        relationship['amount_received'] = amount_received
+
+        relationship['jurisdiction']= [states[j] for j in other_user.jurisdiction or []]
+        relationship['law_type_tags'] = other_user.law_type_tags or []
+
+        if not amount_given and not amount_received:
+            continue
+
+        relationships.append(relationship)
+
+    return relationships
 
 
 @login_required
@@ -95,8 +144,25 @@ def profile(request, handle=None):
         'lawschool': lawschool_form,
         'workexperiences': workexperience_formset,
         'organizations': organization_formset,
-        'awards': award_formset
+        'awards': award_formset,
+        'relationships': user_relationships(user)[:5] if handle else None
     })
+
+@login_required
+def transaction(request, handle):
+    user = request.user
+    receiver = get_object_or_404(get_user_model(), handle=handle)
+
+    if user == receiver:
+        return HttpResponseBadRequest()
+
+    transaction_form = TransactionForm(request.POST or None)
+
+    if transaction_form.is_valid():
+        transaction_form.save(requester=user, requestee=receiver)
+        return redirect('home')
+
+    return render(request, "transaction.html", context={'form': transaction_form})
 
 
 def update_user_profile_photo(user, photo):

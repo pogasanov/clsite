@@ -1,12 +1,13 @@
+import os
+
 from django.db import models
 from django.contrib.postgres.fields import ArrayField, DateRangeField
 from django.conf import settings, global_settings
-from clsite.storage_backends import variativeStorage
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.contrib.staticfiles.templatetags.staticfiles import static
-import os
+from clsite.storage_backends import variativeStorage
 
-from .choices import USA_STATES
+from .choices import USA_STATES, CURRENCIES
 
 
 class Address(models.Model):
@@ -191,3 +192,44 @@ class Profile(AbstractUser):
         if self.photo:
             return self.photo.url
         return static('dummy-img.png')
+
+
+class Transaction(models.Model):
+    REVIEW_CHOICES = (
+        ('SD', 'Strongly Disagree'),
+        ('D', 'Disagree'),
+        ('N', 'Neutral'),
+        ('A', 'Agree'),
+        ('SA', 'Strongly Agree')
+    )
+    CURRENCY_CHOICES = CURRENCIES
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    date = models.DateField(verbose_name='Transaction Date')
+
+    requester = models.ForeignKey('Profile', on_delete=models.CASCADE,
+                                  related_name='requester', verbose_name='Requester')
+    proof_receipt_requester = models.ImageField(upload_to=get_image_path, storage=variativeStorage(),
+                                                verbose_name='Requester\'s Transaction Proof', blank=True, null=True)
+    requester_review = models.CharField(max_length=2, choices=REVIEW_CHOICES,
+                                        default=None, verbose_name='Requester\'s Review')
+    requester_recommendation = models.TextField(null=True, blank=True,
+                                                default=None, verbose_name='Requester\'s recommendation')
+
+    requestee = models.ForeignKey('Profile', on_delete=models.CASCADE,
+                                  related_name='requestee', verbose_name='Requestee')
+    requestee_review = models.CharField(max_length=2, choices=REVIEW_CHOICES,
+                                        default=None, verbose_name='Requestee\'s Review', null=True)
+    requestee_recommendation = models.TextField(null=True, blank=True,
+                                                default=None, verbose_name='Requestee\'s recommendation')
+    proof_receipt_requestee = models.ImageField(upload_to=get_image_path, storage=variativeStorage(),
+                                                verbose_name='Requestee\'s Transaction Proof', blank=True, null=True)
+
+    is_confirmed = models.NullBooleanField(default=None, verbose_name='Confirmed from Requestee')
+    is_verified = models.NullBooleanField(default=None, verbose_name='Verified from Admin')
+    amount = models.DecimalField(max_digits=14, decimal_places=2, verbose_name='Transaction Amount')
+    value_in_usd = models.DecimalField(max_digits=14, decimal_places=2, verbose_name='Value in USD', null=True)
+    currency = models.CharField(max_length=3, choices=CURRENCY_CHOICES ,
+                                default='USD', verbose_name='Transaction Currency')
+    is_requester_principal = models.BooleanField(default=False, verbose_name='Requester Payed')
