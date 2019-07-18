@@ -3,6 +3,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
 from django.conf.global_settings import LANGUAGES
+from django.core.exceptions import ValidationError
 
 from django_select2.forms import Select2TagWidget
 
@@ -235,6 +236,14 @@ class LanguageForm(ModelForm):
         super().__init__(*args, **kwargs)
         for _, field in self.fields.items():
             field.widget.attrs.update({'class': 'form-control'})
+
+    def clean(self):
+        cleaned_data = super().clean()
+        if not cleaned_data['id']:
+            if Language.objects.filter(name=cleaned_data['name'], profile=cleaned_data['profile']).exists():
+                raise ValidationError('Language already exists')
+
+        return cleaned_data
 
 
 LanguageFormSet = inlineformset_factory(Profile, Language,

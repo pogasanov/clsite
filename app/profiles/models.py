@@ -78,8 +78,8 @@ class Language(models.Model):
     name = models.CharField(max_length=10, choices=LANGUAGES)
     proficiency_level = models.CharField(max_length=20, choices=PROFICIENCY_LEVEL)
 
-    class Meta:
-        unique_together = ('profile', 'name')
+    def __repr__(self):
+        return self.name
 
 
 def get_image_path(instance, filename):
