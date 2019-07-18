@@ -7,18 +7,17 @@ from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.contrib.staticfiles.templatetags.staticfiles import static
 from clsite.storage_backends import variativeStorage
 
-from .choices import USA_STATES, CURRENCIES
+from .choices import CURRENCIES
 from .utils import COUNTRIES_CHOICES
 
 
 class Address(models.Model):
-    USA_STATES = USA_STATES
-
     profile = models.OneToOneField('Profile', on_delete=models.CASCADE, verbose_name='Profile', related_name='address')
     building = models.CharField(max_length=20, verbose_name='Building/Unit')
     street = models.CharField(max_length=200, verbose_name='Street')
-    city = models.CharField(max_length=100, verbose_name='City')
-    state = models.CharField(max_length=2, choices=USA_STATES, verbose_name='State')
+    city = models.CharField(max_length=100, verbose_name='City', null=True, blank=True)
+    state = models.CharField(max_length=100, verbose_name='State', null=True, blank=True)
+    country = models.CharField(max_length=100, verbose_name='Country', choices=COUNTRIES_CHOICES)
     zipcode = models.CharField(max_length=10, verbose_name='ZIP code')
 
 
@@ -37,19 +36,19 @@ class Jurisdiction(models.Model):
 
 
 class Admissions(models.Model):
-    USA_STATES = USA_STATES
-
     profile = models.ForeignKey('Profile', on_delete=models.CASCADE, verbose_name='Profile')
-    state = models.CharField(max_length=2, choices=USA_STATES, verbose_name='State')
+    city = models.CharField(max_length=100, verbose_name='City', null=True, blank=True)
+    state = models.CharField(max_length=100, verbose_name='State', null=True, blank=True)
+    country = models.CharField(max_length=100, verbose_name='Country', choices=COUNTRIES_CHOICES)
     year = models.PositiveIntegerField(verbose_name='date of graduation')
 
 
 class LawSchool(models.Model):
-    USA_STATES = USA_STATES
-
     profile = models.OneToOneField('Profile', on_delete=models.CASCADE, verbose_name='Profile')
     school = models.CharField(max_length=100, verbose_name='School name')
-    state = models.CharField(max_length=2, choices=USA_STATES, verbose_name='State')
+    city = models.CharField(max_length=100, verbose_name='City', null=True, blank=True)
+    state = models.CharField(max_length=100, verbose_name='State', null=True, blank=True)
+    country = models.CharField(max_length=100, verbose_name='Country', choices=COUNTRIES_CHOICES)
 
 
 class WorkExperience(models.Model):
@@ -118,7 +117,6 @@ class UserManager(BaseUserManager):
 
 
 class Profile(AbstractUser):
-    USA_STATES = USA_STATES
     SIZE_OF_CLIENTS = (
         (0, 'Individuals'),
         (1, 'Small businesses (1-100 people)'),
