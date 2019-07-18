@@ -47,14 +47,16 @@ class ProfileTests(TestCase):
             'profile-experience': '',
             'profile-publish_to_thb': True,
 
-            'address-state': 'AZ',
+            'address-country': 'United States of America',
+            'address-state': 'Alabama',
             'address-city': 'City',
             'address-zipcode': '12345',
             'address-street': 'Street',
             'address-building': 'z',
 
             'lawschool-school': 'school',
-            'lawschool-state': 'AZ',
+            'lawschool-country': 'United States of America',
+            'lawschool-state': 'Alabama',
 
             'education-TOTAL_FORMS': 0,
             'education-INITIAL_FORMS': 0,
