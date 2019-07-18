@@ -10,6 +10,9 @@ from .models import (Profile, Education, WorkExperience, Address, Admissions,
                      LawSchool, Organization, Award, Transaction, Jurisdiction)
 
 
+DEFAULT_CHOICES_SELECTION = (('', '------'),)
+DEFAULT_COUNTRY = 'United States of America'
+
 class ProfileCreationForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model = get_user_model()
@@ -132,7 +135,14 @@ class AddressForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for key, field in self.fields.items():
-            field.widget.attrs.update({'class': 'form-control'})
+            if key=='country':
+                field.widget.attrs.update({'class': 'form-control country'})
+                field.initial = DEFAULT_COUNTRY
+            elif key=='state':
+                field.widget = forms.Select(attrs={'class': 'form-control'})
+                field.widget.choices = DEFAULT_CHOICES_SELECTION + _get_states_for_country(DEFAULT_COUNTRY)
+            else:
+                field.widget.attrs.update({'class': 'form-control'})
 
 
 class EducationForm(ModelForm):
@@ -158,7 +168,14 @@ class AdmissionsForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for key, field in self.fields.items():
-            field.widget.attrs.update({'class': 'form-control'})
+            if key=='country':
+                field.widget.attrs.update({'class': 'form-control country'})
+                field.initial = DEFAULT_COUNTRY
+            elif key=='state':
+                field.widget = forms.Select(attrs={'class': 'form-control'})
+                field.widget.choices = DEFAULT_CHOICES_SELECTION + _get_states_for_country(DEFAULT_COUNTRY)
+            else:
+                field.widget.attrs.update({'class': 'form-control'})
 
 
 AddmissionsFormSet = inlineformset_factory(Profile, Admissions,
@@ -220,7 +237,14 @@ class LawSchoolForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for key, field in self.fields.items():
-            field.widget.attrs.update({'class': 'form-control'})
+            if key=='country':
+                field.widget.attrs.update({'class': 'form-control country'})
+                field.initial = DEFAULT_COUNTRY
+            elif key=='state':
+                field.widget = forms.Select(attrs={'class': 'form-control'})
+                field.widget.choices = DEFAULT_CHOICES_SELECTION + _get_states_for_country(DEFAULT_COUNTRY)
+            else:
+                field.widget.attrs.update({'class': 'form-control'})
 
 
 class TransactionForm(ModelForm):
@@ -268,14 +292,13 @@ class JurisdictionForm(ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['state'].widget = forms.Select(attrs={'class': 'form-control'})
         for key, field in self.fields.items():
             if key=='country':
-                field.widget.attrs.update({'class': 'form-control jurisdiction-country'})
-                field.initial = 'United States of America'
+                field.widget.attrs.update({'class': 'form-control country'})
+                field.initial = DEFAULT_COUNTRY
             elif key=='state':
-                field.widget.attrs.update({'class': 'form-control jurisdiction-state'})
-                field.widget.choices = (('', '------'),) + _get_states_for_country('United States of America')
+                field.widget = forms.Select(attrs={'class': 'form-control'})
+                field.widget.choices = DEFAULT_CHOICES_SELECTION + _get_states_for_country(DEFAULT_COUNTRY)
             else:
                 field.widget.attrs.update({'class': 'form-control'})
 

@@ -403,7 +403,7 @@
                                                 {% for hidden in jurisdiction.hidden_fields %}
                                                     {{ hidden }}
                                                 {% endfor %}
-                                                <div class="col-md-3 field country-div">
+                                                <div class="col-md-3 field">
                                                     {{ jurisdiction.country.label_tag }}
                                                     {{ jurisdiction.country }}
                                                     {% for error in jurisdiction.country.errors %}
@@ -417,7 +417,7 @@
                                                         <span style="color: red;">[{{ error }}]</span>
                                                     {% endfor %}
                                                 </div>
-                                                <div class="col-md-3 field city-div">
+                                                <div class="col-md-3 field">
                                                     {{ jurisdiction.city.label_tag }}
                                                     {{ jurisdiction.city }}
                                                     {% for error in jurisdiction.city.errors %}
@@ -439,7 +439,7 @@
                                         <!--empty form to clone dynamically-->
                                         <div id="empty_form" style="display:none">
                                             <div class='row'>
-                                                <div class="col-md-3 field country-div">
+                                                <div class="col-md-3 field">
                                                     {{ jurisdiction.empty_form.country.label_tag }}
                                                     {{ jurisdiction.empty_form.country }}
                                                     {% for error in jurisdiction.empty_form.country.errors %}
@@ -453,7 +453,7 @@
                                                     <span style="color: red;">[{{ error }}]</span>
                                                     {% endfor %}
                                                 </div>
-                                                <div class="col-md-3 field city-div">
+                                                <div class="col-md-3 field">
                                                     {{ jurisdiction.empty_form.city.label_tag }}
                                                     {{ jurisdiction.empty_form.city }}
                                                     {% for error in jurisdiction.empty_form.city.errors %}
@@ -474,6 +474,13 @@
                                             <h3>Address</h3>
                                         </div>
                                         <div class="col-md-4 field">
+                                            {{ address.country.label_tag }}
+                                            {{ address.country }}
+                                            {% for error in address.country.errors %}
+                                                <span style="color: red;">[{{ error }}]</span>
+                                            {% endfor %}
+                                        </div>
+                                        <div class="col-md-4 field state-div">
                                             {{ address.state.label_tag }}
                                             {{ address.state }}
                                             {% for error in address.state.errors %}
@@ -496,7 +503,7 @@
                                             {% endfor %}
                                         </div>
 
-                                        <div class="col-md-8 field">
+                                        <div class="col-md-4 field">
                                             {{ address.street.label_tag }}
                                             {{ address.street }}
                                             {% for error in address.street.errors %}
@@ -584,9 +591,23 @@
                                             {% endfor %}
                                         </div>
                                         <div class="col-md-6 field">
+                                            {{ lawschool.country.label_tag }}
+                                            {{ lawschool.country }}
+                                            {% for error in lawschool.country.errors %}
+                                                <span style="color: red;">[{{ error }}]</span>
+                                            {% endfor %}
+                                        </div>
+                                        <div class="col-md-6 field state-div">
                                             {{ lawschool.state.label_tag }}
                                             {{ lawschool.state }}
                                             {% for error in lawschool.state.errors %}
+                                                <span style="color: red;">[{{ error }}]</span>
+                                            {% endfor %}
+                                        </div>
+                                        <div class="col-md-6 field">
+                                            {{ lawschool.city.label_tag }}
+                                            {{ lawschool.city }}
+                                            {% for error in lawschool.city.errors %}
                                                 <span style="color: red;">[{{ error }}]</span>
                                             {% endfor %}
                                         </div>
@@ -638,13 +659,30 @@
                                         </div>
                                         {{ admissions.management_form }}
                                         {% for admission in admissions.forms %}
+                                        <div class="row">
                                             {% for hidden in admission.hidden_fields %}
                                                 {{ hidden }}
                                             {% endfor %}
                                             <div class="col-md-4 field">
+                                                {{ admission.country.label_tag }}
+                                                {{ admission.country }}
+                                                {% for error in admission.country.errors %}
+                                                    <span style="color: red;">[{{ error }}]</span>
+                                                {% endfor %}
+                                            </div>
+
+                                            <div class="col-md-4 field state-div">
                                                 {{ admission.state.label_tag }}
                                                 {{ admission.state }}
                                                 {% for error in admission.state.errors %}
+                                                    <span style="color: red;">[{{ error }}]</span>
+                                                {% endfor %}
+                                            </div>
+
+                                            <div class="col-md-4 field">
+                                                {{ admission.city.label_tag }}
+                                                {{ admission.city }}
+                                                {% for error in admission.city.errors %}
                                                     <span style="color: red;">[{{ error }}]</span>
                                                 {% endfor %}
                                             </div>
@@ -663,6 +701,7 @@
                                                     {{ admission.DELETE }}
                                                 {% endif %}
                                             </div>
+                                        </div>
                                         {% endfor %}
                                     </div>
 
