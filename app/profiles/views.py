@@ -9,7 +9,7 @@ from django.views.generic import ListView
 from itertools import groupby
 
 from .forms import ProfileForm, EducationFormSet, WorkExperienceFormSet, AddressForm, AddmissionsFormSet, LawSchoolForm, \
-    OrganizationFormSet, AwardFormSet, ProfileCreationForm, TransactionForm, JurisdictionFormSet
+    OrganizationFormSet, AwardFormSet, ProfileCreationForm, TransactionForm, JurisdictionFormSet, DEFAULT_CHOICES_SELECTION
 from .models import Profile, Jurisdiction
 from .choices import USA_STATES
 from .utils import _get_states_for_country
@@ -72,7 +72,7 @@ def get_states(request, handle=None):
     if request.method == 'POST':
         country = request.POST.get('country')
         if country:
-            states = (('', '------'),) + _get_states_for_country(country)
+            states = DEFAULT_CHOICES_SELECTION + _get_states_for_country(country)
             return JsonResponse({'data': states})
         else:
             pass

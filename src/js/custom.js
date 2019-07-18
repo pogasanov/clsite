@@ -147,7 +147,7 @@ $(document).ready(function() {
         $(recommendationLabelSelector).show();
     });
 
-    $('.jurisdiction-country').on('change', function(e){
+    $('.country').on('change', function(e){
         let stateDiv = $(e.currentTarget).parent().siblings('.state-div')[0];
         let stateDropdown = $(stateDiv).children('select')[0];
         let countryName = $(e.currentTarget).children("option").filter(":selected").text();
