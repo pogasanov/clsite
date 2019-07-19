@@ -5,10 +5,9 @@ from django.contrib.auth import get_user_model
 from django_select2.forms import Select2TagWidget
 from django.conf.global_settings import LANGUAGES
 
-from .utils import LAW_TYPE_TAGS_CHOICES, SUBJECTIVE_TAGS_CHOICES
-from .choices import USA_STATES
+from .utils import LAW_TYPE_TAGS_CHOICES, SUBJECTIVE_TAGS_CHOICES, _get_states_for_country
 from .models import (Profile, Education, WorkExperience, Address, Admissions,
-                     LawSchool, Organization, Award, Transaction)
+                     LawSchool, Organization, Award, Transaction, Jurisdiction)
 
 
 class ProfileCreationForm(UserCreationForm):
@@ -83,7 +82,6 @@ class ProfileForm(ModelForm):
                   'license_status',
                   'languages',
                   'clients',
-                  'jurisdiction',
                   'law_type_tags',
                   'subjective_tags',
                   'bio',
@@ -106,10 +104,6 @@ class ProfileForm(ModelForm):
             choices=SUBJECTIVE_TAGS_CHOICES, attrs={'class': 'form-control',
                                                     'data-maximum-selection-length': 3,
                                                     'data-token-separators': [',']}
-        )
-        self.fields['jurisdiction'].widget = MultiSelectArrayFieldWidget(
-            choices=USA_STATES, attrs={
-                'data-tags': False, 'class': 'form-control'}
         )
         self.fields['clients'].widget = MultiSelectArrayFieldWidget(
             attrs={'class': 'form-control', 'data-token-separators': [',']}
@@ -265,3 +259,26 @@ class TransactionForm(ModelForm):
 
         transaction.save()
         return transaction
+
+
+class JurisdictionForm(ModelForm):
+    class Meta:
+        model = Jurisdiction
+        exclude = ('profile',)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['state'].widget = forms.Select(attrs={'class': 'form-control'})
+        for key, field in self.fields.items():
+            if key=='country':
+                field.widget.attrs.update({'class': 'form-control jurisdiction-country'})
+                field.initial = 'United States of America'
+            elif key=='state':
+                field.widget.attrs.update({'class': 'form-control jurisdiction-state'})
+                field.widget.choices = (('', '------'),) + _get_states_for_country('United States of America')
+            else:
+                field.widget.attrs.update({'class': 'form-control'})
+
+
+JurisdictionFormSet = inlineformset_factory(Profile, Jurisdiction,
+                                         form=JurisdictionForm, extra=1)

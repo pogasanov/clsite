@@ -1,6 +1,7 @@
 import LoaderSpinner from '../img/loader.gif'
 
 $(document).ready(function() {
+    // PROFILE PAGE
     function setupPictureUpload() {
         if (window.location.href.split("profile")[1] === ""){
             document.getElementsByClassName("photo-view")[0].style.cursor = "pointer";
@@ -146,7 +147,49 @@ $(document).ready(function() {
         $(recommendationLabelSelector).show();
     });
 
+    $('.jurisdiction-country').on('change', function(e){
+        let stateDiv = $(e.currentTarget).parent().siblings('.state-div')[0];
+        let stateDropdown = $(stateDiv).children('select')[0];
+        let countryName = $(e.currentTarget).children("option").filter(":selected").text();
+        let csrfToken = getCookie('csrftoken');
+        while(stateDropdown.hasChildNodes()) {stateDropdown.removeChild(stateDropdown.lastChild);}
+        $.ajax({
+            type: 'POST',
+            url: '/states',
+            headers: {'X-CSRFToken': csrfToken},
+            data: {'country': countryName},
+            success: function (resp) {
+                resp['data'].forEach(value => {
+                    $(stateDropdown).append('<option value="' + value[0] + '">' + value[1] + '</option>');
+                });
+            }
+        });
+    });
 
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = jQuery.trim(cookies[i]);
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    $('#jurisdiction-clone').on('click', function (event){
+        event.preventDefault();
+        var form_idx = $('#id_jurisdiction-TOTAL_FORMS').val();
+        $('#jurisdiction-formset').append($('#empty_form').html().replace(/__prefix__/g, form_idx));
+        $('#id_jurisdiction-TOTAL_FORMS').val(parseInt(form_idx) + 1);
+    });
+
+    // BROWSING PAGE
     $('.jurisdiction-display').on('click', function (event){
         // toggle active class
         event.currentTarget.classList.add('active');
