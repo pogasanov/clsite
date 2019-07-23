@@ -7,8 +7,7 @@ from django.core.exceptions import ValidationError
 
 from django_select2.forms import Select2TagWidget
 
-from .utils import (LAW_TYPE_TAGS_CHOICES, SUBJECTIVE_TAGS_CHOICES,
-                    LANGUAGES_CHOICES)
+from .utils import (LAW_TYPE_TAGS_CHOICES, SUBJECTIVE_TAGS_CHOICES)
 from .choices import USA_STATES
 from .models import (Profile, Education, WorkExperience, Address, Admissions,
                      LawSchool, Organization, Award, Language)
