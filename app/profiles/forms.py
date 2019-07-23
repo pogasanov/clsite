@@ -240,8 +240,7 @@ class LanguageForm(ModelForm):
         cleaned_data = super().clean()
         if not cleaned_data['id']:
             if Language.objects.filter(name=cleaned_data['name'], profile=cleaned_data['profile']).exists():
-                raise ValidationError('Language already exists')
-
+                self.add_error('name', 'Language already exists') 
         return cleaned_data
 
 
