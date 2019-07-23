@@ -152,6 +152,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 AUTH_USER_MODEL = 'profiles.Profile'
 
+# Django_select2 should not serve select2 library - it will be part of webpack build
 SELECT2_JS = ''
 SELECT2_CSS = ''
 
