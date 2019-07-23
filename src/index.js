@@ -10,4 +10,6 @@ import './scss/custom.scss'
 // Javascript
 import 'material-kit/assets/js/core/bootstrap-material-design.min'
 import 'material-kit/assets/js/material-kit'
+import 'select2'
+import 'django-select2'
 import './js/custom'
