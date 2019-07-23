@@ -14,6 +14,7 @@ from .models import Profile, Jurisdiction
 from .choices import USA_STATES
 from .utils import _get_states_for_country
 from .helpers import get_user_relationships
+from clsite.settings import DEFAULT_CHOICES_SELECTION
 
 
 def index(request):
@@ -72,7 +73,7 @@ def get_states(request, handle=None):
     if request.method == 'POST':
         country = request.POST.get('country')
         if country:
-            states = (('', '------'),) + _get_states_for_country(country)
+            states = DEFAULT_CHOICES_SELECTION + _get_states_for_country(country)
             return JsonResponse({'data': states})
         else:
             pass
