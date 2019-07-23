@@ -8,10 +8,7 @@ from django.conf.global_settings import LANGUAGES
 from .utils import LAW_TYPE_TAGS_CHOICES, SUBJECTIVE_TAGS_CHOICES, _get_states_for_country
 from .models import (Profile, Education, WorkExperience, Address, Admissions,
                      LawSchool, Organization, Award, Transaction, Jurisdiction)
-
-
-DEFAULT_CHOICES_SELECTION = (('', '------'),)
-DEFAULT_COUNTRY = 'United States of America'
+from clsite.settings import DEFAULT_CHOICES_SELECTION, DEFAULT_COUNTRY
 
 class ProfileCreationForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):

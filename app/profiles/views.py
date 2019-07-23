@@ -9,11 +9,12 @@ from django.views.generic import ListView
 from itertools import groupby
 
 from .forms import ProfileForm, EducationFormSet, WorkExperienceFormSet, AddressForm, AddmissionsFormSet, LawSchoolForm, \
-    OrganizationFormSet, AwardFormSet, ProfileCreationForm, TransactionForm, JurisdictionFormSet, DEFAULT_CHOICES_SELECTION
+    OrganizationFormSet, AwardFormSet, ProfileCreationForm, TransactionForm, JurisdictionFormSet
 from .models import Profile, Jurisdiction
 from .choices import USA_STATES
 from .utils import _get_states_for_country
 from .helpers import get_user_relationships
+from clsite.settings import DEFAULT_CHOICES_SELECTION
 
 
 def index(request):
