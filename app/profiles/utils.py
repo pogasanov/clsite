@@ -9,7 +9,6 @@ def _read_json(path):
     """
     with open(path, 'r') as file:
         data = json.load(file)
-        file.close()
         return data
 
 
