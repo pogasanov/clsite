@@ -90,6 +90,8 @@ $(document).ready(function() {
 
     $('.profile-form').on('submit', function (event) {
         event.preventDefault();
+        let errorsDetailDiv = document.getElementById("response-details");
+        while(errorsDetailDiv.hasChildNodes()) {errorsDetailDiv.removeChild(errorsDetailDiv.lastChild);}
         $.ajax({
             type: 'POST',
             url: '/profile',
@@ -101,15 +103,13 @@ $(document).ready(function() {
                 document.getElementById("response-message").textContent= resp["message"];
             },
             error: function(resp) {
-                let errorsDetailDiv = document.getElementById("response-details");
-                while(errorsDetailDiv.hasChildNodes()) {errorsDetailDiv.removeChild(errorsDetailDiv.lastChild);}
                 for(let key in resp["responseJSON"]){
                     if(resp["responseJSON"][key] !== undefined){
-                        if(Object.prototype.toString.call(resp["responseJSON"][key]) == "[object Array]"){
+                        if(Array.isArray(resp["responseJSON"][key])){
                             if(resp["responseJSON"][key].length !== 0 && Object.keys(resp["responseJSON"][key][0]).length !== 0){
                                 appendToErrorDetail(errorsDetailDiv, key, JSON.stringify(resp["responseJSON"][key][0]));
                             }
-                        }else if(Object.prototype.toString.call(resp["responseJSON"][key]) == "[object Object]"){
+                        }else if(typeof resp["responseJSON"][key] === 'object' && resp["responseJSON"][key] !== null ){
                             if(Object.keys(resp["responseJSON"][key]).length !== 0){
                                 for(let errorTitle in resp["responseJSON"][key]){
                                     appendToErrorDetail(errorsDetailDiv, errorTitle, resp["responseJSON"][key][errorTitle]);
