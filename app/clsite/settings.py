@@ -152,6 +152,9 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 AUTH_USER_MODEL = 'profiles.Profile'
 
+SELECT2_JS = ''
+SELECT2_CSS = ''
+
 # AWS setup
 AWS_ACCESS_KEY_ID = os.getenv('CLOUDCUBE_ACCESS_KEY_ID') or os.getenv('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = os.getenv('CLOUDCUBE_SECRET_ACCESS_KEY') or os.getenv('AWS_SECRET_ACCESS_KEY')
