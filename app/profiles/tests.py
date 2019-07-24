@@ -45,17 +45,18 @@ class ProfileTests(TestCase):
             'profile-facebook': 'Test facebook',
             'profile-preferred_communication_method': 0,
             'profile-experience': '',
-            'profile-jurisdiction': 'AL',
             'profile-publish_to_thb': True,
 
-            'address-state': 'AZ',
+            'address-country': 'United States of America',
+            'address-state': 'Alabama',
             'address-city': 'City',
             'address-zipcode': '12345',
             'address-street': 'Street',
             'address-building': 'z',
 
             'lawschool-school': 'school',
-            'lawschool-state': 'AZ',
+            'lawschool-country': 'United States of America',
+            'lawschool-state': 'Alabama',
 
             'education-TOTAL_FORMS': 0,
             'education-INITIAL_FORMS': 0,
@@ -67,12 +68,13 @@ class ProfileTests(TestCase):
             'organization-INITIAL_FORMS': 0,
             'award-TOTAL_FORMS': 0,
             'award-INITIAL_FORMS': 0,
+            'jurisdiction-TOTAL_FORMS': 0,
+            'jurisdiction-INITIAL_FORMS': 0
 
         }
         cls.incorrect_update_data = {
             'profile-first_name': 'John',
             'profile-last_name': 'Doe',
-            'profile-jurisdiction': 'Invalid Jurisdiction',
             'profile-headline': 'Test headline',
             'profile-bio': 'Test bio',
             'profile-website': 'http://www.test.com',
@@ -90,6 +92,9 @@ class ProfileTests(TestCase):
             'organization-INITIAL_FORMS': 0,
             'award-TOTAL_FORMS': 0,
             'award-INITIAL_FORMS': 0,
+            'jurisdiction-country': 'Invalid Jurisdiciton',
+            'jurisdiction-TOTAL_FORMS': 0,
+            'jurisdiction-INITIAL_FORMS': 0
         }
 
     def setUp(self):
@@ -168,7 +173,6 @@ class ProfileTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context['user'].first_name, self.correct_update_data['profile-first_name'])
         self.assertEqual(response.context['user'].last_name, self.correct_update_data['profile-last_name'])
-        self.assertEqual(response.context['user'].jurisdiction, [self.correct_update_data['profile-jurisdiction']])
         self.assertEqual(response.context['user'].headline, self.correct_update_data['profile-headline'])
         self.assertEqual(response.context['user'].summary, self.correct_update_data['profile-summary'])
         self.assertEqual(response.context['user'].bio, self.correct_update_data['profile-bio'])
@@ -176,4 +180,3 @@ class ProfileTests(TestCase):
         self.assertEqual(response.context['user'].twitter, self.correct_update_data['profile-twitter'])
         self.assertEqual(response.context['user'].linkedin, self.correct_update_data['profile-linkedin'])
         self.assertEqual(response.context['user'].facebook, self.correct_update_data['profile-facebook'])
-        self.assertEqual(response.context['user'].publish_to_thb, self.correct_update_data['profile-publish_to_thb'])

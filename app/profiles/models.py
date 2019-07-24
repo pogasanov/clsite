@@ -9,17 +9,17 @@ from django.conf.global_settings import LANGUAGES
 
 from clsite.storage_backends import variativeStorage
 
-from .choices import USA_STATES
+from .choices import CURRENCIES
+from .utils import COUNTRIES_CHOICES
 
 
 class Address(models.Model):
-    USA_STATES = USA_STATES
-
     profile = models.OneToOneField('Profile', on_delete=models.CASCADE, verbose_name='Profile', related_name='address')
     building = models.CharField(max_length=20, verbose_name='Building/Unit')
     street = models.CharField(max_length=200, verbose_name='Street')
-    city = models.CharField(max_length=100, verbose_name='City')
-    state = models.CharField(max_length=2, choices=USA_STATES, verbose_name='State')
+    city = models.CharField(max_length=100, verbose_name='City', null=True, blank=True)
+    state = models.CharField(max_length=100, verbose_name='State', null=True, blank=True)
+    country = models.CharField(max_length=100, verbose_name='Country', choices=COUNTRIES_CHOICES)
     zipcode = models.CharField(max_length=10, verbose_name='ZIP code')
 
 
@@ -30,20 +30,27 @@ class Education(models.Model):
     graduation_date = models.DateField(verbose_name='date of graduation')
 
 
-class Admissions(models.Model):
-    USA_STATES = USA_STATES
-
+class Jurisdiction(models.Model):
     profile = models.ForeignKey('Profile', on_delete=models.CASCADE, verbose_name='Profile')
-    state = models.CharField(max_length=2, choices=USA_STATES, verbose_name='State')
+    country = models.CharField(max_length=100, verbose_name='Country', choices=COUNTRIES_CHOICES)
+    state = models.CharField(max_length=100, verbose_name='State', null=True, blank=True)
+    city = models.CharField(max_length=100, verbose_name='City', null=True, blank=True)
+
+
+class Admissions(models.Model):
+    profile = models.ForeignKey('Profile', on_delete=models.CASCADE, verbose_name='Profile')
+    city = models.CharField(max_length=100, verbose_name='City', null=True, blank=True)
+    state = models.CharField(max_length=100, verbose_name='State', null=True, blank=True)
+    country = models.CharField(max_length=100, verbose_name='Country', choices=COUNTRIES_CHOICES)
     year = models.PositiveIntegerField(verbose_name='date of graduation')
 
 
 class LawSchool(models.Model):
-    USA_STATES = USA_STATES
-
     profile = models.OneToOneField('Profile', on_delete=models.CASCADE, verbose_name='Profile')
     school = models.CharField(max_length=100, verbose_name='School name')
-    state = models.CharField(max_length=2, choices=USA_STATES, verbose_name='State')
+    city = models.CharField(max_length=100, verbose_name='City', null=True, blank=True)
+    state = models.CharField(max_length=100, verbose_name='State', null=True, blank=True)
+    country = models.CharField(max_length=100, verbose_name='Country', choices=COUNTRIES_CHOICES)
 
 
 class WorkExperience(models.Model):
@@ -124,7 +131,6 @@ class UserManager(BaseUserManager):
 
 
 class Profile(AbstractUser):
-    USA_STATES = USA_STATES
     SIZE_OF_CLIENTS = (
         (0, 'Individuals'),
         (1, 'Small businesses (1-100 people)'),
@@ -164,11 +170,6 @@ class Profile(AbstractUser):
         models.CharField(max_length=100, verbose_name='Representative Clients'),
         blank=True, null=True
     )
-
-    jurisdiction = ArrayField(
-        models.CharField(max_length=2, choices=USA_STATES),
-        verbose_name='Jurisdiction', blank=True, null=True
-    )
     law_type_tags = ArrayField(
         models.CharField(max_length=50),
         verbose_name='Law Type Tags', blank=True, null=True
@@ -201,3 +202,44 @@ class Profile(AbstractUser):
         if self.photo:
             return self.photo.url
         return static('dummy-img.png')
+
+
+class Transaction(models.Model):
+    REVIEW_CHOICES = (
+        ('SD', 'Strongly Disagree'),
+        ('D', 'Disagree'),
+        ('N', 'Neutral'),
+        ('A', 'Agree'),
+        ('SA', 'Strongly Agree')
+    )
+    CURRENCY_CHOICES = CURRENCIES
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    date = models.DateField(verbose_name='Transaction Date')
+
+    requester = models.ForeignKey('Profile', on_delete=models.CASCADE,
+                                  related_name='requester', verbose_name='Requester')
+    proof_receipt_requester = models.ImageField(upload_to=get_image_path, storage=variativeStorage(),
+                                                verbose_name='Requester\'s Transaction Proof', blank=True, null=True)
+    requester_review = models.CharField(max_length=2, choices=REVIEW_CHOICES,
+                                        default=None, verbose_name='Requester\'s Review')
+    requester_recommendation = models.TextField(null=True, blank=True,
+                                                default=None, verbose_name='Requester\'s recommendation')
+
+    requestee = models.ForeignKey('Profile', on_delete=models.CASCADE,
+                                  related_name='requestee', verbose_name='Requestee')
+    requestee_review = models.CharField(max_length=2, choices=REVIEW_CHOICES,
+                                        default=None, verbose_name='Requestee\'s Review', null=True)
+    requestee_recommendation = models.TextField(null=True, blank=True,
+                                                default=None, verbose_name='Requestee\'s recommendation')
+    proof_receipt_requestee = models.ImageField(upload_to=get_image_path, storage=variativeStorage(),
+                                                verbose_name='Requestee\'s Transaction Proof', blank=True, null=True)
+
+    is_confirmed = models.NullBooleanField(default=None, verbose_name='Confirmed from Requestee')
+    is_verified = models.NullBooleanField(default=None, verbose_name='Verified from Admin')
+    amount = models.DecimalField(max_digits=14, decimal_places=2, verbose_name='Transaction Amount')
+    value_in_usd = models.DecimalField(max_digits=14, decimal_places=2, verbose_name='Value in USD', null=True)
+    currency = models.CharField(max_length=3, choices=CURRENCY_CHOICES ,
+                                default='USD', verbose_name='Transaction Currency')
+    is_requester_principal = models.BooleanField(default=False, verbose_name='Requester Payed')

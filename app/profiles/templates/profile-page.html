@@ -59,6 +59,9 @@
                                         </a>
                                     {% endif %}
                                 </div>
+                                {% if user != selected_user %}
+                                    <a href="{% url 'create_transaction' selected_user.handle %}" class="btn col-md-6">Add Correspondence with {{ selected_user.first_name }} {{ selected_user.last_name }}</a>
+                                {% endif %}
                                 <div class="description text-center">
                                     <p>{{ selected_user.bio|safe }}</p>
                                 </div>
@@ -118,10 +121,6 @@
                                         {{ selected_user.experience }} years
                                     </div>
                                     <div class="col-md-6 field">
-                                        <h5 class="mt-0 mb-1" style="font-weight: 700;">Jurisdictions:</h5>
-                                        {{ selected_user.jurisdiction|join:", " }}
-                                    </div>
-                                    <div class="col-md-6 field">
                                         <h5 class="mt-0 mb-1" style="font-weight: 700;">Law Type Tags:</h5>
                                         {{ selected_user.law_type_tags|join:", " }}
                                     </div>
@@ -148,6 +147,14 @@
                                     <div class="col-md-6 field">
                                         <h5 class="mt-0 mb-1" style="font-weight: 700;">License status:</h5>
                                         {{ selected_user.get_license_status_display }}
+                                    </div>
+                                    <div class="col-md-6 field">
+                                        <h5 class="mt-0 mb-1" style="font-weight: 700;">Jurisdictions:</h5>
+                                        {% for jurisdiction in selected_user.jurisdiction_set.all %}
+                                            <div class="row">
+                                                {{ jurisdiction.country }} - {{ jurisdiction.state }} - {{ jurisdiction.city }}
+                                            </div>
+                                        {% endfor %}
                                     </div>
                                 </div>
 
@@ -332,13 +339,6 @@
                                                 <span style="color: red;">[{{ error }}]</span>
                                             {% endfor %}
                                         </div>
-                                        <div class="col-md-12 field">
-                                            {{ form.publish_to_thb.label_tag }}
-                                            {{ form.publish_to_thb }}
-                                            {% for error in form.publish_to_thb.errors %}
-                                                <span style="color: red;">[{{ error }}]</span>
-                                            {% endfor %}
-                                        </div>
                                     </div>
 
                                     <div class="row">
@@ -402,12 +402,95 @@
                                             {% endfor %}
                                         </div>
                                     </div>
-
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h3>Jurisdictions</h3>
+                                        </div>
+                                        {{ jurisdiction.management_form }}
+                                        <div class="col-md-12" id="jurisdiction-formset">
+                                            {% for jurisdiction in jurisdiction.forms %}
+                                            <div class="row">
+                                                {% for hidden in jurisdiction.hidden_fields %}
+                                                    {{ hidden }}
+                                                {% endfor %}
+                                                <div class="col-md-3 field">
+                                                    {{ jurisdiction.country.label_tag }}
+                                                    {{ jurisdiction.country }}
+                                                    {% for error in jurisdiction.country.errors %}
+                                                        <span style="color: red;">[{{ error }}]</span>
+                                                    {% endfor %}
+                                                </div>
+                                                <div class="col-md-3 field state-div">
+                                                    {{ jurisdiction.state.label_tag }}
+                                                    {{ jurisdiction.state }}
+                                                    {% for error in jurisdiction.state.errors %}
+                                                        <span style="color: red;">[{{ error }}]</span>
+                                                    {% endfor %}
+                                                </div>
+                                                <div class="col-md-3 field">
+                                                    {{ jurisdiction.city.label_tag }}
+                                                    {{ jurisdiction.city }}
+                                                    {% for error in jurisdiction.city.errors %}
+                                                        <span style="color: red;">[{{ error }}]</span>
+                                                    {% endfor %}
+                                                </div>
+                                                <div class="col-md-3 field">
+                                                    {{ jurisdiction.DELETE.label_tag }}
+                                                    {{ jurisdiction.DELETE }}
+                                                </div>
+                                            </div>
+                                            {% endfor %}
+                                        </div>
+                                        <div class="col-md-12 field">
+                                            <a href="#" id="jurisdiction-clone">
+                                                <h3>+</h3>
+                                            </a>
+                                        </div>
+                                        <!--empty form to clone dynamically-->
+                                        <div id="empty_form" style="display:none">
+                                            <div class='row'>
+                                                <div class="col-md-3 field">
+                                                    {{ jurisdiction.empty_form.country.label_tag }}
+                                                    {{ jurisdiction.empty_form.country }}
+                                                    {% for error in jurisdiction.empty_form.country.errors %}
+                                                    <span style="color: red;">[{{ error }}]</span>
+                                                    {% endfor %}
+                                                </div>
+                                                <div class="col-md-3 field state-div">
+                                                    {{ jurisdiction.empty_form.state.label_tag }}
+                                                    {{ jurisdiction.empty_form.state }}
+                                                    {% for error in jurisdiction.empty_form.state.errors %}
+                                                    <span style="color: red;">[{{ error }}]</span>
+                                                    {% endfor %}
+                                                </div>
+                                                <div class="col-md-3 field">
+                                                    {{ jurisdiction.empty_form.city.label_tag }}
+                                                    {{ jurisdiction.empty_form.city }}
+                                                    {% for error in jurisdiction.empty_form.city.errors %}
+                                                    <span style="color: red;">[{{ error }}]</span>
+                                                    {% endfor %}
+                                                </div>
+                                                <div class="col-md-3 field">
+                                                    {% if jurisdiction.empty_form.can_delete %}
+                                                    {{ jurisdiction.empty_form.DELETE.label_tag }}
+                                                    {{ jurisdiction.empty_form.DELETE }}
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="row">
                                         <div class="col-md-12">
                                             <h3>Address</h3>
                                         </div>
                                         <div class="col-md-4 field">
+                                            {{ address.country.label_tag }}
+                                            {{ address.country }}
+                                            {% for error in address.country.errors %}
+                                                <span style="color: red;">[{{ error }}]</span>
+                                            {% endfor %}
+                                        </div>
+                                        <div class="col-md-4 field state-div">
                                             {{ address.state.label_tag }}
                                             {{ address.state }}
                                             {% for error in address.state.errors %}
@@ -430,7 +513,7 @@
                                             {% endfor %}
                                         </div>
 
-                                        <div class="col-md-8 field">
+                                        <div class="col-md-4 field">
                                             {{ address.street.label_tag }}
                                             {{ address.street }}
                                             {% for error in address.street.errors %}
@@ -486,13 +569,6 @@
                                             {{ form.experience.label_tag }}
                                             {{ form.experience }}
                                             {% for error in form.experience.errors %}
-                                                <span style="color: red;">[{{ error }}]</span>
-                                            {% endfor %}
-                                        </div>
-                                        <div class="col-md-6 field">
-                                            {{ form.jurisdiction.label_tag }}
-                                            {{ form.jurisdiction }}
-                                            {% for error in form.jurisdiction.errors %}
                                                 <span style="color: red;">[{{ error }}]</span>
                                             {% endfor %}
                                         </div>
@@ -557,9 +633,23 @@
                                             {% endfor %}
                                         </div>
                                         <div class="col-md-6 field">
+                                            {{ lawschool.country.label_tag }}
+                                            {{ lawschool.country }}
+                                            {% for error in lawschool.country.errors %}
+                                                <span style="color: red;">[{{ error }}]</span>
+                                            {% endfor %}
+                                        </div>
+                                        <div class="col-md-6 field state-div">
                                             {{ lawschool.state.label_tag }}
                                             {{ lawschool.state }}
                                             {% for error in lawschool.state.errors %}
+                                                <span style="color: red;">[{{ error }}]</span>
+                                            {% endfor %}
+                                        </div>
+                                        <div class="col-md-6 field">
+                                            {{ lawschool.city.label_tag }}
+                                            {{ lawschool.city }}
+                                            {% for error in lawschool.city.errors %}
                                                 <span style="color: red;">[{{ error }}]</span>
                                             {% endfor %}
                                         </div>
@@ -611,13 +701,30 @@
                                         </div>
                                         {{ admissions.management_form }}
                                         {% for admission in admissions.forms %}
+                                        <div class="row">
                                             {% for hidden in admission.hidden_fields %}
                                                 {{ hidden }}
                                             {% endfor %}
                                             <div class="col-md-4 field">
+                                                {{ admission.country.label_tag }}
+                                                {{ admission.country }}
+                                                {% for error in admission.country.errors %}
+                                                    <span style="color: red;">[{{ error }}]</span>
+                                                {% endfor %}
+                                            </div>
+
+                                            <div class="col-md-4 field state-div">
                                                 {{ admission.state.label_tag }}
                                                 {{ admission.state }}
                                                 {% for error in admission.state.errors %}
+                                                    <span style="color: red;">[{{ error }}]</span>
+                                                {% endfor %}
+                                            </div>
+
+                                            <div class="col-md-4 field">
+                                                {{ admission.city.label_tag }}
+                                                {{ admission.city }}
+                                                {% for error in admission.city.errors %}
                                                     <span style="color: red;">[{{ error }}]</span>
                                                 {% endfor %}
                                             </div>
@@ -636,6 +743,7 @@
                                                     {{ admission.DELETE }}
                                                 {% endif %}
                                             </div>
+                                        </div>
                                         {% endfor %}
                                     </div>
 
@@ -785,6 +893,42 @@
                             <!--END Edit Field for own profile-->
                         </div>
                     </div>
+                {% if relationships %}
+                    <div class="col-md-2 mt-4 ml-auto mr-auto user-relationships">
+                        <h3>Correspondence</h3>
+                        {% for relationship in relationships %}
+                            <div class="row relationship-card card p-2">
+                                <div class="text-center">
+                                    <a href="{{ relationship.url }}">
+                                    <img src="{{ relationship.photo }}" alt="Circle Image"
+                                         class="img-raised rounded-circle img-fluid correspondence-photo mb-1">
+                                    <p class="card-title">{{ relationship.name }}</p>
+                                    </a>
+                                    Verified amount:
+                                    <p> <span class="text-success" title="Verified">{{ relationship.verified_amount }}</span> vs <span class="text-danger" title="Unverified">{{ relationship.unverified_amount }}</span></p>
+
+                                    Total Amount:
+                                    <p> <span class="text-success" title="Given">{{ relationship.amount_given }}</span> vs <span class="text-danger" title="Received">{{ relationship.amount_received }}</span></p>
+                                    {% if relationship.jurisdiction %}
+                                        <h6>Jurisdiction</h6>
+                                        {% for jurisdiction in relationship.jurisdiction %}
+                                            <span class="badge badge-primary">{{ jurisdiction }}</span>
+                                        {% endfor %}
+                                    {% endif %}
+
+                                    {% if relationship.law_type_tags %}
+                                        <h6>Tags</h6>
+                                        {% for law_type_tag in relationship.law_type_tags %}
+                                            <span class="badge badge-info">{{ law_type_tag }}</span>
+                                        {% endfor %}
+                                    {% endif %}
+
+                                </div>
+
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
                 </div>
             </div>
         </div>

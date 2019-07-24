@@ -1,5 +1,5 @@
-from django.forms import ModelForm, inlineformset_factory
 from django import forms
+from django.forms import ModelForm, inlineformset_factory
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
 from django.conf.global_settings import LANGUAGES
@@ -7,11 +7,13 @@ from django.core.exceptions import ValidationError
 
 from django_select2.forms import Select2TagWidget
 
-from .utils import (LAW_TYPE_TAGS_CHOICES, SUBJECTIVE_TAGS_CHOICES)
-from .choices import USA_STATES
-from .models import (Profile, Education, WorkExperience, Address, Admissions,
-                     LawSchool, Organization, Award, Language)
 
+from .choices import USA_STATES
+
+from .utils import LAW_TYPE_TAGS_CHOICES, SUBJECTIVE_TAGS_CHOICES, _get_states_for_country
+from .models import (Profile, Education, WorkExperience, Address, Admissions,
+                     LawSchool, Organization, Award, Transaction, Jurisdiction, Language)
+from clsite.settings import DEFAULT_CHOICES_SELECTION, DEFAULT_COUNTRY
 
 class ProfileCreationForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
@@ -83,11 +85,9 @@ class ProfileForm(ModelForm):
                   'size_of_clients',
                   'license_status',
                   'clients',
-                  'jurisdiction',
                   'law_type_tags',
                   'subjective_tags',
                   'bio',
-                  'publish_to_thb',
                   )
 
     def __init__(self, *args, **kwargs):
@@ -107,10 +107,6 @@ class ProfileForm(ModelForm):
             choices=SUBJECTIVE_TAGS_CHOICES, attrs={'class': 'form-control',
                                                     'data-maximum-selection-length': 3,
                                                     'data-token-separators': [',']}
-        )
-        self.fields['jurisdiction'].widget = MultiSelectArrayFieldWidget(
-            choices=USA_STATES, attrs={
-                'data-tags': False, 'class': 'form-control'}
         )
         self.fields['clients'].widget = MultiSelectArrayFieldWidget(
             attrs={'class': 'form-control', 'data-token-separators': [',']}
@@ -135,7 +131,14 @@ class AddressForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for key, field in self.fields.items():
-            field.widget.attrs.update({'class': 'form-control'})
+            if key=='country':
+                field.widget.attrs.update({'class': 'form-control country'})
+                field.initial = DEFAULT_COUNTRY
+            elif key=='state':
+                field.widget = forms.Select(attrs={'class': 'form-control'})
+                field.widget.choices = DEFAULT_CHOICES_SELECTION + _get_states_for_country(DEFAULT_COUNTRY)
+            else:
+                field.widget.attrs.update({'class': 'form-control'})
 
 
 class EducationForm(ModelForm):
@@ -161,7 +164,14 @@ class AdmissionsForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for key, field in self.fields.items():
-            field.widget.attrs.update({'class': 'form-control'})
+            if key=='country':
+                field.widget.attrs.update({'class': 'form-control country'})
+                field.initial = DEFAULT_COUNTRY
+            elif key=='state':
+                field.widget = forms.Select(attrs={'class': 'form-control'})
+                field.widget.choices = DEFAULT_CHOICES_SELECTION + _get_states_for_country(DEFAULT_COUNTRY)
+            else:
+                field.widget.attrs.update({'class': 'form-control'})
 
 
 AddmissionsFormSet = inlineformset_factory(Profile, Admissions,
@@ -223,7 +233,74 @@ class LawSchoolForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for key, field in self.fields.items():
+            if key=='country':
+                field.widget.attrs.update({'class': 'form-control country'})
+                field.initial = DEFAULT_COUNTRY
+            elif key=='state':
+                field.widget = forms.Select(attrs={'class': 'form-control'})
+                field.widget.choices = DEFAULT_CHOICES_SELECTION + _get_states_for_country(DEFAULT_COUNTRY)
+            else:
+                field.widget.attrs.update({'class': 'form-control'})
+
+
+class TransactionForm(ModelForm):
+    class Meta:
+        model = Transaction
+        fields = ['is_requester_principal', 'requester_review', 'date',
+                  'amount', 'currency', 'requester_recommendation']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['is_requester_principal'].widget = forms.NullBooleanSelect()
+        self.fields['is_requester_principal'].widget.choices = (
+            (True, "I paid them"),
+            (False, "They paid me")
+        )
+
+        for key, field in self.fields.items():
             field.widget.attrs.update({'class': 'form-control'})
+
+        self.fields['amount'].widget.attrs['class'] = 'form-control col-md-4 mr-2'
+        self.fields['currency'].widget.attrs['class'] = 'form-control col-md-4 mr-2'
+
+        self.fields['is_requester_principal'].label = 'Did one of you pay the other?'
+        self.fields['requester_recommendation'].label = 'Write a brief written recommendation'
+        self.fields['requester_review'].label = 'Would you work with them again?'
+        self.fields['date'].label = 'What was the date of the transaction?'
+        self.fields['date'].widget.attrs['class'] += ' datepicker'
+
+    def save(self, requester, requestee, commit=True):
+        transaction = super().save(commit=False)
+        transaction.requester = requester
+        transaction.requestee = requestee
+
+        if transaction.currency == 'USD':
+            transaction.value_in_usd = transaction.amount
+
+        transaction.save()
+        return transaction
+
+
+class JurisdictionForm(ModelForm):
+    class Meta:
+        model = Jurisdiction
+        exclude = ('profile',)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for key, field in self.fields.items():
+            if key=='country':
+                field.widget.attrs.update({'class': 'form-control country'})
+                field.initial = DEFAULT_COUNTRY
+            elif key=='state':
+                field.widget = forms.Select(attrs={'class': 'form-control'})
+                field.widget.choices = DEFAULT_CHOICES_SELECTION + _get_states_for_country(DEFAULT_COUNTRY)
+            else:
+                field.widget.attrs.update({'class': 'form-control'})
+
+
+JurisdictionFormSet = inlineformset_factory(Profile, Jurisdiction,
+                                         form=JurisdictionForm, extra=1)
 
 
 class LanguageForm(ModelForm):

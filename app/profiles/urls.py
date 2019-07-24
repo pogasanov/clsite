@@ -14,9 +14,13 @@ urlpatterns = [
 
     path('profile', views.profile, name='profile'),
     path('profile/<handle>', views.profile, name='profile'),
+
+    path('profiles', views.UserListView.as_view(), name='profiles'),
     path('profiles/jurisdictions/<jurisdiction_value>/law-type-tags/<law_tags_value>', views.BrowsingView.as_view(), name='profiles-browsing'),
 
-    path('profiles', views.UserListView.as_view(), name='profiles')
+    path('states', views.get_states, name='states'),
+    path('transaction/<handle>', views.transaction, name='create_transaction')
+
 ] + static(MEDIA_URL, document_root=MEDIA_ROOT)
 
 

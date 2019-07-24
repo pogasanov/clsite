@@ -10,7 +10,6 @@ def _read_json(path):
     """
     with open(path, 'r') as file:
         data = json.load(file)
-        file.close()
         return data
 
 
@@ -56,6 +55,41 @@ def _get_all_law_type_tags_tuple():
     return tuple(result_list)
 
 
+def _get_all_countries_tuple():
+    """
+    Returns all countries in the form of choices readable tuple.
+    """
+
+    path = 'profiles/countriesstatescities/countries+states.json'
+    file_path = os.path.join(BASE_DIR, path)
+    countries_states_cities = _read_json(file_path)
+    result_list = []
+    for row in countries_states_cities:
+        country_tuple = (row['name'], row['name'])
+        result_list.append(country_tuple)
+
+    return tuple(result_list)
+
+
+def _get_states_for_country(country_name):
+    """
+    Returns all the states of a given country in the form of choices readable tuple.
+    """
+    path = 'profiles/countriesstatescities/countries+states.json'
+    file_path = os.path.join(BASE_DIR, path)
+    countries_states_cities = _read_json(file_path)
+    result_list = []
+    for row in countries_states_cities:
+        if row['name'] == country_name:
+            list_states = row['states']
+            result_list = [(state, state) for state in list_states]
+            return tuple(result_list)
+
+    return tuple(result_list)
+
+
 LAW_TYPE_TAGS_CHOICES = _get_all_law_type_tags_tuple()
 
 SUBJECTIVE_TAGS_CHOICES = _get_all_subjective_tags_tuple()
+
+COUNTRIES_CHOICES = _get_all_countries_tuple()

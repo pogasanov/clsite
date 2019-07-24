@@ -2,9 +2,11 @@ from itertools import groupby
 
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
+from django.shortcuts import render, get_object_or_404, redirect
+from django.urls import reverse_lazy, reverse
 from django.contrib.auth import get_user_model, login
 from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseBadRequest
 from django.views.generic.edit import CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView
@@ -12,13 +14,76 @@ from django.views.generic import ListView
 from .forms import (ProfileForm, EducationFormSet, WorkExperienceFormSet,
                     AddressForm, AddmissionsFormSet, LawSchoolForm,
                     OrganizationFormSet, AwardFormSet, ProfileCreationForm,
-                    LanguageFormSet)
-from .models import Profile
+                    TransactionForm, JurisdictionFormSet, LanguageFormSet)
+
+from .models import Profile, Jurisdiction
 from .choices import USA_STATES
+from .utils import _get_states_for_country
+from .helpers import get_user_relationships
+from clsite.settings import DEFAULT_CHOICES_SELECTION
 
 
 def index(request):
     return render(request, "landing-page.html", context={})
+
+
+def user_relationships(user):
+    user_relations = get_user_relationships(user)
+    # User with highest cumulative verified transactions amount first and so on. Secondly sorted by highest amount
+    sorted_user_relationships = sorted(
+        user_relations.items(),
+        key=lambda x: (
+            sum([t.value_in_usd or 0 for t in x[1] if t.is_verified]),
+            sum([t.value_in_usd or 0 for t in x[1]])
+        ),
+        reverse=True
+    )
+    relationships = []
+    states = dict(USA_STATES)
+
+
+    for user_handle, transactions in sorted_user_relationships:
+        relationship = {}
+
+        other_user = get_object_or_404(get_user_model(), handle=user_handle)
+        relationship['name'] = other_user.get_full_name()
+        relationship['url'] = reverse('profile', args=[other_user.handle])
+        relationship['photo'] = other_user.photo_url_or_default()
+
+        relationship['verified_amount']= sum([t.value_in_usd or 0 for t in transactions if t.is_verified])
+        relationship['unverified_amount'] = sum([t.value_in_usd or 0 for t in transactions if not t.is_verified])
+
+        amount_given = 0
+        amount_given += sum([t.value_in_usd or 0 for t in transactions if t.requester == user and t.is_requester_principal])
+        amount_given += sum([t.value_in_usd or 0 for t in transactions if t.requestee == user and not t.is_requester_principal])
+        relationship['amount_given'] = amount_given
+
+        amount_received = 0
+        amount_received += sum([t.value_in_usd or 0 for t in transactions if t.requester == user and not t.is_requester_principal])
+        amount_received += sum([t.value_in_usd or 0 for t in transactions if t.requestee == user and t.is_requester_principal])
+        relationship['amount_received'] = amount_received
+
+        relationship['jurisdiction']= [states[j] for j in other_user.jurisdiction or []]
+        relationship['law_type_tags'] = other_user.law_type_tags or []
+
+        if not amount_given and not amount_received:
+            continue
+
+        relationships.append(relationship)
+
+    return relationships
+
+
+@login_required
+def get_states(request, handle=None):
+    if request.method == 'POST':
+        country = request.POST.get('country')
+        if country:
+            states = DEFAULT_CHOICES_SELECTION + _get_states_for_country(country)
+            return JsonResponse({'data': states})
+        else:
+            pass
+        return JsonResponse({'data': []})
 
 
 @login_required
@@ -26,6 +91,7 @@ def profile(request, handle=None):
     if handle:
         user = get_object_or_404(get_user_model(), handle=handle)
         profile_form = None
+        jurisdiction_formset = None
         address_form = None
         education_formset = None
         admissions_formset = None
@@ -37,6 +103,7 @@ def profile(request, handle=None):
     else:
         user = request.user
         profile_form = ProfileForm(request.POST or None, instance=user, prefix='profile')
+        jurisdiction_formset = JurisdictionFormSet(request.POST or None, instance=user, prefix='jurisdiction')
         address_form = AddressForm(request.POST or None, instance=getattr(user, 'address', None), prefix='address')
         education_formset = EducationFormSet(request.POST or None, instance=user, prefix='education')
         admissions_formset = AddmissionsFormSet(request.POST or None, instance=user, prefix='admissions')
@@ -52,6 +119,7 @@ def profile(request, handle=None):
                 return JsonResponse({'url': url})
             else:
                 if profile_form.is_valid() and \
+                        jurisdiction_formset.is_valid() and \
                         address_form.is_valid() and \
                         education_formset.is_valid() and \
                         admissions_formset.is_valid() and \
@@ -61,6 +129,8 @@ def profile(request, handle=None):
                         award_formset.is_valid() and \
                         language_formset.is_valid():
                     profile_form.save()
+                    jurisdiction_formset.instance = user
+                    jurisdiction_formset.save()
                     af = address_form.save(commit=False)
                     af.profile = user
                     af.save()
@@ -83,6 +153,7 @@ def profile(request, handle=None):
                 else:
                     errors = {
                         'profile': profile_form.errors,
+                        'jurisdiction': jurisdiction_formset.errors,
                         'address': address_form.errors,
                         'education': education_formset.errors,
                         'admissions': admissions_formset.errors,
@@ -98,6 +169,7 @@ def profile(request, handle=None):
     return render(request, "profile-page.html", context={
         'selected_user': user,
         'form': profile_form,
+        'jurisdiction': jurisdiction_formset,
         'address': address_form,
         'educations': education_formset,
         'admissions': admissions_formset,
@@ -106,7 +178,24 @@ def profile(request, handle=None):
         'organizations': organization_formset,
         'awards': award_formset,
         'languages': language_formset,
+        'relationships': user_relationships(user)[:5] if handle else None
     })
+
+@login_required
+def transaction(request, handle):
+    user = request.user
+    receiver = get_object_or_404(get_user_model(), handle=handle)
+
+    if user == receiver:
+        return HttpResponseBadRequest()
+
+    transaction_form = TransactionForm(request.POST or None)
+
+    if transaction_form.is_valid():
+        transaction_form.save(requester=user, requestee=receiver)
+        return redirect('home')
+
+    return render(request, "transaction.html", context={'form': transaction_form})
 
 
 def update_user_profile_photo(user, photo):
@@ -149,27 +238,24 @@ class UserListView(LoginRequiredMixin, ListView):
 
     def get_flat_tags_and_usage(self, profiles_law_type_tags):
         flat_law_tags = []
-        flat_jurisdictions = []
         for profile in profiles_law_type_tags:
             if profile.law_type_tags:
                 flat_law_tags.extend(profile.law_type_tags)
-            if profile.jurisdiction:
-                flat_jurisdictions.extend(self.get_tuple_display_from_value(USA_STATES, profile.jurisdiction))
 
         law_tags_with_occurrence = [{"name": tag, "occurrence": len(list(group))} for tag, group in groupby(sorted(flat_law_tags))]
-        jurisdiction_with_occurrence = [
-            {"name": jurisdiction, "occurrence": len(list(group))} for jurisdiction, group in groupby(sorted(flat_jurisdictions))
-        ]
-
-        return sorted(law_tags_with_occurrence, key=lambda k: k['occurrence'], reverse=True), \
-               sorted(jurisdiction_with_occurrence, key=lambda k: k['occurrence'], reverse=True)
+        return sorted(law_tags_with_occurrence, key=lambda k: k['occurrence'], reverse=True)
 
     def get(self, request, *args, **kwargs):
         list_users = Profile.objects.all()
-        profiles_law_type_tags = list_users.only('law_type_tags', 'jurisdiction')
-        list_law_type_tags, list_jurisdictions = self.get_flat_tags_and_usage(profiles_law_type_tags)
-        return render(request, self.template_name, {'jurisdictions': list_jurisdictions,
-                                                    'law_type_tags': list_law_type_tags,
+        profiles_law_type_tags = list_users.only('law_type_tags')
+        usage_list_law_type_tags = self.get_flat_tags_and_usage(profiles_law_type_tags)
+
+        list_jurisdictions = Jurisdiction.objects.values_list('state', flat=True)
+        usage_list_jurisdictions = [{"name": tag, "occurrence": len(list(group))} for tag, group in groupby(sorted(list_jurisdictions))]
+        usage_list_jurisdictions = sorted(usage_list_jurisdictions, key=lambda k: k['occurrence'], reverse=True)
+
+        return render(request, self.template_name, {'jurisdictions': usage_list_jurisdictions,
+                                                    'law_type_tags': usage_list_law_type_tags,
                                                     'users': list_users})
 
 
@@ -204,11 +290,10 @@ class BrowsingView(LoginRequiredMixin, ListView):
         law_tags_list = None
         jurisdiction_list = None
         if jurisdiction:
-            jurisdiction = self.get_tuple_key_from_value(USA_STATES, jurisdiction)
-            list_users = list_users.filter(jurisdiction__contains=[jurisdiction])
+            list_users = list_users.filter(jurisdiction__state=jurisdiction)
             law_tags_list = self.get_unique_options(list_users.values_list('law_type_tags', flat=True))
         if law_tags_value:
             list_users = list_users.filter(law_type_tags__contains=[law_tags_value])
-            jurisdiction_list_values = self.get_unique_options(list_users.values_list('jurisdiction', flat=True))
-            jurisdiction_list = [self.get_tuple_value_from_key(USA_STATES, value) for value in jurisdiction_list_values]
+            list_users_ids = list(list_users.values_list(flat=True).distinct())
+            jurisdiction_list = list(Jurisdiction.objects.filter(profile_id__in=list_users_ids).values_list('state', flat=True).distinct())
         return render(request, self.template_name, {'users': list_users, 'jurisdiction_list': jurisdiction_list, 'law_tags_list': law_tags_list})
