@@ -20,7 +20,6 @@
       "size_of_clients": 2,
       "preferred_communication_method": 3,
       "license_status": 1,
-      "languages": "[\"gv\"]",
       "clients": "[\"Byrd, Deleon and Ford\"]",
       "jurisdiction": "[\"SC\"]",
       "law_type_tags": "[\"Commercial Ship Accident\", \"Jones Act\"]",
@@ -55,7 +54,6 @@
       "size_of_clients": 1,
       "preferred_communication_method": 2,
       "license_status": 1,
-      "languages": "[\"lb\"]",
       "clients": "[\"Harding Inc\"]",
       "jurisdiction": "[\"MA\"]",
       "law_type_tags": "[\"Aerospace Law\", \"Unfair Competition\"]",
@@ -90,7 +88,6 @@
       "size_of_clients": 0,
       "preferred_communication_method": 2,
       "license_status": 0,
-      "languages": "[\"sr\"]",
       "clients": "[\"Gray, Koch and Gray\"]",
       "jurisdiction": "[\"MI\"]",
       "law_type_tags": "[\"Ship Registration\", \"Jones Act\"]",
@@ -125,7 +122,6 @@
       "size_of_clients": 0,
       "preferred_communication_method": 1,
       "license_status": 1,
-      "languages": "[\"tg\"]",
       "clients": "[\"Foster, Frank and Bell\"]",
       "jurisdiction": "[\"TX\"]",
       "law_type_tags": "[\"Aerospace Law\", \"Banking Law\"]",
@@ -160,7 +156,6 @@
       "size_of_clients": 3,
       "preferred_communication_method": 3,
       "license_status": 1,
-      "languages": "[\"bem\"]",
       "clients": "[\"Thompson-Hood\"]",
       "jurisdiction": "[\"MN\"]",
       "law_type_tags": "[\"Finance\"]",
@@ -195,7 +190,6 @@
       "size_of_clients": 0,
       "preferred_communication_method": 2,
       "license_status": 0,
-      "languages": "[\"om\"]",
       "clients": "[\"Walsh-Richardson\"]",
       "jurisdiction": "[\"IA\"]",
       "headline": "Multi-tiered 24/7 secured line",
@@ -229,7 +223,6 @@
       "size_of_clients": 3,
       "preferred_communication_method": 2,
       "license_status": 1,
-      "languages": "[\"iu\"]",
       "clients": "[\"Gardner PLC\"]",
       "jurisdiction": "[\"WV\"]",
       "headline": "Virtual solution-oriented utilization",
@@ -263,7 +256,6 @@
       "size_of_clients": 1,
       "preferred_communication_method": 3,
       "license_status": 0,
-      "languages": "[\"af\"]",
       "clients": "[\"Jacobson, Lee and Mcmillan\"]",
       "jurisdiction": "[\"VT\"]",
       "headline": "Grass-roots logistical array",
@@ -296,8 +288,7 @@
       "current_job": "Aeronautical engineer",
       "size_of_clients": 3,
       "preferred_communication_method": 2,
-      "license_status": 0,
-      "languages": "[\"crh\"]",
+      "license_status": 0,,
       "clients": "[\"Yates-Chapman\"]",
       "jurisdiction": "[\"OK\"]",
       "headline": "Proactive static Internet solution",
@@ -331,7 +322,6 @@
       "size_of_clients": 2,
       "preferred_communication_method": 3,
       "license_status": 0,
-      "languages": "[\"ka\"]",
       "clients": "[\"Ramirez-Smith\"]",
       "jurisdiction": "[\"MN\"]",
       "headline": "Organized fault-tolerant Local Area Network",
@@ -365,7 +355,6 @@
       "size_of_clients": 2,
       "preferred_communication_method": 0,
       "license_status": 0,
-      "languages": "[\"os\"]",
       "clients": "[\"Smith, Durham and Kelly\"]",
       "jurisdiction": "[\"MN\"]",
       "headline": "Cloned 4thgeneration productivity",
@@ -399,7 +388,6 @@
       "size_of_clients": 1,
       "preferred_communication_method": 0,
       "license_status": 0,
-      "languages": "[\"dv\"]",
       "clients": "[\"Shaffer, Allen and Olson\"]",
       "jurisdiction": "[\"DC\"]",
       "headline": "Ameliorated directional collaboration",
@@ -433,7 +421,6 @@
       "size_of_clients": 3,
       "preferred_communication_method": 3,
       "license_status": 1,
-      "languages": "[\"mg\"]",
       "clients": "[\"Bennett-Robinson\"]",
       "jurisdiction": "[\"NV\"]",
       "headline": "Profit-focused fresh-thinking standardization",
@@ -467,7 +454,6 @@
       "size_of_clients": 0,
       "preferred_communication_method": 1,
       "license_status": 1,
-      "languages": "[\"az\"]",
       "clients": "[\"Ward and Sons\"]",
       "jurisdiction": "[\"NJ\"]",
       "headline": "Triple-buffered scalable attitude",
@@ -501,7 +487,6 @@
       "size_of_clients": 3,
       "preferred_communication_method": 1,
       "license_status": 1,
-      "languages": "[\"vi\"]",
       "clients": "[\"Green, Byrd and Harris\"]",
       "jurisdiction": "[\"VA\"]",
       "headline": "Innovative bifurcated strategy",
@@ -534,8 +519,7 @@
       "current_job": "Herpetologist",
       "size_of_clients": 3,
       "preferred_communication_method": 2,
-      "license_status": 0,
-      "languages": "[\"the\"]",
+      "license_status": 0,,
       "clients": "[\"Rich Group\"]",
       "jurisdiction": "[\"MA\"]",
       "headline": "Stand-alone disintermediate analyzer",
@@ -569,7 +553,6 @@
       "size_of_clients": 0,
       "preferred_communication_method": 3,
       "license_status": 0,
-      "languages": "[\"lb\"]",
       "clients": "[\"Hayes, Bass and Jones\"]",
       "jurisdiction": "[\"NV\"]",
       "headline": "Organic clear-thinking encoding",
@@ -603,7 +586,6 @@
       "size_of_clients": 3,
       "preferred_communication_method": 3,
       "license_status": 1,
-      "languages": "[\"br\"]",
       "clients": "[\"Gibbs Ltd\"]",
       "jurisdiction": "[\"RI\"]",
       "headline": "Realigned asymmetric array",
@@ -636,8 +618,7 @@
       "current_job": "Programme researcher, broadcasting/film/video",
       "size_of_clients": 1,
       "preferred_communication_method": 3,
-      "license_status": 1,
-      "languages": "[\"hne\"]",
+      "license_status": 1,,
       "clients": "[\"Davis, Drake and Roberts\"]",
       "jurisdiction": "[\"NY\"]",
       "headline": "Cross-group fault-tolerant array",
@@ -671,7 +652,6 @@
       "size_of_clients": 2,
       "preferred_communication_method": 3,
       "license_status": 1,
-      "languages": "[\"be\"]",
       "clients": "[\"Barnett and Sons\"]",
       "jurisdiction": "[\"NH\"]",
       "headline": "Inverse neutral knowledgebase",
@@ -705,7 +685,6 @@
       "size_of_clients": 3,
       "preferred_communication_method": 2,
       "license_status": 0,
-      "languages": "[\"ig\"]",
       "clients": "[\"Scott PLC\"]",
       "jurisdiction": "[\"VA\"]",
       "headline": "Team-oriented heuristic access",
@@ -739,7 +718,6 @@
       "size_of_clients": 1,
       "preferred_communication_method": 3,
       "license_status": 1,
-      "languages": "[\"ve\"]",
       "clients": "[\"Hall-King\"]",
       "jurisdiction": "[\"OK\"]",
       "headline": "Public-key bandwidth-monitored framework",
@@ -773,7 +751,6 @@
       "size_of_clients": 0,
       "preferred_communication_method": 1,
       "license_status": 0,
-      "languages": "[\"eo\"]",
       "clients": "[\"Phillips PLC\"]",
       "jurisdiction": "[\"CT\"]",
       "headline": "Future-proofed 6thgeneration matrices",
@@ -806,8 +783,7 @@
       "current_job": "Psychologist, sport and exercise",
       "size_of_clients": 1,
       "preferred_communication_method": 3,
-      "license_status": 1,
-      "languages": "[\"fur\"]",
+      "license_status": 1,,
       "clients": "[\"Franklin-Kim\"]",
       "jurisdiction": "[\"WA\"]",
       "headline": "Persevering 5thgeneration success",
@@ -841,7 +817,6 @@
       "size_of_clients": 3,
       "preferred_communication_method": 1,
       "license_status": 1,
-      "languages": "[\"kk\"]",
       "clients": "[\"Cunningham-Howard\"]",
       "jurisdiction": "[\"PA\"]",
       "headline": "Multi-layered dynamic adapter",
@@ -875,7 +850,6 @@
       "size_of_clients": 1,
       "preferred_communication_method": 3,
       "license_status": 0,
-      "languages": "[\"ha\"]",
       "clients": "[\"Mccarty-Huber\"]",
       "jurisdiction": "[\"TN\"]",
       "headline": "Diverse asynchronous standardization",
@@ -909,7 +883,6 @@
       "size_of_clients": 3,
       "preferred_communication_method": 3,
       "license_status": 1,
-      "languages": "[\"oc\"]",
       "clients": "[\"Williams, Harper and Williams\"]",
       "jurisdiction": "[\"MA\"]",
       "headline": "Fully-configurable eco-centric productivity",
@@ -943,7 +916,6 @@
       "size_of_clients": 0,
       "preferred_communication_method": 1,
       "license_status": 0,
-      "languages": "[\"iw\"]",
       "clients": "[\"West LLC\"]",
       "jurisdiction": "[\"NE\"]",
       "headline": "Balanced asynchronous concept",
@@ -977,7 +949,6 @@
       "size_of_clients": 3,
       "preferred_communication_method": 1,
       "license_status": 0,
-      "languages": "[\"ko\"]",
       "clients": "[\"Kelly and Sons\"]",
       "jurisdiction": "[\"MI\"]",
       "headline": "Grass-roots fresh-thinking challenge",
@@ -1011,7 +982,6 @@
       "size_of_clients": 1,
       "preferred_communication_method": 1,
       "license_status": 0,
-      "languages": "[\"eu\"]",
       "clients": "[\"Lyons LLC\"]",
       "jurisdiction": "[\"HI\"]",
       "headline": "Down-sized empowering system engine",
@@ -1045,7 +1015,6 @@
       "size_of_clients": 3,
       "preferred_communication_method": 0,
       "license_status": 1,
-      "languages": "[\"gu\"]",
       "clients": "[\"Hughes-Chan\"]",
       "jurisdiction": "[\"TX\"]",
       "headline": "Customer-focused even-keeled initiative",
@@ -1079,7 +1048,6 @@
       "size_of_clients": 0,
       "preferred_communication_method": 0,
       "license_status": 0,
-      "languages": "[\"hy\"]",
       "clients": "[\"Perry, Richard and Farmer\"]",
       "jurisdiction": "[\"TX\"]",
       "headline": "Function-based multimedia Internet solution",
@@ -1112,8 +1080,7 @@
       "current_job": "Phytotherapist",
       "size_of_clients": 0,
       "preferred_communication_method": 0,
-      "license_status": 1,
-      "languages": "[\"mhr\"]",
+      "license_status": 1,,
       "clients": "[\"Thomas, Downs and Martin\"]",
       "jurisdiction": "[\"WV\"]",
       "headline": "Virtual composite infrastructure",
@@ -1147,7 +1114,6 @@
       "size_of_clients": 3,
       "preferred_communication_method": 0,
       "license_status": 1,
-      "languages": "[\"hr\"]",
       "clients": "[\"Patel, Palmer and Barr\"]",
       "jurisdiction": "[\"OK\"]",
       "headline": "Configurable bi-directional encryption",
@@ -1181,7 +1147,6 @@
       "size_of_clients": 3,
       "preferred_communication_method": 2,
       "license_status": 0,
-      "languages": "[\"cv\"]",
       "clients": "[\"Riley Inc\"]",
       "jurisdiction": "[\"VT\"]",
       "headline": "Stand-alone transitional contingency",
@@ -1215,7 +1180,6 @@
       "size_of_clients": 0,
       "preferred_communication_method": 0,
       "license_status": 1,
-      "languages": "[\"sw\"]",
       "clients": "[\"Sharp-Barton\"]",
       "jurisdiction": "[\"VA\"]",
       "headline": "Inverse modular support",
@@ -1249,7 +1213,6 @@
       "size_of_clients": 1,
       "preferred_communication_method": 1,
       "license_status": 0,
-      "languages": "[\"bg\"]",
       "clients": "[\"Gill, Sanchez and Garcia\"]",
       "jurisdiction": "[\"VA\"]",
       "headline": "Cloned coherent knowledge user",
@@ -1283,7 +1246,6 @@
       "size_of_clients": 2,
       "preferred_communication_method": 0,
       "license_status": 0,
-      "languages": "[\"it\"]",
       "clients": "[\"Schneider, Watson and Smith\"]",
       "jurisdiction": "[\"KY\"]",
       "headline": "Polarized responsive solution",
@@ -1317,7 +1279,6 @@
       "size_of_clients": 0,
       "preferred_communication_method": 1,
       "license_status": 1,
-      "languages": "[\"ce\"]",
       "clients": "[\"Aguirre, Hodge and Watkins\"]",
       "jurisdiction": "[\"NH\"]",
       "headline": "Cloned encompassing support",
@@ -1350,8 +1311,7 @@
       "current_job": "Copywriter, advertising",
       "size_of_clients": 2,
       "preferred_communication_method": 3,
-      "license_status": 1,
-      "languages": "[\"ber\"]",
+      "license_status": 1,,
       "clients": "[\"Wolf, Martinez and Kent\"]",
       "jurisdiction": "[\"NE\"]",
       "headline": "User-centric tertiary framework",
@@ -1385,7 +1345,6 @@
       "size_of_clients": 2,
       "preferred_communication_method": 1,
       "license_status": 0,
-      "languages": "[\"bn\"]",
       "clients": "[\"Martin, Wagner and Fields\"]",
       "jurisdiction": "[\"OR\"]",
       "headline": "Adaptive 5thgeneration task-force",
@@ -1419,7 +1378,6 @@
       "size_of_clients": 1,
       "preferred_communication_method": 3,
       "license_status": 0,
-      "languages": "[\"as\"]",
       "clients": "[\"Adams-Lewis\"]",
       "jurisdiction": "[\"AZ\"]",
       "headline": "Adaptive heuristic Internet solution",
@@ -1453,7 +1411,6 @@
       "size_of_clients": 3,
       "preferred_communication_method": 1,
       "license_status": 1,
-      "languages": "[\"ce\"]",
       "clients": "[\"Franco, Boyle and White\"]",
       "jurisdiction": "[\"MN\"]",
       "headline": "Visionary tertiary customer loyalty",
@@ -1487,7 +1444,6 @@
       "size_of_clients": 2,
       "preferred_communication_method": 2,
       "license_status": 1,
-      "languages": "[\"ta\"]",
       "clients": "[\"Campbell PLC\"]",
       "jurisdiction": "[\"LA\"]",
       "headline": "Fundamental grid-enabled project",
@@ -1521,7 +1477,6 @@
       "size_of_clients": 3,
       "preferred_communication_method": 2,
       "license_status": 1,
-      "languages": "[\"cv\"]",
       "clients": "[\"Park, Brown and Ramos\"]",
       "jurisdiction": "[\"MI\"]",
       "headline": "Virtual grid-enabled migration",
@@ -1555,7 +1510,6 @@
       "size_of_clients": 0,
       "preferred_communication_method": 1,
       "license_status": 1,
-      "languages": "[\"st\"]",
       "clients": "[\"Arnold-Williams\"]",
       "jurisdiction": "[\"ID\"]",
       "headline": "Re-engineered intermediate infrastructure",
@@ -1589,7 +1543,6 @@
       "size_of_clients": 1,
       "preferred_communication_method": 1,
       "license_status": 0,
-      "languages": "[\"lg\"]",
       "clients": "[\"Hardy, Davis and Rodriguez\"]",
       "jurisdiction": "[\"NE\"]",
       "headline": "Universal 3rdgeneration Graphic Interface",
@@ -1623,7 +1576,6 @@
       "size_of_clients": 3,
       "preferred_communication_method": 2,
       "license_status": 0,
-      "languages": "[\"sv\"]",
       "clients": "[\"Barnes-Jennings\"]",
       "jurisdiction": "[\"LA\"]",
       "headline": "Face-to-face intermediate task-force",
@@ -1657,7 +1609,6 @@
       "size_of_clients": 2,
       "preferred_communication_method": 2,
       "license_status": 0,
-      "languages": "[\"pt\"]",
       "clients": "[\"Boone LLC\"]",
       "jurisdiction": "[\"DC\"]",
       "headline": "Digitized clear-thinking hardware",
@@ -1691,7 +1642,6 @@
       "size_of_clients": 2,
       "preferred_communication_method": 0,
       "license_status": 1,
-      "languages": "[\"ku\"]",
       "clients": "[\"Reeves, Snow and Martin\"]",
       "jurisdiction": "[\"IA\"]",
       "headline": "Up-sized explicit workforce",
@@ -1725,7 +1675,6 @@
       "size_of_clients": 1,
       "preferred_communication_method": 3,
       "license_status": 0,
-      "languages": "[\"csb\"]",
       "clients": "[\"Fields, Miller and Ramos\"]",
       "jurisdiction": "[\"TN\"]",
       "headline": "Face-to-face directional capacity",
@@ -1759,7 +1708,6 @@
       "size_of_clients": 0,
       "preferred_communication_method": 2,
       "license_status": 1,
-      "languages": "[\"ku\"]",
       "clients": "[\"Thompson-Gutierrez\"]",
       "jurisdiction": "[\"MT\"]",
       "headline": "Persistent heuristic hierarchy",
@@ -1793,7 +1741,6 @@
       "size_of_clients": 1,
       "preferred_communication_method": 2,
       "license_status": 0,
-      "languages": "[\"hi\"]",
       "clients": "[\"Odonnell-Warren\"]",
       "jurisdiction": "[\"RI\"]",
       "headline": "Reactive heuristic focus group",
@@ -1826,8 +1773,7 @@
       "current_job": "Quarry manager",
       "size_of_clients": 2,
       "preferred_communication_method": 1,
-      "license_status": 1,
-      "languages": "[\"brx\"]",
+      "license_status": 1,,
       "clients": "[\"Carroll, Coleman and Anderson\"]",
       "jurisdiction": "[\"MO\"]",
       "headline": "Re-contextualized 6thgeneration concept",
@@ -1861,7 +1807,6 @@
       "size_of_clients": 2,
       "preferred_communication_method": 2,
       "license_status": 0,
-      "languages": "[\"ig\"]",
       "clients": "[\"Brock Ltd\"]",
       "jurisdiction": "[\"MA\"]",
       "headline": "Cross-group client-server leverage",
@@ -1895,7 +1840,6 @@
       "size_of_clients": 1,
       "preferred_communication_method": 0,
       "license_status": 0,
-      "languages": "[\"wa\"]",
       "clients": "[\"Thomas-Miller\"]",
       "jurisdiction": "[\"WY\"]",
       "headline": "Synergized systemic knowledge user",
@@ -1929,7 +1873,6 @@
       "size_of_clients": 1,
       "preferred_communication_method": 2,
       "license_status": 0,
-      "languages": "[\"af\"]",
       "clients": "[\"Miller PLC\"]",
       "jurisdiction": "[\"AK\"]",
       "headline": "Distributed homogeneous utilization",
@@ -1963,7 +1906,6 @@
       "size_of_clients": 2,
       "preferred_communication_method": 2,
       "license_status": 0,
-      "languages": "[\"ta\"]",
       "clients": "[\"White and Sons\"]",
       "jurisdiction": "[\"FL\"]",
       "headline": "Business-focused optimal secured line",
@@ -1997,7 +1939,6 @@
       "size_of_clients": 3,
       "preferred_communication_method": 0,
       "license_status": 1,
-      "languages": "[\"en\"]",
       "clients": "[\"Collins-Tucker\"]",
       "jurisdiction": "[\"WI\"]",
       "headline": "Business-focused object-oriented toolset",
@@ -2031,7 +1972,6 @@
       "size_of_clients": 3,
       "preferred_communication_method": 1,
       "license_status": 1,
-      "languages": "[\"om\"]",
       "clients": "[\"Flynn Ltd\"]",
       "jurisdiction": "[\"OK\"]",
       "headline": "Sharable zero tolerance secured line",
@@ -2065,7 +2005,6 @@
       "size_of_clients": 2,
       "preferred_communication_method": 0,
       "license_status": 0,
-      "languages": "[\"ts\"]",
       "clients": "[\"Chambers Inc\"]",
       "jurisdiction": "[\"MI\"]",
       "headline": "Re-engineered 5thgeneration artificial intelligence",
@@ -2098,8 +2037,7 @@
       "current_job": "Training and development officer",
       "size_of_clients": 3,
       "preferred_communication_method": 1,
-      "license_status": 1,
-      "languages": "[\"hak\"]",
+      "license_status": 1,,
       "clients": "[\"Brown-Miller\"]",
       "jurisdiction": "[\"AR\"]",
       "headline": "Cloned regional benchmark",
@@ -2133,7 +2071,6 @@
       "size_of_clients": 2,
       "preferred_communication_method": 0,
       "license_status": 0,
-      "languages": "[\"ky\"]",
       "clients": "[\"Cole Inc\"]",
       "jurisdiction": "[\"IN\"]",
       "headline": "Optional analyzing knowledge user",
@@ -2167,7 +2104,6 @@
       "size_of_clients": 1,
       "preferred_communication_method": 3,
       "license_status": 0,
-      "languages": "[\"mt\"]",
       "clients": "[\"Hernandez, English and Rogers\"]",
       "jurisdiction": "[\"LA\"]",
       "headline": "Robust global workforce",
@@ -2200,8 +2136,7 @@
       "current_job": "Museum/gallery exhibitions officer",
       "size_of_clients": 3,
       "preferred_communication_method": 3,
-      "license_status": 0,
-      "languages": "[\"unm\"]",
+      "license_status": 0,,
       "clients": "[\"Jackson, Richardson and Santiago\"]",
       "jurisdiction": "[\"MD\"]",
       "headline": "Optional actuating functionalities",
@@ -2235,7 +2170,6 @@
       "size_of_clients": 3,
       "preferred_communication_method": 1,
       "license_status": 1,
-      "languages": "[\"kn\"]",
       "clients": "[\"Pierce Group\"]",
       "jurisdiction": "[\"ND\"]",
       "headline": "Optional impactful info-mediaries",
@@ -2269,7 +2203,6 @@
       "size_of_clients": 3,
       "preferred_communication_method": 3,
       "license_status": 0,
-      "languages": "[\"he\"]",
       "clients": "[\"Hogan, Jackson and Adams\"]",
       "jurisdiction": "[\"FL\"]",
       "headline": "Ergonomic disintermediate function",
@@ -2303,7 +2236,6 @@
       "size_of_clients": 0,
       "preferred_communication_method": 1,
       "license_status": 0,
-      "languages": "[\"ur\"]",
       "clients": "[\"Marquez Group\"]",
       "jurisdiction": "[\"DE\"]",
       "headline": "Self-enabling maximized superstructure",
@@ -2337,7 +2269,6 @@
       "size_of_clients": 2,
       "preferred_communication_method": 2,
       "license_status": 1,
-      "languages": "[\"mr\"]",
       "clients": "[\"Ayala, Graham and Bennett\"]",
       "jurisdiction": "[\"AL\"]",
       "headline": "Realigned regional encryption",
@@ -2371,7 +2302,6 @@
       "size_of_clients": 0,
       "preferred_communication_method": 0,
       "license_status": 0,
-      "languages": "[\"el\"]",
       "clients": "[\"Miller-White\"]",
       "jurisdiction": "[\"AZ\"]",
       "headline": "Self-enabling tertiary benchmark",
@@ -2405,7 +2335,6 @@
       "size_of_clients": 2,
       "preferred_communication_method": 0,
       "license_status": 1,
-      "languages": "[\"sv\"]",
       "clients": "[\"Garcia, Reed and Hall\"]",
       "jurisdiction": "[\"NH\"]",
       "headline": "Switchable 24/7 open architecture",
@@ -2439,7 +2368,6 @@
       "size_of_clients": 0,
       "preferred_communication_method": 1,
       "license_status": 1,
-      "languages": "[\"ca\"]",
       "clients": "[\"Brewer-Martin\"]",
       "jurisdiction": "[\"WA\"]",
       "headline": "Enhanced 24hour synergy",
@@ -2473,7 +2401,6 @@
       "size_of_clients": 3,
       "preferred_communication_method": 1,
       "license_status": 0,
-      "languages": "[\"ru\"]",
       "clients": "[\"Brown-Williams\"]",
       "jurisdiction": "[\"RI\"]",
       "headline": "Fundamental homogeneous hierarchy",
@@ -2507,7 +2434,6 @@
       "size_of_clients": 0,
       "preferred_communication_method": 2,
       "license_status": 1,
-      "languages": "[\"si\"]",
       "clients": "[\"Walls, Shaw and Thompson\"]",
       "jurisdiction": "[\"OR\"]",
       "headline": "Reverse-engineered dedicated application",
@@ -2540,8 +2466,7 @@
       "current_job": "Financial adviser",
       "size_of_clients": 2,
       "preferred_communication_method": 0,
-      "license_status": 1,
-      "languages": "[\"mni\"]",
+      "license_status": 1,,
       "clients": "[\"Bush, Brown and Banks\"]",
       "jurisdiction": "[\"MS\"]",
       "headline": "Total clear-thinking Graphic Interface",
@@ -2574,8 +2499,7 @@
       "current_job": "Chemical engineer",
       "size_of_clients": 0,
       "preferred_communication_method": 3,
-      "license_status": 1,
-      "languages": "[\"quz\"]",
+      "license_status": 1,,
       "clients": "[\"Dickerson-Franklin\"]",
       "jurisdiction": "[\"AZ\"]",
       "headline": "Future-proofed uniform support",
@@ -2608,8 +2532,7 @@
       "current_job": "Pharmacist, community",
       "size_of_clients": 1,
       "preferred_communication_method": 0,
-      "license_status": 0,
-      "languages": "[\"ckb\"]",
+      "license_status": 0,,
       "clients": "[\"Booth PLC\"]",
       "jurisdiction": "[\"NH\"]",
       "headline": "Fundamental multi-tasking Graphic Interface",
@@ -2643,7 +2566,6 @@
       "size_of_clients": 1,
       "preferred_communication_method": 3,
       "license_status": 1,
-      "languages": "[\"zu\"]",
       "clients": "[\"Greene LLC\"]",
       "jurisdiction": "[\"WI\"]",
       "headline": "Mandatory leadingedge analyzer",
@@ -2677,7 +2599,6 @@
       "size_of_clients": 1,
       "preferred_communication_method": 2,
       "license_status": 0,
-      "languages": "[\"tk\"]",
       "clients": "[\"Weaver, Moran and Coleman\"]",
       "jurisdiction": "[\"IL\"]",
       "headline": "Innovative non-volatile concept",
@@ -2711,7 +2632,6 @@
       "size_of_clients": 3,
       "preferred_communication_method": 1,
       "license_status": 1,
-      "languages": "[\"se\"]",
       "clients": "[\"Taylor-Odom\"]",
       "jurisdiction": "[\"DE\"]",
       "headline": "Digitized stable service-desk",
@@ -2745,7 +2665,6 @@
       "size_of_clients": 2,
       "preferred_communication_method": 2,
       "license_status": 1,
-      "languages": "[\"my\"]",
       "clients": "[\"Parker, Baird and Reyes\"]",
       "jurisdiction": "[\"SC\"]",
       "headline": "Enterprise-wide tangible Graphic Interface",
@@ -2778,8 +2697,7 @@
       "current_job": "Building services engineer",
       "size_of_clients": 3,
       "preferred_communication_method": 2,
-      "license_status": 1,
-      "languages": "[\"the\"]",
+      "license_status": 1,,
       "clients": "[\"Murray Group\"]",
       "jurisdiction": "[\"NM\"]",
       "headline": "Re-contextualized directional portal",
@@ -2813,7 +2731,6 @@
       "size_of_clients": 3,
       "preferred_communication_method": 2,
       "license_status": 0,
-      "languages": "[\"lv\"]",
       "clients": "[\"Christensen-Knight\"]",
       "jurisdiction": "[\"WV\"]",
       "headline": "Switchable scalable Local Area Network",
@@ -2847,7 +2764,6 @@
       "size_of_clients": 1,
       "preferred_communication_method": 1,
       "license_status": 0,
-      "languages": "[\"tn\"]",
       "clients": "[\"Casey, Shaw and Cervantes\"]",
       "jurisdiction": "[\"AZ\"]",
       "headline": "Assimilated next generation leverage",
@@ -2881,7 +2797,6 @@
       "size_of_clients": 0,
       "preferred_communication_method": 2,
       "license_status": 0,
-      "languages": "[\"bg\"]",
       "clients": "[\"Howe, Franklin and Cooper\"]",
       "jurisdiction": "[\"NV\"]",
       "headline": "Optimized holistic support",
@@ -2915,7 +2830,6 @@
       "size_of_clients": 3,
       "preferred_communication_method": 0,
       "license_status": 1,
-      "languages": "[\"ko\"]",
       "clients": "[\"Peterson and Sons\"]",
       "jurisdiction": "[\"AK\"]",
       "headline": "Reactive hybrid infrastructure",
@@ -2948,8 +2862,7 @@
       "current_job": "Careers information officer",
       "size_of_clients": 2,
       "preferred_communication_method": 0,
-      "license_status": 1,
-      "languages": "[\"fil\"]",
+      "license_status": 1,,
       "clients": "[\"Roman-Hopkins\"]",
       "jurisdiction": "[\"NC\"]",
       "headline": "Devolved multi-tasking open architecture",
@@ -2983,7 +2896,6 @@
       "size_of_clients": 0,
       "preferred_communication_method": 0,
       "license_status": 1,
-      "languages": "[\"ca\"]",
       "clients": "[\"Benson, Garcia and Martinez\"]",
       "jurisdiction": "[\"VA\"]",
       "headline": "Horizontal context-sensitive neural-net",
@@ -3017,7 +2929,6 @@
       "size_of_clients": 2,
       "preferred_communication_method": 0,
       "license_status": 1,
-      "languages": "[\"so\"]",
       "clients": "[\"Mills and Sons\"]",
       "jurisdiction": "[\"WA\"]",
       "headline": "Stand-alone actuating Local Area Network",
@@ -3051,7 +2962,6 @@
       "size_of_clients": 3,
       "preferred_communication_method": 2,
       "license_status": 0,
-      "languages": "[\"kw\"]",
       "clients": "[\"Jones, Morrison and Mathis\"]",
       "jurisdiction": "[\"FL\"]",
       "headline": "Robust 24/7 moderator",
@@ -3084,8 +2994,7 @@
       "current_job": "Environmental consultant",
       "size_of_clients": 3,
       "preferred_communication_method": 3,
-      "license_status": 1,
-      "languages": "[\"raj\"]",
+      "license_status": 1,,
       "clients": "[\"Lucas, Booth and Riley\"]",
       "jurisdiction": "[\"LA\"]",
       "headline": "Switchable context-sensitive hardware",
@@ -3119,7 +3028,6 @@
       "size_of_clients": 0,
       "preferred_communication_method": 3,
       "license_status": 1,
-      "languages": "[\"ks\"]",
       "clients": "[\"Lang Group\"]",
       "jurisdiction": "[\"LA\"]",
       "headline": "Robust actuating concept",
@@ -3152,8 +3060,7 @@
       "current_job": "Advertising art director",
       "size_of_clients": 1,
       "preferred_communication_method": 0,
-      "license_status": 0,
-      "languages": "[\"lzh\"]",
+      "license_status": 0,,
       "clients": "[\"Petty-Barber\"]",
       "jurisdiction": "[\"NV\"]",
       "headline": "Stand-alone global definition",
@@ -3187,7 +3094,6 @@
       "size_of_clients": 1,
       "preferred_communication_method": 0,
       "license_status": 1,
-      "languages": "[\"lt\"]",
       "clients": "[\"Morales, Smith and Green\"]",
       "jurisdiction": "[\"CA\"]",
       "headline": "Business-focused systemic challenge",
@@ -3221,7 +3127,6 @@
       "size_of_clients": 0,
       "preferred_communication_method": 1,
       "license_status": 1,
-      "languages": "[\"os\"]",
       "clients": "[\"Jones, Tucker and Vincent\"]",
       "jurisdiction": "[\"VT\"]",
       "headline": "Enhanced stable knowledgebase",
@@ -3255,7 +3160,6 @@
       "size_of_clients": 3,
       "preferred_communication_method": 0,
       "license_status": 1,
-      "languages": "[\"de\"]",
       "clients": "[\"Brady-Boyd\"]",
       "jurisdiction": "[\"IA\"]",
       "headline": "Customer-focused human-resource time-frame",
@@ -3289,7 +3193,6 @@
       "size_of_clients": 2,
       "preferred_communication_method": 0,
       "license_status": 0,
-      "languages": "[\"lt\"]",
       "clients": "[\"Cervantes Group\"]",
       "jurisdiction": "[\"NY\"]",
       "headline": "Object-based object-oriented function",
@@ -3323,7 +3226,6 @@
       "size_of_clients": 2,
       "preferred_communication_method": 2,
       "license_status": 1,
-      "languages": "[\"be\"]",
       "clients": "[\"Graves-Dillon\"]",
       "jurisdiction": "[\"NM\"]",
       "headline": "Persevering fault-tolerant open architecture",
@@ -3356,8 +3258,7 @@
       "current_job": "Engineer, maintenance",
       "size_of_clients": 3,
       "preferred_communication_method": 3,
-      "license_status": 1,
-      "languages": "[\"sid\"]",
+      "license_status": 1,,
       "clients": "[\"Jones Ltd\"]",
       "jurisdiction": "[\"VT\"]",
       "headline": "Persistent bottom-line knowledge user",
@@ -3391,7 +3292,6 @@
       "size_of_clients": 2,
       "preferred_communication_method": 3,
       "license_status": 0,
-      "languages": "[\"nso\"]",
       "clients": "[\"Schmidt Ltd\"]",
       "jurisdiction": "[\"AK\"]",
       "headline": "Polarized cohesive portal",
@@ -10582,5 +10482,905 @@
       "state": "KS",
       "zipcode": "35806"
     }
+  },
+  {
+    "models": "profiles.language",
+    "pk": 1,
+    "fields": {
+        "profile": 203,
+        "name": "lv",
+        "proficiency_level": "PF"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 2,
+    "fields": {
+        "profile": 204,
+        "name": "be",
+        "proficiency_level": "CF"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 3,
+    "fields": {
+        "profile": 205,
+        "name": "en",
+        "proficiency_level": "NS"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 4,
+    "fields": {
+        "profile": 206,
+        "name": "sl",
+        "proficiency_level": "CF"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 5,
+    "fields": {
+        "profile": 207,
+        "name": "ja",
+        "proficiency_level": "PF"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 6,
+    "fields": {
+        "profile": 208,
+        "name": "zh-hant",
+        "proficiency_level": "CF"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 7,
+    "fields": {
+        "profile": 209,
+        "name": "sk",
+        "proficiency_level": "PF"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 8,
+    "fields": {
+        "profile": 210,
+        "name": "af",
+        "proficiency_level": "PF"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 9,
+    "fields": {
+        "profile": 211,
+        "name": "ar",
+        "proficiency_level": "NS"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 10,
+    "fields": {
+        "profile": 212,
+        "name": "es-ni",
+        "proficiency_level": "PF"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 11,
+    "fields": {
+        "profile": 213,
+        "name": "nl",
+        "proficiency_level": "CF"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 12,
+    "fields": {
+        "profile": 214,
+        "name": "ka",
+        "proficiency_level": "CF"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 13,
+    "fields": {
+        "profile": 215,
+        "name": "bn",
+        "proficiency_level": "PF"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 14,
+    "fields": {
+        "profile": 216,
+        "name": "en-gb",
+        "proficiency_level": "NS"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 15,
+    "fields": {
+        "profile": 217,
+        "name": "he",
+        "proficiency_level": "PF"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 16,
+    "fields": {
+        "profile": 218,
+        "name": "bg",
+        "proficiency_level": "CF"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 17,
+    "fields": {
+        "profile": 219,
+        "name": "kn",
+        "proficiency_level": "PF"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 18,
+    "fields": {
+        "profile": 220,
+        "name": "lv",
+        "proficiency_level": "PF"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 19,
+    "fields": {
+        "profile": 221,
+        "name": "te",
+        "proficiency_level": "NS"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 20,
+    "fields": {
+        "profile": 222,
+        "name": "el",
+        "proficiency_level": "CF"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 21,
+    "fields": {
+        "profile": 223,
+        "name": "he",
+        "proficiency_level": "CF"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 22,
+    "fields": {
+        "profile": 224,
+        "name": "hsb",
+        "proficiency_level": "PF"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 23,
+    "fields": {
+        "profile": 225,
+        "name": "ml",
+        "proficiency_level": "CF"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 24,
+    "fields": {
+        "profile": 226,
+        "name": "en-gb",
+        "proficiency_level": "NS"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 25,
+    "fields": {
+        "profile": 227,
+        "name": "os",
+        "proficiency_level": "CF"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 26,
+    "fields": {
+        "profile": 228,
+        "name": "it",
+        "proficiency_level": "NS"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 27,
+    "fields": {
+        "profile": 229,
+        "name": "sv",
+        "proficiency_level": "PF"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 28,
+    "fields": {
+        "profile": 230,
+        "name": "fr",
+        "proficiency_level": "NS"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 29,
+    "fields": {
+        "profile": 231,
+        "name": "es",
+        "proficiency_level": "PF"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 30,
+    "fields": {
+        "profile": 232,
+        "name": "pt",
+        "proficiency_level": "PF"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 31,
+    "fields": {
+        "profile": 233,
+        "name": "sq",
+        "proficiency_level": "CF"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 32,
+    "fields": {
+        "profile": 234,
+        "name": "ur",
+        "proficiency_level": "NS"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 33,
+    "fields": {
+        "profile": 235,
+        "name": "hi",
+        "proficiency_level": "PF"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 34,
+    "fields": {
+        "profile": 236,
+        "name": "en-gb",
+        "proficiency_level": "PF"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 35,
+    "fields": {
+        "profile": 237,
+        "name": "lv",
+        "proficiency_level": "CF"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 36,
+    "fields": {
+        "profile": 238,
+        "name": "uk",
+        "proficiency_level": "NS"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 37,
+    "fields": {
+        "profile": 239,
+        "name": "en-gb",
+        "proficiency_level": "NS"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 38,
+    "fields": {
+        "profile": 240,
+        "name": "el",
+        "proficiency_level": "CF"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 39,
+    "fields": {
+        "profile": 241,
+        "name": "en",
+        "proficiency_level": "NS"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 40,
+    "fields": {
+        "profile": 242,
+        "name": "eo",
+        "proficiency_level": "CF"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 41,
+    "fields": {
+        "profile": 243,
+        "name": "ia",
+        "proficiency_level": "NS"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 42,
+    "fields": {
+        "profile": 244,
+        "name": "udm",
+        "proficiency_level": "NS"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 43,
+    "fields": {
+        "profile": 245,
+        "name": "ko",
+        "proficiency_level": "CF"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 44,
+    "fields": {
+        "profile": 246,
+        "name": "el",
+        "proficiency_level": "PF"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 45,
+    "fields": {
+        "profile": 247,
+        "name": "ml",
+        "proficiency_level": "NS"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 46,
+    "fields": {
+        "profile": 248,
+        "name": "th",
+        "proficiency_level": "NS"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 47,
+    "fields": {
+        "profile": 249,
+        "name": "fi",
+        "proficiency_level": "NS"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 48,
+    "fields": {
+        "profile": 250,
+        "name": "de",
+        "proficiency_level": "CF"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 49,
+    "fields": {
+        "profile": 251,
+        "name": "ml",
+        "proficiency_level": "CF"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 50,
+    "fields": {
+        "profile": 252,
+        "name": "bg",
+        "proficiency_level": "NS"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 51,
+    "fields": {
+        "profile": 253,
+        "name": "lt",
+        "proficiency_level": "NS"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 52,
+    "fields": {
+        "profile": 254,
+        "name": "fy",
+        "proficiency_level": "NS"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 53,
+    "fields": {
+        "profile": 255,
+        "name": "bn",
+        "proficiency_level": "NS"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 54,
+    "fields": {
+        "profile": 256,
+        "name": "sw",
+        "proficiency_level": "CF"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 55,
+    "fields": {
+        "profile": 257,
+        "name": "sq",
+        "proficiency_level": "PF"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 56,
+    "fields": {
+        "profile": 258,
+        "name": "gd",
+        "proficiency_level": "CF"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 57,
+    "fields": {
+        "profile": 259,
+        "name": "ia",
+        "proficiency_level": "CF"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 58,
+    "fields": {
+        "profile": 260,
+        "name": "bg",
+        "proficiency_level": "CF"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 59,
+    "fields": {
+        "profile": 261,
+        "name": "en",
+        "proficiency_level": "NS"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 60,
+    "fields": {
+        "profile": 262,
+        "name": "mn",
+        "proficiency_level": "CF"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 61,
+    "fields": {
+        "profile": 263,
+        "name": "es-co",
+        "proficiency_level": "NS"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 62,
+    "fields": {
+        "profile": 264,
+        "name": "nb",
+        "proficiency_level": "NS"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 63,
+    "fields": {
+        "profile": 265,
+        "name": "vi",
+        "proficiency_level": "PF"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 64,
+    "fields": {
+        "profile": 266,
+        "name": "nl",
+        "proficiency_level": "CF"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 65,
+    "fields": {
+        "profile": 267,
+        "name": "el",
+        "proficiency_level": "NS"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 66,
+    "fields": {
+        "profile": 268,
+        "name": "nb",
+        "proficiency_level": "PF"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 67,
+    "fields": {
+        "profile": 269,
+        "name": "ga",
+        "proficiency_level": "PF"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 68,
+    "fields": {
+        "profile": 270,
+        "name": "cs",
+        "proficiency_level": "NS"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 69,
+    "fields": {
+        "profile": 271,
+        "name": "hi",
+        "proficiency_level": "PF"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 70,
+    "fields": {
+        "profile": 272,
+        "name": "vi",
+        "proficiency_level": "NS"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 71,
+    "fields": {
+        "profile": 273,
+        "name": "udm",
+        "proficiency_level": "CF"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 72,
+    "fields": {
+        "profile": 274,
+        "name": "bg",
+        "proficiency_level": "PF"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 73,
+    "fields": {
+        "profile": 275,
+        "name": "bs",
+        "proficiency_level": "NS"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 74,
+    "fields": {
+        "profile": 276,
+        "name": "es-co",
+        "proficiency_level": "CF"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 75,
+    "fields": {
+        "profile": 277,
+        "name": "nn",
+        "proficiency_level": "NS"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 76,
+    "fields": {
+        "profile": 278,
+        "name": "af",
+        "proficiency_level": "NS"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 77,
+    "fields": {
+        "profile": 279,
+        "name": "es-ni",
+        "proficiency_level": "NS"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 78,
+    "fields": {
+        "profile": 280,
+        "name": "sr",
+        "proficiency_level": "CF"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 79,
+    "fields": {
+        "profile": 281,
+        "name": "en",
+        "proficiency_level": "CF"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 80,
+    "fields": {
+        "profile": 282,
+        "name": "km",
+        "proficiency_level": "CF"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 81,
+    "fields": {
+        "profile": 283,
+        "name": "ka",
+        "proficiency_level": "CF"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 82,
+    "fields": {
+        "profile": 284,
+        "name": "cy",
+        "proficiency_level": "NS"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 83,
+    "fields": {
+        "profile": 285,
+        "name": "hu",
+        "proficiency_level": "CF"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 84,
+    "fields": {
+        "profile": 286,
+        "name": "pa",
+        "proficiency_level": "PF"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 85,
+    "fields": {
+        "profile": 287,
+        "name": "de",
+        "proficiency_level": "CF"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 86,
+    "fields": {
+        "profile": 288,
+        "name": "hu",
+        "proficiency_level": "CF"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 87,
+    "fields": {
+        "profile": 289,
+        "name": "io",
+        "proficiency_level": "NS"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 88,
+    "fields": {
+        "profile": 290,
+        "name": "vi",
+        "proficiency_level": "PF"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 89,
+    "fields": {
+        "profile": 291,
+        "name": "bg",
+        "proficiency_level": "NS"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 90,
+    "fields": {
+        "profile": 292,
+        "name": "te",
+        "proficiency_level": "NS"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 91,
+    "fields": {
+        "profile": 293,
+        "name": "es-mx",
+        "proficiency_level": "NS"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 92,
+    "fields": {
+        "profile": 294,
+        "name": "nn",
+        "proficiency_level": "PF"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 93,
+    "fields": {
+        "profile": 295,
+        "name": "ta",
+        "proficiency_level": "PF"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 94,
+    "fields": {
+        "profile": 296,
+        "name": "ne",
+        "proficiency_level": "CF"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 95,
+    "fields": {
+        "profile": 297,
+        "name": "br",
+        "proficiency_level": "NS"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 96,
+    "fields": {
+        "profile": 298,
+        "name": "nn",
+        "proficiency_level": "CF"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 97,
+    "fields": {
+        "profile": 299,
+        "name": "mn",
+        "proficiency_level": "PF"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 98,
+    "fields": {
+        "profile": 300,
+        "name": "fi",
+        "proficiency_level": "CF"
+    }
+},
+{
+    "models": "profiles.language",
+    "pk": 99,
+    "fields": {
+        "profile": 301,
+        "name": "fi",
+        "proficiency_level": "PF"
+    }
+},
+{
+  "models": "profiles.language",
+  "pk": 100,
+  "fields": {
+      "profile": 302,
+      "name": "fi",
+      "proficiency_level": "PF"
   }
+}
 ]
