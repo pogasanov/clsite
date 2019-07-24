@@ -3,8 +3,8 @@ from faker import Faker
 from django.db import transaction
 import random
 
-from .models import Profile, Address, Education, Admissions, LawSchool, WorkExperience, Organization, Award
-from .utils import LAW_TYPE_TAGS_CHOICES, SUBJECTIVE_TAGS_CHOICES
+from .models import Profile, Address, Education, Admissions, LawSchool, WorkExperience, Organization, Award, Jurisdiction
+from .utils import LAW_TYPE_TAGS_CHOICES, SUBJECTIVE_TAGS_CHOICES, COUNTRIES_CHOICES, _get_states_for_country
 
 
 class ProfileProvider(BaseProvider):
@@ -30,8 +30,8 @@ class ProfileProvider(BaseProvider):
             languages=[self.generator.language_code()],
             clients=[self.generator.company()],
 
-            law_type_tags=[self.get_law_type_tag()],
-            subjective_tags=[self.get_subjective_tag()],
+            law_type_tags=[self.get_random_law_type_tag()],
+            subjective_tags=[self.get_random_subjective_tag()],
             summary=self.generator.catch_phrase(),
             headline=self.generator.catch_phrase(),
             website=self.generator.uri(),
@@ -40,19 +40,26 @@ class ProfileProvider(BaseProvider):
             facebook=self.generator.word()
         )
 
-    def get_law_type_tag(self):
-        choices_law_type_tags = [law_tag[0] for law_tag in LAW_TYPE_TAGS_CHOICES]
-        return random.choice(choices_law_type_tags)
+    def get_random_law_type_tag(self):
+        return random.choice(LAW_TYPE_TAGS_CHOICES)[0]
 
-    def get_subjective_tag(self):
-        choices_subjective_tags = [subjective_tag[0] for subjective_tag in SUBJECTIVE_TAGS_CHOICES]
-        return random.choice(choices_subjective_tags)
+    def get_random_subjective_tag(self):
+        return random.choice(SUBJECTIVE_TAGS_CHOICES)[0]
+
+    def get_random_country(self):
+        return random.choice(COUNTRIES_CHOICES)[0]
+
+    def get_random_state(self, country):
+        states_choices = _get_states_for_country(country)
+        return random.choice(states_choices)[0]
 
     def address(self, profile=None):
+        random_country = self.get_random_country()
         return Address(
             profile=profile,
             city=self.generator.city(),
-            state=self.generator.state_abbr(),
+            country=random_country,
+            state=self.get_random_state(random_country),
             zipcode=self.generator.postalcode(),
             street=self.generator.street_address(),
             building=self.generator.building_number()
@@ -67,17 +74,23 @@ class ProfileProvider(BaseProvider):
         )
 
     def admission(self, profile=None):
+        random_country = self.get_random_country()
         return Admissions(
             profile=profile,
-            state=self.generator.state_abbr(),
+            country=random_country,
+            state=self.get_random_state(random_country),
+            city=self.generator.city(),
             year=self.generator.pyint(min=1990, max=2019, step=1)
         )
 
     def law_school(self, profile=None):
+        random_country = self.get_random_country()
         return LawSchool(
             profile=profile,
             school=self.generator.company(),
-            state=self.generator.state_abbr()
+            country=random_country,
+            state=self.get_random_state(random_country),
+            city=self.generator.city()
         )
 
     def work_experience(self, profile=None):
@@ -108,6 +121,15 @@ class ProfileProvider(BaseProvider):
             description="\n".join(self.generator.paragraphs(nb=3))
         )
 
+    def jurisdiction(self, profile=None):
+        random_country = self.get_random_country()
+        return Jurisdiction(
+            profile=profile,
+            country=random_country,
+            state=self.get_random_state(random_country),
+            city=self.generator.city()
+        )
+
     def full_profile(self):
         profile = self.profile()
         address = self.address()
@@ -117,7 +139,8 @@ class ProfileProvider(BaseProvider):
         work_experience = self.work_experience()
         organization = self.organization()
         award = self.award()
-        return profile, address, education, admission, law_school, work_experience, organization, award
+        jurisdiction = self.jurisdiction()
+        return profile, address, education, admission, law_school, work_experience, organization, award, jurisdiction
 
 
 def generate_profiles(count=100):
@@ -131,6 +154,7 @@ def generate_profiles(count=100):
     work_experiences = []
     organizations = []
     awards = []
+    jurisdictions = []
     with transaction.atomic():
         for _ in range(count):
             full_profile = fake.full_profile()
@@ -142,6 +166,7 @@ def generate_profiles(count=100):
             work_experiences.append(full_profile[5])
             organizations.append(full_profile[6])
             awards.append(full_profile[7])
+            jurisdictions.append(full_profile[8])
         ids = Profile.objects.bulk_create(profiles)
         for i in range(count):
             addresses[i].profile = ids[i]
@@ -151,6 +176,7 @@ def generate_profiles(count=100):
             work_experiences[i].profile = ids[i]
             organizations[i].profile = ids[i]
             awards[i].profile = ids[i]
+            jurisdictions[i].profile = ids[i]
         Address.objects.bulk_create(addresses)
         Education.objects.bulk_create(educations)
         Admissions.objects.bulk_create(admissions)
@@ -158,3 +184,4 @@ def generate_profiles(count=100):
         WorkExperience.objects.bulk_create(work_experiences)
         Organization.objects.bulk_create(organizations)
         Award.objects.bulk_create(awards)
+        Jurisdiction.objects.bulk_create(jurisdictions)
