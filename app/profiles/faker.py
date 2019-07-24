@@ -1,8 +1,10 @@
 from faker.providers import BaseProvider
 from faker import Faker
 from django.db import transaction
+import random
 
 from .models import Profile, Address, Education, Admissions, LawSchool, WorkExperience, Organization, Award
+from .utils import LAW_TYPE_TAGS_CHOICES, SUBJECTIVE_TAGS_CHOICES
 
 
 class ProfileProvider(BaseProvider):
@@ -28,13 +30,23 @@ class ProfileProvider(BaseProvider):
             languages=[self.generator.language_code()],
             clients=[self.generator.company()],
 
-            jurisdiction=[self.generator.state_abbr()],
+            law_type_tags=[self.get_law_type_tag()],
+            subjective_tags=[self.get_subjective_tag()],
+            summary=self.generator.catch_phrase(),
             headline=self.generator.catch_phrase(),
             website=self.generator.uri(),
             twitter=self.generator.word(),
             linkedin=self.generator.word(),
             facebook=self.generator.word()
         )
+
+    def get_law_type_tag(self):
+        choices_law_type_tags = [law_tag[0] for law_tag in LAW_TYPE_TAGS_CHOICES]
+        return random.choice(choices_law_type_tags)
+
+    def get_subjective_tag(self):
+        choices_subjective_tags = [subjective_tag[0] for subjective_tag in SUBJECTIVE_TAGS_CHOICES]
+        return random.choice(choices_subjective_tags)
 
     def address(self, profile=None):
         return Address(
