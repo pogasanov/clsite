@@ -20,13 +20,11 @@ class ProfileProvider(BaseProvider):
 
             # Contacts
             phone=self.generator.msisdn(),
-            bio="<p>" + \
-                "</p><p>".join(self.generator.paragraphs(nb=3)) + "</p>",
+            bio="<p>" + "</p><p>".join(self.generator.paragraphs(nb=3)) + "</p>",
             experience=self.generator.pyint(min=0, max=30, step=1),
             current_job=self.generator.job(),
             size_of_clients=self.generator.pyint(min=0, max=3, step=1),
-            preferred_communication_method=self.generator.pyint(
-                min=0, max=3, step=1),
+            preferred_communication_method=self.generator.pyint(min=0, max=3, step=1),
             license_status=self.generator.pyint(min=0, max=1, step=1),
             clients=[self.generator.company()],
 

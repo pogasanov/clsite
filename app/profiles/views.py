@@ -1,9 +1,7 @@
 from itertools import groupby
 
-from django.shortcuts import render, get_object_or_404
-from django.urls import reverse_lazy
-from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy, reverse
+from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth import get_user_model, login
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse, HttpResponseBadRequest
