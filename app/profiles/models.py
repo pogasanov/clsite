@@ -157,10 +157,6 @@ class Profile(AbstractUser):
         models.CharField(max_length=10, choices=LANGUAGES, verbose_name='Languages'),
         blank=True, null=True
     )
-    clients = ArrayField(
-        models.CharField(max_length=100, verbose_name='Representative Clients'),
-        blank=True, null=True
-    )
     law_type_tags = ArrayField(
         models.CharField(max_length=50),
         verbose_name='Law Type Tags', blank=True, null=True
