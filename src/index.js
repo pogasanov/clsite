@@ -5,7 +5,8 @@ import '@fortawesome/fontawesome-free/js/regular'
 import '@fortawesome/fontawesome-free/js/brands'
 
 // Styles
-import './scss/custom.scss'
+import 'jquery-ui/themes/base/all.css';
+import './scss/custom.scss';
 
 // Javascript
 import 'material-kit/assets/js/core/bootstrap-material-design.min'
