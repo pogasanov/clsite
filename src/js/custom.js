@@ -195,7 +195,6 @@ $(document).ready(function () {
 
     $('#language-clone').on('click', function (event) {
         event.preventDefault();
-        console.log('hahah');
         var form_idx = $('#id_language-TOTAL_FORMS').val();
         $('#language-formset').append($('#language_empty_form').html().replace(/__prefix__/g, form_idx));
         $('#id_language-TOTAL_FORMS').val(parseInt(form_idx) + 1);

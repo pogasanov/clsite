@@ -84,7 +84,6 @@ class ProfileForm(ModelForm):
                   'preferred_communication_method',
                   'size_of_clients',
                   'license_status',
-                  'clients',
                   'law_type_tags',
                   'subjective_tags',
                   'bio',
@@ -107,9 +106,6 @@ class ProfileForm(ModelForm):
             choices=SUBJECTIVE_TAGS_CHOICES, attrs={'class': 'form-control',
                                                     'data-maximum-selection-length': 3,
                                                     'data-token-separators': [',']}
-        )
-        self.fields['clients'].widget = MultiSelectArrayFieldWidget(
-            attrs={'class': 'form-control', 'data-token-separators': [',']}
         )
 
     def save(self, commit=True):

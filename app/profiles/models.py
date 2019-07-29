@@ -166,10 +166,6 @@ class Profile(AbstractUser):
 
     license_status = models.PositiveSmallIntegerField(choices=LICENSE_STATUSES, verbose_name='License Status',
                                                       blank=True, null=True)
-    clients = ArrayField(
-        models.CharField(max_length=100, verbose_name='Representative Clients'),
-        blank=True, null=True
-    )
     law_type_tags = ArrayField(
         models.CharField(max_length=50),
         verbose_name='Law Type Tags', blank=True, null=True
