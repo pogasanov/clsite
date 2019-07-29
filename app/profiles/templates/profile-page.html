@@ -531,38 +531,6 @@
 
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <h3>Languages </h3>
-                                        </div>
-                                        {{ languages.management_form }}
-                                        {% for language in languages.forms %}
-                                            {% for hidden in language.hidden_fields %}
-                                                {{ hidden }}
-                                            {% endfor %}
-                                            <div class="col-md-4 field">
-                                                {{ language.name.label_tag }}
-                                                {{ language.name }}
-                                                {% for error in language.name.errors %}
-                                                    <span style="color: red;">[{{ error }}]</span>
-                                                {% endfor %}
-                                            </div>
-                                            <div class="col-md-4 field">
-                                                {{ language.proficiency_level.label_tag }}
-                                                {{ language.proficiency_level }}
-                                                {% for error in language.proficiency_level.errors %}
-                                                    <span style="color: red;">[{{ error }}]</span>
-                                                {% endfor %}
-                                            </div>
-                                            <div class="col-md-4 field">
-                                                {% if languages.can_delete %}
-                                                    {{ language.DELETE.label_tag }}
-                                                    {{ language.DELETE }}
-                                                {% endif %}
-                                            </div>
-                                        {% endfor %}
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-md-12">
                                             <h3>Professional details</h3>
                                         </div>
                                         <div class="col-md-6 field">
@@ -618,6 +586,70 @@
                                             {% for error in form.license_status.errors %}
                                                 <span style="color: red;">[{{ error }}]</span>
                                             {% endfor %}
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <h3>Languages</h3>
+                                        </div>
+                                        {{ languages.management_form }}
+                                        <div class="col-md-12" id="language-formset">
+                                            {% for language in languages.forms %}
+                                                <div class="row">
+                                                    {% for hidden in language.hidden_fields %}
+                                                        {{ hidden }}
+                                                    {% endfor %}
+                                                    <div class="col-md-4 field">
+                                                        {{ language.name.label_tag }}
+                                                        {{ language.name }}
+                                                        {% for error in language.name.errors %}
+                                                            <span style="color: red;">[{{ error }}]</span>
+                                                        {% endfor %}
+                                                    </div>
+                                                    <div class="col-md-4 field">
+                                                        {{ language.proficiency_level.label_tag }}
+                                                        {{ language.proficiency_level }}
+                                                        {% for error in language.proficiency_level.errors %}
+                                                            <span style="color: red;">[{{ error }}]</span>
+                                                        {% endfor %}
+                                                    </div>
+                                                    <div class="col-md-4 field">
+                                                        {% if languages.can_delete %}
+                                                            {{ language.DELETE.label_tag }}
+                                                            {{ language.DELETE }}
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                        <div class="col-md-12 field">
+                                            <a href="#" id="language-clone">
+                                                <h3>+</h3>
+                                            </a>
+                                        </div>
+                                        <!-- empty language form to clone dynamically -->
+                                        <div id="language_empty_form" style="display:none">
+                                            <div class='row'>
+                                                <div class="col-md-4 field">
+                                                    {{ languages.empty_form.name.label_tag }}
+                                                    {{ languages.empty_form.name }}
+                                                    {% for error in languages.empty_form.name.errors %}
+                                                    <span style="color: red;">[{{ error }}]</span>
+                                                    {% endfor %}
+                                                </div>
+                                                <div class="col-md-4 field">
+                                                    {{ languages.empty_form.proficiency_level.label_tag }}
+                                                    {{ languages.empty_form.proficiency_level }}
+                                                    {% for error in languages.empty_form.proficiency_level.errors %}
+                                                    <span style="color: red;">[{{ error }}]</span>
+                                                    {% endfor %}
+                                                </div>
+                                                <div class="col-md-4 field">
+                                                    {% if languages.empty_form.can_delete %}
+                                                        {{ languages.empty_form.DELETE.label_tag }}
+                                                        {{ languages.empty_form.DELETE }}
+                                                    {% endif %}
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
 
