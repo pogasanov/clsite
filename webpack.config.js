@@ -27,7 +27,7 @@ module.exports = {
                 test: /\.(scss)$/,
                 use: [
                     {
-                        loader: MiniCssExtractPlugin.loader
+                        loader: MiniCssExtractPlugin.loader,
                     },
                     'css-loader',
                     'postcss-loader',
@@ -35,7 +35,23 @@ module.exports = {
                 ],
             },
             {
+                // Django whitenoise requires css url() to NOT include
+                // `static` in their path
                 test: /\.(png|svg|jpg|gif)$/,
+                issuer: /\.(scss)$/,
+                use: [
+                    {
+                        loader: 'file-loader',
+                        options: {
+                            name: '[name].[ext]',
+                            outputPath: 'img',
+                        },
+                    }
+                ]
+            },
+            {
+                test: /\.(png|svg|jpg|gif)$/,
+                issuer: /\.(js)$/,
                 use: [
                     {
                         loader: 'file-loader',
