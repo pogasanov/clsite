@@ -237,7 +237,7 @@ class UserListView(LoginRequiredMixin, ListView):
         profiles_law_type_tags = list_users.only('law_type_tags')
         usage_list_law_type_tags = self.get_flat_tags_and_usage(profiles_law_type_tags)
 
-        list_jurisdictions = Jurisdiction.objects.values_list('state', flat=True)
+        list_jurisdictions = Jurisdiction.objects.exclude(state=None).values_list('state', flat=True)
         usage_list_jurisdictions = [{"name": tag, "occurrence": len(list(group))} for tag, group in groupby(sorted(list_jurisdictions))]
         usage_list_jurisdictions = sorted(usage_list_jurisdictions, key=lambda k: k['occurrence'], reverse=True)
 
