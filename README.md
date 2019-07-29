@@ -284,3 +284,63 @@ pipenv lock
 - [Gunicorn](https://warehouse.python.org/project/gunicorn/)
 - [WhiteNoise](https://warehouse.python.org/project/whitenoise/)
 - [dj-database-url](https://warehouse.python.org/project/dj-database-url/)
+
+## Generating fixtures
+
+### Faker
+
+`faker.py` is a module to generate model instances with random data. We are using it to populate database with data and use it to test our website.
+
+We are using [Faker module](https://github.com/joke2k/faker) to generate random data that makes sense for different field types.  
+In order to use it with Django Models, we extend Faker `BaseProvider` for example with `profiles.faker.ProfileProvider`.  
+`ProfileProvider` has multiple methods, each will return a **non-saved** django model instance with randomly populated fields.
+
+For example, you can generate models:
+```python
+from faker import Faker
+from profiles.faker import ProfileProvider
+
+# Load Faker instance
+fake = Faker()
+
+# Attach our provider, allowing faker to generate Django Instances
+fake.add_provider(ProfileProvider)
+
+# Generate simple profile without any related models
+profile = fake.profile()
+# <Profile: corey93@gmail.com>
+
+# Generate tuple with profile and all related models
+full_profile = fake.full_profile()
+# (<Profile: englishcheryl@wood-kirk.org>, <Address: Address object (None)>, <Education: Education object (None)>, <Admissions: Admissions object (None)>, <LawSchool: LawSchool object (None)>, <WorkExperience: WorkExperience object (None)>, <Organization: Organization object (None)>, <Award: Award object (None)>)
+```
+
+`ProfileProvider` django instances are not saved in database, so `faker.py` comes with `generate_profiles(count)` method that generate set number of profiles and populate it into current database. It uses `bulk_create` to do it efficiently and not stress database.
+
+```python
+from profiles.faker import generate_profiles
+
+# populate database with 50 profiles with related models
+generate_profiles(50)
+```
+
+### Fixtures
+
+When you populate your database, you can export it into *fixtures* for other developers to easily import them into their databases.
+
+```bash
+# dump all models from `profiles` app
+python manage.py dumpdata profiles
+
+# dump only awards from `profiles` app
+python manage.py dumpdata profiles.Award
+
+# dump only awards from `profiles` app and save into dump.json
+# might contain terminal logs, so don't forget to clean it from any non-json lines
+python manage.py dumpdata profiles.Award > profiles/fixtures/dump.json
+
+# load fixture to database
+python manage.py loaddata dump
+```
+
+Remember that those fixtures will have id predefined, as they are currently in your database. Different fixture files with same models will overwrite each other if they contain models with same id.
