@@ -24,14 +24,14 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.(scss)$/,
+                test: /\.(sa|sc|c)ss$/,
                 use: [
                     {
                         loader: MiniCssExtractPlugin.loader,
                     },
                     'css-loader',
                     'postcss-loader',
-                    'sass-loader',
+                    'sass-loader'
                 ],
             },
             {
