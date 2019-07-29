@@ -152,6 +152,10 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 AUTH_USER_MODEL = 'profiles.Profile'
 
+# Django_select2 should not serve select2 library - it will be part of webpack build
+SELECT2_JS = ''
+SELECT2_CSS = ''
+
 # AWS setup
 AWS_ACCESS_KEY_ID = os.getenv('CLOUDCUBE_ACCESS_KEY_ID') or os.getenv('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = os.getenv('CLOUDCUBE_SECRET_ACCESS_KEY') or os.getenv('AWS_SECRET_ACCESS_KEY')
@@ -159,6 +163,10 @@ AWS_STORAGE_BUCKET_NAME = os.getenv('CLOUDCUBE_STORAGE_BUCKET_NAME') or os.geten
 AWS_LOCATION = os.getenv('CLOUDCUBE_LOCATION', '')
 AWS_DEFAULT_ACL = 'public-read'
 AWS_QUERYSTRING_AUTH = False
+
+# Choices Dropdowns
+DEFAULT_CHOICES_SELECTION = (('', '------'),)
+DEFAULT_COUNTRY = 'United States of America'
 
 if DEBUG or 'CI' in os.environ:
     DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=False)

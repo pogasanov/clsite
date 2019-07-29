@@ -9,11 +9,12 @@ from django.views.generic import ListView
 from itertools import groupby
 
 from .forms import ProfileForm, EducationFormSet, WorkExperienceFormSet, AddressForm, AddmissionsFormSet, LawSchoolForm, \
-    OrganizationFormSet, AwardFormSet, ProfileCreationForm, TransactionForm
-from .models import Profile
+    OrganizationFormSet, AwardFormSet, ProfileCreationForm, TransactionForm, JurisdictionFormSet
+from .models import Profile, Jurisdiction
 from .choices import USA_STATES
-from .utils import LAW_TYPE_TAGS_CHOICES
+from .utils import _get_states_for_country
 from .helpers import get_user_relationships
+from clsite.settings import DEFAULT_CHOICES_SELECTION
 
 
 def index(request):
@@ -68,10 +69,23 @@ def user_relationships(user):
 
 
 @login_required
+def get_states(request, handle=None):
+    if request.method == 'POST':
+        country = request.POST.get('country')
+        if country:
+            states = DEFAULT_CHOICES_SELECTION + _get_states_for_country(country)
+            return JsonResponse({'data': states})
+        else:
+            pass
+        return JsonResponse({'data': []})
+
+
+@login_required
 def profile(request, handle=None):
     if handle:
         user = get_object_or_404(get_user_model(), handle=handle)
         profile_form = None
+        jurisdiction_formset = None
         address_form = None
         education_formset = None
         admissions_formset = None
@@ -82,6 +96,7 @@ def profile(request, handle=None):
     else:
         user = request.user
         profile_form = ProfileForm(request.POST or None, instance=user, prefix='profile')
+        jurisdiction_formset = JurisdictionFormSet(request.POST or None, instance=user, prefix='jurisdiction')
         address_form = AddressForm(request.POST or None, instance=getattr(user, 'address', None), prefix='address')
         education_formset = EducationFormSet(request.POST or None, instance=user, prefix='education')
         admissions_formset = AddmissionsFormSet(request.POST or None, instance=user, prefix='admissions')
@@ -96,6 +111,7 @@ def profile(request, handle=None):
                 return JsonResponse({'url': url})
             else:
                 if profile_form.is_valid() and \
+                        jurisdiction_formset.is_valid() and \
                         address_form.is_valid() and \
                         education_formset.is_valid() and \
                         admissions_formset.is_valid() and \
@@ -104,6 +120,8 @@ def profile(request, handle=None):
                         organization_formset.is_valid() and \
                         award_formset.is_valid():
                     profile_form.save()
+                    jurisdiction_formset.instance = user
+                    jurisdiction_formset.save()
                     af = address_form.save(commit=False)
                     af.profile = user
                     af.save()
@@ -124,6 +142,7 @@ def profile(request, handle=None):
                 else:
                     errors = {
                         'profile': profile_form.errors,
+                        'jurisdiction': jurisdiction_formset.errors,
                         'address': address_form.errors,
                         'education': education_formset.errors,
                         'admissions': admissions_formset.errors,
@@ -138,6 +157,7 @@ def profile(request, handle=None):
     return render(request, "profile-page.html", context={
         'selected_user': user,
         'form': profile_form,
+        'jurisdiction': jurisdiction_formset,
         'address': address_form,
         'educations': education_formset,
         'admissions': admissions_formset,
@@ -205,27 +225,24 @@ class UserListView(LoginRequiredMixin, ListView):
 
     def get_flat_tags_and_usage(self, profiles_law_type_tags):
         flat_law_tags = []
-        flat_jurisdictions = []
         for profile in profiles_law_type_tags:
             if profile.law_type_tags:
                 flat_law_tags.extend(profile.law_type_tags)
-            if profile.jurisdiction:
-                flat_jurisdictions.extend(self.get_tuple_display_from_value(USA_STATES, profile.jurisdiction))
 
         law_tags_with_occurrence = [{"name": tag, "occurrence": len(list(group))} for tag, group in groupby(sorted(flat_law_tags))]
-        jurisdiction_with_occurrence = [
-            {"name": jurisdiction, "occurrence": len(list(group))} for jurisdiction, group in groupby(sorted(flat_jurisdictions))
-        ]
-
-        return sorted(law_tags_with_occurrence, key=lambda k: k['occurrence'], reverse=True), \
-               sorted(jurisdiction_with_occurrence, key=lambda k: k['occurrence'], reverse=True)
+        return sorted(law_tags_with_occurrence, key=lambda k: k['occurrence'], reverse=True)
 
     def get(self, request, *args, **kwargs):
         list_users = Profile.objects.all()
-        profiles_law_type_tags = list_users.only('law_type_tags', 'jurisdiction')
-        list_law_type_tags, list_jurisdictions = self.get_flat_tags_and_usage(profiles_law_type_tags)
-        return render(request, self.template_name, {'jurisdictions': list_jurisdictions,
-                                                    'law_type_tags': list_law_type_tags,
+        profiles_law_type_tags = list_users.only('law_type_tags')
+        usage_list_law_type_tags = self.get_flat_tags_and_usage(profiles_law_type_tags)
+
+        list_jurisdictions = Jurisdiction.objects.values_list('state', flat=True)
+        usage_list_jurisdictions = [{"name": tag, "occurrence": len(list(group))} for tag, group in groupby(sorted(list_jurisdictions))]
+        usage_list_jurisdictions = sorted(usage_list_jurisdictions, key=lambda k: k['occurrence'], reverse=True)
+
+        return render(request, self.template_name, {'jurisdictions': usage_list_jurisdictions,
+                                                    'law_type_tags': usage_list_law_type_tags,
                                                     'users': list_users})
 
 
@@ -260,11 +277,10 @@ class BrowsingView(LoginRequiredMixin, ListView):
         law_tags_list = None
         jurisdiction_list = None
         if jurisdiction:
-            jurisdiction = self.get_tuple_key_from_value(USA_STATES, jurisdiction)
-            list_users = list_users.filter(jurisdiction__contains=[jurisdiction])
+            list_users = list_users.filter(jurisdiction__state=jurisdiction)
             law_tags_list = self.get_unique_options(list_users.values_list('law_type_tags', flat=True))
         if law_tags_value:
             list_users = list_users.filter(law_type_tags__contains=[law_tags_value])
-            jurisdiction_list_values = self.get_unique_options(list_users.values_list('jurisdiction', flat=True))
-            jurisdiction_list = [self.get_tuple_value_from_key(USA_STATES, value) for value in jurisdiction_list_values]
+            list_users_ids = list(list_users.values_list(flat=True).distinct())
+            jurisdiction_list = list(Jurisdiction.objects.filter(profile_id__in=list_users_ids).values_list('state', flat=True).distinct())
         return render(request, self.template_name, {'users': list_users, 'jurisdiction_list': jurisdiction_list, 'law_tags_list': law_tags_list})
