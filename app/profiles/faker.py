@@ -50,7 +50,7 @@ class ProfileProvider(BaseProvider):
 
     def get_random_state(self, country):
         states_choices = _get_states_for_country(country)
-        return random.choice(states_choices)[0]
+        return random.choice(states_choices)[0] if states_choices else None
 
     def address(self, profile=None):
         random_country = self.get_random_country()
