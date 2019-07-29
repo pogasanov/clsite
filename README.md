@@ -289,11 +289,18 @@ pipenv lock
 
 ### Faker
 
-`faker.py` is a module to generate model instances with random data. We are using it to populate database with data and use it to test our website.
+`faker.py` is a module to generate model instances with random data.
+We are using it to populate database with data and use it to test
+our website.
 
-We are using [Faker module](https://github.com/joke2k/faker) to generate random data that makes sense for different field types.  
-In order to use it with Django Models, we extend Faker `BaseProvider` for example with `profiles.faker.ProfileProvider`.  
-`ProfileProvider` has multiple methods, each will return a **non-saved** django model instance with randomly populated fields.
+We are using [Faker module](https://github.com/joke2k/faker) to
+generate random data that makes sense for different field types.
+
+In order to use it with Django Models, we extend Faker `BaseProvider`
+for example with `profiles.faker.ProfileProvider`.
+
+`ProfileProvider` has multiple methods, each will return a **non-saved**
+django model instance with randomly populated fields.
 
 For example, you can generate models:
 ```python
@@ -315,7 +322,10 @@ full_profile = fake.full_profile()
 # (<Profile: englishcheryl@wood-kirk.org>, <Address: Address object (None)>, <Education: Education object (None)>, <Admissions: Admissions object (None)>, <LawSchool: LawSchool object (None)>, <WorkExperience: WorkExperience object (None)>, <Organization: Organization object (None)>, <Award: Award object (None)>)
 ```
 
-`ProfileProvider` django instances are not saved in database, so `faker.py` comes with `generate_profiles(count)` method that generate set number of profiles and populate it into current database. It uses `bulk_create` to do it efficiently and not stress database.
+`ProfileProvider` django instances are not saved in database, so
+`faker.py` comes with `generate_profiles(count)` method that generate
+set number of profiles and populate it into current database. It
+uses `bulk_create` to do it efficiently and not stress database.
 
 ```python
 from profiles.faker import generate_profiles
@@ -326,7 +336,8 @@ generate_profiles(50)
 
 ### Fixtures
 
-When you populate your database, you can export it into *fixtures* for other developers to easily import them into their databases.
+When you populate your database, you can export it into *fixtures*
+for other developers to easily import them into their databases.
 
 ```bash
 # dump all models from `profiles` app
