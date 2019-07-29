@@ -26,7 +26,6 @@ class ProfileProvider(BaseProvider):
             preferred_communication_method=self.generator.pyint(min=0, max=3, step=1),
             license_status=self.generator.pyint(min=0, max=1, step=1),
             languages=[self.generator.language_code()],
-            clients=[self.generator.company()],
 
             jurisdiction=[self.generator.state_abbr()],
             headline=self.generator.catch_phrase(),
