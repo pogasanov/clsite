@@ -19,7 +19,6 @@ If I ask you for your opinion on something, and you don't know
 enough to give me a good answer, just tell me. That's okay. I don’t
 want you to copy-and-paste someone else's opinion, that is bad.
 
-
 ## README.md
 
 The [`README.md`](README.md) file should be self-explanatory.
@@ -56,7 +55,15 @@ MRs are parallel and not sequential.
 
 Please review other people's MRs.
 
-If you make comments on the MR, indicate whether it should be separe1======
+If you make comments on the MR, the person can fix it immediately.
+However, if it is a larger change, the reviewer or the MR submitter
+can comment that it could be separate MR (and maybe needs a new
+issues). Either the reviewer or the submitter can create the new
+issue. Only after the issue is created can the comment be resolved.
+
+When someone makes a comment, please don't say: "Yes" or "Great"
+or "Okay" or "I'm working on it", it just makes the gitlab notifications
+too chatty. Instead, just resolve the comment when it is done.
 
 ### Large files in Git
 
