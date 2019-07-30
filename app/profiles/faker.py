@@ -2,8 +2,7 @@ from faker.providers import BaseProvider
 from faker import Faker
 from django.db import transaction
 
-from .models import (Profile, Address, Education, Admissions,
-                    LawSchool, WorkExperience, Organization, Award, Language)
+from .models import Profile, Address, Education, Admissions, LawSchool, WorkExperience, Organization, Award
 
 
 class ProfileProvider(BaseProvider):
@@ -93,13 +92,6 @@ class ProfileProvider(BaseProvider):
             year=self.generator.pyint(min=1990, max=2019, step=1),
             description="\n".join(self.generator.paragraphs(nb=3))
         )
-    
-    def language(self, profile=None):
-        return Language(
-            profile=profile,
-            name=self.generator.name_abbr(),
-            proficiency_level=self.generator.proficiency_level_abbr()
-        )
 
     def full_profile(self):
         profile = self.profile()
@@ -110,9 +102,7 @@ class ProfileProvider(BaseProvider):
         work_experience = self.work_experience()
         organization = self.organization()
         award = self.award()
-        language = self.language()
-        return (profile, address, education, admission, law_school, 
-                work_experience, organization, award, language)
+        return profile, address, education, admission, law_school, work_experience, organization, award
 
 
 def generate_profiles(count=100):
@@ -126,7 +116,6 @@ def generate_profiles(count=100):
     work_experiences = []
     organizations = []
     awards = []
-    languages = []
     with transaction.atomic():
         for _ in range(count):
             full_profile = fake.full_profile()
@@ -138,7 +127,6 @@ def generate_profiles(count=100):
             work_experiences.append(full_profile[5])
             organizations.append(full_profile[6])
             awards.append(full_profile[7])
-            languages.append(full_profile[8])
         ids = Profile.objects.bulk_create(profiles)
         for i in range(count):
             addresses[i].profile = ids[i]
@@ -148,7 +136,6 @@ def generate_profiles(count=100):
             work_experiences[i].profile = ids[i]
             organizations[i].profile = ids[i]
             awards[i].profile = ids[i]
-            languages[i].profile = ids[i]
         Address.objects.bulk_create(addresses)
         Education.objects.bulk_create(educations)
         Admissions.objects.bulk_create(admissions)
@@ -156,4 +143,3 @@ def generate_profiles(count=100):
         WorkExperience.objects.bulk_create(work_experiences)
         Organization.objects.bulk_create(organizations)
         Award.objects.bulk_create(awards)
-        Language.objects.bulk_create(languages)
