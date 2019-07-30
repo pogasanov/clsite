@@ -74,6 +74,7 @@ If an MR requires a special command, put that in the description
 of the MR, e.g.:
 
 * `python app/migrate.py migrate`
+* `npm install`
 * `npm build`
 * etc.
 
