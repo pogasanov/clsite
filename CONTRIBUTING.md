@@ -37,14 +37,31 @@ runtime.
 Each time you are creating a new feature, create a git branch called
 `feature/blahblahblah`.
 
-Please try to create minimal slim MRs that are easy to review. Keep
-orthogonal changes in separate MRs. If they depend upon each othen
-then create sequential MRs that branch off each other.
+### Creating an MR
+
+* Please try to create minimal slim MRs that are easy to review.
+* Keep orthogonal changes in separate MRs.
+* If they depend upon each other then create sequential MRs that
+branch off each other.
+* You are welcome to submit work-in-progress MRs, but put "[WIP]"
+in the title and don't ask for review until the MR is ready for
+review (see below). However, if you do have architectural or
+implementation questions, you are free to ask for feedback.
+
+### MR Code review
+
+It is not other dev's responsibility to Q+A your work.
+
+Before making your MR, make sure you verify: 
+1) Make sure your code is tested both on local and Heroku.
+2) Run `python app/manage.py test` on local, all tests should pass.
+3) Running `faker.py` if you have changed it.
+4) Loading the fixture data into your local DB if you post that.
+
+The instructions on how to do above is mentioned in `README.md`. 
 
 When your code is ready for review, submit a merge request (MR) for
-the team to review. Please make sure your code is tested both on
-local and Heroku. It is not other dev's responsibility to Q+A your
-work.
+the team to review.
 
 When you submit a MR, you should still continue working! Create a
 new branch, off your old branch, and push code to your new branch
@@ -75,16 +92,6 @@ If you need files over 100KB to get the code to run, use
 [`git-lfs`](https://git-lfs.github.com/). It is easier for us to
 take a `git-lfs` file and make it a proper `git` file than vice-versa.
 
-### MR Pre-requisites
-
-Before making your MR, make sure you verify: 
-* Functionality by deploying on your local heroku.
-* Running `python app/manage.py test` on local, all tests should pass.
-* Running `faker.py` if you have changed it.
-* Loading the fixture data into your local DB if you post that.
-
-The instructions on how to do above is mentioned in `README.md`. 
-
 ### MR descriptions
 
 If an MR requires a special command, put that in the description
@@ -98,6 +105,18 @@ of the MR, e.g.:
 If your MR closes an issue, write `Closes #XX` (issue number) in
 the description.
 
-### Coding conventions
+## Coding conventions
 
-The code should be written on PEP8 standards. For more details, follow: [PEP-8 Standards](https://www.python.org/dev/peps/pep-0008/).
+1) If you want to change a code convention that other developers
+have been using, you propose that on channel and get buy in from
+other devs.
+2) You don't just change the convention in one single line, you do
+it project-wide.
+3) You don't mix refactoring or style changes with feature MRs. Do
+it one separate MR because it breaks a lot of things, has a huge
+diff, and it's hard to see what's a style change and what's a feature
+change.
+
+Ideally, we would move to PEP8 and have coding standard enforced
+through a Pycharm config file:
+[!134](https://gitlab.com/ftwlegal/clsite/issues/134)
