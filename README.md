@@ -47,6 +47,13 @@ git push heroku master
 heroku run python app/manage.py createsuperuser
 ```
 
+Occasionally, Heroku might prompt you to do the following:
+
+```
+heroku run python app/manage.py makemigrations
+heroku run python app/manage.py migrate
+```
+
 ## Local setup
 
 Make sure you have Postgres [running
