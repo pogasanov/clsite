@@ -4,6 +4,11 @@
 is [spec'ed
 here](https://docs.google.com/document/d/1l4YzSrk06nKaHGVJzOCbBEWKw9peXhWLhETk6y3_9wM/edit).
 
+While you are following this README, if you find it confusing or
+needs clarifications or should be structured in a more logical
+order, please create an MR to update the README to help future
+developers!
+
 ## Initial setup
 
 Install
@@ -47,7 +52,8 @@ git push heroku master
 heroku run python app/manage.py createsuperuser
 ```
 
-Occasionally, Heroku might prompt you to do the following:
+Occasionally, Heroku might prompt you to do run `makemigrations`,
+in which case you should do:
 
 ```
 heroku run python app/manage.py makemigrations

@@ -29,8 +29,9 @@ your code running, and not have to look at any code.
 
 As much as possible, you should be able to copy and paste the
 `README.md` into the shell.  Minimize the number of times the user
-must copy and paste. Comments should use `#` so they can just be
-pasted en masse into the shell.
+must copy and paste. Comments should use `#` so that code blocks
+can be pasted into the shell without the comments affecting the
+runtime.
 
 ## Git workflow
 
@@ -50,6 +51,12 @@ When you submit a MR, you should still continue working! Create a
 new branch, off your old branch, and push code to your new branch
 while we reviewing your old MR. Better yet, branch of master if the
 MRs are parallel and not sequential.
+
+### Code review
+
+Please review other people's MRs.
+
+If you make comments on the MR, indicate whether it should be separe1======
 
 ### Large files in Git
 
