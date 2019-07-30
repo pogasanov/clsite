@@ -69,7 +69,9 @@ class ProfileTests(TestCase):
             'award-TOTAL_FORMS': 0,
             'award-INITIAL_FORMS': 0,
             'jurisdiction-TOTAL_FORMS': 0,
-            'jurisdiction-INITIAL_FORMS': 0
+            'jurisdiction-INITIAL_FORMS': 0,
+            'language-TOTAL_FORMS': 0,
+            'language-INITIAL_FORMS': 0
 
         }
         cls.incorrect_update_data = {
@@ -94,7 +96,9 @@ class ProfileTests(TestCase):
             'award-INITIAL_FORMS': 0,
             'jurisdiction-country': 'Invalid Jurisdiciton',
             'jurisdiction-TOTAL_FORMS': 0,
-            'jurisdiction-INITIAL_FORMS': 0
+            'jurisdiction-INITIAL_FORMS': 0,
+            'language-TOTAL_FORMS': 0,
+            'language-INITIAL_FORMS': 0
         }
 
     def setUp(self):
