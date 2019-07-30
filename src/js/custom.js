@@ -107,8 +107,12 @@ $(document).ready(function () {
                 for(let key in resp["responseJSON"]){
                     if(resp["responseJSON"][key] !== undefined){
                         if(Array.isArray(resp["responseJSON"][key])){
-                            if(resp["responseJSON"][key].length !== 0 && Object.keys(resp["responseJSON"][key][0]).length !== 0){
-                                appendToErrorDetail(errorsDetailDiv, key, JSON.stringify(resp["responseJSON"][key][0]));
+                            if(resp["responseJSON"][key].length !== 0){
+                                resp["responseJSON"][key].forEach((errorField) => {
+                                    if(Object.keys(errorField).length !== 0){
+                                        appendToErrorDetail(errorsDetailDiv, key, JSON.stringify(errorField));
+                                    }
+                                });
                             }
                         }else if(typeof resp["responseJSON"][key] === 'object' && resp["responseJSON"][key] !== null ){
                             if(Object.keys(resp["responseJSON"][key]).length !== 0){
