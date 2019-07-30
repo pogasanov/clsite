@@ -19,7 +19,9 @@ urlpatterns = [
     path('profiles/jurisdictions/<jurisdiction_value>/law-type-tags/<law_tags_value>', views.BrowsingView.as_view(), name='profiles-browsing'),
 
     path('states', views.get_states, name='states'),
-    path('transaction/<handle>', views.transaction, name='create_transaction')
+    path('transaction/<handle>', views.transaction, name='create_transaction'),
+    path('confirm-transaction/<transaction_id>', views.confirm_transaction, name='confirm_transaction')
+
 
 ] + static(MEDIA_URL, document_root=MEDIA_ROOT)
 

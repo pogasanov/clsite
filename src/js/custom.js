@@ -136,12 +136,14 @@ $(document).ready(function () {
     }
 
     setDatePicker();
-
-    var recommendationFieldSelector = '#id_requester_recommendation';
-    var recommendationLabelSelector = '[for="id_requester_recommendation"]';
+    
+    const recommendationFieldSelector = '#id_requester_recommendation, #id_requestee_recommendation';
+    const recommendationLabelSelector = '[for="id_requester_recommendation"], [for="id_requestee_recommendation"]';
+    const confirmTransactionSelector = '.confirm-transaction-fields';
 
     $(recommendationFieldSelector).hide();
     $(recommendationLabelSelector).hide();
+    $(confirmTransactionSelector).hide();
     $('#add-recommendation').on('click', function (e) {
         e.preventDefault();
         $(this).hide();
@@ -149,6 +151,13 @@ $(document).ready(function () {
         $(recommendationLabelSelector).show();
     });
 
+    $('#confirm-transaction').on('click', function (e) {
+        e.preventDefault();
+        $(this).hide();
+        $('.deny-transaction').hide();
+        $(confirmTransactionSelector).show();
+    });
+    
     $('.country').on('change', function (e) {
         let stateDiv = $(e.currentTarget).parent().siblings('.state-div')[0];
         let stateDropdown = $(stateDiv).children('select')[0];

@@ -83,3 +83,20 @@ input[type=number] {
   padding-left: 0px !important;
   padding-right: 0px !important;
 }
+
+
+.unconfirmed_transaction_alert{
+  margin-bottom: 0px !important;
+  .alert-link{
+    text-decoration: underline;
+  }
+}
+
+.relationship-card {
+  .badge{
+    text-overflow: ellipsis;
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+}
