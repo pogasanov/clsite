@@ -3,10 +3,7 @@ from django.forms import ModelForm, inlineformset_factory
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
 from django_select2.forms import Select2TagWidget
-from django.conf.global_settings import LANGUAGES
-from django.core.exceptions import ValidationError
 
-from .choices import USA_STATES
 from .utils import LAW_TYPE_TAGS_CHOICES, SUBJECTIVE_TAGS_CHOICES, _get_states_for_country
 from .models import (Profile, Education, WorkExperience, Address, Admissions,
                      LawSchool, Organization, Award, Transaction, Jurisdiction, Language)
@@ -44,6 +41,7 @@ class DynamicMultiSelectArrayFieldWidget(MultiSelectArrayFieldWidget):
             custom_tag_items = [self.create_option(name, v, v, custom_tags, i)
                                 for i, v in enumerate(custom_tags, len(choices))]
             tags.append((None, custom_tag_items, 0))
+
         selected_tags = []
         available_tags = []
         # To preserve the selected tags order on edit action
