@@ -36,6 +36,9 @@ class Jurisdiction(models.Model):
     state = models.CharField(max_length=100, verbose_name='State', null=True, blank=True)
     city = models.CharField(max_length=100, verbose_name='City', null=True, blank=True)
 
+    def __str__(self):
+        return f'{self.city} {self.state} {self.country}'
+
 
 class Admissions(models.Model):
     profile = models.ForeignKey('Profile', on_delete=models.CASCADE, verbose_name='Profile')
@@ -198,6 +201,9 @@ class Profile(AbstractUser):
         if self.photo:
             return self.photo.url
         return static('dummy-img.png')
+
+    def user_unconfirmed_transaction(self):
+        return self.requestee.filter(is_confirmed=None).order_by('-created_at').first()
 
 
 class Transaction(models.Model):

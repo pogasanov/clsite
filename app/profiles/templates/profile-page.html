@@ -919,11 +919,9 @@
                                          class="img-raised rounded-circle img-fluid correspondence-photo mb-1">
                                     <p class="card-title">{{ relationship.name }}</p>
                                     </a>
-                                    Verified amount:
-                                    <p> <span class="text-success" title="Verified">{{ relationship.verified_amount }}</span> vs <span class="text-danger" title="Unverified">{{ relationship.unverified_amount }}</span></p>
-
-                                    Total Amount:
-                                    <p> <span class="text-success" title="Given">{{ relationship.amount_given }}</span> vs <span class="text-danger" title="Received">{{ relationship.amount_received }}</span></p>
+                                    Amount
+                                    <p> <span class="text-success" title="Verified">Verified: </span>{{ relationship.verified_amount }}<br/><span class="text-danger" title="Unverified">Unverified: </span>{{ relationship.unverified_amount }}</p>
+                                    <p>Given: {{ relationship.amount_given }}<br/>Received: {{ relationship.amount_received }}</p>
                                     {% if relationship.jurisdiction %}
                                         <h6>Jurisdiction</h6>
                                         {% for jurisdiction in relationship.jurisdiction %}
@@ -937,9 +935,7 @@
                                             <span class="badge badge-info">{{ law_type_tag }}</span>
                                         {% endfor %}
                                     {% endif %}
-
                                 </div>
-
                             </div>
                         {% endfor %}
                     </div>
