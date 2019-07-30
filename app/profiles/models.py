@@ -2,7 +2,6 @@ import os
 
 from django.db import models
 from django.contrib.postgres.fields import ArrayField, DateRangeField
-from django.conf import settings, global_settings
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.contrib.staticfiles.templatetags.staticfiles import static
 from django.conf.global_settings import LANGUAGES
