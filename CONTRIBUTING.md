@@ -75,6 +75,16 @@ If you need files over 100KB to get the code to run, use
 [`git-lfs`](https://git-lfs.github.com/). It is easier for us to
 take a `git-lfs` file and make it a proper `git` file than vice-versa.
 
+### MR Pre-requisites
+
+Before making your MR, make sure you verify: 
+* Functionality by deploying on your local heroku.
+* Running `python app/manage.py test` on local, all tests should pass.
+* Running `faker.py` if you have changed it.
+* Loading the fixture data into your local DB if you post that.
+
+The instructions on how to do above is mentioned in `README.md`. 
+
 ### MR descriptions
 
 If an MR requires a special command, put that in the description
@@ -87,3 +97,7 @@ of the MR, e.g.:
 
 If your MR closes an issue, write `Closes #XX` (issue number) in
 the description.
+
+### Coding conventions
+
+The code should be written on PEP8 standards. For more details, follow: [PEP-8 Standards](https://www.python.org/dev/peps/pep-0008/).
