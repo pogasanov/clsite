@@ -9,7 +9,8 @@ from django.views.generic import ListView
 from itertools import groupby
 
 from .forms import ProfileForm, EducationFormSet, WorkExperienceFormSet, AddressForm, AddmissionsFormSet, LawSchoolForm, \
-    OrganizationFormSet, AwardFormSet, ProfileCreationForm, TransactionForm, JurisdictionFormSet, ConfirmTransactionForm
+    OrganizationFormSet, AwardFormSet, ProfileCreationForm, TransactionForm, JurisdictionFormSet, ConfirmTransactionForm, \
+    LanguageFormSet
 from .models import Profile, Transaction, Jurisdiction
 from .utils import _get_states_for_country
 from .helpers import get_user_relationships
