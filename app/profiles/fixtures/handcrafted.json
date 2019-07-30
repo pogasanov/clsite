@@ -135,32 +135,5 @@
       "state": "CA",
       "zipcode": "12345"
     }
-  },
-  {
-    "model": "profiles.language",
-    "pk":101,
-    "fields":{
-      "profile":202,
-      "name": "ar",
-      "proficiency_level": "NS"
-    }
-  },
-  {
-    "model": "profiles.language",
-    "pk":102,
-    "fields":{
-      "profile":202,
-      "name": "af",
-      "proficiency_level": "PF"
-    }
-  },
-  {
-    "model": "profiles.language",
-    "pk":103,
-    "fields":{
-      "profile":202,
-      "name": "az",
-      "proficiency_level": "CF"
-    }
   }
 ]
