@@ -278,6 +278,31 @@ class TransactionForm(ModelForm):
         return transaction
 
 
+class ConfirmTransactionForm(ModelForm):
+    class Meta:
+        model = Transaction
+        fields = ['requestee_review', 'requestee_recommendation']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for key, field in self.fields.items():
+            field.widget.attrs.update({'class': 'form-control'})
+
+        self.fields['requestee_recommendation'].label = 'Write a brief written recommendation'
+        self.fields['requestee_review'].label = 'Would you work with them again?'
+
+
+    def save(self, is_confirmed, commit=True):
+        transaction = super().save(commit=False)
+
+        if not is_confirmed:
+            transaction.requestee_recommendation = None
+            transaction.requestee_review = None
+
+        transaction.is_confirmed = is_confirmed
+        transaction.save()
+
+
 class JurisdictionForm(ModelForm):
     class Meta:
         model = Jurisdiction

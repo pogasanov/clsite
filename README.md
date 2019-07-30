@@ -94,6 +94,10 @@ pipenv shell
 npm install
 npm run build
 
+# If for some reason you want to recreate the DB from scratch:
+#dropdb postgres
+#createdb postgres
+
 python app/manage.py migrate
 
 # Install fixtures and dummy users

@@ -9,9 +9,8 @@ from django.views.generic import ListView
 from itertools import groupby
 
 from .forms import ProfileForm, EducationFormSet, WorkExperienceFormSet, AddressForm, AddmissionsFormSet, LawSchoolForm, \
-    OrganizationFormSet, AwardFormSet, ProfileCreationForm, TransactionForm, JurisdictionFormSet
-from .models import Profile, Jurisdiction
-from .choices import USA_STATES
+    OrganizationFormSet, AwardFormSet, ProfileCreationForm, TransactionForm, JurisdictionFormSet, ConfirmTransactionForm
+from .models import Profile, Transaction, Jurisdiction
 from .utils import _get_states_for_country
 from .helpers import get_user_relationships
 from clsite.settings import DEFAULT_CHOICES_SELECTION
@@ -33,8 +32,6 @@ def user_relationships(user):
         reverse=True
     )
     relationships = []
-    states = dict(USA_STATES)
-
 
     for user_handle, transactions in sorted_user_relationships:
         relationship = {}
@@ -57,7 +54,7 @@ def user_relationships(user):
         amount_received += sum([t.value_in_usd or 0 for t in transactions if t.requestee == user and t.is_requester_principal])
         relationship['amount_received'] = amount_received
 
-        relationship['jurisdiction']= [states[j] for j in other_user.jurisdiction or []]
+        relationship['jurisdiction']= [str(j) for j in other_user.jurisdiction_set.all()]
         relationship['law_type_tags'] = other_user.law_type_tags or []
 
         if not amount_given and not amount_received:
@@ -183,6 +180,30 @@ def transaction(request, handle):
         return redirect('home')
 
     return render(request, "transaction.html", context={'form': transaction_form})
+
+@login_required
+def confirm_transaction(request, transaction_id):
+    user = request.user
+    user_transaction = get_object_or_404(Transaction, id=transaction_id)
+
+    if user_transaction != user.user_unconfirmed_transaction():
+        return HttpResponseBadRequest()
+
+    form = ConfirmTransactionForm(request.POST or None, instance=user_transaction)
+
+    if request.POST and form.is_valid():
+        is_confirmed = request.POST['submit'] != 'deny'
+        form.save(is_confirmed=is_confirmed)
+
+        return redirect('home')
+
+    context = {
+        'transaction': user_transaction,
+        'requester_name': user_transaction.requester.get_full_name(),
+        'form': form
+    }
+
+    return render(request, "confirm_transaction.html", context=context)
 
 
 def update_user_profile_photo(user, photo):
