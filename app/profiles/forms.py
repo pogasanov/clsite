@@ -2,14 +2,11 @@ from django import forms
 from django.forms import ModelForm, inlineformset_factory
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
+from django_select2.forms import Select2TagWidget
 from django.conf.global_settings import LANGUAGES
 from django.core.exceptions import ValidationError
 
-from django_select2.forms import Select2TagWidget
-
-
 from .choices import USA_STATES
-
 from .utils import LAW_TYPE_TAGS_CHOICES, SUBJECTIVE_TAGS_CHOICES, _get_states_for_country
 from .models import (Profile, Education, WorkExperience, Address, Admissions,
                      LawSchool, Organization, Award, Transaction, Jurisdiction, Language)

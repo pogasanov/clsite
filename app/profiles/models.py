@@ -88,7 +88,7 @@ class Language(models.Model):
     proficiency_level = models.CharField(max_length=20, choices=PROFICIENCY_LEVEL)
 
     def __repr__(self):
-        return self.name
+        return '{} - {}'.format(self.name, self.proficiency_level)
 
 
 def get_image_path(instance, filename):

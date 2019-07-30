@@ -1,18 +1,16 @@
-from itertools import groupby
-
-from django.urls import reverse_lazy, reverse
 from django.shortcuts import render, get_object_or_404, redirect
+from django.urls import reverse_lazy, reverse
 from django.contrib.auth import get_user_model, login
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse, HttpResponseBadRequest
 from django.views.generic.edit import CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView
+from itertools import groupby
 
 from .forms import ProfileForm, EducationFormSet, WorkExperienceFormSet, AddressForm, AddmissionsFormSet, LawSchoolForm, \
     OrganizationFormSet, AwardFormSet, ProfileCreationForm, TransactionForm, JurisdictionFormSet, ConfirmTransactionForm
 from .models import Profile, Transaction, Jurisdiction
-
 from .utils import _get_states_for_country
 from .helpers import get_user_relationships
 from clsite.settings import DEFAULT_CHOICES_SELECTION

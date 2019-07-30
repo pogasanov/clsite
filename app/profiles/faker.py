@@ -149,7 +149,6 @@ def generate_profiles(count=100):
             organizations[i].profile = ids[i]
             awards[i].profile = ids[i]
             languages[i].profile = ids[i]
-
         Address.objects.bulk_create(addresses)
         Education.objects.bulk_create(educations)
         Admissions.objects.bulk_create(admissions)

@@ -1,6 +1,5 @@
 import json
 import os
-
 from clsite.settings import BASE_DIR
 
 
