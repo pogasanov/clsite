@@ -326,14 +326,14 @@ class LanguageForm(ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        for _, field in self.fields.items():
+        for key, field in self.fields.items():
             field.widget.attrs.update({'class': 'form-control'})
 
     def clean(self):
         cleaned_data = super().clean()
         if not cleaned_data['id']:
             if Language.objects.filter(name=cleaned_data['name'], profile=cleaned_data['profile']).exists():
-                self.add_error('name', 'Language already exists') 
+                self.add_error('name', 'Language already exists')
         return cleaned_data
 
 
