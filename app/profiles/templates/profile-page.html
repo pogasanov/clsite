@@ -576,18 +576,14 @@
                                                         {{ hidden }}
                                                     {% endfor %}
                                                     <div class="col-md-4 field">
-                                                        {% if forloop.first %}
                                                         {{ language.name.label_tag }}
-                                                        {% endif %}
                                                         {{ language.name }}
                                                         {% for error in language.name.errors %}
                                                             <span style="color: red;">[{{ error }}]</span>
                                                         {% endfor %}
                                                     </div>
                                                     <div class="col-md-4 field">
-                                                        {% if forloop.first %}
                                                         {{ language.proficiency_level.label_tag }}
-                                                        {% endif %}
                                                         {{ language.proficiency_level }}
                                                         {% for error in language.proficiency_level.errors %}
                                                             <span style="color: red;">[{{ error }}]</span>
@@ -595,9 +591,7 @@
                                                     </div>
                                                     <div class="col-md-4 field">
                                                         {% if languages.can_delete %}
-                                                            {% if forloop.first %}
                                                             {{ language.DELETE.label_tag }}</br>
-                                                            {% endif %}
                                                             {{ language.DELETE }}
                                                         {% endif %}
                                                     </div>
