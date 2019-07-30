@@ -294,7 +294,31 @@ class JurisdictionForm(ModelForm):
                 field.widget.choices = DEFAULT_CHOICES_SELECTION + _get_states_for_country(DEFAULT_COUNTRY)
             else:
                 field.widget.attrs.update({'class': 'form-control'})
+    def clean(self):
+        cleaned_data = super().clean()
+        if not cleaned_data['id']:
+            if Jurisdiction.objects.filter(country=cleaned_data['country'], state=cleaned_data['state'], profile=cleaned_data['profile']).exists():
+                pass
+                # self.add_error('state', 'Jurisdiction which you are trying to add already exists.')
+        return cleaned_data
 
 
-JurisdictionFormSet = inlineformset_factory(Profile, Jurisdiction,
+def unique_field_formset(first_field, second_field=None):
+    from django.forms.models import BaseInlineFormSet
+    class UniqueFieldFormSet (BaseInlineFormSet):
+        def clean(self):
+            if any(self.errors):
+                # Don't bother validating the formset unless each form is valid on its own
+                return
+            first_field_values = set()
+            second_field_values = set()
+            for form in self.forms:
+                first_value = form.cleaned_data.get(first_field)
+                second_value = form.cleaned_data.get(second_field)
+                if first_value in first_field_values and second_value in second_field_values:
+                    raise forms.ValidationError('Duplicate values for "%s" + "%s" are not allowed.' % first_field, second_field)
+                first_field_values.add(first_value)
+                second_field_values.add(second_value)
+    return UniqueFieldFormSet
+JurisdictionFormSet = inlineformset_factory(Profile, Jurisdiction, formset=unique_field_formset('jurisdiction'),
                                          form=JurisdictionForm, extra=1)
