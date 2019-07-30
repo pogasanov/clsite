@@ -4,6 +4,11 @@
 is [spec'ed
 here](https://docs.google.com/document/d/1l4YzSrk06nKaHGVJzOCbBEWKw9peXhWLhETk6y3_9wM/edit).
 
+While you are following this README, if you find it confusing or
+needs clarifications or should be structured in a more logical
+order, please create an MR to update the README to help future
+developers!
+
 ## Initial setup
 
 Install
@@ -45,6 +50,15 @@ Finally, deploy:
 git push heroku master
 # Use admin / admin@correspondence.legal / asdfasdf
 heroku run python app/manage.py createsuperuser
+```
+
+Our `Procfile` for Heroku will run `python app/manage.py migrate`
+on Heroku automatically. Occasionally, Heroku might prompt you to
+do run `makemigrations`, in which case you should do:
+
+```
+heroku run python app/manage.py makemigrations
+heroku run python app/manage.py migrate
 ```
 
 ## Local setup
