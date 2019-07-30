@@ -1,0 +1,7 @@
+{% with unconfirmed_transaction=request.user.user_unconfirmed_transaction %}
+    {% if unconfirmed_transaction %}
+        <div class="alert alert-warning fixed-bottom unconfirmed_transaction_alert" role="alert">
+            {{ unconfirmed_transaction.requester.get_full_name }} added a transaction with you. Please <a href="{% url 'confirm_transaction' unconfirmed_transaction.id %}" class="alert-link">confirm this transaction.</a>
+        </div>
+    {% endif %}
+{% endwith %}
