@@ -52,8 +52,9 @@ git push heroku master
 heroku run python app/manage.py createsuperuser
 ```
 
-Occasionally, Heroku might prompt you to do run `makemigrations`,
-in which case you should do:
+Our `Procfile` for Heroku will run `python app/manage.py migrate`
+on Heroku automatically. Occasionally, Heroku might prompt you to
+do run `makemigrations`, in which case you should do:
 
 ```
 heroku run python app/manage.py makemigrations
