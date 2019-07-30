@@ -9,6 +9,25 @@ from .models import (Profile, Education, WorkExperience, Address, Admissions,
                      LawSchool, Organization, Award, Transaction, Jurisdiction, Language)
 from clsite.settings import DEFAULT_CHOICES_SELECTION, DEFAULT_COUNTRY
 
+
+def unique_field_formset(first_field, second_field=None):
+    from django.forms.models import BaseInlineFormSet
+    class UniqueFieldFormSet(BaseInlineFormSet):
+        def clean(self):
+            if any(self.errors):
+                return # Ignore if form has errors already
+            first_field_values = set()
+            second_field_values = set()
+            for form in self.forms:
+                first_value = form.cleaned_data.get(first_field)
+                second_value = form.cleaned_data.get(second_field)
+                if first_value in first_field_values and second_value in second_field_values:
+                    form.add_error(first_field, '%s already exists' % first_field)
+                first_field_values.add(first_value)
+                second_field_values.add(second_value)
+    return UniqueFieldFormSet
+
+
 class ProfileCreationForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model = get_user_model()
@@ -329,13 +348,4 @@ class LanguageForm(ModelForm):
         for key, field in self.fields.items():
             field.widget.attrs.update({'class': 'form-control'})
 
-    def clean(self):
-        cleaned_data = super().clean()
-        if not cleaned_data['id']:
-            if Language.objects.filter(name=cleaned_data['name'], profile=cleaned_data['profile']).exists():
-                self.add_error('name', 'Language already exists')
-        return cleaned_data
-
-
-LanguageFormSet = inlineformset_factory(Profile, Language,
-                                         form=LanguageForm, extra=1)
+LanguageFormSet = inlineformset_factory(Profile, Language, formset=unique_field_formset('name'), form=LanguageForm, extra=1)
