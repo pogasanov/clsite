@@ -19,6 +19,11 @@ If I ask you for your opinion on something, and you don't know
 enough to give me a good answer, just tell me. That's okay. I don’t
 want you to copy-and-paste someone else's opinion, that is bad.
 
+Issues should not take longer than 4-5 days from start to being
+merged. If you think it will take longer, break down the issue into
+smaller pieces that can be done on this timescale. If an MR is
+taking this long, please ask for help to finish.
+
 ## README.md
 
 The [`README.md`](README.md) file should be self-explanatory.
