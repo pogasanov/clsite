@@ -10,21 +10,22 @@ from .models import (Profile, Education, WorkExperience, Address, Admissions,
 from clsite.settings import DEFAULT_CHOICES_SELECTION, DEFAULT_COUNTRY
 
 
-def unique_field_formset(first_field, second_field=None):
+def unique_field_formset(*fields):
     from django.forms.models import BaseInlineFormSet
     class UniqueFieldFormSet(BaseInlineFormSet):
         def clean(self):
             if any(self.errors):
-                return # Ignore if form has errors already
-            first_field_values = set()
-            second_field_values = set()
+                return  # Ignore if form has errors already
+            formset_values = set()
             for form in self.forms:
-                first_value = form.cleaned_data.get(first_field)
-                second_value = form.cleaned_data.get(second_field)
-                if first_value in first_field_values and second_value in second_field_values:
-                    form.add_error(first_field, '%s already exists' % first_field)
-                first_field_values.add(first_value)
-                second_field_values.add(second_value)
+                values = []
+                for field in fields:
+                    if form.cleaned_data.get(field): values.append(form.cleaned_data.get(field))
+                form_values = '-'.join(values)  # Make a values string for quick check
+
+                if form_values in formset_values:
+                    form.add_error('__all__', 'Duplicate values.')
+                formset_values.add(form_values)
     return UniqueFieldFormSet
 
 
@@ -341,9 +342,8 @@ class JurisdictionForm(ModelForm):
 
         self.fields['state'].label = 'State/Province'
 
-
-JurisdictionFormSet = inlineformset_factory(Profile, Jurisdiction,
-                                         form=JurisdictionForm, extra=1)
+JurisdictionFormSet = inlineformset_factory(Profile, Jurisdiction, formset=unique_field_formset('country', 'state', 'city'),
+                                            form=JurisdictionForm, extra=1)
 
 
 class LanguageForm(ModelForm):
