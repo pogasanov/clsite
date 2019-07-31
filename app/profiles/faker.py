@@ -27,8 +27,6 @@ class ProfileProvider(BaseProvider):
             size_of_clients=self.generator.pyint(min=0, max=3, step=1),
             preferred_communication_method=self.generator.pyint(min=0, max=3, step=1),
             license_status=self.generator.pyint(min=0, max=1, step=1),
-            languages=[self.generator.language_code()],
-
             law_type_tags=[self.get_random_law_type_tag()],
             subjective_tags=[self.get_random_subjective_tag()],
             summary=self.generator.catch_phrase(),

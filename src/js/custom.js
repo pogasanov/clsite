@@ -107,8 +107,12 @@ $(document).ready(function () {
                 for(let key in resp["responseJSON"]){
                     if(resp["responseJSON"][key] !== undefined){
                         if(Array.isArray(resp["responseJSON"][key])){
-                            if(resp["responseJSON"][key].length !== 0 && Object.keys(resp["responseJSON"][key][0]).length !== 0){
-                                appendToErrorDetail(errorsDetailDiv, key, JSON.stringify(resp["responseJSON"][key][0]));
+                            if(resp["responseJSON"][key].length !== 0){
+                                resp["responseJSON"][key].forEach((errorField) => {
+                                    if(Object.keys(errorField).length !== 0){
+                                        appendToErrorDetail(errorsDetailDiv, key, JSON.stringify(errorField));
+                                    }
+                                });
                             }
                         }else if(typeof resp["responseJSON"][key] === 'object' && resp["responseJSON"][key] !== null ){
                             if(Object.keys(resp["responseJSON"][key]).length !== 0){
@@ -136,12 +140,14 @@ $(document).ready(function () {
     }
 
     setDatePicker();
-
-    var recommendationFieldSelector = '#id_requester_recommendation';
-    var recommendationLabelSelector = '[for="id_requester_recommendation"]';
+    
+    const recommendationFieldSelector = '#id_requester_recommendation, #id_requestee_recommendation';
+    const recommendationLabelSelector = '[for="id_requester_recommendation"], [for="id_requestee_recommendation"]';
+    const confirmTransactionSelector = '.confirm-transaction-fields';
 
     $(recommendationFieldSelector).hide();
     $(recommendationLabelSelector).hide();
+    $(confirmTransactionSelector).hide();
     $('#add-recommendation').on('click', function (e) {
         e.preventDefault();
         $(this).hide();
@@ -149,6 +155,13 @@ $(document).ready(function () {
         $(recommendationLabelSelector).show();
     });
 
+    $('#confirm-transaction').on('click', function (e) {
+        e.preventDefault();
+        $(this).hide();
+        $('.deny-transaction').hide();
+        $(confirmTransactionSelector).show();
+    });
+    
     $('.country').on('change', function (e) {
         let stateDiv = $(e.currentTarget).parent().siblings('.state-div')[0];
         let stateDropdown = $(stateDiv).children('select')[0];
@@ -191,6 +204,13 @@ $(document).ready(function () {
         var form_idx = $('#id_jurisdiction-TOTAL_FORMS').val();
         $('#jurisdiction-formset').append($('#empty_form').html().replace(/__prefix__/g, form_idx));
         $('#id_jurisdiction-TOTAL_FORMS').val(parseInt(form_idx) + 1);
+    });
+
+    $('#language-clone').on('click', function (event) {
+        event.preventDefault();
+        var form_idx = $('#id_language-TOTAL_FORMS').val();
+        $('#language-formset').append($('#language_empty_form').html().replace(/__prefix__/g, form_idx));
+        $('#id_language-TOTAL_FORMS').val(parseInt(form_idx) + 1);
     });
 
     // BROWSING PAGE

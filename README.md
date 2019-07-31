@@ -4,56 +4,96 @@
 is [spec'ed
 here](https://docs.google.com/document/d/1l4YzSrk06nKaHGVJzOCbBEWKw9peXhWLhETk6y3_9wM/edit).
 
+While you are following this README, if you find it confusing or
+needs clarifications or should be structured in a more logical
+order, please create an MR to update the README to help future
+developers!
+
 ## Initial setup
 
 Install
-[heroku-cli](https://devcenter.heroku.com/articles/heroku-cli#download-and-install)
+[heroku-cli](https://devcenter.heroku.com/articles/heroku-cli#download-and-install). On OSX:
 
-Note that you have to set
-[buildpacks](https://devcenter.heroku.com/articles/buildpacks) for
-both django and nodejs to get dependencies for both backend and
-frontend. It will also build frontend assets, as our repo does not
-includes them. This is shown in the steps below:
+```
+brew tap heroku/brew && brew install heroku
+```
+
+Then:
 
 ```
 heroku login
 heroku create
-
-# Set buildpacks for heroku
-# It will first install all python dependencies
-heroku buildpacks:set heroku/python
-# And then will install node-js dependencies and build code
-heroku buildpacks:add --index 1 heroku/nodejs
-
-git push heroku master
-# Use admin / admin@correspondence.legal / asdfasdf
-heroku run python app/manage.py createsuperuser
+# Or, if you want to use an existing heroku:
+#heroku git:remote -a ftwcl
 ```
 
 Make sure that `heroku addons` shows that you have
 heroku-postgresql, hobby-dev plan, enabled.
 
+Note that you have to set
+[buildpacks](https://devcenter.heroku.com/articles/buildpacks) for
+both django and nodejs to get dependencies for both backend and
+frontend. It will also build frontend assets, as our repo does not
+include them:
+
+```
+# Set buildpacks for heroku
+# It will first install all python dependencies
+heroku buildpacks:set heroku/python
+# And then will install node-js dependencies and build code
+heroku buildpacks:add --index 1 heroku/nodejs
+```
+
+Finally, deploy:
+
+```
+git push heroku master
+# Use admin / admin@correspondence.legal / asdfasdf
+heroku run python app/manage.py createsuperuser
+```
+
+Our `Procfile` for Heroku will run `python app/manage.py migrate`
+on Heroku automatically. Occasionally, Heroku might prompt you to
+do run `makemigrations`, in which case you should do:
+
+```
+heroku run python app/manage.py makemigrations
+heroku run python app/manage.py migrate
+```
+
 ## Local setup
 
 Make sure you have Postgres [running
 locally](https://devcenter.heroku.com/articles/heroku-postgresql#local-setup),
-the same version as when you run `heroku pg`.
+the same version as when you run `heroku pg`. Make sure to start a
+new shell and that command `psql` works.
 
 Requires [Pipenv](https://docs.pipenv.org/en/latest/) and
 [Nodejs](https://nodejs.org/en/). We need nodejs (and npm) to
-manage frontend dependencies.
+manage frontend dependencies. On OSX:
 
-Django app requires several environment variables:
+```
+brew install pipenv npm
+```
+
+Django app requires several environment variables, which you should
+put in `~/.bashrc` or `~/.bash_profile`. If you are using pycharm,
+you can set them in Run -> Edit configurations -> Environment
+variables.
+
 * `DATABASE_URL` - uri to your database. Should be in form of
-`postgres://USER:PASSWORD@HOST:PORT/DATABASE_NAME`.
-* `DEBUG` - set if you want to turn debug mode on. You should use
-`DEBUG=1` for local testing, but *not* on Heroku.
+`postgres://USER:PASSWORD@HOST:PORT/DATABASE_NAME`. On OSX:
+```
+export DATABASE_URL=postgres://postgres@localhost/postgres
+```
+* `DEBUG` - set if you want to turn debug mode on.
+For local testing, but *not* on Heroku, you should use:
+```
+export DEBUG=1
+```
 
-Set those variables in either `~/.bashrc` or `~/.bash_profile`. If
-you are using pycharm, you can set them in Run -> Edit configurations
--> Environmnet variables.
-
-Nodejs comes with 2 commands to build frontend:
+Nodejs comes with 2 commands to build frontend, which we show you
+how to use below:
 1. `npm run watch` - will build development version of frontend and
 watch for changes;
 2. `npm run build` - will build optimized version;
@@ -68,17 +108,17 @@ pipenv shell
 npm install
 npm run build
 
-# For fresh pgsql install, use heroku suggested url
-# If you have preconfigured pgsql, use your database username and password
-# export DATABASE_URL=postgres://USER:PASSWORD@127.0.0.1:5432/postgres
-# on OSX you can just use:
-export DATABASE_URL=postgres://postgres@localhost/postgres
+# If for some reason you want to recreate the DB from scratch:
+#dropdb postgres
+#createdb postgres
 
 python app/manage.py migrate
 
-# Use admin / admin@correspondence.legal / asdfasdf
+# Install fixtures and dummy users
+python app/manage.py loaddata admin dummy handcrafted
 # Alternatively use fixtures which is described in fixtures section
-python app/manage.py createsuperuser
+# Use admin / admin@correspondence.legal / asdfasdf
+#python app/manage.py createsuperuser
 
 python app/manage.py runserver
 ```
