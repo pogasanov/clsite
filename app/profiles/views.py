@@ -8,7 +8,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView
 from itertools import groupby
 
-from .forms import ProfileForm, EducationFormSet, WorkExperienceFormSet, AddressForm, AddmissionsFormSet, LawSchoolForm, \
+from .forms import ProfileForm, EducationFormSet, WorkExperienceFormSet, AddressForm, AdmissionsFormSet, LawSchoolForm, \
     OrganizationFormSet, AwardFormSet, ProfileCreationForm, TransactionForm, JurisdictionFormSet, ConfirmTransactionForm, \
     LanguageFormSet
 from .models import Profile, Transaction, Jurisdiction
@@ -98,7 +98,7 @@ def profile(request, handle=None):
         jurisdiction_formset = JurisdictionFormSet(request.POST or None, instance=user, prefix='jurisdiction')
         address_form = AddressForm(request.POST or None, instance=getattr(user, 'address', None), prefix='address')
         education_formset = EducationFormSet(request.POST or None, instance=user, prefix='education')
-        admissions_formset = AddmissionsFormSet(request.POST or None, instance=user, prefix='admissions')
+        admissions_formset = AdmissionsFormSet(request.POST or None, instance=user, prefix='admissions')
         lawschool_form = LawSchoolForm(request.POST or None, instance=getattr(user, 'lawschool', None), prefix='lawschool')
         workexperience_formset = WorkExperienceFormSet(request.POST or None, instance=user, prefix='workexperience')
         organization_formset = OrganizationFormSet(request.POST or None, instance=user, prefix='organization')
