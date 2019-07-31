@@ -84,7 +84,6 @@ class ProfileForm(ModelForm):
         model = Profile
         fields = ('first_name',
                   'last_name',
-                  'headline',
                   'summary',
                   'experience',
                   'current_job',

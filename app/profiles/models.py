@@ -36,7 +36,15 @@ class Jurisdiction(models.Model):
     city = models.CharField(max_length=100, verbose_name='City', null=True, blank=True)
 
     def __str__(self):
-        return f'{self.city} {self.state} {self.country}'
+        if self.city and self.state:
+            return f'{self.city} ({self.state}, {self.country})'
+
+        city_or_state = self.city or self.state
+
+        if city_or_state:
+            return f'{city_or_state} ({self.country})'
+
+        return self.country
 
 
 class Admissions(models.Model):
@@ -176,7 +184,6 @@ class Profile(AbstractUser):
         models.CharField(max_length=50),
         verbose_name='Subjective Tags', blank=True, null=True
     )
-    headline = models.CharField(max_length=120, verbose_name='Headline', blank=True)
     summary = models.CharField(max_length=140, verbose_name='Summary', blank=True)
     website = models.URLField(verbose_name='Website URL', blank=True)
     twitter = models.CharField(max_length=50, blank=True)
@@ -204,6 +211,30 @@ class Profile(AbstractUser):
     def user_unconfirmed_transaction(self):
         return self.requestee.filter(is_confirmed=None).order_by('-created_at').first()
 
+    @property
+    def headline(self):
+        headline_format = '{name}, the{tags} attorney{jurisdictions}'
+
+        jurisdictions = ', '.join([str(j) for j in self.jurisdiction_set.all()])
+
+        law_type_tags = ', '.join(self.law_type_tags or [])
+        subjective_tags = ', '.join(self.subjective_tags or [])
+
+        if jurisdictions:
+            jurisdictions = f' in {jurisdictions}'
+
+        if subjective_tags:
+            subjective_tags = f' {subjective_tags}'
+
+        if law_type_tags:
+            law_type_tags = f' {law_type_tags}'
+
+
+        return headline_format.format(
+            name=self.get_full_name(),
+            jurisdictions=jurisdictions,
+            tags=subjective_tags+law_type_tags
+        )
 
 class Transaction(models.Model):
     REVIEW_CHOICES = (

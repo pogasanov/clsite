@@ -33,7 +33,6 @@ class ProfileTests(TestCase):
             'profile-first_name': 'John',
             'profile-last_name': 'Doe',
             'profile-languages': 'ru,en',
-            'profile-headline': 'Test headline',
             'profile-summary': 'Test Summary for having 5 years of experience in the field of shipping.',
             'profile-bio': 'Test bio',
             'profile-phone': '+7(923)111-11-11',
@@ -77,7 +76,6 @@ class ProfileTests(TestCase):
         cls.incorrect_update_data = {
             'profile-first_name': 'John',
             'profile-last_name': 'Doe',
-            'profile-headline': 'Test headline',
             'profile-bio': 'Test bio',
             'profile-website': 'http://www.test.com',
             'profile-twitter': 'Test twitter',
@@ -177,7 +175,6 @@ class ProfileTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context['user'].first_name, self.correct_update_data['profile-first_name'])
         self.assertEqual(response.context['user'].last_name, self.correct_update_data['profile-last_name'])
-        self.assertEqual(response.context['user'].headline, self.correct_update_data['profile-headline'])
         self.assertEqual(response.context['user'].summary, self.correct_update_data['profile-summary'])
         self.assertEqual(response.context['user'].bio, self.correct_update_data['profile-bio'])
         self.assertEqual(response.context['user'].website, self.correct_update_data['profile-website'])
