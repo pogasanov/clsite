@@ -188,7 +188,7 @@ class AdmissionsForm(ModelForm):
         self.fields['state'].label = 'State/Province'
 
 
-AddmissionsFormSet = inlineformset_factory(Profile, Admissions,
+AdmissionsFormSet = inlineformset_factory(Profile, Admissions,
                                            form=AdmissionsForm, extra=1)
 
 
