@@ -17,7 +17,7 @@ class Address(models.Model):
     building = models.CharField(max_length=20, verbose_name='Building/Unit')
     street = models.CharField(max_length=200, verbose_name='Street')
     city = models.CharField(max_length=100, verbose_name='City', null=True, blank=True)
-    state = models.CharField(max_length=100, verbose_name='State/Province', null=True, blank=True)
+    state = models.CharField(max_length=100, verbose_name='State', null=True, blank=True)
     country = models.CharField(max_length=100, verbose_name='Country', choices=COUNTRIES_CHOICES)
     zipcode = models.CharField(max_length=10, verbose_name='ZIP code')
 
@@ -32,7 +32,7 @@ class Education(models.Model):
 class Jurisdiction(models.Model):
     profile = models.ForeignKey('Profile', on_delete=models.CASCADE, verbose_name='Profile')
     country = models.CharField(max_length=100, verbose_name='Country', choices=COUNTRIES_CHOICES)
-    state = models.CharField(max_length=100, verbose_name='State/Province', null=True, blank=True)
+    state = models.CharField(max_length=100, verbose_name='State', null=True, blank=True)
     city = models.CharField(max_length=100, verbose_name='City', null=True, blank=True)
 
     def __str__(self):
@@ -42,7 +42,7 @@ class Jurisdiction(models.Model):
 class Admissions(models.Model):
     profile = models.ForeignKey('Profile', on_delete=models.CASCADE, verbose_name='Profile')
     city = models.CharField(max_length=100, verbose_name='City', null=True, blank=True)
-    state = models.CharField(max_length=100, verbose_name='State/Province', null=True, blank=True)
+    state = models.CharField(max_length=100, verbose_name='State', null=True, blank=True)
     country = models.CharField(max_length=100, verbose_name='Country', choices=COUNTRIES_CHOICES)
     year = models.PositiveIntegerField(verbose_name='date of graduation')
 
@@ -51,7 +51,7 @@ class LawSchool(models.Model):
     profile = models.OneToOneField('Profile', on_delete=models.CASCADE, verbose_name='Profile')
     school = models.CharField(max_length=100, verbose_name='School name')
     city = models.CharField(max_length=100, verbose_name='City', null=True, blank=True)
-    state = models.CharField(max_length=100, verbose_name='State/Province', null=True, blank=True)
+    state = models.CharField(max_length=100, verbose_name='State', null=True, blank=True)
     country = models.CharField(max_length=100, verbose_name='Country', choices=COUNTRIES_CHOICES)
 
 

@@ -150,6 +150,8 @@ class AddressForm(ModelForm):
             else:
                 field.widget.attrs.update({'class': 'form-control'})
 
+        self.fields['state'].label = 'State/Province'
+
 
 class EducationForm(ModelForm):
     class Meta:
@@ -182,6 +184,8 @@ class AdmissionsForm(ModelForm):
                 field.widget.choices = DEFAULT_CHOICES_SELECTION + _get_states_for_country(DEFAULT_COUNTRY)
             else:
                 field.widget.attrs.update({'class': 'form-control'})
+
+        self.fields['state'].label = 'State/Province'
 
 
 AddmissionsFormSet = inlineformset_factory(Profile, Admissions,
@@ -251,6 +255,8 @@ class LawSchoolForm(ModelForm):
                 field.widget.choices = DEFAULT_CHOICES_SELECTION + _get_states_for_country(DEFAULT_COUNTRY)
             else:
                 field.widget.attrs.update({'class': 'form-control'})
+
+        self.fields['state'].label = 'State/Province'
 
 
 class TransactionForm(ModelForm):
@@ -332,6 +338,8 @@ class JurisdictionForm(ModelForm):
                 field.widget.choices = DEFAULT_CHOICES_SELECTION + _get_states_for_country(DEFAULT_COUNTRY)
             else:
                 field.widget.attrs.update({'class': 'form-control'})
+
+        self.fields['state'].label = 'State/Province'
 
 
 JurisdictionFormSet = inlineformset_factory(Profile, Jurisdiction,
