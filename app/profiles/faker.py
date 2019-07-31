@@ -6,6 +6,8 @@ import random
 from .models import Profile, Address, Education, Admissions, LawSchool, WorkExperience, Organization, Award, Jurisdiction
 from .utils import LAW_TYPE_TAGS_CHOICES, SUBJECTIVE_TAGS_CHOICES, COUNTRIES_CHOICES, _get_states_for_country
 
+SEED_VALUE = 54321
+
 
 class ProfileProvider(BaseProvider):
     def profile(self):
@@ -141,7 +143,9 @@ class ProfileProvider(BaseProvider):
 
 
 def generate_profiles(count=100):
+    random.seed(SEED_VALUE)
     fake = Faker()
+    fake.seed(SEED_VALUE)
     fake.add_provider(ProfileProvider)
     profiles = []
     addresses = []
