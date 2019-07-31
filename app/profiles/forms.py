@@ -24,7 +24,7 @@ def unique_field_formset(*fields):
                 form_values = '-'.join(values)  # Make a values string for quick check
 
                 if form_values in formset_values:
-                    form.add_error('__all__', 'Duplicate value.')
+                    form.add_error('__all__', 'Duplicate values.')
                 formset_values.add(form_values)
     return UniqueFieldFormSet
 
