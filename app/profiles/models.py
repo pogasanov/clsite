@@ -235,6 +235,10 @@ class Profile(AbstractUser):
             tags=subjective_tags+law_type_tags
         )
 
+    def browsing_headline(self):
+        return self.headline.replace(f'{self.get_full_name()}, ', '')
+
+
 class Transaction(models.Model):
     REVIEW_CHOICES = (
         ('SD', 'Strongly Disagree'),
