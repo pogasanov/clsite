@@ -47,6 +47,8 @@ branch off each other.
 in the title and don't ask for review until the MR is ready for
 review (see below). However, if you do have architectural or
 implementation questions, you are free to ask for feedback.
+* If your MR changes the UX, please include screenshots of the new
+UX in the description of the MR.
 
 ### MR Code review
 
