@@ -216,7 +216,6 @@ class Profile(AbstractUser):
         headline_format = '{name}, the{tags} attorney{jurisdictions}'
 
         jurisdictions = ', '.join([str(j) for j in self.jurisdiction_set.all()])
-
         law_type_tags = ', '.join(self.law_type_tags or [])
         subjective_tags = ', '.join(self.subjective_tags or [])
 
