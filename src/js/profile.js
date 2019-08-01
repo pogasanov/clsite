@@ -24,8 +24,12 @@ $(document).ready(function () {
                 for (let key in resp["responseJSON"]) {
                     if (resp["responseJSON"][key] !== undefined) {
                         if (Array.isArray(resp["responseJSON"][key])) {
-                            if (resp["responseJSON"][key].length !== 0 && Object.keys(resp["responseJSON"][key][0]).length !== 0) {
-                                appendToErrorDetail(errorsDetailDiv, key, JSON.stringify(resp["responseJSON"][key][0]));
+                            if (resp["responseJSON"][key].length !== 0) {
+                                resp["responseJSON"][key].forEach((errorField) => {
+                                    if (Object.keys(errorField).length !== 0) {
+                                        appendToErrorDetail(errorsDetailDiv, key, JSON.stringify(errorField));
+                                    }
+                                });
                             }
                         } else if (typeof resp["responseJSON"][key] === 'object' && resp["responseJSON"][key] !== null) {
                             if (Object.keys(resp["responseJSON"][key]).length !== 0) {
@@ -64,9 +68,16 @@ $(document).ready(function () {
 
     $('#jurisdiction-clone').on('click', function (event) {
         event.preventDefault();
-        let form_idx = $('#id_jurisdiction-TOTAL_FORMS').val();
+        var form_idx = $('#id_jurisdiction-TOTAL_FORMS').val();
         $('#jurisdiction-formset').append($('#empty_form').html().replace(/__prefix__/g, form_idx));
         $('#id_jurisdiction-TOTAL_FORMS').val(parseInt(form_idx) + 1);
+    });
+
+    $('#language-clone').on('click', function (event) {
+        event.preventDefault();
+        var form_idx = $('#id_language-TOTAL_FORMS').val();
+        $('#language-formset').append($('#language_empty_form').html().replace(/__prefix__/g, form_idx));
+        $('#id_language-TOTAL_FORMS').val(parseInt(form_idx) + 1);
     });
 })
 
@@ -79,18 +90,18 @@ function setupPictureUpload() {
         });
 
         $('.photo-input').change(function () {
-            let img_file = this.files[0]
-            let valid_image_extensions = ["image/jpeg", "image/png"];
+            var img_file = this.files[0]
+            var valid_image_extensions = ["image/jpeg", "image/png"];
             if (valid_image_extensions.indexOf(img_file.type) > -1) {
-                let img = new Image();
+                var img = new Image();
                 img.src = window.URL.createObjectURL(img_file);
                 img.onload = function () {
-                    let width = img.naturalWidth;
-                    let height = img.naturalHeight;
+                    var width = img.naturalWidth;
+                    var height = img.naturalHeight;
                     window.URL.revokeObjectURL(img.src);
 
                     if (Math.max(width, height) / Math.min(width, height) < 1.2) {
-                        let image_size = img_file.size;
+                        var image_size = img_file.size;
                         if (image_size > 8000000) {
                             //Image is too big, must be 8MB or less
                             alert('Your photo is too big, please make sure the image is 8 MB or less in size.');
@@ -113,13 +124,13 @@ function setupPictureUpload() {
         $('.photo-form').on('submit', function (event) {
             event.preventDefault();
 
-            let picture = $('.photo-view');
+            var picture = $('.photo-view');
 
             //Grab the current picture src
-            let original_src = picture.attr('src');
+            var original_src = picture.attr('src');
 
             //Set the
-            picture.attr('src', LoaderSpinner);
+            picture.attr('src', 'static/img/loader.gif');
 
             $.ajax({
                 type: 'POST',
