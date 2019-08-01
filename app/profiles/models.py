@@ -211,9 +211,8 @@ class Profile(AbstractUser):
     def user_unconfirmed_transaction(self):
         return self.requestee.filter(is_confirmed=None).order_by('-created_at').first()
 
-    @property
-    def headline(self):
-        headline_format = '{name}, the{tags} attorney{jurisdictions}'
+    def _compile_headline(self):
+        headline_format = 'the{tags} attorney{jurisdictions}'
 
         jurisdictions = ', '.join([str(j) for j in self.jurisdiction_set.all()])
         law_type_tags = ', '.join(self.law_type_tags or [])
@@ -230,13 +229,16 @@ class Profile(AbstractUser):
 
 
         return headline_format.format(
-            name=self.get_full_name(),
             jurisdictions=jurisdictions,
             tags=subjective_tags+law_type_tags
         )
 
+    @property
+    def headline(self):
+        return f'{self.get_full_name()}, {self._compile_headline()}'
+
     def browsing_headline(self):
-        return self.headline.replace(f'{self.get_full_name()}, ', '')
+        return f'T{self._compile_headline()[1:]}'
 
 
 class Transaction(models.Model):
