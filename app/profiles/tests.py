@@ -2,6 +2,9 @@ from django.test import TestCase, override_settings
 from django.contrib.auth import get_user_model
 from django.core.management import call_command
 
+from .faker import generate_profiles
+from .models import Profile
+
 
 @override_settings(STATICFILES_STORAGE='django.contrib.staticfiles.storage.StaticFilesStorage')
 class ProfileTests(TestCase):
@@ -107,6 +110,17 @@ class ProfileTests(TestCase):
         call_command('loaddata', 'admin', verbosity=0)
         call_command('loaddata', 'dummy', verbosity=0)
         call_command('loaddata', 'handcrafted', verbosity=0)
+
+    def test_generate_profiles_working(self):
+        GENERATED_MODELS_COUNT = 25
+
+        existing_profiles_count = Profile.objects.count()
+
+        generate_profiles(GENERATED_MODELS_COUNT)
+
+        new_profiles_count = Profile.objects.count()
+
+        self.assertEqual(new_profiles_count, existing_profiles_count + GENERATED_MODELS_COUNT)
 
     def test_login(self):
         # User go to homepage
