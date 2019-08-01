@@ -45,20 +45,24 @@ class ProfileProvider(BaseProvider):
     def get_random_subjective_tag(self):
         return random.choice(SUBJECTIVE_TAGS_CHOICES)[0]
 
-    def get_random_country(self):
-        return random.choice(COUNTRIES_CHOICES)[0]
+    def get_random_country_state_city(self):
+        random_country = random.choice(COUNTRIES_CHOICES)[0]
 
-    def get_random_state(self, country):
-        states_choices = _get_states_for_country(country)
-        return random.choice(states_choices)[0] if states_choices else None  # return None if country has no state
+        states_choices = _get_states_for_country(random_country)  # get all states for the country
+
+        random_state = random.choice(states_choices)[0] if states_choices else None  # return None if country has no state
+        random_city = self.generator.city() if random_state else None
+
+        return random_country, random_state, random_city
+
 
     def address(self, profile=None):
-        random_country = self.get_random_country()
+        country, state, city  = self.get_random_country_state_city()
         return Address(
             profile=profile,
-            city=self.generator.city(),
-            country=random_country,
-            state=self.get_random_state(random_country),
+            city=city,
+            country=country,
+            state=state,
             zipcode=self.generator.postalcode(),
             street=self.generator.street_address(),
             building=self.generator.building_number()
@@ -73,23 +77,23 @@ class ProfileProvider(BaseProvider):
         )
 
     def admission(self, profile=None):
-        random_country = self.get_random_country()
+        country, state, city  = self.get_random_country_state_city()
         return Admissions(
             profile=profile,
-            country=random_country,
-            state=self.get_random_state(random_country),
-            city=self.generator.city(),
+            country=country,
+            state=state,
+            city=city,
             year=self.generator.pyint(min=1990, max=2019, step=1)
         )
 
     def law_school(self, profile=None):
-        random_country = self.get_random_country()
+        country, state, city  = self.get_random_country_state_city()
         return LawSchool(
             profile=profile,
             school=self.generator.company(),
-            country=random_country,
-            state=self.get_random_state(random_country),
-            city=self.generator.city()
+            country=country,
+            state=state,
+            city=city
         )
 
     def work_experience(self, profile=None):
@@ -121,12 +125,12 @@ class ProfileProvider(BaseProvider):
         )
 
     def jurisdiction(self, profile=None):
-        random_country = self.get_random_country()
+        country, state, city  = self.get_random_country_state_city()
         return Jurisdiction(
             profile=profile,
-            country=random_country,
-            state=self.get_random_state(random_country),
-            city=self.generator.city()
+            country=country,
+            state=state,
+            city=city
         )
 
     def full_profile(self):
