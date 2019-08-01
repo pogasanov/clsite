@@ -212,7 +212,7 @@ class Profile(AbstractUser):
         return self.requestee.filter(is_confirmed=None).order_by('-created_at').first()
 
     def _compile_headline(self):
-        headline_format = 'the{tags} attorney{jurisdictions}'
+        headline_format = '{tags} attorney{jurisdictions}'
 
         jurisdictions = ', '.join([str(j) for j in self.jurisdiction_set.all()])
         law_type_tags = ', '.join(self.law_type_tags or [])
@@ -235,10 +235,10 @@ class Profile(AbstractUser):
 
     @property
     def headline(self):
-        return f'{self.get_full_name()}, {self._compile_headline()}'
+        return f'{self.get_full_name()}, the{self._compile_headline()}'
 
     def browsing_headline(self):
-        return f'T{self._compile_headline()[1:]}'
+        return f'The{self._compile_headline()}'
 
 
 class Transaction(models.Model):
