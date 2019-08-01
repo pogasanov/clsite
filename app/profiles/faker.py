@@ -25,11 +25,7 @@ class ProfileProvider(BaseProvider):
             size_of_clients=self.generator.pyint(min=0, max=3, step=1),
             preferred_communication_method=self.generator.pyint(min=0, max=3, step=1),
             license_status=self.generator.pyint(min=0, max=1, step=1),
-            languages=[self.generator.language_code()],
-            clients=[self.generator.company()],
-
             jurisdiction=[self.generator.state_abbr()],
-            headline=self.generator.catch_phrase(),
             website=self.generator.uri(),
             twitter=self.generator.word(),
             linkedin=self.generator.word(),

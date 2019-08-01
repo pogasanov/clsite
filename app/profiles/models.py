@@ -2,9 +2,10 @@ import os
 
 from django.db import models
 from django.contrib.postgres.fields import ArrayField, DateRangeField
-from django.conf import settings, global_settings
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.contrib.staticfiles.templatetags.staticfiles import static
+from django.conf.global_settings import LANGUAGES
+
 from clsite.storage_backends import variativeStorage
 
 from .choices import CURRENCIES
@@ -33,6 +34,17 @@ class Jurisdiction(models.Model):
     country = models.CharField(max_length=100, verbose_name='Country', choices=COUNTRIES_CHOICES)
     state = models.CharField(max_length=100, verbose_name='State', null=True, blank=True)
     city = models.CharField(max_length=100, verbose_name='City', null=True, blank=True)
+
+    def __str__(self):
+        if self.city and self.state:
+            return f'{self.city} ({self.state}, {self.country})'
+
+        city_or_state = self.city or self.state
+
+        if city_or_state:
+            return f'{city_or_state} ({self.country})'
+
+        return self.country
 
 
 class Admissions(models.Model):
@@ -72,6 +84,18 @@ class Award(models.Model):
     presented_by = models.CharField(max_length=100, verbose_name='Presented by')
     year = models.PositiveIntegerField(verbose_name='Year')
     description = models.TextField(verbose_name='Description')
+
+class Language(models.Model):
+    PROFICIENCY_LEVEL = (('NS', 'Native speaker'),
+                        ('PF', 'professional fluency'),
+                        ('CF', 'conversational fluency'))
+
+    profile = models.ForeignKey('Profile', on_delete=models.CASCADE, verbose_name='Profile')
+    name = models.CharField(max_length=10, choices=LANGUAGES)
+    proficiency_level = models.CharField(max_length=20, choices=PROFICIENCY_LEVEL)
+
+    def __repr__(self):
+        return '{} - {}'.format(self.name, self.proficiency_level)
 
 
 def get_image_path(instance, filename):
@@ -133,7 +157,6 @@ class Profile(AbstractUser):
         (0, 'Active'),
         (1, 'In good standing')
     )
-    LANGUAGES = global_settings.LANGUAGES
     username = None
 
     handle = models.CharField(max_length=50, unique=True, null=True, blank=True)
@@ -153,14 +176,6 @@ class Profile(AbstractUser):
 
     license_status = models.PositiveSmallIntegerField(choices=LICENSE_STATUSES, verbose_name='License Status',
                                                       blank=True, null=True)
-    languages = ArrayField(
-        models.CharField(max_length=10, choices=LANGUAGES, verbose_name='Languages'),
-        blank=True, null=True
-    )
-    clients = ArrayField(
-        models.CharField(max_length=100, verbose_name='Representative Clients'),
-        blank=True, null=True
-    )
     law_type_tags = ArrayField(
         models.CharField(max_length=50),
         verbose_name='Law Type Tags', blank=True, null=True
@@ -169,7 +184,6 @@ class Profile(AbstractUser):
         models.CharField(max_length=50),
         verbose_name='Subjective Tags', blank=True, null=True
     )
-    headline = models.CharField(max_length=120, verbose_name='Headline', blank=True)
     summary = models.CharField(max_length=140, verbose_name='Summary', blank=True)
     website = models.URLField(verbose_name='Website URL', blank=True)
     twitter = models.CharField(max_length=50, blank=True)
@@ -193,6 +207,38 @@ class Profile(AbstractUser):
         if self.photo:
             return self.photo.url
         return static('dummy-img.png')
+
+    def user_unconfirmed_transaction(self):
+        return self.requestee.filter(is_confirmed=None).order_by('-created_at').first()
+
+    def _compile_headline(self):
+        headline_format = '{tags} attorney{jurisdictions}'
+
+        jurisdictions = ', '.join([str(j) for j in self.jurisdiction_set.all()])
+        law_type_tags = ', '.join(self.law_type_tags or [])
+        subjective_tags = ', '.join(self.subjective_tags or [])
+
+        if jurisdictions:
+            jurisdictions = f' in {jurisdictions}'
+
+        if subjective_tags:
+            subjective_tags = f' {subjective_tags}'
+
+        if law_type_tags:
+            law_type_tags = f' {law_type_tags}'
+
+
+        return headline_format.format(
+            jurisdictions=jurisdictions,
+            tags=subjective_tags+law_type_tags
+        )
+
+    @property
+    def headline(self):
+        return f'{self.get_full_name()}, the{self._compile_headline()}'
+
+    def browsing_headline(self):
+        return f'The{self._compile_headline()}'
 
 
 class Transaction(models.Model):

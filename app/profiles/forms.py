@@ -3,12 +3,31 @@ from django.forms import ModelForm, inlineformset_factory
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
 from django_select2.forms import Select2TagWidget
-from django.conf.global_settings import LANGUAGES
 
 from .utils import LAW_TYPE_TAGS_CHOICES, SUBJECTIVE_TAGS_CHOICES, _get_states_for_country
 from .models import (Profile, Education, WorkExperience, Address, Admissions,
-                     LawSchool, Organization, Award, Transaction, Jurisdiction)
+                     LawSchool, Organization, Award, Transaction, Jurisdiction, Language)
 from clsite.settings import DEFAULT_CHOICES_SELECTION, DEFAULT_COUNTRY
+
+
+def unique_field_formset(*fields):
+    from django.forms.models import BaseInlineFormSet
+    class UniqueFieldFormSet(BaseInlineFormSet):
+        def clean(self):
+            if any(self.errors):
+                return  # Ignore if form has errors already
+            formset_values = set()
+            for form in self.forms:
+                values = []
+                for field in fields:
+                    if form.cleaned_data.get(field): values.append(form.cleaned_data.get(field))
+                form_values = '-'.join(values)  # Make a values string for quick check
+
+                if form_values in formset_values:
+                    form.add_error('__all__', 'Duplicate values.')
+                formset_values.add(form_values)
+    return UniqueFieldFormSet
+
 
 class ProfileCreationForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
@@ -66,7 +85,6 @@ class ProfileForm(ModelForm):
         model = Profile
         fields = ('first_name',
                   'last_name',
-                  'headline',
                   'summary',
                   'experience',
                   'current_job',
@@ -80,8 +98,6 @@ class ProfileForm(ModelForm):
                   'preferred_communication_method',
                   'size_of_clients',
                   'license_status',
-                  'languages',
-                  'clients',
                   'law_type_tags',
                   'subjective_tags',
                   'bio',
@@ -104,13 +120,6 @@ class ProfileForm(ModelForm):
             choices=SUBJECTIVE_TAGS_CHOICES, attrs={'class': 'form-control',
                                                     'data-maximum-selection-length': 3,
                                                     'data-token-separators': [',']}
-        )
-        self.fields['clients'].widget = MultiSelectArrayFieldWidget(
-            attrs={'class': 'form-control', 'data-token-separators': [',']}
-        )
-        self.fields['languages'].widget = MultiSelectArrayFieldWidget(
-            choices=LANGUAGES, attrs={
-                'data-tags': False, 'class': 'form-control'}
         )
 
     def save(self, commit=True):
@@ -140,6 +149,8 @@ class AddressForm(ModelForm):
                 field.widget.choices = DEFAULT_CHOICES_SELECTION + _get_states_for_country(DEFAULT_COUNTRY)
             else:
                 field.widget.attrs.update({'class': 'form-control'})
+
+        self.fields['state'].label = 'State/Province'
 
 
 class EducationForm(ModelForm):
@@ -174,8 +185,10 @@ class AdmissionsForm(ModelForm):
             else:
                 field.widget.attrs.update({'class': 'form-control'})
 
+        self.fields['state'].label = 'State/Province'
 
-AddmissionsFormSet = inlineformset_factory(Profile, Admissions,
+
+AdmissionsFormSet = inlineformset_factory(Profile, Admissions,
                                            form=AdmissionsForm, extra=1)
 
 
@@ -243,6 +256,8 @@ class LawSchoolForm(ModelForm):
             else:
                 field.widget.attrs.update({'class': 'form-control'})
 
+        self.fields['state'].label = 'State/Province'
+
 
 class TransactionForm(ModelForm):
     class Meta:
@@ -282,6 +297,31 @@ class TransactionForm(ModelForm):
         return transaction
 
 
+class ConfirmTransactionForm(ModelForm):
+    class Meta:
+        model = Transaction
+        fields = ['requestee_review', 'requestee_recommendation']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for key, field in self.fields.items():
+            field.widget.attrs.update({'class': 'form-control'})
+
+        self.fields['requestee_recommendation'].label = 'Write a brief written recommendation'
+        self.fields['requestee_review'].label = 'Would you work with them again?'
+
+
+    def save(self, is_confirmed, commit=True):
+        transaction = super().save(commit=False)
+
+        if not is_confirmed:
+            transaction.requestee_recommendation = None
+            transaction.requestee_review = None
+
+        transaction.is_confirmed = is_confirmed
+        transaction.save()
+
+
 class JurisdictionForm(ModelForm):
     class Meta:
         model = Jurisdiction
@@ -299,6 +339,20 @@ class JurisdictionForm(ModelForm):
             else:
                 field.widget.attrs.update({'class': 'form-control'})
 
+        self.fields['state'].label = 'State/Province'
 
-JurisdictionFormSet = inlineformset_factory(Profile, Jurisdiction,
-                                         form=JurisdictionForm, extra=1)
+JurisdictionFormSet = inlineformset_factory(Profile, Jurisdiction, formset=unique_field_formset('country', 'state', 'city'),
+                                            form=JurisdictionForm, extra=1)
+
+
+class LanguageForm(ModelForm):
+    class Meta:
+        model = Language
+        exclude = ('profile', )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for key, field in self.fields.items():
+            field.widget.attrs.update({'class': 'form-control'})
+
+LanguageFormSet = inlineformset_factory(Profile, Language, formset=unique_field_formset('name'), form=LanguageForm, extra=1)

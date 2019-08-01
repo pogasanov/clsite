@@ -8,10 +8,10 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView
 from itertools import groupby
 
-from .forms import ProfileForm, EducationFormSet, WorkExperienceFormSet, AddressForm, AddmissionsFormSet, LawSchoolForm, \
-    OrganizationFormSet, AwardFormSet, ProfileCreationForm, TransactionForm, JurisdictionFormSet
-from .models import Profile, Jurisdiction
-from .choices import USA_STATES
+from .forms import ProfileForm, EducationFormSet, WorkExperienceFormSet, AddressForm, AdmissionsFormSet, LawSchoolForm, \
+    OrganizationFormSet, AwardFormSet, ProfileCreationForm, TransactionForm, JurisdictionFormSet, ConfirmTransactionForm, \
+    LanguageFormSet
+from .models import Profile, Transaction, Jurisdiction
 from .utils import _get_states_for_country
 from .helpers import get_user_relationships
 from clsite.settings import DEFAULT_CHOICES_SELECTION
@@ -33,8 +33,6 @@ def user_relationships(user):
         reverse=True
     )
     relationships = []
-    states = dict(USA_STATES)
-
 
     for user_handle, transactions in sorted_user_relationships:
         relationship = {}
@@ -57,7 +55,7 @@ def user_relationships(user):
         amount_received += sum([t.value_in_usd or 0 for t in transactions if t.requestee == user and t.is_requester_principal])
         relationship['amount_received'] = amount_received
 
-        relationship['jurisdiction']= [states[j] for j in other_user.jurisdiction or []]
+        relationship['jurisdiction']= [str(j) for j in other_user.jurisdiction_set.all()]
         relationship['law_type_tags'] = other_user.law_type_tags or []
 
         if not amount_given and not amount_received:
@@ -93,17 +91,19 @@ def profile(request, handle=None):
         workexperience_formset = None
         organization_formset = None
         award_formset = None
+        language_formset = None
     else:
         user = request.user
         profile_form = ProfileForm(request.POST or None, instance=user, prefix='profile')
         jurisdiction_formset = JurisdictionFormSet(request.POST or None, instance=user, prefix='jurisdiction')
         address_form = AddressForm(request.POST or None, instance=getattr(user, 'address', None), prefix='address')
         education_formset = EducationFormSet(request.POST or None, instance=user, prefix='education')
-        admissions_formset = AddmissionsFormSet(request.POST or None, instance=user, prefix='admissions')
+        admissions_formset = AdmissionsFormSet(request.POST or None, instance=user, prefix='admissions')
         lawschool_form = LawSchoolForm(request.POST or None, instance=getattr(user, 'lawschool', None), prefix='lawschool')
         workexperience_formset = WorkExperienceFormSet(request.POST or None, instance=user, prefix='workexperience')
         organization_formset = OrganizationFormSet(request.POST or None, instance=user, prefix='organization')
         award_formset = AwardFormSet(request.POST or None, instance=user, prefix='award')
+        language_formset = LanguageFormSet(request.POST or None, instance=user, prefix='language')
 
         if request.method == 'POST':
             if request.FILES.get('photo-input'):
@@ -118,7 +118,8 @@ def profile(request, handle=None):
                         lawschool_form.is_valid() and \
                         workexperience_formset.is_valid() and \
                         organization_formset.is_valid() and \
-                        award_formset.is_valid():
+                        award_formset.is_valid() and \
+                        language_formset.is_valid():
                     profile_form.save()
                     jurisdiction_formset.instance = user
                     jurisdiction_formset.save()
@@ -138,6 +139,8 @@ def profile(request, handle=None):
                     organization_formset.save()
                     award_formset.instance = user
                     award_formset.save()
+                    language_formset.instance = user
+                    language_formset.save()
                     return JsonResponse({'message': 'Your data has been updated successfully!'})
                 else:
                     errors = {
@@ -150,6 +153,7 @@ def profile(request, handle=None):
                         'workexperience': workexperience_formset.errors,
                         'organization': organization_formset.errors,
                         'award': award_formset.errors,
+                        'language': language_formset.errors,
                         'message': 'Invalid data provided!'
                     }
                     return JsonResponse(errors, status=400)
@@ -165,6 +169,7 @@ def profile(request, handle=None):
         'workexperiences': workexperience_formset,
         'organizations': organization_formset,
         'awards': award_formset,
+        'languages': language_formset,
         'relationships': user_relationships(user)[:5] if handle else None
     })
 
@@ -183,6 +188,30 @@ def transaction(request, handle):
         return redirect('home')
 
     return render(request, "transaction.html", context={'form': transaction_form})
+
+@login_required
+def confirm_transaction(request, transaction_id):
+    user = request.user
+    user_transaction = get_object_or_404(Transaction, id=transaction_id)
+
+    if user_transaction != user.user_unconfirmed_transaction():
+        return HttpResponseBadRequest()
+
+    form = ConfirmTransactionForm(request.POST or None, instance=user_transaction)
+
+    if request.POST and form.is_valid():
+        is_confirmed = request.POST['submit'] != 'deny'
+        form.save(is_confirmed=is_confirmed)
+
+        return redirect('home')
+
+    context = {
+        'transaction': user_transaction,
+        'requester_name': user_transaction.requester.get_full_name(),
+        'form': form
+    }
+
+    return render(request, "confirm_transaction.html", context=context)
 
 
 def update_user_profile_photo(user, photo):
