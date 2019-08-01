@@ -270,8 +270,6 @@ class Transaction(models.Model):
                                         default=None, verbose_name='Requestee\'s Review', null=True)
     requestee_recommendation = models.TextField(null=True, blank=True,
                                                 default=None, verbose_name='Requestee\'s recommendation')
-    proof_receipt_requestee = models.ImageField(upload_to=get_image_path, storage=variativeStorage(),
-                                                verbose_name='Requestee\'s Transaction Proof', blank=True, null=True)
 
     is_confirmed = models.NullBooleanField(default=None, verbose_name='Confirmed from Requestee')
     is_verified = models.NullBooleanField(default=None, verbose_name='Verified from Admin')
