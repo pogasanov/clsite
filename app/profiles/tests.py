@@ -112,13 +112,15 @@ class ProfileTests(TestCase):
         call_command('loaddata', 'handcrafted', verbosity=0)
 
     def test_generate_profiles_working(self):
+        GENERATED_MODELS_COUNT = 25
+
         existing_profiles_count = Profile.objects.count()
 
-        generate_profiles(5)
+        generate_profiles(GENERATED_MODELS_COUNT)
 
         new_profiles_count = Profile.objects.count()
 
-        self.assertEqual(new_profiles_count, existing_profiles_count + 5)
+        self.assertEqual(new_profiles_count, existing_profiles_count + GENERATED_MODELS_COUNT)
 
     def test_login(self):
         # User go to homepage
