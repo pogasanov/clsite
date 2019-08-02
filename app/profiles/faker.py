@@ -8,9 +8,22 @@ from .utils import LAW_TYPE_TAGS_CHOICES, SUBJECTIVE_TAGS_CHOICES, COUNTRIES_CHO
 
 SEED_VALUE = 54321
 
+# selection occurrence percentage
+PERCENTAGE_ZERO = 0.05
+PERCENTAGE_ONE = 0.65
+PERCENTAGE_TWO = 0.20
+PERCENTAGE_THREE = 0.05
+PERCENTAGE_FOUR = 0.01
+
+ZERO_SELECTION = 0
+ONE_SELECTION = 1
+TWO_SELECTIONS = 2
+THREE_SELECTIONS = 3
+FOUR_SELECTIONS = 4
+
 
 class ProfileProvider(BaseProvider):
-    def profile(self):
+    def profile(self, law_tags_count, subjective_tags_count):
         return Profile(
             # Abstract user fields
             # Password is 'password'
@@ -29,10 +42,10 @@ class ProfileProvider(BaseProvider):
             size_of_clients=self.generator.pyint(min=0, max=3, step=1),
             preferred_communication_method=self.generator.pyint(min=0, max=3, step=1),
             license_status=self.generator.pyint(min=0, max=1, step=1),
-            law_type_tags=[self.get_random_law_type_tag()],
-            subjective_tags=[self.get_random_subjective_tag()],
+            law_type_tags=[self.get_random_law_type_tag() for x in list(range(law_tags_count))],
+            subjective_tags=[self.get_random_subjective_tag() for x in list(range(subjective_tags_count))],
             summary=self.generator.catch_phrase(),
-            headline=self.generator.catch_phrase(),
+            # headline=self.generator.catch_phrase(),
             website=self.generator.uri(),
             twitter=self.generator.word(),
             linkedin=self.generator.word(),
@@ -133,8 +146,8 @@ class ProfileProvider(BaseProvider):
             city=city
         )
 
-    def full_profile(self):
-        profile = self.profile()
+    def full_profile(self, law_tags_count, subjective_tags_count):
+        profile = self.profile(law_tags_count, subjective_tags_count)
         address = self.address()
         education = self.education()
         admission = self.admission()
@@ -146,11 +159,43 @@ class ProfileProvider(BaseProvider):
         return profile, address, education, admission, law_school, work_experience, organization, award, jurisdiction
 
 
+def get_selection_randomization(count):
+    indices_list = range(count)
+
+    zero_selection_indices = random.sample(indices_list, int(PERCENTAGE_ZERO * count))
+    indices_list = list(set(indices_list) - set(zero_selection_indices))
+
+    one_selection_indices = random.sample(indices_list, int(PERCENTAGE_ONE * count))
+    indices_list = list(set(indices_list) - set(one_selection_indices))
+
+    two_selections_indices = random.sample(indices_list, int(PERCENTAGE_TWO * count))
+    indices_list = list(set(indices_list) - set(two_selections_indices))
+
+    three_selections_indices = random.sample(indices_list, int(PERCENTAGE_THREE * count))
+    indices_list = list(set(indices_list) - set(three_selections_indices))
+
+    four_selection_indices = random.sample(indices_list, int(PERCENTAGE_FOUR * count))
+
+    return {
+        ZERO_SELECTION: zero_selection_indices,
+        ONE_SELECTION: one_selection_indices,
+        TWO_SELECTIONS: two_selections_indices,
+        THREE_SELECTIONS: three_selections_indices,
+        FOUR_SELECTIONS: four_selection_indices
+    }
+
+
 def generate_profiles(count=100):
     random.seed(SEED_VALUE)
     fake = Faker()
     fake.seed(SEED_VALUE)
     fake.add_provider(ProfileProvider)
+
+    law_tags_randomization = get_selection_randomization(count)
+    subjective_tags_randomization = get_selection_randomization(count)
+    law_tags_count = 0
+    subjective_tags_count = 0
+
     profiles = []
     addresses = []
     educations = []
@@ -161,8 +206,18 @@ def generate_profiles(count=100):
     awards = []
     jurisdictions = []
     with transaction.atomic():
-        for _ in range(count):
-            full_profile = fake.full_profile()
+        for index in range(count):
+
+            for key, value in law_tags_randomization.items():
+                if index in value:
+                    law_tags_count = key
+                    break
+            for key, value in subjective_tags_randomization.items():
+                if index in value:
+                    subjective_tags_count = key
+                    break
+
+            full_profile = fake.full_profile(law_tags_count, subjective_tags_count)
             profiles.append(full_profile[0])
             addresses.append(full_profile[1])
             educations.append(full_profile[2])
