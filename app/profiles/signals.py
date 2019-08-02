@@ -8,4 +8,4 @@ from .models import Profile, Language
 @receiver(post_save, sender=Profile)
 def create_default_language_for_profile(sender, instance, created, **kwargs):
     if created:
-        Language.objects.create(profile=instance,name='en')
+        Language.objects.create(profile=instance, name=settings.DEFAULT_USER_LANGUAGE)
