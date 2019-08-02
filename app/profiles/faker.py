@@ -45,7 +45,6 @@ class ProfileProvider(BaseProvider):
             law_type_tags=[self.get_random_law_type_tag() for x in list(range(law_tags_count))],
             subjective_tags=[self.get_random_subjective_tag() for x in list(range(subjective_tags_count))],
             summary=self.generator.catch_phrase(),
-            # headline=self.generator.catch_phrase(),
             website=self.generator.uri(),
             twitter=self.generator.word(),
             linkedin=self.generator.word(),
