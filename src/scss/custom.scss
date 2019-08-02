@@ -93,6 +93,9 @@ input[type=number] {
 }
 
 .relationship-card {
+  .text-center{
+    max-width: 100%;
+  }
   .badge{
     text-overflow: ellipsis;
     max-width: 100%;
