@@ -11,6 +11,7 @@ class ProfileTests(TestCase):
     @classmethod
     def setUpTestData(cls):
         cls.signup_credentials = {
+            'full_name': 'Test User',
             'email': 'test_user@gmail.com',
             'password': 'test_password'
         }
@@ -24,11 +25,13 @@ class ProfileTests(TestCase):
         }
 
         cls.new_user_data = {
+            'full_name': 'Test User New',
             'email': 'test_user_new@gmail.com',
             'password1': 'test_password',
             'password2': 'test_password'
         }
         cls.incorrect_new_user_data = {
+            'full_name': 'Test User',
             'email': 'test_user@gmail.com',
             'password1': 'test_password',
             'password2': 'test_password'
@@ -40,7 +43,6 @@ class ProfileTests(TestCase):
             'profile-bio': 'Test bio',
             'profile-phone': '+7(923)111-11-11',
             'profile-email': 'test@example.com',
-            'profile-handle': 'john',
             'profile-website': 'http://www.test.com',
             'profile-twitter': 'Test twitter',
             'profile-linkedin': 'Test linkedin',
@@ -189,7 +191,7 @@ class ProfileTests(TestCase):
         self.assertEqual(response.json().get('message'), 'Your data has been updated successfully!')
 
         # Go to profile view page to see the updated data
-        response = self.client.get('/profile/' + self.correct_update_data['profile-handle'])
+        response = self.client.get('/profile/' + '-'.join(self.signup_credentials['full_name'].lower().split(' ')))
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context['user'].full_name, self.correct_update_data['profile-full_name'])
         self.assertEqual(response.context['user'].summary, self.correct_update_data['profile-summary'])
