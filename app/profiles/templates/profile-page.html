@@ -23,7 +23,7 @@
                             </div>
                             {% if not form %}
                                 <div class="name">
-                                    <h3 class="title">{{ selected_user.first_name }} {{ selected_user.last_name }}</h3>
+                                    <h3 class="title">{{ selected_user.full_name }}</h3>
 
                                     {% if selected_user.headline %}
                                         <h5>{{ selected_user.headline }}</h5>
@@ -62,7 +62,7 @@
                                     {% endif %}
                                 </div>
                                 {% if user != selected_user %}
-                                    <a href="{% url 'create_transaction' selected_user.handle %}" class="btn col-md-6">Add Correspondence with {{ selected_user.first_name }} {{ selected_user.last_name }}</a>
+                                    <a href="{% url 'create_transaction' selected_user.handle %}" class="btn col-md-6">Add Correspondence with {{ selected_user.full_name }}</a>
                                 {% endif %}
                                 <div class="description text-center">
                                     <p>{{ selected_user.bio|safe }}</p>
@@ -292,17 +292,10 @@
                                     {% csrf_token %}
 
                                     <div class="row">
-                                        <div class="col-md-6 field">
-                                            {{ form.first_name.label_tag }}
-                                            {{ form.first_name }}
-                                            {% for error in form.first_name.errors %}
-                                                <span style="color: red;">[{{ error }}]</span>
-                                            {% endfor %}
-                                        </div>
-                                        <div class="col-md-6 field">
-                                            {{ form.last_name.label_tag }}
-                                            {{ form.last_name }}
-                                            {% for error in form.last_name.errors %}
+                                        <div class="col-md-12 field">
+                                            {{ form.full_name.label_tag }}
+                                            {{ form.full_name }}
+                                            {% for error in form.full_name.errors %}
                                                 <span style="color: red;">[{{ error }}]</span>
                                             {% endfor %}
                                         </div>
