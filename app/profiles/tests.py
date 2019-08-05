@@ -34,8 +34,7 @@ class ProfileTests(TestCase):
             'password2': 'test_password'
         }
         cls.correct_update_data = {
-            'profile-first_name': 'John',
-            'profile-last_name': 'Doe',
+            'profile-full_name': 'John Doe',
             'profile-languages': 'ru,en',
             'profile-summary': 'Test Summary for having 5 years of experience in the field of shipping.',
             'profile-bio': 'Test bio',
@@ -78,8 +77,7 @@ class ProfileTests(TestCase):
 
         }
         cls.incorrect_update_data = {
-            'profile-first_name': 'John',
-            'profile-last_name': 'Doe',
+            'profile-full_name': 'John Doe',
             'profile-bio': 'Test bio',
             'profile-website': 'http://www.test.com',
             'profile-twitter': 'Test twitter',
@@ -193,8 +191,7 @@ class ProfileTests(TestCase):
         # Go to profile view page to see the updated data
         response = self.client.get('/profile/' + self.correct_update_data['profile-handle'])
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.context['user'].first_name, self.correct_update_data['profile-first_name'])
-        self.assertEqual(response.context['user'].last_name, self.correct_update_data['profile-last_name'])
+        self.assertEqual(response.context['user'].full_name, self.correct_update_data['profile-full_name'])
         self.assertEqual(response.context['user'].summary, self.correct_update_data['profile-summary'])
         self.assertEqual(response.context['user'].bio, self.correct_update_data['profile-bio'])
         self.assertEqual(response.context['user'].website, self.correct_update_data['profile-website'])
