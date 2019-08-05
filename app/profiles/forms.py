@@ -32,7 +32,7 @@ def unique_field_formset(*fields):
 class ProfileCreationForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model = get_user_model()
-        fields = ('email',)
+        fields = ('email', 'full_name')
 
 
 class MultiSelectArrayFieldWidget(Select2TagWidget):
@@ -78,13 +78,10 @@ class DynamicMultiSelectArrayFieldWidget(MultiSelectArrayFieldWidget):
 
 
 class ProfileForm(ModelForm):
-    first_name = forms.CharField(max_length=30)
-    last_name = forms.CharField(max_length=150)
 
     class Meta:
         model = Profile
-        fields = ('first_name',
-                  'last_name',
+        fields = ('full_name',
                   'summary',
                   'experience',
                   'current_job',
@@ -106,8 +103,7 @@ class ProfileForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        self.fields['first_name'].initial = self.instance.first_name
-        self.fields['last_name'].initial = self.instance.last_name
+        self.fields['handle'].disabled = True
 
         for key, field in self.fields.items():
             field.widget.attrs.update({'class': 'form-control'})
@@ -124,10 +120,6 @@ class ProfileForm(ModelForm):
 
     def save(self, commit=True):
         updated_profile = super().save(commit=False)
-        updated_profile.first_name = self.cleaned_data.get(
-            'first_name', updated_profile.first_name)
-        updated_profile.last_name = self.cleaned_data.get(
-            'last_name', updated_profile.last_name)
         updated_profile.subjective_tags = list(map(str.capitalize, self.cleaned_data.get('subjective_tags')))
         updated_profile.save()
         return updated_profile
