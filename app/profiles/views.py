@@ -38,7 +38,7 @@ def user_relationships(user):
         relationship = {}
 
         other_user = get_object_or_404(get_user_model(), handle=user_handle)
-        relationship['name'] = other_user.get_full_name()
+        relationship['name'] = other_user.full_name
         relationship['url'] = reverse('profile', args=[other_user.handle])
         relationship['photo'] = other_user.photo_url_or_default()
 
@@ -207,7 +207,8 @@ def confirm_transaction(request, transaction_id):
 
     context = {
         'transaction': user_transaction,
-        'requester_name': user_transaction.requester.get_full_name(),
+        'requester_name': user_transaction.requester.full_name,
+        'requester_photo': user_transaction.requester.photo,
         'form': form
     }
 
