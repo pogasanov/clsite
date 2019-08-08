@@ -207,7 +207,6 @@ def confirm_transaction(request, transaction_id):
 
     context = {
         'transaction': user_transaction,
-        'requester_name': user_transaction.requester.full_name,
         'form': form
     }
 

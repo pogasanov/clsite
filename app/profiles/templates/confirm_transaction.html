@@ -18,7 +18,7 @@
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-md-9">
-                                            <p>Transaction with: {{ requester_name }}</p>
+                                            <p>Transaction with: {{ transaction.requester.full_name }}</p>
                                             <p>Amount Direction:
                                                 {% if transaction.is_requester_principal %}
                                                 They paid me
@@ -30,7 +30,7 @@
                                             <p>On Date: {{ transaction.date }}</p>
                                         </div>
                                         <div class="col-md-3">
-                                            <img class="d-block mx-auto card--user__avatar" alt="{{ requester_name }}"
+                                            <img class="d-block mx-auto card--user__avatar" alt="{{ transaction.requester.full_name }}"
                                                  src="{{ transaction.requester.photo_url_or_default }}">
                                         </div>
                                     </div>
