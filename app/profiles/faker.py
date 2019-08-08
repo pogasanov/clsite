@@ -12,8 +12,7 @@ class ProfileProvider(BaseProvider):
             # Password is 'password'
             handle=self.generator.user_name(),
             email=self.generator.email(),
-            first_name=self.generator.first_name(),
-            last_name=self.generator.last_name(),
+            full_name=self.generator.first_name() + " " + self.generator.last_name(),
             password='pbkdf2_sha256$150000$2bhhJByaRefj$YjOjogq8+zzorhEeQgTyLYFSZD+tOLgYNeOWbSYhIVg=',
             date_joined=self.generator.date_object(),
 
