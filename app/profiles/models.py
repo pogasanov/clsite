@@ -87,8 +87,8 @@ class Award(models.Model):
 
 class Language(models.Model):
     PROFICIENCY_LEVEL = (('NS', 'Native speaker'),
-                        ('PF', 'professional fluency'),
-                        ('CF', 'conversational fluency'))
+                        ('PF', 'Professional fluency'),
+                        ('CF', 'Conversational fluency'))
 
     profile = models.ForeignKey('Profile', on_delete=models.CASCADE, verbose_name='Profile')
     name = models.CharField(max_length=10, choices=LANGUAGES)

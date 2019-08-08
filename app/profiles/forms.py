@@ -355,4 +355,4 @@ class LanguageForm(ModelForm):
         for key, field in self.fields.items():
             field.widget.attrs.update({'class': 'form-control'})
 
-LanguageFormSet = inlineformset_factory(Profile, Language, formset=unique_field_formset('name'), form=LanguageForm, extra=1)
+LanguageFormSet = inlineformset_factory(Profile, Language, formset=unique_field_formset('name'), form=LanguageForm, extra=0)

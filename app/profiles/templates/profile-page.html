@@ -586,8 +586,10 @@
                                                     </div>
                                                     <div class="col-md-4 field">
                                                         {% if languages.can_delete %}
-                                                            {{ language.DELETE.label_tag }}</br>
-                                                            {{ language.DELETE }}
+                                                            {%  if not forloop.first %}
+                                                                {{ language.DELETE.label_tag }}</br>
+                                                                {{ language.DELETE }}
+                                                            {% endif %}
                                                         {% endif %}
                                                     </div>
                                                 </div>
