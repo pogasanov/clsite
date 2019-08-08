@@ -16,16 +16,24 @@
                             </div>
                             <div class="form-group row card">
                                 <div class="card-body">
-                                    <p>Transaction Requester: {{ requester_name }}</p>
-                                    <p>Amount Direction:
-                                        {% if transaction.is_requester_principal %}
-                                            You were paid
-                                        {% else %}
-                                            You paid
-                                        {% endif %}
-                                    </p>
-                                    <p>Amount: {{ transaction.amount }} {{ transaction.currency }}</p>
-                                    <p>On Date: {{ transaction.date }}</p>
+                                    <div class="row">
+                                        <div class="col-md-9">
+                                            <p>Transaction with: {{ requester_name }}</p>
+                                            <p>Amount Direction:
+                                                {% if transaction.is_requester_principal %}
+                                                They paid me
+                                                {% else %}
+                                                I paid them
+                                                {% endif %}
+                                            </p>
+                                            <p>Amount: {{ transaction.amount }} {{ transaction.currency }}</p>
+                                            <p>On Date: {{ transaction.date }}</p>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <img class="d-block mx-auto card--user__avatar" alt="{{ requester_name }}"
+                                                 src="{{ transaction.requester.photo_url_or_default }}">
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <form class="form-block transcation-form" action="" method="post"
