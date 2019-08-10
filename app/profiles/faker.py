@@ -1,5 +1,6 @@
 from faker.providers import BaseProvider
 from faker import Faker
+import numpy as np
 from django.db import transaction
 import random
 
@@ -9,7 +10,7 @@ from .utils import LAW_TYPE_TAGS_CHOICES, SUBJECTIVE_TAGS_CHOICES, COUNTRIES_CHO
 SEED_VALUE = 54321
 
 # selection occurrence percentage
-PERCENTAGE_ZERO = 0.05
+PERCENTAGE_ZERO = 0.09
 PERCENTAGE_ONE = 0.65
 PERCENTAGE_TWO = 0.20
 PERCENTAGE_THREE = 0.05
@@ -21,6 +22,14 @@ TWO_SELECTIONS = 2
 THREE_SELECTIONS = 3
 FOUR_SELECTIONS = 4
 
+STATE_PROBABILITY_MATRIX = [PERCENTAGE_ZERO, PERCENTAGE_ONE, PERCENTAGE_TWO, PERCENTAGE_THREE, PERCENTAGE_FOUR]
+STATE_TRANSITION_MATRIX = [
+    ['00', '01', '02', '03', '04'],
+    ['10', '11', '12', '13', '14'],
+    ['20', '21', '22', '23', '24'],
+    ['30', '31', '32', '33', '34'],
+    ['40', '41', '42', '43', '44']
+]
 
 class ProfileProvider(BaseProvider):
     def profile(self, law_tags_count, subjective_tags_count):
@@ -42,8 +51,8 @@ class ProfileProvider(BaseProvider):
             size_of_clients=self.generator.pyint(min=0, max=3, step=1),
             preferred_communication_method=self.generator.pyint(min=0, max=3, step=1),
             license_status=self.generator.pyint(min=0, max=1, step=1),
-            law_type_tags=[self.get_random_law_type_tag() for x in list(range(law_tags_count))],
-            subjective_tags=[self.get_random_subjective_tag() for x in list(range(subjective_tags_count))],
+            law_type_tags=[self.get_random_law_type_tag() for x in range(law_tags_count)],
+            subjective_tags=[self.get_random_subjective_tag() for x in range(subjective_tags_count)],
             summary=self.generator.catch_phrase(),
             website=self.generator.uri(),
             twitter=self.generator.word(),
@@ -158,42 +167,19 @@ class ProfileProvider(BaseProvider):
         return profile, address, education, admission, law_school, work_experience, organization, award, jurisdiction
 
 
-def get_selection_randomization(count):
-    indices_list = range(count)
-
-    zero_selection_indices = random.sample(indices_list, int(PERCENTAGE_ZERO * count))
-    indices_list = list(set(indices_list) - set(zero_selection_indices))
-
-    one_selection_indices = random.sample(indices_list, int(PERCENTAGE_ONE * count))
-    indices_list = list(set(indices_list) - set(one_selection_indices))
-
-    two_selections_indices = random.sample(indices_list, int(PERCENTAGE_TWO * count))
-    indices_list = list(set(indices_list) - set(two_selections_indices))
-
-    three_selections_indices = random.sample(indices_list, int(PERCENTAGE_THREE * count))
-    indices_list = list(set(indices_list) - set(three_selections_indices))
-
-    four_selection_indices = random.sample(indices_list, int(PERCENTAGE_FOUR * count))
-
-    return {
-        ZERO_SELECTION: zero_selection_indices,
-        ONE_SELECTION: one_selection_indices,
-        TWO_SELECTIONS: two_selections_indices,
-        THREE_SELECTIONS: three_selections_indices,
-        FOUR_SELECTIONS: four_selection_indices
-    }
-
+def get_current_markov_count(previous_state):
+    next_transition = np.random.choice(STATE_TRANSITION_MATRIX[previous_state], replace=True, p=STATE_PROBABILITY_MATRIX)
+    return int(next_transition[-1])
 
 def generate_profiles(count=100):
     random.seed(SEED_VALUE)
+    np.random.seed(SEED_VALUE)
     fake = Faker()
     fake.seed(SEED_VALUE)
     fake.add_provider(ProfileProvider)
 
-    law_tags_randomization = get_selection_randomization(count)
-    subjective_tags_randomization = get_selection_randomization(count)
-    law_tags_count = 0
-    subjective_tags_count = 0
+    law_tags_previous_count = 4
+    subjective_tags_previous_count = 4
 
     profiles = []
     addresses = []
@@ -206,17 +192,9 @@ def generate_profiles(count=100):
     jurisdictions = []
     with transaction.atomic():
         for index in range(count):
-
-            for key, value in law_tags_randomization.items():
-                if index in value:
-                    law_tags_count = key
-                    break
-            for key, value in subjective_tags_randomization.items():
-                if index in value:
-                    subjective_tags_count = key
-                    break
-
-            full_profile = fake.full_profile(law_tags_count, subjective_tags_count)
+            subjective_tags_current_count = get_current_values_count(subjective_tags_previous_count)
+            law_tags_current_count = get_current_values_count(law_tags_previous_count)
+            full_profile = fake.full_profile(law_tags_current_count, subjective_tags_current_count)
             profiles.append(full_profile[0])
             addresses.append(full_profile[1])
             educations.append(full_profile[2])
