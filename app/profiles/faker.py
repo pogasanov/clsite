@@ -31,6 +31,15 @@ STATE_TRANSITION_MATRIX = [
     ['40', '41', '42', '43', '44']
 ]
 
+def get_current_count_markov_chain(previous_state):
+    next_transition = np.random.choice(
+        STATE_TRANSITION_MATRIX[previous_state],
+        replace=True,
+        p=STATE_PROBABILITY_MATRIX
+    )
+    return int(next_transition[-1])
+
+
 class ProfileProvider(BaseProvider):
     def profile(self, law_tags_count, subjective_tags_count):
         return Profile(
@@ -167,10 +176,6 @@ class ProfileProvider(BaseProvider):
         return profile, address, education, admission, law_school, work_experience, organization, award, jurisdiction
 
 
-def get_current_markov_count(previous_state):
-    next_transition = np.random.choice(STATE_TRANSITION_MATRIX[previous_state], replace=True, p=STATE_PROBABILITY_MATRIX)
-    return int(next_transition[-1])
-
 def generate_profiles(count=100):
     random.seed(SEED_VALUE)
     np.random.seed(SEED_VALUE)
@@ -192,8 +197,8 @@ def generate_profiles(count=100):
     jurisdictions = []
     with transaction.atomic():
         for index in range(count):
-            subjective_tags_current_count = get_current_markov_count(subjective_tags_previous_count)
-            law_tags_current_count = get_current_markov_count(law_tags_previous_count)
+            subjective_tags_current_count = get_current_count_markov_chain(subjective_tags_previous_count)
+            law_tags_current_count = get_current_count_markov_chain(law_tags_previous_count)
             full_profile = fake.full_profile(law_tags_current_count, subjective_tags_current_count)
             profiles.append(full_profile[0])
             addresses.append(full_profile[1])
