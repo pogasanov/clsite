@@ -38,7 +38,7 @@ def user_relationships(user):
         relationship = {}
 
         other_user = get_object_or_404(get_user_model(), handle=user_handle)
-        relationship['name'] = other_user.get_full_name()
+        relationship['name'] = other_user.full_name
         relationship['url'] = reverse('profile', args=[other_user.handle])
         relationship['photo'] = other_user.photo_url_or_default()
 
@@ -207,7 +207,6 @@ def confirm_transaction(request, transaction_id):
 
     context = {
         'transaction': user_transaction,
-        'requester_name': user_transaction.requester.get_full_name(),
         'form': form
     }
 
@@ -266,7 +265,7 @@ class UserListView(LoginRequiredMixin, ListView):
         profiles_law_type_tags = list_users.only('law_type_tags')
         usage_list_law_type_tags = self.get_flat_tags_and_usage(profiles_law_type_tags)
 
-        list_jurisdictions = Jurisdiction.objects.values_list('state', flat=True)
+        list_jurisdictions = Jurisdiction.objects.exclude(state=None).values_list('state', flat=True)  # gets only non-null states entries
         usage_list_jurisdictions = [{"name": tag, "occurrence": len(list(group))} for tag, group in groupby(sorted(list_jurisdictions))]
         usage_list_jurisdictions = sorted(usage_list_jurisdictions, key=lambda k: k['occurrence'], reverse=True)
 

@@ -158,6 +158,7 @@ class Profile(AbstractUser):
         (1, 'In good standing')
     )
     username = None
+    full_name = models.CharField(max_length=100, null=True)
 
     handle = models.CharField(max_length=50, unique=True, null=True, blank=True)
     email = models.EmailField(verbose_name='Email address', unique=True)
@@ -200,7 +201,10 @@ class Profile(AbstractUser):
     def save(self, *args, **kwargs):
         super(Profile, self).save(*args, **kwargs)
         if not self.handle:
-            self.handle = self.email.split('@')[0] + str(self.id)
+            reference = '-'.join(self.full_name.lower().split(' '))
+            full_name_profiles = Profile.objects.filter(handle=reference).count()
+            reference_id = str(full_name_profiles + 1) if full_name_profiles else ''
+            self.handle = reference + reference_id
             self.save(*args, **kwargs)
 
     def photo_url_or_default(self):
@@ -235,7 +239,8 @@ class Profile(AbstractUser):
 
     @property
     def headline(self):
-        return f'{self.get_full_name()}, the{self._compile_headline()}'
+        name_or_handle = self.full_name if self.full_name else self.handle
+        return f'{name_or_handle}, the{self._compile_headline()}'
 
     def browsing_headline(self):
         return f'The{self._compile_headline()}'
