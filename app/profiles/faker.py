@@ -192,8 +192,8 @@ def generate_profiles(count=100):
     jurisdictions = []
     with transaction.atomic():
         for index in range(count):
-            subjective_tags_current_count = get_current_values_count(subjective_tags_previous_count)
-            law_tags_current_count = get_current_values_count(law_tags_previous_count)
+            subjective_tags_current_count = get_current_markov_count(subjective_tags_previous_count)
+            law_tags_current_count = get_current_markov_count(law_tags_previous_count)
             full_profile = fake.full_profile(law_tags_current_count, subjective_tags_current_count)
             profiles.append(full_profile[0])
             addresses.append(full_profile[1])
