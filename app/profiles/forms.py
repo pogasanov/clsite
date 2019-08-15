@@ -1,13 +1,13 @@
 from django import forms
-from django.forms import ModelForm, inlineformset_factory
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
+from django.contrib.auth.forms import UserCreationForm
+from django.forms import ModelForm, inlineformset_factory
 from django_select2.forms import Select2TagWidget
 
-from .utils import LAW_TYPE_TAGS_CHOICES, SUBJECTIVE_TAGS_CHOICES, _get_states_for_country
+from clsite.settings import DEFAULT_CHOICES_SELECTION, DEFAULT_COUNTRY
 from .models import (Profile, Education, WorkExperience, Address, Admissions,
                      LawSchool, Organization, Award, Transaction, Jurisdiction, Language)
-from clsite.settings import DEFAULT_CHOICES_SELECTION, DEFAULT_COUNTRY
+from .utils import LAW_TYPE_TAGS_CHOICES, SUBJECTIVE_TAGS_CHOICES, _get_states_for_country
 
 
 def unique_field_formset(*fields):
@@ -26,6 +26,7 @@ def unique_field_formset(*fields):
                 if form_values in formset_values:
                     form.add_error('__all__', 'Duplicate values.')
                 formset_values.add(form_values)
+
     return UniqueFieldFormSet
 
 
@@ -70,7 +71,7 @@ class DynamicMultiSelectArrayFieldWidget(MultiSelectArrayFieldWidget):
             if tag_name in values:
                 selected_tags.append((None, item, values.index(tag_name)))
             else:
-                available_tags.append((None, item, index+len(values)))
+                available_tags.append((None, item, index + len(values)))
         # pre-append selected tags of into options
         options = sorted(selected_tags, key=lambda tag: tag[-1])
         options.extend(available_tags)
@@ -78,7 +79,6 @@ class DynamicMultiSelectArrayFieldWidget(MultiSelectArrayFieldWidget):
 
 
 class ProfileForm(ModelForm):
-
     class Meta:
         model = Profile
         fields = ('full_name',
@@ -130,10 +130,10 @@ class AddressForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for key, field in self.fields.items():
-            if key=='country':
+            if key == 'country':
                 field.widget.attrs.update({'class': 'form-control country'})
                 field.initial = DEFAULT_COUNTRY
-            elif key=='state':
+            elif key == 'state':
                 field.widget = forms.Select(attrs={'class': 'form-control'})
                 field.widget.choices = DEFAULT_CHOICES_SELECTION + _get_states_for_country(DEFAULT_COUNTRY)
             else:
@@ -165,10 +165,10 @@ class AdmissionsForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for key, field in self.fields.items():
-            if key=='country':
+            if key == 'country':
                 field.widget.attrs.update({'class': 'form-control country'})
                 field.initial = DEFAULT_COUNTRY
-            elif key=='state':
+            elif key == 'state':
                 field.widget = forms.Select(attrs={'class': 'form-control'})
                 field.widget.choices = DEFAULT_CHOICES_SELECTION + _get_states_for_country(DEFAULT_COUNTRY)
             else:
@@ -178,7 +178,7 @@ class AdmissionsForm(ModelForm):
 
 
 AdmissionsFormSet = inlineformset_factory(Profile, Admissions,
-                                           form=AdmissionsForm, extra=1)
+                                          form=AdmissionsForm, extra=1)
 
 
 class WorkExperienceForm(ModelForm):
@@ -236,10 +236,10 @@ class LawSchoolForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for key, field in self.fields.items():
-            if key=='country':
+            if key == 'country':
                 field.widget.attrs.update({'class': 'form-control country'})
                 field.initial = DEFAULT_COUNTRY
-            elif key=='state':
+            elif key == 'state':
                 field.widget = forms.Select(attrs={'class': 'form-control'})
                 field.widget.choices = DEFAULT_CHOICES_SELECTION + _get_states_for_country(DEFAULT_COUNTRY)
             else:
@@ -299,7 +299,6 @@ class ConfirmTransactionForm(ModelForm):
         self.fields['requestee_recommendation'].label = 'Write a brief written recommendation'
         self.fields['requestee_review'].label = 'Would you work with them again?'
 
-
     def save(self, is_confirmed, commit=True):
         transaction = super().save(commit=False)
 
@@ -319,10 +318,10 @@ class JurisdictionForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for key, field in self.fields.items():
-            if key=='country':
+            if key == 'country':
                 field.widget.attrs.update({'class': 'form-control country'})
                 field.initial = DEFAULT_COUNTRY
-            elif key=='state':
+            elif key == 'state':
                 field.widget = forms.Select(attrs={'class': 'form-control'})
                 field.widget.choices = DEFAULT_CHOICES_SELECTION + _get_states_for_country(DEFAULT_COUNTRY)
             else:
@@ -330,18 +329,22 @@ class JurisdictionForm(ModelForm):
 
         self.fields['state'].label = 'State/Province'
 
-JurisdictionFormSet = inlineformset_factory(Profile, Jurisdiction, formset=unique_field_formset('country', 'state', 'city'),
+
+JurisdictionFormSet = inlineformset_factory(Profile, Jurisdiction,
+                                            formset=unique_field_formset('country', 'state', 'city'),
                                             form=JurisdictionForm, extra=1)
 
 
 class LanguageForm(ModelForm):
     class Meta:
         model = Language
-        exclude = ('profile', )
+        exclude = ('profile',)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for key, field in self.fields.items():
             field.widget.attrs.update({'class': 'form-control'})
 
-LanguageFormSet = inlineformset_factory(Profile, Language, formset=unique_field_formset('name'), form=LanguageForm, extra=0)
+
+LanguageFormSet = inlineformset_factory(Profile, Language, formset=unique_field_formset('name'), form=LanguageForm,
+                                        extra=0)
