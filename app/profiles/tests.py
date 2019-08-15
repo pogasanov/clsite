@@ -62,6 +62,14 @@ class ProfileTests(TestCase):
             'lawschool-country': 'United States of America',
             'lawschool-state': 'Alabama',
 
+            'jurisdiction-0-id': '',
+            'jurisdiction-0-country': 'United States of America',
+            'jurisdiction-0-state': 'Arizona',
+            'jurisdiction-0-city': 'City',
+
+            'language-0-name': 'en',
+            'language-0-proficiency_level': 'NS',
+
             'education-TOTAL_FORMS': 0,
             'education-INITIAL_FORMS': 0,
             'admissions-TOTAL_FORMS': 0,
@@ -72,9 +80,9 @@ class ProfileTests(TestCase):
             'organization-INITIAL_FORMS': 0,
             'award-TOTAL_FORMS': 0,
             'award-INITIAL_FORMS': 0,
-            'jurisdiction-TOTAL_FORMS': 0,
+            'jurisdiction-TOTAL_FORMS': 1,
             'jurisdiction-INITIAL_FORMS': 0,
-            'language-TOTAL_FORMS': 0,
+            'language-TOTAL_FORMS': 1,
             'language-INITIAL_FORMS': 0
 
         }
