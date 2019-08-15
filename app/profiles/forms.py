@@ -332,7 +332,7 @@ class JurisdictionForm(ModelForm):
 
 JurisdictionFormSet = inlineformset_factory(Profile, Jurisdiction,
                                             formset=unique_field_formset('country', 'state', 'city'),
-                                            form=JurisdictionForm, extra=1)
+                                            form=JurisdictionForm, extra=1, min_num=1, validate_min=True)
 
 
 class LanguageForm(ModelForm):
