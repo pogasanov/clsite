@@ -158,7 +158,7 @@ class Profile(AbstractUser):
         (1, 'In good standing')
     )
     username = None
-    full_name = models.CharField(max_length=100, null=True)
+    full_name = models.CharField(max_length=100)
 
     handle = models.CharField(max_length=50, unique=True, null=True, blank=True)
     email = models.EmailField(verbose_name='Email address', unique=True)
