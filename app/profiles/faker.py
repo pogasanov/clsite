@@ -23,7 +23,6 @@ class ProfileProvider(BaseProvider):
             current_job=self.generator.job(),
             size_of_clients=self.generator.pyint(min=0, max=3, step=1),
             preferred_communication_method=self.generator.pyint(min=0, max=3, step=1),
-            license_status=self.generator.pyint(min=0, max=1, step=1),
             jurisdiction=[self.generator.state_abbr()],
             website=self.generator.uri(),
             twitter=self.generator.word(),
