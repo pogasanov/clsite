@@ -93,7 +93,6 @@ class ProfileForm(ModelForm):
                   'email',
                   'preferred_communication_method',
                   'size_of_clients',
-                  'license_status',
                   'law_type_tags',
                   'subjective_tags',
                   'bio',

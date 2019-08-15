@@ -153,10 +153,6 @@ class Profile(AbstractUser):
         (2, 'Call'),
         (3, 'In-Person')
     )
-    LICENSE_STATUSES = (
-        (0, 'Active'),
-        (1, 'In good standing')
-    )
     username = None
     full_name = models.CharField(max_length=100)
 
@@ -175,8 +171,6 @@ class Profile(AbstractUser):
                                                                       verbose_name='Preferred communication method',
                                                                       blank=True, null=True)
 
-    license_status = models.PositiveSmallIntegerField(choices=LICENSE_STATUSES, verbose_name='License Status',
-                                                      blank=True, null=True)
     law_type_tags = ArrayField(
         models.CharField(max_length=50),
         verbose_name='Law Type Tags', blank=True, null=True
