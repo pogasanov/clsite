@@ -91,7 +91,6 @@ class ProfileForm(ModelForm):
                   'facebook',
                   'phone',
                   'email',
-                  'handle',
                   'preferred_communication_method',
                   'size_of_clients',
                   'license_status',
@@ -102,8 +101,6 @@ class ProfileForm(ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-
-        self.fields['handle'].disabled = True
 
         for key, field in self.fields.items():
             field.widget.attrs.update({'class': 'form-control'})
