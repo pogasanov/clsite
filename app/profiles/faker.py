@@ -166,16 +166,17 @@ class ProfileProvider(BaseProvider):
         )
 
     def full_profile(self):
-        profile = self.profile()
-        address = self.address()
-        education = self.education()
-        admission = self.admission()
-        law_school = self.law_school()
-        work_experience = self.work_experience()
-        organization = self.organization()
-        award = self.award()
-        jurisdiction = self.jurisdiction()
-        return profile, address, education, admission, law_school, work_experience, organization, award, jurisdiction
+        return {
+            "profile": self.profile(),
+            "address": self.address(),
+            "education": self.education(),
+            "admission": self.admission(),
+            "law_school": self.law_school(),
+            "work_experience": self.work_experience(),
+            "organization": self.organization(),
+            "award": self.award(),
+            "jurisdiction": self.jurisdiction()
+        }
 
 
 def generate_profiles(count=1000):
@@ -188,42 +189,24 @@ def generate_profiles(count=1000):
     law_tags_previous_count = 4
     subjective_tags_previous_count = 4
 
-    profiles = []
-    addresses = []
-    educations = []
-    admissions = []
-    law_schools = []
-    work_experiences = []
-    organizations = []
-    awards = []
-    jurisdictions = []
+    full_profiles = []
+    field_to_objects = {
+            "address": Address.objects,
+            "education": Education.objects,
+            "admission": Admissions.objects,
+            "law_school": LawSchool.objects,
+            "work_experience": WorkExperience.objects,
+            "organization": Organization.objects,
+            "award": Award.objects,
+            "jurisdiction": Jurisdiction.objects
+    }
     with transaction.atomic():
-        for index in range(count):
-            full_profile = fake.full_profile()
-            profiles.append(full_profile[0])
-            addresses.append(full_profile[1])
-            educations.append(full_profile[2])
-            admissions.append(full_profile[3])
-            law_schools.append(full_profile[4])
-            work_experiences.append(full_profile[5])
-            organizations.append(full_profile[6])
-            awards.append(full_profile[7])
-            jurisdictions.append(full_profile[8])
-        ids = Profile.objects.bulk_create(profiles)
-        for i in range(count):
-            addresses[i].profile = ids[i]
-            educations[i].profile = ids[i]
-            admissions[i].profile = ids[i]
-            law_schools[i].profile = ids[i]
-            work_experiences[i].profile = ids[i]
-            organizations[i].profile = ids[i]
-            awards[i].profile = ids[i]
-            jurisdictions[i].profile = ids[i]
-        Address.objects.bulk_create(addresses)
-        Education.objects.bulk_create(educations)
-        Admissions.objects.bulk_create(admissions)
-        LawSchool.objects.bulk_create(law_schools)
-        WorkExperience.objects.bulk_create(work_experiences)
-        Organization.objects.bulk_create(organizations)
-        Award.objects.bulk_create(awards)
-        Jurisdiction.objects.bulk_create(jurisdictions)
+        full_profiles.append(fake.full_profile())
+        ids = Profile.objects.bulk_create([full_profile["profile"] for full_profile in full_profiles])
+        assert(len(ids) == len(full_profiles))
+        for full_profile, id in zip(full_profiles, ids):
+            full_profile.profile = id
+        # field_to_objects should have every field as full_profiles, except for "profile"
+        assert(set(field_to_objects.keys() + "profile") == set(full_profiles[0].keys()))
+        for field_name, field_objects in field_to_objects.items():
+            field_objects.bulk_create([full_profile[field_name] for full_profile in full_profiles])
