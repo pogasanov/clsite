@@ -41,7 +41,9 @@ def get_current_count_markov_chain(previous_state):
 
 
 class ProfileProvider(BaseProvider):
-    def profile(self, law_tags_count, subjective_tags_count):
+    def profile(self):
+        subjective_tags_current_count = get_current_count_markov_chain(subjective_tags_previous_count)
+        law_tags_current_count = get_current_count_markov_chain(law_tags_previous_count)
         return Profile(
             # Abstract user fields
             # Password is 'password'
@@ -163,8 +165,8 @@ class ProfileProvider(BaseProvider):
             city=city
         )
 
-    def full_profile(self, law_tags_count, subjective_tags_count):
-        profile = self.profile(law_tags_count, subjective_tags_count)
+    def full_profile(self):
+        profile = self.profile()
         address = self.address()
         education = self.education()
         admission = self.admission()
@@ -176,7 +178,7 @@ class ProfileProvider(BaseProvider):
         return profile, address, education, admission, law_school, work_experience, organization, award, jurisdiction
 
 
-def generate_profiles(count=100):
+def generate_profiles(count=1000):
     random.seed(SEED_VALUE)
     np.random.seed(SEED_VALUE)
     fake = Faker()
@@ -197,9 +199,7 @@ def generate_profiles(count=100):
     jurisdictions = []
     with transaction.atomic():
         for index in range(count):
-            subjective_tags_current_count = get_current_count_markov_chain(subjective_tags_previous_count)
-            law_tags_current_count = get_current_count_markov_chain(law_tags_previous_count)
-            full_profile = fake.full_profile(law_tags_current_count, subjective_tags_current_count)
+            full_profile = fake.full_profile()
             profiles.append(full_profile[0])
             addresses.append(full_profile[1])
             educations.append(full_profile[2])
