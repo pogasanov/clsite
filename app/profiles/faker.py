@@ -9,35 +9,13 @@ from .utils import LAW_TYPE_TAGS_CHOICES, SUBJECTIVE_TAGS_CHOICES, COUNTRIES_CHO
 
 SEED_VALUE = 54321
 
-# selection occurrence percentage
-PERCENTAGE_ZERO = 0.09
-PERCENTAGE_ONE = 0.65
-PERCENTAGE_TWO = 0.20
-PERCENTAGE_THREE = 0.05
-PERCENTAGE_FOUR = 0.01
-
-ZERO_SELECTION = 0
-ONE_SELECTION = 1
-TWO_SELECTIONS = 2
-THREE_SELECTIONS = 3
-FOUR_SELECTIONS = 4
-
-STATE_PROBABILITY_MATRIX = [PERCENTAGE_ZERO, PERCENTAGE_ONE, PERCENTAGE_TWO, PERCENTAGE_THREE, PERCENTAGE_FOUR]
-STATE_TRANSITION_MATRIX = [
-    ['00', '01', '02', '03', '04'],
-    ['10', '11', '12', '13', '14'],
-    ['20', '21', '22', '23', '24'],
-    ['30', '31', '32', '33', '34'],
-    ['40', '41', '42', '43', '44']
-]
-
-def get_current_count_markov_chain(previous_state):
-    next_transition = np.random.choice(
-        STATE_TRANSITION_MATRIX[previous_state],
-        replace=True,
-        p=STATE_PROBABILITY_MATRIX
-    )
-    return int(next_transition[-1])
+def random_number_exponential_delay(pr=0.25, probability_of_none=0.0):
+    if random.random() < probability_of_none:
+        return 0
+    i = 1
+    while random.random() < pr:
+        i += 1
+    return i
 
 
 class ProfileProvider(BaseProvider):
@@ -62,8 +40,8 @@ class ProfileProvider(BaseProvider):
             size_of_clients=self.generator.pyint(min=0, max=3, step=1),
             preferred_communication_method=self.generator.pyint(min=0, max=3, step=1),
             license_status=self.generator.pyint(min=0, max=1, step=1),
-            law_type_tags=[self.get_random_law_type_tag() for x in range(law_tags_count)],
-            subjective_tags=[self.get_random_subjective_tag() for x in range(subjective_tags_count)],
+            law_type_tags=[self.get_random_law_type_tag() for x in range(random_number_exponential_delay(pr=0.25)],
+            subjective_tags=[self.get_random_subjective_tag() for x in range(random_number_exponential_delay(pr=0.25, probability_of_none=0.0))]
             summary=self.generator.catch_phrase(),
             website=self.generator.uri(),
             twitter=self.generator.word(),
