@@ -1,4 +1,5 @@
 import os
+import uuid
 
 from clsite.storage_backends import variativeStorage
 from django.conf.global_settings import LANGUAGES
@@ -276,3 +277,8 @@ class Transaction(models.Model):
     currency = models.CharField(max_length=3, choices=CURRENCY_CHOICES,
                                 default='USD', verbose_name='Transaction Currency')
     is_requester_principal = models.BooleanField(default=False, verbose_name='Requester Payed')
+
+    def save(self, *args, **kwargs):
+        ext = self.proof_receipt_requester.name.split('.')[-1]
+        self.proof_receipt_requester.name = f'{uuid.uuid4().hex}.{ext}'
+        super(Transaction, self).save(*args, **kwargs)
