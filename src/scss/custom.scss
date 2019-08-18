@@ -105,14 +105,14 @@ input[type=number] {
 }
 
 div.proof_receipt_requester{
-  .proof-image-container{
-    width: 100%;
-    img {
-      max-width: 100%;
-    }
-  }
-
   .btn-file{
     margin-top: 20px !important;
+  }
+}
+
+.proof-image-container{
+  width: 100%;
+  img{
+    max-width: 100%;
   }
 }
