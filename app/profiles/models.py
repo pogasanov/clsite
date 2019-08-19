@@ -1,12 +1,11 @@
 import os
 
-from django.db import models
-from django.contrib.postgres.fields import ArrayField, DateRangeField
-from django.contrib.auth.models import AbstractUser, BaseUserManager
-from django.contrib.staticfiles.templatetags.staticfiles import static
-from django.conf.global_settings import LANGUAGES
-
 from clsite.storage_backends import variativeStorage
+from django.conf.global_settings import LANGUAGES
+from django.contrib.auth.models import AbstractUser, BaseUserManager
+from django.contrib.postgres.fields import ArrayField, DateRangeField
+from django.contrib.staticfiles.templatetags.staticfiles import static
+from django.db import models
 
 from .choices import CURRENCIES
 from .utils import COUNTRIES_CHOICES
@@ -85,10 +84,11 @@ class Award(models.Model):
     year = models.PositiveIntegerField(verbose_name='Year')
     description = models.TextField(verbose_name='Description')
 
+
 class Language(models.Model):
     PROFICIENCY_LEVEL = (('NS', 'Native speaker'),
-                        ('PF', 'professional fluency'),
-                        ('CF', 'conversational fluency'))
+                         ('PF', 'Professional fluency'),
+                         ('CF', 'Conversational fluency'))
 
     profile = models.ForeignKey('Profile', on_delete=models.CASCADE, verbose_name='Profile')
     name = models.CharField(max_length=10, choices=LANGUAGES)
@@ -153,11 +153,8 @@ class Profile(AbstractUser):
         (2, 'Call'),
         (3, 'In-Person')
     )
-    LICENSE_STATUSES = (
-        (0, 'Active'),
-        (1, 'In good standing')
-    )
     username = None
+    full_name = models.CharField(max_length=100)
 
     handle = models.CharField(max_length=50, unique=True, null=True, blank=True)
     email = models.EmailField(verbose_name='Email address', unique=True)
@@ -174,8 +171,6 @@ class Profile(AbstractUser):
                                                                       verbose_name='Preferred communication method',
                                                                       blank=True, null=True)
 
-    license_status = models.PositiveSmallIntegerField(choices=LICENSE_STATUSES, verbose_name='License Status',
-                                                      blank=True, null=True)
     law_type_tags = ArrayField(
         models.CharField(max_length=50),
         verbose_name='Law Type Tags', blank=True, null=True
@@ -200,7 +195,10 @@ class Profile(AbstractUser):
     def save(self, *args, **kwargs):
         super(Profile, self).save(*args, **kwargs)
         if not self.handle:
-            self.handle = self.email.split('@')[0] + str(self.id)
+            reference = '-'.join(self.full_name.lower().split(' '))
+            full_name_profiles = Profile.objects.filter(handle=reference).count()
+            reference_id = str(full_name_profiles + 1) if full_name_profiles else ''
+            self.handle = reference + reference_id
             self.save(*args, **kwargs)
 
     def photo_url_or_default(self):
@@ -227,15 +225,15 @@ class Profile(AbstractUser):
         if law_type_tags:
             law_type_tags = f' {law_type_tags}'
 
-
         return headline_format.format(
             jurisdictions=jurisdictions,
-            tags=subjective_tags+law_type_tags
+            tags=subjective_tags + law_type_tags
         )
 
     @property
     def headline(self):
-        return f'{self.get_full_name()}, the{self._compile_headline()}'
+        name_or_handle = self.full_name if self.full_name else self.handle
+        return f'{name_or_handle}, the{self._compile_headline()}'
 
     def browsing_headline(self):
         return f'The{self._compile_headline()}'
@@ -270,13 +268,11 @@ class Transaction(models.Model):
                                         default=None, verbose_name='Requestee\'s Review', null=True)
     requestee_recommendation = models.TextField(null=True, blank=True,
                                                 default=None, verbose_name='Requestee\'s recommendation')
-    proof_receipt_requestee = models.ImageField(upload_to=get_image_path, storage=variativeStorage(),
-                                                verbose_name='Requestee\'s Transaction Proof', blank=True, null=True)
 
     is_confirmed = models.NullBooleanField(default=None, verbose_name='Confirmed from Requestee')
     is_verified = models.NullBooleanField(default=None, verbose_name='Verified from Admin')
     amount = models.DecimalField(max_digits=14, decimal_places=2, verbose_name='Transaction Amount')
     value_in_usd = models.DecimalField(max_digits=14, decimal_places=2, verbose_name='Value in USD', null=True)
-    currency = models.CharField(max_length=3, choices=CURRENCY_CHOICES ,
+    currency = models.CharField(max_length=3, choices=CURRENCY_CHOICES,
                                 default='USD', verbose_name='Transaction Currency')
     is_requester_principal = models.BooleanField(default=False, verbose_name='Requester Payed')

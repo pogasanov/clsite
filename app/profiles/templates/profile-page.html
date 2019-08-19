@@ -23,7 +23,7 @@
                             </div>
                             {% if not form %}
                                 <div class="name">
-                                    <h3 class="title">{{ selected_user.first_name }} {{ selected_user.last_name }}</h3>
+                                    <h3 class="title">{{ selected_user.full_name }}</h3>
 
                                     {% if selected_user.headline %}
                                         <h5>{{ selected_user.headline }}</h5>
@@ -62,7 +62,7 @@
                                     {% endif %}
                                 </div>
                                 {% if user != selected_user %}
-                                    <a href="{% url 'create_transaction' selected_user.handle %}" class="btn col-md-6">Add Correspondence with {{ selected_user.first_name }} {{ selected_user.last_name }}</a>
+                                    <a href="{% url 'create_transaction' selected_user.handle %}" class="btn col-md-6">Add Correspondence with {{ selected_user.full_name }}</a>
                                 {% endif %}
                                 <div class="description text-center">
                                     <p>{{ selected_user.bio|safe }}</p>
@@ -79,10 +79,6 @@
                                     <div class="col-md-6 field">
                                         <h5 class="mt-0 mb-1" style="font-weight: 700;">Email:</h5>
                                         {{ selected_user.email }}
-                                    </div>
-                                    <div class="col-md-6 field">
-                                        <h5 class="mt-0 mb-1" style="font-weight: 700;">Handle:</h5>
-                                        {{ selected_user.handle }}
                                     </div>
                                 </div>
 
@@ -123,7 +119,7 @@
                                         {{ selected_user.experience }} years
                                     </div>
                                     <div class="col-md-6 field">
-                                        <h5 class="mt-0 mb-1" style="font-weight: 700;">Law Type Tags:</h5>
+                                        <h5 class="mt-0 mb-1" style="font-weight: 700;">Law Type:</h5>
                                         {{ selected_user.law_type_tags|join:", " }}
                                     </div>
                                     <div class="col-md-6 field">
@@ -141,10 +137,6 @@
                                         {{ selected_user.get_size_of_clients_display }}
                                     </div>
 
-                                    <div class="col-md-6 field">
-                                        <h5 class="mt-0 mb-1" style="font-weight: 700;">License status:</h5>
-                                        {{ selected_user.get_license_status_display }}
-                                    </div>
                                     <div class="col-md-6 field">
                                         <h5 class="mt-0 mb-1" style="font-weight: 700;">Jurisdictions:</h5>
                                         {% for jurisdiction in selected_user.jurisdiction_set.all %}
@@ -292,17 +284,10 @@
                                     {% csrf_token %}
 
                                     <div class="row">
-                                        <div class="col-md-6 field">
-                                            {{ form.first_name.label_tag }}
-                                            {{ form.first_name }}
-                                            {% for error in form.first_name.errors %}
-                                                <span style="color: red;">[{{ error }}]</span>
-                                            {% endfor %}
-                                        </div>
-                                        <div class="col-md-6 field">
-                                            {{ form.last_name.label_tag }}
-                                            {{ form.last_name }}
-                                            {% for error in form.last_name.errors %}
+                                        <div class="col-md-12 field">
+                                            {{ form.full_name.label_tag }}
+                                            {{ form.full_name }}
+                                            {% for error in form.full_name.errors %}
                                                 <span style="color: red;">[{{ error }}]</span>
                                             {% endfor %}
                                         </div>
@@ -337,13 +322,6 @@
                                             {{ form.email.label_tag }}
                                             {{ form.email }}
                                             {% for error in form.email.errors %}
-                                                <span style="color: red;">[{{ error }}]</span>
-                                            {% endfor %}
-                                        </div>
-                                        <div class="col-md-6 field">
-                                            {{ form.handle.label_tag }}
-                                            {{ form.handle }}
-                                            {% for error in form.handle.errors %}
                                                 <span style="color: red;">[{{ error }}]</span>
                                             {% endfor %}
                                         </div>
@@ -552,14 +530,6 @@
                                             {% endfor %}
                                         </div>
 
-                                        <div class="col-md-6 field">
-                                            {{ form.license_status.label_tag }}
-                                            {{ form.license_status }}
-                                            {% for error in form.license_status.errors %}
-                                                <span style="color: red;">[{{ error }}]</span>
-                                            {% endfor %}
-                                        </div>
-
                                         <div class="col-md-12">
                                             <h3>Languages</h3>
                                         </div>
@@ -586,8 +556,10 @@
                                                     </div>
                                                     <div class="col-md-4 field">
                                                         {% if languages.can_delete %}
-                                                            {{ language.DELETE.label_tag }}</br>
-                                                            {{ language.DELETE }}
+                                                            {%  if not forloop.first %}
+                                                                {{ language.DELETE.label_tag }}</br>
+                                                                {{ language.DELETE }}
+                                                            {% endif %}
                                                         {% endif %}
                                                     </div>
                                                 </div>

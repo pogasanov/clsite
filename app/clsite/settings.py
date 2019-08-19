@@ -171,3 +171,6 @@ DEFAULT_COUNTRY = 'United States of America'
 if DEBUG or 'CI' in os.environ:
     DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=False)
     DATABASES['default']['TEST'] = dj_database_url.config(conn_max_age=600, ssl_require=False)
+
+# English As Default Language For Profile
+DEFAULT_USER_LANGUAGE = 'en'

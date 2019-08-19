@@ -11,6 +11,7 @@ class ProfileTests(TestCase):
     @classmethod
     def setUpTestData(cls):
         cls.signup_credentials = {
+            'full_name': 'Test User',
             'email': 'test_user@gmail.com',
             'password': 'test_password'
         }
@@ -24,24 +25,24 @@ class ProfileTests(TestCase):
         }
 
         cls.new_user_data = {
+            'full_name': 'Test User New',
             'email': 'test_user_new@gmail.com',
             'password1': 'test_password',
             'password2': 'test_password'
         }
         cls.incorrect_new_user_data = {
+            'full_name': 'Test User',
             'email': 'test_user@gmail.com',
             'password1': 'test_password',
             'password2': 'test_password'
         }
         cls.correct_update_data = {
-            'profile-first_name': 'John',
-            'profile-last_name': 'Doe',
+            'profile-full_name': 'John Doe',
             'profile-languages': 'ru,en',
             'profile-summary': 'Test Summary for having 5 years of experience in the field of shipping.',
             'profile-bio': 'Test bio',
             'profile-phone': '+7(923)111-11-11',
             'profile-email': 'test@example.com',
-            'profile-handle': 'john',
             'profile-website': 'http://www.test.com',
             'profile-twitter': 'Test twitter',
             'profile-linkedin': 'Test linkedin',
@@ -61,6 +62,14 @@ class ProfileTests(TestCase):
             'lawschool-country': 'United States of America',
             'lawschool-state': 'Alabama',
 
+            'jurisdiction-0-id': '',
+            'jurisdiction-0-country': 'United States of America',
+            'jurisdiction-0-state': 'Arizona',
+            'jurisdiction-0-city': 'City',
+
+            'language-0-name': 'en',
+            'language-0-proficiency_level': 'NS',
+
             'education-TOTAL_FORMS': 0,
             'education-INITIAL_FORMS': 0,
             'admissions-TOTAL_FORMS': 0,
@@ -71,15 +80,14 @@ class ProfileTests(TestCase):
             'organization-INITIAL_FORMS': 0,
             'award-TOTAL_FORMS': 0,
             'award-INITIAL_FORMS': 0,
-            'jurisdiction-TOTAL_FORMS': 0,
+            'jurisdiction-TOTAL_FORMS': 1,
             'jurisdiction-INITIAL_FORMS': 0,
-            'language-TOTAL_FORMS': 0,
+            'language-TOTAL_FORMS': 1,
             'language-INITIAL_FORMS': 0
 
         }
         cls.incorrect_update_data = {
-            'profile-first_name': 'John',
-            'profile-last_name': 'Doe',
+            'profile-full_name': 'John Doe',
             'profile-bio': 'Test bio',
             'profile-website': 'http://www.test.com',
             'profile-twitter': 'Test twitter',
@@ -191,10 +199,9 @@ class ProfileTests(TestCase):
         self.assertEqual(response.json().get('message'), 'Your data has been updated successfully!')
 
         # Go to profile view page to see the updated data
-        response = self.client.get('/profile/' + self.correct_update_data['profile-handle'])
+        response = self.client.get('/profile/' + '-'.join(self.signup_credentials['full_name'].lower().split(' ')))
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.context['user'].first_name, self.correct_update_data['profile-first_name'])
-        self.assertEqual(response.context['user'].last_name, self.correct_update_data['profile-last_name'])
+        self.assertEqual(response.context['user'].full_name, self.correct_update_data['profile-full_name'])
         self.assertEqual(response.context['user'].summary, self.correct_update_data['profile-summary'])
         self.assertEqual(response.context['user'].bio, self.correct_update_data['profile-bio'])
         self.assertEqual(response.context['user'].website, self.correct_update_data['profile-website'])
