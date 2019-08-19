@@ -20,8 +20,6 @@ def random_number_exponential_delay(pr=0.25, probability_of_none=0.0):
 
 class ProfileProvider(BaseProvider):
     def profile(self):
-        subjective_tags_current_count = get_current_count_markov_chain(subjective_tags_previous_count)
-        law_tags_current_count = get_current_count_markov_chain(law_tags_previous_count)
         return Profile(
             # Abstract user fields
             # Password is 'password'
@@ -40,8 +38,8 @@ class ProfileProvider(BaseProvider):
             size_of_clients=self.generator.pyint(min=0, max=3, step=1),
             preferred_communication_method=self.generator.pyint(min=0, max=3, step=1),
             license_status=self.generator.pyint(min=0, max=1, step=1),
-            law_type_tags=[self.get_random_law_type_tag() for x in range(random_number_exponential_delay(pr=0.25)],
-            subjective_tags=[self.get_random_subjective_tag() for x in range(random_number_exponential_delay(pr=0.25, probability_of_none=0.0))]
+            law_type_tags=[self.get_random_law_type_tag() for x in range(random_number_exponential_delay(pr=0.25))],
+            subjective_tags=[self.get_random_subjective_tag() for x in range(random_number_exponential_delay(pr=0.25, probability_of_none=0.0))],
             summary=self.generator.catch_phrase(),
             website=self.generator.uri(),
             twitter=self.generator.word(),
@@ -178,13 +176,14 @@ def generate_profiles(count=1000):
             "award": Award.objects,
             "jurisdiction": Jurisdiction.objects
     }
+    full_profiles = [fake.full_profile() for i in range(count)]
     with transaction.atomic():
-        full_profiles.append(fake.full_profile())
         ids = Profile.objects.bulk_create([full_profile["profile"] for full_profile in full_profiles])
         assert(len(ids) == len(full_profiles))
         for full_profile, id in zip(full_profiles, ids):
-            full_profile.profile = id
+            for object in full_profile.keys():
+                full_profile[object].profile = id
         # field_to_objects should have every field as full_profiles, except for "profile"
-        assert(set(field_to_objects.keys() + "profile") == set(full_profiles[0].keys()))
+        assert(["profile"] + list(field_to_objects.keys()) == list(full_profiles[0].keys()))
         for field_name, field_objects in field_to_objects.items():
             field_objects.bulk_create([full_profile[field_name] for full_profile in full_profiles])
