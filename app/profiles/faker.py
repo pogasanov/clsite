@@ -37,7 +37,6 @@ class ProfileProvider(BaseProvider):
             current_job=self.generator.job(),
             size_of_clients=self.generator.pyint(min=0, max=3, step=1),
             preferred_communication_method=self.generator.pyint(min=0, max=3, step=1),
-            license_status=self.generator.pyint(min=0, max=1, step=1),
             law_type_tags=[self.get_random_law_type_tag() for x in range(random_number_exponential_delay(pr=0.25))],
             subjective_tags=[self.get_random_subjective_tag() for x in range(random_number_exponential_delay(pr=0.25, probability_of_none=0.0))],
             summary=self.generator.catch_phrase(),
