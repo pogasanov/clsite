@@ -19,13 +19,14 @@ def random_number_exponential_delay(pr=0.25, probability_of_none=0.0):
 
 
 class ProfileProvider(BaseProvider):
-    def profile(self):
+    def profile(self, id):
+        full_name = self.generator.first_name() + " " + self.generator.last_name()
         return Profile(
             # Abstract user fields
             # Password is 'password'
-            handle=self.generator.user_name(),
+            handle='-'.join(full_name.lower().split(' ')) + str(id),
             email=self.generator.email(),
-            full_name=self.generator.first_name() + " " + self.generator.last_name(),
+            full_name=full_name,
             password='pbkdf2_sha256$150000$2bhhJByaRefj$YjOjogq8+zzorhEeQgTyLYFSZD+tOLgYNeOWbSYhIVg=',
             date_joined=self.generator.date_object(),
 
@@ -140,9 +141,9 @@ class ProfileProvider(BaseProvider):
             city=city
         )
 
-    def full_profile(self):
+    def full_profile(self, id):
         return {
-            "profile": self.profile(),
+            "profile": self.profile(id),
             "address": self.address(),
             "education": self.education(),
             "admission": self.admission(),
@@ -175,7 +176,7 @@ def generate_profiles(count=1000):
             "award": Award.objects,
             "jurisdiction": Jurisdiction.objects
     }
-    full_profiles = [fake.full_profile() for i in range(count)]
+    full_profiles = [fake.full_profile(i) for i in range(count)]
     with transaction.atomic():
         ids = Profile.objects.bulk_create([full_profile["profile"] for full_profile in full_profiles])
         assert(len(ids) == len(full_profiles))
