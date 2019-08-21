@@ -1,6 +1,7 @@
 from django.test import TestCase, override_settings
 from django.contrib.auth import get_user_model
 from django.core.management import call_command
+import sys
 
 from .faker import generate_profiles
 from .models import Profile
@@ -113,6 +114,10 @@ class ProfileTests(TestCase):
 
     def setUp(self):
         get_user_model().objects.create_user(**self.signup_credentials)
+
+    def test_python_version_correct(self):
+        self.assertEqual(sys.version_info.major, 3)
+        self.assertEqual(sys.version_info.minor, 7)
 
     def test_fixtures_correct(self):
         call_command('loaddata', 'admin', verbosity=0)
