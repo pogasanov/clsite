@@ -119,7 +119,7 @@ class ProfileTests(TestCase):
         self.assertEqual(sys.version_info.major, 3)
         self.assertEqual(sys.version_info.minor, 7)
 
-    def test_fixtures_correct(self):
+    def test_fixtures_faker_correct(self):
         call_command('loaddata', 'admin', verbosity=0)
         call_command('loaddata', 'handcrafted', verbosity=0)
         call_command('generateprofiles', 100, verbosity=0)
