@@ -5,11 +5,14 @@ from profiles.faker import generate_profiles
 
 class Command(BaseCommand):
     def add_arguments(self, parser):
-        parser.add_argument('profiles_count', type=int)
+        parser.add_argument('profiles_count', nargs='?', type=int)
 
     def handle(self, *args, **options):
         try:
-            generate_profiles(options['profiles_count'])
+            if options['profiles_count']:
+                generate_profiles(options['profiles_count'])
+            else:
+                generate_profiles()
         except IntegrityError as ie:
             raise CommandError('Unable to generate dummy profiles, truncate your database and try again.', ie)
         except Exception as ex:
