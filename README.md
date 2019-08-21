@@ -319,7 +319,7 @@ question](https://stackoverflow.com/questions/44160666/valueerror-missing-static
 ## Manipulating law-type-tag ontology:
 
 You can manipulate the law-type-tags ontology by editing this json
-file: `app/profiles/tags/law-type-tag.json`.
+file: `app/profiles/lawtypetags/law-type-tags-ontology.json`.
 
 Every tag has a name and a subarea, at this time we are supporting
 two levels only.
