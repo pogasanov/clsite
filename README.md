@@ -114,11 +114,13 @@ npm run build
 
 python app/manage.py migrate
 
-# Install fixtures and dummy users
-python app/manage.py loaddata admin dummy handcrafted
-# Alternatively use fixtures which is described in fixtures section
-# Use admin / admin@correspondence.legal / asdfasdf
+# Install fixtures: admin and handcrafted users
+python app/manage.py loaddata admin handcrafted
+# Alternately: Use admin / admin@correspondence.legal / asdfasdf
 #python app/manage.py createsuperuser
+
+# Optional: Create 100 dummy profiles
+python app/manage.py generateprofiles 100
 
 python app/manage.py runserver
 ```
@@ -129,21 +131,30 @@ If you want to sync from the remote Heroku DB, use `heroku pg:pull`.
 
 ## Fixtures
 
-**Optionally** you can populate database with pregenerated data:
+You can populate database with an admin account and pregenerated
+data as follows:
 
 ```bash
-python app/manage.py loaddata admin dummy handcrafted
+python app/manage.py loaddata admin handcrafted
 ```
 
-* `admin` - adds admin profile. For login Email is
-**admin@correspondence.legal** and Password is **asdfasdf**.
-* `dummy` - adds 100 randomized profiles. Password is **password**.
+You can create 100 random dummy profiles as follows:
+
+```bash
+python app/manage.py generateprofiles 100
+```
+
+* `admin` - adds admin profile. Login email is
+**admin@correspondence.legal**. Password is **asdfasdf**.
 * `handcrafted` - adds real-life manually crafted profiles for
-display purposes. For login Email is **celia@celialerman.com**
+display purposes. Login email is **celia@celialerman.com**.
 Password is their first name + last name lowercase. For example,
 **celialerman**.
+* `generateprofiles` is a custom command that accepts any integer(N)
+as argument and creates N profiles which have **password** as
+password.
 
-**Note:** those fixtures has predefined `id`, so it might overwrite
+**Note:** those fixtures have predefined `id`, so it might overwrite
 existing data. Those `id` are forced to properly populate related
 tables.
 
@@ -300,7 +311,7 @@ python app/manage.py test
 
 All tests requires
 `@override_settings(STATICFILES_STORAGE='django.contrib.staticfiles.storage.StaticFilesStorage')`
-decorator to be set for each test class or `python manage.py
+decorator to be set for each test class or `python app/manage.py
 collectstatic`. Otherwise it will fail because there is no whitenoise
 manifest.  More info can be found in this [SO
 question](https://stackoverflow.com/questions/44160666/valueerror-missing-staticfiles-manifest-entry-for-favicon-ico)
@@ -308,7 +319,7 @@ question](https://stackoverflow.com/questions/44160666/valueerror-missing-static
 ## Manipulating law-type-tag ontology:
 
 You can manipulate the law-type-tags ontology by editing this json
-file: `profiles/tags/law-type-tag.json`.
+file: `app/profiles/lawtypetags/law-type-tags-ontology.json`.
 
 Every tag has a name and a subarea, at this time we are supporting
 two levels only.
@@ -329,7 +340,7 @@ pipenv lock
 
 ### Faker
 
-`faker.py` is a module to generate model instances with random data.
+`faker.py` is a module to generate model instances with random deterministic data.
 We are using it to populate database with data and use it to test
 our website.
 
@@ -381,17 +392,17 @@ for other developers to easily import them into their databases.
 
 ```bash
 # dump all models from `profiles` app
-python manage.py dumpdata profiles
+python app/manage.py dumpdata profiles
 
 # dump only awards from `profiles` app
-python manage.py dumpdata profiles.Award
+python app/manage.py dumpdata profiles.Award
 
 # dump only awards from `profiles` app and save into dump.json
 # might contain terminal logs, so don't forget to clean it from any non-json lines
-python manage.py dumpdata profiles.Award > profiles/fixtures/dump.json
+python app/manage.py dumpdata profiles.Award > app/profiles/fixtures/dump.json
 
 # load fixture to database
-python manage.py loaddata dump
+python app/manage.py loaddata dump
 ```
 
 Remember that those fixtures will have id predefined, as they are currently in your database. Different fixture files with same models will overwrite each other if they contain models with same id.
