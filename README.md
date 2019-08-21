@@ -114,11 +114,13 @@ npm run build
 
 python app/manage.py migrate
 
-# Install fixtures
+# Install fixtures: admin and handcrafted users
 python app/manage.py loaddata admin handcrafted
-# Alternatively use fixtures which are described in fixtures section
-# Use admin / admin@correspondence.legal / asdfasdf
+# Alternately: Use admin / admin@correspondence.legal / asdfasdf
 #python app/manage.py createsuperuser
+
+# Optional: Create 100 dummy profiles
+python app/manage.py generateprofiles 100
 
 python app/manage.py runserver
 ```
@@ -129,11 +131,17 @@ If you want to sync from the remote Heroku DB, use `heroku pg:pull`.
 
 ## Fixtures
 
-**Optionally** you can populate database with pregenerated data or by generating dummy profiles as following:
+You can populate database with an admin account and pregenerated
+data as follows:
 
 ```bash
 python app/manage.py loaddata admin handcrafted
-python app/manage.py generateprofiles 100  # generates 100 dummy profiles
+```
+
+You can create 100 random dummy profiles as follows:
+
+```bash
+python app/manage.py generateprofiles 100
 ```
 
 * `admin` - adds admin profile. For login Email is
@@ -142,10 +150,11 @@ python app/manage.py generateprofiles 100  # generates 100 dummy profiles
 display purposes. For login Email is **celia@celialerman.com**
 Password is their first name + last name lowercase. For example,
 **celialerman**.
-* `generateprofiles` is a custom command that accepts any integer(N) as argument 
-and creates N profiles which have 'password' as password.
+* `generateprofiles` is a custom command that accepts any integer(N)
+as argument and creates N profiles which have **password** as
+password.
 
-**Note:** those fixtures has predefined `id`, so it might overwrite
+**Note:** those fixtures have predefined `id`, so it might overwrite
 existing data. Those `id` are forced to properly populate related
 tables.
 
