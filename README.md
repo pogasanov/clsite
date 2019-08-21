@@ -115,7 +115,7 @@ npm run build
 python app/manage.py migrate
 
 # Install fixtures and dummy users
-python app/manage.py loaddata admin dummy handcrafted
+python app/manage.py loaddata admin handcrafted
 # Alternatively use fixtures which is described in fixtures section
 # Use admin / admin@correspondence.legal / asdfasdf
 #python app/manage.py createsuperuser
@@ -129,10 +129,11 @@ If you want to sync from the remote Heroku DB, use `heroku pg:pull`.
 
 ## Fixtures
 
-**Optionally** you can populate database with pregenerated data:
+**Optionally** you can populate database with pregenerated data or by generating dummy profiles as following:
 
 ```bash
 python app/manage.py loaddata admin handcrafted
+python app/manage.py generateprofiles 100  # generates 100 dummy profiles
 ```
 
 * `admin` - adds admin profile. For login Email is
@@ -141,9 +142,8 @@ python app/manage.py loaddata admin handcrafted
 display purposes. For login Email is **celia@celialerman.com**
 Password is their first name + last name lowercase. For example,
 **celialerman**.
-
-**Dummy data** can be added to the database using faker. You can use the command
-`python app/manage.py generateprofiles 100` to generate 100 dummy profiles, where 100 can be any integer number.
+* `generateprofiles` is a custom command that accepts any integer(N) as argument 
+and creates N profiles which have 'password' as password.
 
 **Note:** those fixtures has predefined `id`, so it might overwrite
 existing data. Those `id` are forced to properly populate related
@@ -331,7 +331,7 @@ pipenv lock
 
 ### Faker
 
-`faker.py` is a module to generate model instances with random data.
+`faker.py` is a module to generate model instances with random deterministic data.
 We are using it to populate database with data and use it to test
 our website.
 
