@@ -142,15 +142,9 @@ display purposes. For login Email is **celia@celialerman.com**
 Password is their first name + last name lowercase. For example,
 **celialerman**.
 
-**Dummy data** can be added to the database using faker. The `generate_profiles(N)` 
-method of `profiles/faker.py` can be called using any number, in the example below
-we generate 100 dummy profiles:
-
-```bash
-python app/manage.py shell
-from profiles.faker import generate_profiles
-generate_profiles(100)
-```
+**Dummy data** can be added to the database using faker. You can use the command
+`python app/manage.py generateprofiles 100` to generate 100 dummy profiles, where 1000
+can be any integer number.
 
 **Note:** those fixtures has predefined `id`, so it might overwrite
 existing data. Those `id` are forced to properly populate related
