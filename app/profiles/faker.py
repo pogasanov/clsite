@@ -19,7 +19,7 @@ def random_number_exponential_delay(pr=0.25, probability_of_none=0.0):
 
 
 class ProfileProvider(BaseProvider):
-    def profile(self, id):
+    def profile(self, id=1):
         full_name = self.generator.first_name() + " " + self.generator.last_name()
         return Profile(
             # Abstract user fields
@@ -140,7 +140,7 @@ class ProfileProvider(BaseProvider):
             city=city
         )
 
-    def full_profile(self, id):
+    def full_profile(self, id=1):
         return {
             "profile": self.profile(id),
             "address": self.address(),

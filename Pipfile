@@ -15,5 +15,6 @@ django-storages = "*"
 boto3 = "*"
 faker = "*"
 django-select2 = "*"
+numpy = "*"
 
 [dev-packages]

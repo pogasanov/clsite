@@ -114,11 +114,13 @@ npm run build
 
 python app/manage.py migrate
 
-# Install fixtures and dummy users
-python app/manage.py loaddata admin dummy handcrafted
-# Alternatively use fixtures which is described in fixtures section
-# Use admin / admin@correspondence.legal / asdfasdf
+# Install fixtures: admin and handcrafted users
+python app/manage.py loaddata admin handcrafted
+# Alternately: Use admin / admin@correspondence.legal / asdfasdf
 #python app/manage.py createsuperuser
+
+# Optional: Create 100 dummy profiles
+python app/manage.py generateprofiles 100
 
 python app/manage.py runserver
 ```
@@ -129,21 +131,30 @@ If you want to sync from the remote Heroku DB, use `heroku pg:pull`.
 
 ## Fixtures
 
-**Optionally** you can populate database with pregenerated data:
+You can populate database with an admin account and pregenerated
+data as follows:
 
 ```bash
-python app/manage.py loaddata admin dummy handcrafted
+python app/manage.py loaddata admin handcrafted
 ```
 
-* `admin` - adds admin profile. For login Email is
-**admin@correspondence.legal** and Password is **asdfasdf**.
-* `dummy` - adds 100 randomized profiles. Password is **password**.
+You can create 100 random dummy profiles as follows:
+
+```bash
+python app/manage.py generateprofiles 100
+```
+
+* `admin` - adds admin profile. Login email is
+**admin@correspondence.legal**. Password is **asdfasdf**.
 * `handcrafted` - adds real-life manually crafted profiles for
-display purposes. For login Email is **celia@celialerman.com**
+display purposes. Login email is **celia@celialerman.com**.
 Password is their first name + last name lowercase. For example,
 **celialerman**.
+* `generateprofiles` is a custom command that accepts any integer(N)
+as argument and creates N profiles which have **password** as
+password.
 
-**Note:** those fixtures has predefined `id`, so it might overwrite
+**Note:** those fixtures have predefined `id`, so it might overwrite
 existing data. Those `id` are forced to properly populate related
 tables.
 
@@ -329,7 +340,7 @@ pipenv lock
 
 ### Faker
 
-`faker.py` is a module to generate model instances with random data.
+`faker.py` is a module to generate model instances with random deterministic data.
 We are using it to populate database with data and use it to test
 our website.
 
