@@ -33,10 +33,10 @@ class ProfileProvider(BaseProvider):
             # Contacts
             phone=self.generator.msisdn(),
             bio="<p>" + "</p><p>".join(self.generator.paragraphs(nb=3)) + "</p>",
-            experience=self.generator.pyint(min=0, max=30, step=1),
+            experience=self.generator.pyint(min_value=0, max_value=30, step=1),
             current_job=self.generator.job(),
-            size_of_clients=self.generator.pyint(min=0, max=3, step=1),
-            preferred_communication_method=self.generator.pyint(min=0, max=3, step=1),
+            size_of_clients=self.generator.pyint(min_value=0, max_value=3, step=1),
+            preferred_communication_method=self.generator.pyint(min_value=0, max_value=3, step=1),
             law_type_tags=[self.get_random_law_type_tag() for x in range(random_number_exponential_delay(pr=0.25))],
             subjective_tags=[self.get_random_subjective_tag() for x in range(random_number_exponential_delay(pr=0.25, probability_of_none=0.0))],
             summary=self.generator.catch_phrase(),
@@ -90,7 +90,7 @@ class ProfileProvider(BaseProvider):
             country=country,
             state=state,
             city=city,
-            year=self.generator.pyint(min=1990, max=2019, step=1)
+            year=self.generator.pyint(min_value=1990, max_value=2019, step=1)
         )
 
     def law_school(self, profile=None):
@@ -127,7 +127,7 @@ class ProfileProvider(BaseProvider):
             profile=profile,
             title=self.generator.word(),
             presented_by=self.generator.company(),
-            year=self.generator.pyint(min=1990, max=2019, step=1),
+            year=self.generator.pyint(min_value=1990, max_value=2019, step=1),
             description="\n".join(self.generator.paragraphs(nb=3))
         )
 
