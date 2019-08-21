@@ -114,9 +114,9 @@ npm run build
 
 python app/manage.py migrate
 
-# Install fixtures and dummy users
+# Install fixtures
 python app/manage.py loaddata admin handcrafted
-# Alternatively use fixtures which is described in fixtures section
+# Alternatively use fixtures which are described in fixtures section
 # Use admin / admin@correspondence.legal / asdfasdf
 #python app/manage.py createsuperuser
 
