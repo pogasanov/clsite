@@ -143,8 +143,7 @@ Password is their first name + last name lowercase. For example,
 **celialerman**.
 
 **Dummy data** can be added to the database using faker. You can use the command
-`python app/manage.py generateprofiles 100` to generate 100 dummy profiles, where 1000
-can be any integer number.
+`python app/manage.py generateprofiles 100` to generate 100 dummy profiles, where 100 can be any integer number.
 
 **Note:** those fixtures has predefined `id`, so it might overwrite
 existing data. Those `id` are forced to properly populate related
