@@ -144,10 +144,10 @@ You can create 100 random dummy profiles as follows:
 python app/manage.py generateprofiles 100
 ```
 
-* `admin` - adds admin profile. For login Email is
-**admin@correspondence.legal** and Password is **asdfasdf**.
+* `admin` - adds admin profile. Login email is
+**admin@correspondence.legal**. Password is **asdfasdf**.
 * `handcrafted` - adds real-life manually crafted profiles for
-display purposes. For login Email is **celia@celialerman.com**
+display purposes. Login email is **celia@celialerman.com**.
 Password is their first name + last name lowercase. For example,
 **celialerman**.
 * `generateprofiles` is a custom command that accepts any integer(N)
