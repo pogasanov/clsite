@@ -116,8 +116,8 @@ class ProfileTests(TestCase):
 
     def test_fixtures_correct(self):
         call_command('loaddata', 'admin', verbosity=0)
-        call_command('loaddata', 'dummy', verbosity=0)
         call_command('loaddata', 'handcrafted', verbosity=0)
+        call_command('generateprofiles', 100, verbosity=0)
 
     def test_generate_profiles_working(self):
         GENERATED_MODELS_COUNT = 25
