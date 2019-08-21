@@ -311,7 +311,7 @@ python app/manage.py test
 
 All tests requires
 `@override_settings(STATICFILES_STORAGE='django.contrib.staticfiles.storage.StaticFilesStorage')`
-decorator to be set for each test class or `python manage.py
+decorator to be set for each test class or `python app/manage.py
 collectstatic`. Otherwise it will fail because there is no whitenoise
 manifest.  More info can be found in this [SO
 question](https://stackoverflow.com/questions/44160666/valueerror-missing-staticfiles-manifest-entry-for-favicon-ico)
@@ -319,7 +319,7 @@ question](https://stackoverflow.com/questions/44160666/valueerror-missing-static
 ## Manipulating law-type-tag ontology:
 
 You can manipulate the law-type-tags ontology by editing this json
-file: `profiles/tags/law-type-tag.json`.
+file: `app/profiles/lawtypetags/law-type-tags-ontology.json`.
 
 Every tag has a name and a subarea, at this time we are supporting
 two levels only.
@@ -392,17 +392,17 @@ for other developers to easily import them into their databases.
 
 ```bash
 # dump all models from `profiles` app
-python manage.py dumpdata profiles
+python app/manage.py dumpdata profiles
 
 # dump only awards from `profiles` app
-python manage.py dumpdata profiles.Award
+python app/manage.py dumpdata profiles.Award
 
 # dump only awards from `profiles` app and save into dump.json
 # might contain terminal logs, so don't forget to clean it from any non-json lines
-python manage.py dumpdata profiles.Award > profiles/fixtures/dump.json
+python app/manage.py dumpdata profiles.Award > app/profiles/fixtures/dump.json
 
 # load fixture to database
-python manage.py loaddata dump
+python app/manage.py loaddata dump
 ```
 
 Remember that those fixtures will have id predefined, as they are currently in your database. Different fixture files with same models will overwrite each other if they contain models with same id.
