@@ -1,4 +1,4 @@
-from django.db.models import Q
+from django.utils.html import format_html
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as DjangoUserAdmin
 from django.utils.translation import ugettext_lazy as _
@@ -30,7 +30,7 @@ class ProfileAdmin(DjangoUserAdmin):
 
 class TransactionVerifiedFilter(admin.SimpleListFilter):
 
-    title = _('Verified from Admin')
+    title = _('Admin Verified')
 
     parameter_name = 'is_verified'
 
@@ -83,9 +83,43 @@ class TransactionAdmin(admin.ModelAdmin):
     change_list_template = 'transaction_admin.html'
     list_filter = [TransactionVerifiedFilter, TransactionValueInUSDEmptyFilter]
     list_display = (
-        'requester', 'requestee', 'amount', 'value_in_usd', 'currency', 'date', 'is_requester_principal',
-        'is_confirmed', 'is_verified', 'proof_receipt_requester'
+        'requester', 'amount_direction','requestee', 'amount', 'currency', 'date',
+        'value_in_usd', 'currency_conversion', 'is_confirmed', 'is_verified', 'proof_receipt_requester'
     )
     list_editable = ('value_in_usd',)
     ordering = ['-created_at']
     actions = [mark_as_verified]
+
+    class Media:
+        css = {'all': ('admin.css',)}
+
+    def amount_direction(self, obj):
+        arrow_tag = '<img src="/static/admin/img/tooltag-arrowright.svg" class="{}"alt="None">'
+
+        if obj.is_requester_principal:
+            return format_html(arrow_tag.format('custom-arrow-right'))
+
+        return format_html(arrow_tag.format('custom-arrow-left'))
+
+    amount_direction.allow_tags = True
+    amount_direction.short_description = ''
+
+    def currency_conversion(self, obj):
+        currency_code = obj.currency
+
+        if currency_code == 'USD':
+            return
+
+        if obj.value_in_usd:
+            return
+
+        date = str(obj.date)
+        base_url_f = 'https://www.xe.com/currencytables/?from={currency_code}&date={date}'
+        currency_url_f = '<a href="{url}" target="_blank">{currency_code} to USD</a>'
+
+        url = base_url_f.format(currency_code=currency_code, date=date)
+
+        return format_html(currency_url_f.format(url=url, currency_code=currency_code))
+
+    currency_conversion.allow_tags = True
+    currency_conversion.short_description = 'Historical Currency URL'
