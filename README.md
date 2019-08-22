@@ -63,10 +63,11 @@ heroku run python app/manage.py migrate
 
 ## Local setup
 
-Make sure you have Postgres [running
-locally](https://devcenter.heroku.com/articles/heroku-postgresql#local-setup),
-the same version as when you run `heroku pg`. Make sure to start a
-new shell and that command `psql` works.
+Make sure: 
+- you are using Python 3.7, not Python 3.6 or Python 3.8. 
+- you have Postgres [running locally](https://devcenter.heroku.com/articles/heroku-postgresql#local-setup),
+the same version as when you run `heroku pg`. 
+- to start a new shell and that command `psql` works.
 
 Requires [Pipenv](https://docs.pipenv.org/en/latest/) and
 [Nodejs](https://nodejs.org/en/). We need nodejs (and npm) to
