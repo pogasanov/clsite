@@ -14,7 +14,7 @@ test:
     - pip install pipenv
     - pipenv install --system
   script:
-    - python3 app/manage.py test profiles
+    - python3 app/manage.py test app/
   cache:
     paths:
       - ~/.cache/pip/
