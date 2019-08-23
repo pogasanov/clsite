@@ -307,7 +307,7 @@ Iconset is [Font Awesome v.5](https://fontawesome.com/), downloaded via CDN.
 
 To run all tests:
 ```
-python app/manage.py test
+python app/manage.py test app/
 ```
 
 All tests requires
