@@ -1,9 +1,9 @@
 .custom-arrow-right{
-    background-color: red;
+    background-color: #70bf2b;
 }
 
 .custom-arrow-left{
-    background-color: blue;
+    background-color: #288fc3;
     transform: scaleX(-1);
 }
 

@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.utils.html import format_html
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as DjangoUserAdmin
@@ -37,9 +38,9 @@ class TransactionVerifiedFilter(admin.SimpleListFilter):
     def lookups(self, request, model_admin):
 
         return (
-            ('yes', _('Approved')),
-            ('no', _('Denied')),
-            ('null',  _('Unverified')),
+            ('yes', _('Admin Approved')),
+            ('no', _('Admin Denied')),
+            ('null',  _('Pending Approval')),
         )
 
     def queryset(self, request, queryset):
@@ -48,15 +49,15 @@ class TransactionVerifiedFilter(admin.SimpleListFilter):
             return queryset.filter(is_verified=True)
 
         if self.value() == 'no':
-            return queryset.filter(is_verified=False)
+            return queryset.filter(Q(is_verified=False), ~Q(proof_receipt_requester=''))
 
         if self.value() == 'null':
-            return queryset.filter(is_verified__isnull=True)
+            return queryset.filter(Q(is_verified__isnull=True), ~Q(proof_receipt_requester=''))
 
 
 class TransactionValueInUSDEmptyFilter(admin.SimpleListFilter):
 
-    title = _('Value in USD Empty')
+    title = _('USD Value Needed')
 
     parameter_name = 'value_in_usd'
 
@@ -72,9 +73,13 @@ class TransactionValueInUSDEmptyFilter(admin.SimpleListFilter):
             return queryset.filter(value_in_usd__isnull=True)
 
 
-def mark_as_verified(modeladmin, request, queryset):
+def approve_transactions(modeladmin, request, queryset):
     queryset.update(is_verified=True)
-mark_as_verified.short_description = "Mark selected transactions as verified"
+approve_transactions.short_description = "Approve selected transactions"
+
+def deny_transactions(modeladmin, request, queryset):
+    queryset.update(is_verified=False)
+deny_transactions.short_description = "Deny selected transactions"
 
 
 @admin.register(Transaction)
@@ -84,14 +89,25 @@ class TransactionAdmin(admin.ModelAdmin):
     list_filter = [TransactionVerifiedFilter, TransactionValueInUSDEmptyFilter]
     list_display = (
         'requester', 'amount_direction','requestee', 'amount', 'currency', 'date',
-        'value_in_usd', 'currency_conversion', 'is_confirmed', 'is_verified', 'proof_receipt_requester'
+        'value_in_usd', 'currency_conversion', 'is_confirmed', 'verified', 'proof_receipt_requester'
     )
     list_editable = ('value_in_usd',)
     ordering = ['-created_at']
-    actions = [mark_as_verified]
+    actions = [approve_transactions, deny_transactions]
 
     class Media:
         css = {'all': ('admin.css',)}
+
+    def verified(self, obj):
+        if not obj.proof_receipt_requester:
+            return 'N/A'
+
+        if obj.is_verified is None:
+            return 'Pending'
+
+        return 'Approved' if obj.is_verified else 'Denied'
+
+    verified.short_description = 'Admin-Verified'
 
     def amount_direction(self, obj):
         arrow_tag = '<img src="/static/admin/img/tooltag-arrowright.svg" class="{}"alt="None">'
