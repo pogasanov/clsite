@@ -280,6 +280,8 @@ class Transaction(models.Model):
     is_requester_principal = models.BooleanField(default=False, verbose_name='Requester Payed')
 
     def save(self, *args, **kwargs):
-        ext = self.proof_receipt_requester.name.split('.')[-1]
-        self.proof_receipt_requester.name = f'{uuid.uuid4().hex}.{ext}'
+        if self.proof_receipt_requester:
+            ext = self.proof_receipt_requester.name.split('.')[-1]
+            self.proof_receipt_requester.name = f'{uuid.uuid4().hex}.{ext}'
+
         super(Transaction, self).save(*args, **kwargs)
