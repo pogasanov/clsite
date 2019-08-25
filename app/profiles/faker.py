@@ -1,22 +1,40 @@
+import pytz
+import random
+import numpy as np
+from io import BytesIO
+from PIL import Image
+
 from faker.providers import BaseProvider
 from faker import Faker
-import numpy as np
 from django.db import transaction
-import random
-import pytz
+from django.core.files.base import ContentFile
 
-from .models import Profile, Address, Education, Admissions, LawSchool, WorkExperience, Organization, Award, Jurisdiction
+from .models import Profile, Address, Education, Admissions, LawSchool, \
+    WorkExperience, Organization, Award, Jurisdiction, Transaction
 from .utils import LAW_TYPE_TAGS_CHOICES, SUBJECTIVE_TAGS_CHOICES, COUNTRIES_CHOICES, _get_states_for_country
+from .choices import CURRENCIES
 
 SEED_VALUE = 54321
+CURRENCY_CODES = [currency_code for currency_code, _ in CURRENCIES]
+TRANSACTION_REVIEW_CHOICES = [review_choice for review_choice, _ in Transaction.REVIEW_CHOICES]
+
 
 def random_number_exponential_delay(pr=0.25, probability_of_none=0.0):
     if random.random() < probability_of_none:
         return 0
+
     i = 1
     while random.random() < pr:
         i += 1
+
     return i
+
+def generate_image(color):
+    image = Image.new('RGBA', size=(200, 200), color=color)
+    file = BytesIO(image.tobytes())
+    file.name = 'test.png'
+    file.seek(0)
+    return ContentFile(file.read(), name='test.png')
 
 
 class ProfileProvider(BaseProvider):
@@ -39,7 +57,8 @@ class ProfileProvider(BaseProvider):
             size_of_clients=self.generator.pyint(min_value=0, max_value=3, step=1),
             preferred_communication_method=self.generator.pyint(min_value=0, max_value=3, step=1),
             law_type_tags=[self.get_random_law_type_tag() for x in range(random_number_exponential_delay(pr=0.25))],
-            subjective_tags=[self.get_random_subjective_tag() for x in range(random_number_exponential_delay(pr=0.25, probability_of_none=0.0))],
+            subjective_tags=[self.get_random_subjective_tag() for
+                             x in range(random_number_exponential_delay(pr=0.25, probability_of_none=0.0))],
             summary=self.generator.catch_phrase(),
             website=self.generator.uri(),
             twitter=self.generator.word(),
@@ -62,7 +81,6 @@ class ProfileProvider(BaseProvider):
         random_city = self.generator.city() if random_state else None
 
         return random_country, random_state, random_city
-
 
     def address(self, profile=None):
         country, state, city  = self.get_random_country_state_city()
@@ -155,17 +173,82 @@ class ProfileProvider(BaseProvider):
         }
 
 
+class TransactionProvider(BaseProvider):
+
+    def generate_transaction(self, requester_id, requestee_id):
+        profile_transaction = Transaction(
+            requester_id=requester_id,
+            requestee_id=requestee_id,
+            amount=self.generator.pyint(min_value=1, max_value=10000, step=1),
+            currency=self.get_currency(),
+            requester_review=self.get_review(),
+            is_requester_principal=self.generator.pybool(),
+            date=self.generator.date_between(start_date="-30y", end_date="today"),
+            requester_recommendation=self.get_recommendation(),
+            proof_receipt_requester=self.get_proof_receipt_requester()
+            )
+
+        self.confirm_from_requestee(profile_transaction)
+        self.approve_from_admin(profile_transaction)
+
+        return profile_transaction
+
+    def get_currency(self):
+        # 90% chance that currency is USD
+        return 'USD' if random.random() < 0.9 else random.choice(CURRENCY_CODES)
+
+    def get_review(self):
+        return random.choice(TRANSACTION_REVIEW_CHOICES)
+
+    def get_recommendation(self):
+        if random.random() < 0.7:
+            return ''
+
+        return ' '.join(self.generator.paragraphs(nb=3))
+
+    def get_proof_receipt_requester(self):
+        if random.random() < 0.34:
+            return generate_image(self.generator.hex_color())
+
+    def confirm_from_requestee(self, profile_transaction):
+        probability = random.random()
+
+        if probability > 0.5:
+            return
+
+        if probability > 0.4:
+            profile_transaction.is_confirmed = False
+            return
+
+        profile_transaction.is_confirmed = True
+        profile_transaction.requestee_review = self.get_review()
+        profile_transaction.requestee_recommendation = self.get_recommendation()
+
+    def approve_from_admin(self, profile_transaction):
+        probability = random.random()
+
+        if not profile_transaction.proof_receipt_requester:
+            return
+
+        if probability > 0.5:
+            return
+
+        if probability > 0.4:
+            profile_transaction.is_verified = False
+            return
+
+        profile_transaction.is_verified = True
+
+
 def generate_profiles(count=1000):
     random.seed(SEED_VALUE)
     np.random.seed(SEED_VALUE)
+
     fake = Faker()
     fake.seed(SEED_VALUE)
     fake.add_provider(ProfileProvider)
+    fake.add_provider(TransactionProvider)
 
-    law_tags_previous_count = 4
-    subjective_tags_previous_count = 4
-
-    full_profiles = []
     field_to_objects = {
             "address": Address.objects,
             "education": Education.objects,
@@ -177,15 +260,40 @@ def generate_profiles(count=1000):
             "jurisdiction": Jurisdiction.objects
     }
     full_profiles = [fake.full_profile(i) for i in range(count)]
+
     with transaction.atomic():
-        ids = Profile.objects.bulk_create([full_profile["profile"] for full_profile in full_profiles])
-        assert(len(ids) == len(full_profiles))
-        for full_profile, id in zip(full_profiles, ids):
-            for object in full_profile.keys():
-                full_profile[object].profile = id
+        profiles = Profile.objects.bulk_create([full_profile["profile"] for full_profile in full_profiles])
+
+        assert(len(profiles) == len(full_profiles))
+
+        for full_profile, profile in zip(full_profiles, profiles):
+            for key in full_profile.keys():
+                full_profile[key].profile = profile
+
         # field_to_objects should have every field as full_profiles, except for "profile"
         assert(["profile"] + list(field_to_objects.keys()) == list(full_profiles[0].keys()))
+
         for field_name, field_objects in field_to_objects.items():
             field_objects.bulk_create([full_profile[field_name] for full_profile in full_profiles])
+
+        # Transaction related data ingestion
+        transactions = []
+        profile_ids = [p.id for p in profiles]
+        number_of_requesters_with_transactions = count//10
+
+        requester_ids = random.sample(profile_ids, number_of_requesters_with_transactions)
+
+        for requester_id in requester_ids:
+            number_of_transactions = random_number_exponential_delay(pr=0.5)
+            # Generating random requestee_ids. The replace=True flag ensures duplicates
+            requestee_ids = list(np.random.choice(profile_ids, number_of_transactions, replace=True))
+
+            for requestee_id in requestee_ids:
+                if requester_id == requestee_id:
+                    continue
+
+                transactions.append(fake.generate_transaction(requester_id=requester_id, requestee_id=requestee_id))
+
+        Transaction.objects.bulk_create(transactions)
 
         print("Dummy data ingested to database successfully!")
