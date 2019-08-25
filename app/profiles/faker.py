@@ -277,7 +277,8 @@ def generate_profiles(count=1000):
         for field_name, field_objects in field_to_objects.items():
             field_objects.bulk_create([full_profile[field_name] for full_profile in full_profiles])
 
-        generate_transactions(profiles, fake)
+        transactions = generate_transactions(profiles, fake)
+        Transaction.objects.bulk_create(transactions)
 
         print("Dummy data ingested to database successfully!")
 
@@ -301,4 +302,4 @@ def generate_transactions(profiles, faker):
 
             transactions.append(faker.generate_transaction(requester_id=requester_id, requestee_id=requestee_id))
 
-    Transaction.objects.bulk_create(transactions)
+    return transactions
