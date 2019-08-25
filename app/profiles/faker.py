@@ -195,6 +195,7 @@ class TransactionProvider(BaseProvider):
 
     def get_currency(self):
         # 90% chance that currency is USD
+        assert 'USD' in CURRENCY_CODES
         return 'USD' if random.random() < 0.9 else random.choice(CURRENCY_CODES)
 
     def get_review(self):
