@@ -29,7 +29,12 @@ def random_number_exponential_delay(pr=0.25, probability_of_none=0.0):
 
     return i
 
-def generate_image(color):
+def generate_image(color=(256, 0, 0)):
+    """
+    Creates a random image and converts it into a model save-able file
+    :param color: color (optional) to randomize the image created
+    :return: returns an object of ContentFile which can be directly stored to the Model's ImageField
+    """
     image = Image.new('RGBA', size=(200, 200), color=color)
     file = BytesIO(image.tobytes())
     file.name = 'test.png'
