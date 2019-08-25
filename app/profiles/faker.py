@@ -179,11 +179,11 @@ class TransactionProvider(BaseProvider):
         profile_transaction = Transaction(
             requester_id=requester_id,
             requestee_id=requestee_id,
-            amount=self.generator.pyint(min_value=1, max_value=10000, step=1),
+            amount=self.generator.pyfloat(right_digits=2, min_value=1, max_value=100000),
             currency=self.get_currency(),
             requester_review=self.get_review(),
             is_requester_principal=self.generator.pybool(),
-            date=self.generator.date_between(start_date="-30y", end_date="today"),
+            date=self.generator.date_between(start_date="-3y", end_date="today"),
             requester_recommendation=self.get_recommendation(),
             proof_receipt_requester=self.get_proof_receipt_requester()
             )
@@ -277,24 +277,28 @@ def generate_profiles(count=1000):
         for field_name, field_objects in field_to_objects.items():
             field_objects.bulk_create([full_profile[field_name] for full_profile in full_profiles])
 
-        # Transaction related data ingestion
-        transactions = []
-        profile_ids = [p.id for p in profiles]
-        number_of_requesters_with_transactions = count//10
-
-        requester_ids = random.sample(profile_ids, number_of_requesters_with_transactions)
-
-        for requester_id in requester_ids:
-            number_of_transactions = random_number_exponential_delay(pr=0.5)
-            # Generating random requestee_ids. The replace=True flag ensures duplicates
-            requestee_ids = list(np.random.choice(profile_ids, number_of_transactions, replace=True))
-
-            for requestee_id in requestee_ids:
-                if requester_id == requestee_id:
-                    continue
-
-                transactions.append(fake.generate_transaction(requester_id=requester_id, requestee_id=requestee_id))
-
-        Transaction.objects.bulk_create(transactions)
+        generate_transactions(profiles, fake)
 
         print("Dummy data ingested to database successfully!")
+
+
+def generate_transactions(profiles, faker):
+    # Transaction related data ingestion
+    transactions = []
+    profile_ids = [p.id for p in profiles]
+    number_of_requesters_with_transactions = round(len(profile_ids) * 0.1)
+
+    requester_ids = random.sample(profile_ids, number_of_requesters_with_transactions)
+
+    for requester_id in requester_ids:
+        number_of_transactions = random_number_exponential_delay(pr=0.5)
+        # Generating random requestee_ids. The replace=True flag ensures duplicates
+        requestee_ids = list(np.random.choice(profile_ids, number_of_transactions, replace=True))
+
+        for requestee_id in requestee_ids:
+            if requester_id == requestee_id:
+                continue
+
+            transactions.append(faker.generate_transaction(requester_id=requester_id, requestee_id=requestee_id))
+
+    Transaction.objects.bulk_create(transactions)
