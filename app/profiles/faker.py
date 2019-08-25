@@ -181,16 +181,20 @@ class ProfileProvider(BaseProvider):
 class TransactionProvider(BaseProvider):
 
     def generate_transaction(self, requester_id, requestee_id):
+        amount = self.generator.pyfloat(right_digits=2, min_value=1, max_value=100000)
+        currency = self.get_currency()
+
         profile_transaction = Transaction(
             requester_id=requester_id,
             requestee_id=requestee_id,
-            amount=self.generator.pyfloat(right_digits=2, min_value=1, max_value=100000),
-            currency=self.get_currency(),
+            amount=amount,
+            currency=currency,
             requester_review=self.get_review(),
             is_requester_principal=self.generator.pybool(),
             date=self.generator.date_between(start_date="-3y", end_date="today"),
             requester_recommendation=self.get_recommendation(),
-            proof_receipt_requester=self.get_proof_receipt_requester()
+            proof_receipt_requester=self.get_proof_receipt_requester(),
+            value_in_usd=amount if currency == 'USD' else None
             )
 
         self.confirm_from_requestee(profile_transaction)
