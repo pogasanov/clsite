@@ -1,0 +1,8 @@
+{% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-success fixed-top unconfirmed_transaction_alert" role="alert" id="success-alert">
+        {{ message }}
+        <button type="button" class="close" data-dismiss="alert">x</button>
+    </div>
+    {% endfor %}
+{% endif %}
