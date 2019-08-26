@@ -266,11 +266,12 @@ class TransactionForm(ModelForm):
 
         self.fields['amount'].widget.attrs['class'] = 'form-control col-md-4 mr-2'
         self.fields['currency'].widget.attrs['class'] = 'form-control col-md-4 mr-2'
+        self.fields['requester_recommendation'].widget.attrs['placeholder'] = 'Optional'
+        self.fields['requester_recommendation'].widget.attrs.update({'rows': '3'})
+        self.fields['requester_review'].widget = forms.RadioSelect(choices=self.fields['requester_review'].choices)
 
         self.fields['is_requester_principal'].label = 'Did one of you pay the other?'
         self.fields['requester_recommendation'].label = 'Write a brief recommendation'
-        self.fields['requester_recommendation'].widget.attrs['placeholder']  = 'Optional'
-        self.fields['requester_recommendation'].widget.attrs.update({'rows': '3'})
         self.fields['requester_review'].label = 'Would you work with them again?'
         self.fields['date'].label = 'What was the date of the transaction?'
         self.fields['date'].widget.attrs['class'] += ' datepicker'
