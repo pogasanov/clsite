@@ -39,13 +39,6 @@
                             <form class="form-block transcation-form" action="" method="post"
                                   enctype="multipart/form-data">
                                 {% csrf_token %}
-                                <div class="form-group row">
-                                    <button class="btn btn-primary" title="Confirm Transaction"
-                                            id="confirm-transaction">Confirm
-                                    </button>
-                                    <input class="btn btn-primary deny-transaction" name="submit" type="submit"
-                                           value="deny" title="Deny Transaction">
-                                </div>
                                 <div class="confirm-transaction-fields">
                                     <div class="form-group row">
                                         {{ form.requestee_review.label_tag }}
@@ -61,7 +54,8 @@
                                             <span style="color: red;">[{{ error }}]</span>
                                         {% endfor %}
                                     </div>
-                                    <input class="btn btn-primary" name="submit" type="submit" title="Submit">
+                                    <input class="btn btn-primary" name="submit" type="submit" value="confirm">
+                                    <input class="btn btn-primary deny-transaction" name="submit" type="submit" value="deny">
                                 </div>
                             </form>
 
