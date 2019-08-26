@@ -3,6 +3,7 @@ from faker import Faker
 import numpy as np
 from django.db import transaction
 import random
+import pytz
 
 from .models import Profile, Address, Education, Admissions, LawSchool, WorkExperience, Organization, Award, Jurisdiction
 from .utils import LAW_TYPE_TAGS_CHOICES, SUBJECTIVE_TAGS_CHOICES, COUNTRIES_CHOICES, _get_states_for_country
@@ -28,7 +29,7 @@ class ProfileProvider(BaseProvider):
             email=self.generator.email(),
             full_name=full_name,
             password='pbkdf2_sha256$150000$2bhhJByaRefj$YjOjogq8+zzorhEeQgTyLYFSZD+tOLgYNeOWbSYhIVg=',
-            date_joined=self.generator.date_object(),
+            date_joined=self.generator.date_time(tzinfo=pytz.UTC),
 
             # Contacts
             phone=self.generator.msisdn(),
@@ -186,3 +187,5 @@ def generate_profiles(count=1000):
         assert(["profile"] + list(field_to_objects.keys()) == list(full_profiles[0].keys()))
         for field_name, field_objects in field_to_objects.items():
             field_objects.bulk_create([full_profile[field_name] for full_profile in full_profiles])
+
+        print("Dummy data ingested to database successfully!")

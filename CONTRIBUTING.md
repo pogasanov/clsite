@@ -61,7 +61,7 @@ It is not other dev's responsibility to Q+A your work.
 
 Before making your MR, make sure you verify: 
 1) Make sure your code is tested both on local and Heroku.
-2) Run `python app/manage.py test` on local, all tests should pass.
+2) Run `python app/manage.py test app/` on local, all tests should pass.
 
 The instructions on how to do above is mentioned in `README.md`. 
 
