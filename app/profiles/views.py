@@ -6,6 +6,7 @@ from django.http import JsonResponse, HttpResponseBadRequest
 from django.views.generic.edit import CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView
+from django.contrib import messages
 from itertools import groupby
 
 from .forms import ProfileForm, EducationFormSet, WorkExperienceFormSet, AddressForm, AdmissionsFormSet, LawSchoolForm, \
@@ -185,6 +186,10 @@ def transaction(request, handle):
 
     if transaction_form.is_valid():
         transaction_form.save(requester=user, requestee=receiver)
+        messages.info(
+            request,
+            "Thank you. We have contacted {} to confirm the transaction with the following details.".format(receiver.full_name.upper()),
+        )
         return redirect('home')
 
     return render(request, "transaction.html", context={'form': transaction_form})
