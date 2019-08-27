@@ -1,0 +1,12 @@
+.custom-arrow-right{
+    background-color: #70bf2b;
+}
+
+.custom-arrow-left{
+    background-color: #288fc3;
+    transform: scaleX(-1);
+}
+
+.field-amount{
+    text-align: right;
+}
