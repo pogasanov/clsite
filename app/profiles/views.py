@@ -182,7 +182,7 @@ def transaction(request, handle):
     if user == receiver:
         return HttpResponseBadRequest()
 
-    transaction_form = TransactionForm(request.POST or None)
+    transaction_form = TransactionForm(request.POST or None, request.FILES or None)
 
     if transaction_form.is_valid():
         transaction_form.save(requester=user, requestee=receiver)

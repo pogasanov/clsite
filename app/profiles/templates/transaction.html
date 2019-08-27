@@ -44,6 +44,22 @@
                                             <span style="color: red;">[{{ error }}]</span>
                                         {% endfor %}
                                     </div>
+                                    <div class="form-group row proof_receipt_requester">
+                                        {{ form.proof_receipt_requester.label_tag }}
+                                        <div class="row justify-content-center">
+                                            <div class="proof-image-container">
+                                            <img src="#" id="id_proof_receipt_requester_image" alt="Transaction Proof"/>
+                                            </div>
+                                            <span class="btn btn-raised btn-round btn-default btn-file" title="Usually a screenshot of the wire transfer, adding proof expedites the transaction verification process">
+                                                <label for="id_proof_receipt_requester" class="proof-label">Select image</label>
+                                                {{ form.proof_receipt_requester }}
+                                            </span>
+                                        </div>
+                                        {% for error in form.proof_receipt_requester.errors %}
+                                            <span style="color: red;">[{{ error }}]</span>
+                                        {% endfor %}
+                                    </div>
+
                                     <div class="form-group row">
                                         {{ form.requester_recommendation.label_tag }}
                                         {{ form.requester_recommendation }}
