@@ -4,8 +4,8 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseBadRequest
 from django.shortcuts import render, get_object_or_404, redirect
 
-from .models import Transaction
 from .forms import TransactionForm, ConfirmTransactionForm
+from .models import Transaction
 
 
 @login_required
@@ -22,11 +22,13 @@ def transaction(request, handle):
         transaction_form.save(requester=user, requestee=receiver)
         messages.info(
             request,
-            "Thank you. We have contacted {} to confirm the transaction with the following details.".format(receiver.full_name.upper()),
+            "Thank you. We have contacted {} to confirm the transaction with the following details.".format(
+                receiver.full_name.upper()),
         )
         return redirect('home')
 
     return render(request, "transaction.html", context={'form': transaction_form})
+
 
 @login_required
 def confirm_transaction(request, transaction_id):
