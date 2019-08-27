@@ -2,6 +2,9 @@ import {setDatePicker} from "./global";
 
 $(document).ready(function () {
     setDatePicker();
+    const transactionProofImageSelector = '#id_proof_receipt_requester_image';
+    $(transactionProofImageSelector).hide();
+
     $("#success-alert").fadeTo(1500, 500).slideUp(500, function() {
         $("#success-alert").slideUp(500);
     });
