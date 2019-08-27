@@ -298,8 +298,9 @@ class ConfirmTransactionForm(ModelForm):
         for key, field in self.fields.items():
             field.widget.attrs.update({'class': 'form-control'})
 
+        self.fields['requestee_review'].widget = forms.RadioSelect(choices=self.fields['requestee_review'].choices)
         self.fields['requestee_recommendation'].label = 'Write a brief recommendation'
-        self.fields['requestee_recommendation'].widget.attrs['placeholder']  = 'Optional'
+        self.fields['requestee_recommendation'].widget.attrs['placeholder'] = 'Optional'
         self.fields['requestee_recommendation'].widget.attrs.update({'rows': '3'})
         self.fields['requestee_review'].label = 'Would you work with them again?'
 

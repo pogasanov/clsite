@@ -42,7 +42,7 @@
                                 <div class="confirm-transaction-fields">
                                     <div class="form-group row">
                                         {{ form.requestee_review.label_tag }}
-                                        {{ form.requestee_review }}
+                                        <div class="col-md-12">{{ form.requestee_review }}</div>
                                         {% for error in form.requestee_review.errors %}
                                             <span style="color: red;">[{{ error }}]</span>
                                         {% endfor %}
