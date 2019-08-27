@@ -185,7 +185,10 @@ def transaction(request, handle):
     transaction_form = TransactionForm(request.POST or None, request.FILES or None)
 
     if transaction_form.is_valid():
-        transaction_form.save(requester=user, requestee=receiver)
+        if transaction_form.files:
+            transaction_form.save(requester=user, requestee=receiver, is_proof_by_requester=True)
+        else:
+            transaction_form.save(requester=user, requestee=receiver)
         messages.info(
             request,
             "Thank you. We have contacted {} to confirm the transaction with the following details.".format(receiver.full_name.upper()),
