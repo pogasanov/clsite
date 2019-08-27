@@ -103,3 +103,21 @@ input[type=number] {
     overflow: hidden;
   }
 }
+
+div.proof_receipt_requester{
+  .btn-file{
+    margin-top: 20px !important;
+  }
+}
+
+.proof-image-container{
+  width: 100%;
+  img{
+    max-width: 100%;
+  }
+}
+
+.proof-label{
+  color: white;
+  vertical-align: sub;
+}
