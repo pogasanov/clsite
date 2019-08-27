@@ -34,11 +34,11 @@
                                                  src="{{ transaction.requester.photo_url_or_default }}">
                                         </div>
                                     </div>
-                                {% if transaction.proof_receipt_requester %}
+                                {% if transaction.proof_receipt %}
                                     <div class="row">
                                         <p>Transaction proof:</p>
                                         <div class="proof-image-container">
-                                            <img src="{{ transaction.proof_receipt_requester.url }}">
+                                            <img src="{{ transaction.proof_receipt.url }}">
                                         </div>
                                     </div>
                                 {% endif %}
