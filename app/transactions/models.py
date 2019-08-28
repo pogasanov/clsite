@@ -23,8 +23,9 @@ class Transaction(models.Model):
 
     requester = models.ForeignKey('profiles.Profile', on_delete=models.CASCADE,
                                   related_name='requester', verbose_name='Requester')
-    proof_receipt_requester = models.ImageField(upload_to=get_image_path, storage=variativeStorage(),
-                                                verbose_name='Transaction Proof', blank=True, null=True)
+    proof_receipt = models.ImageField(upload_to=get_image_path, storage=variativeStorage(),
+                                      verbose_name='Transaction Proof', blank=True, null=True)
+    is_proof_by_requester = models.NullBooleanField(default=None, verbose_name="Receipt added by requester")
     requester_review = models.CharField(max_length=2, choices=REVIEW_CHOICES,
                                         default=None, verbose_name='Requester\'s Review')
     requester_recommendation = models.TextField(null=True, blank=True,
@@ -48,9 +49,9 @@ class Transaction(models.Model):
 
     def save(self, *args, **kwargs):
         if self._state.adding:
-            if self.proof_receipt_requester:
-                ext = self.proof_receipt_requester.name.split('.')[-1]
-                self.proof_receipt_requester.name = f'{uuid.uuid4().hex}.{ext}'
+            if self.proof_receipt:
+                ext = self.proof_receipt.name.split('.')[-1]
+                self.proof_receipt.name = f'{uuid.uuid4().hex}.{ext}'
             else:
                 self.is_verified = False
 
