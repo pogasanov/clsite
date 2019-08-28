@@ -41,11 +41,15 @@ def confirm_transaction(request, transaction_id):
     if user_transaction != user.user_unconfirmed_transaction():
         return HttpResponseBadRequest()
 
-    form = ConfirmTransactionForm(request.POST or None, initial={'requestee_review': 'N'}, instance=user_transaction)
+    form = ConfirmTransactionForm(request.POST or None, request.FILES or None,
+                                  initial={'requestee_review': 'N'}, instance=user_transaction)
 
     if request.POST and form.is_valid():
         is_confirmed = request.POST['submit'] != 'deny'
-        form.save(is_confirmed=is_confirmed)
+        if form.files:
+            form.save(is_confirmed=is_confirmed, is_proof_by_requester=False)
+        else:
+            form.save(is_confirmed=is_confirmed)
 
         return redirect('home')
 
