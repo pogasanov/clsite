@@ -1,10 +1,6 @@
 ## Summary
 
-Summarize what this feature do.
-
-## Screenshots
-
-If possible, attach screenshots to preview what this MR will do
+Summarize what this feature does.
 
 ## Requirements
 
@@ -16,8 +12,14 @@ For example:
 
 ## Issues
 
-Attach issues that are closed with this MR. If this MR will add new issues, create those and attach here as well.
+Attach issues that are closed with this MR. If this MR will add new
+issues, create those and attach here as well.
 
 ## Notes
 
-All not previously mentioned details - reasons for this MR, description of specific approaches.
+All not previously mentioned details - reasons for this MR, description
+of specific approaches.
+
+## Screenshots
+
+If possible, attach screenshots to preview what this MR will do
