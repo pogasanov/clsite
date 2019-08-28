@@ -1,6 +1,6 @@
 from django.db.models import Q
 
-from .models import Transaction
+from transactions.models import Transaction
 
 
 def get_user_relationships(user):
