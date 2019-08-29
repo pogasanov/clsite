@@ -6,8 +6,8 @@ from django.utils.translation import ugettext_lazy as _
 from .models import Transaction
 
 
-class TransactionVerifiedFilter(admin.SimpleListFilter):
-    title = _('Admin Verified')
+class TransactionApprovedFilter(admin.SimpleListFilter):
+    title = _('Admin Approved')
 
     parameter_name = 'is_admin_approved'
 
@@ -64,10 +64,10 @@ deny_transactions.short_description = "Deny selected transactions"
 class TransactionAdmin(admin.ModelAdmin):
     """Admin model for the Transactions."""
     change_list_template = 'transaction_admin.html'
-    list_filter = [TransactionVerifiedFilter, TransactionValueInUSDEmptyFilter]
+    list_filter = [TransactionApprovedFilter, TransactionValueInUSDEmptyFilter]
     list_display = (
         'requester', 'amount_direction', 'requestee', 'amount', 'currency', 'date',
-        'value_in_usd', 'currency_conversion', 'is_confirmed', 'verified', 'proof_receipt'
+        'value_in_usd', 'currency_conversion', 'is_confirmed', 'admin_approved', 'proof_receipt'
     )
     list_editable = ('value_in_usd',)
     ordering = ['-created_at']
@@ -76,7 +76,7 @@ class TransactionAdmin(admin.ModelAdmin):
     class Media:
         css = {'all': ('admin.css',)}
 
-    def verified(self, obj):
+    def admin_approved(self, obj):
         if not obj.proof_receipt:
             return 'N/A'
 
@@ -85,7 +85,7 @@ class TransactionAdmin(admin.ModelAdmin):
 
         return 'Approved' if obj.is_admin_approved else 'Denied'
 
-    verified.short_description = 'Admin-Verified'
+    admin_approved.short_description = 'Admin-Approved'
 
     def amount_direction(self, obj):
         arrow_tag = '<img src="/static/admin/img/tooltag-arrowright.svg" class="{}"alt="None">'
