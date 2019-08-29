@@ -9,7 +9,7 @@ from .models import Transaction
 class TransactionVerifiedFilter(admin.SimpleListFilter):
     title = _('Admin Verified')
 
-    parameter_name = 'is_verified'
+    parameter_name = 'is_admin_approved'
 
     def lookups(self, request, model_admin):
 
@@ -22,13 +22,13 @@ class TransactionVerifiedFilter(admin.SimpleListFilter):
     def queryset(self, request, queryset):
 
         if self.value() == 'yes':
-            return queryset.filter(is_verified=True)
+            return queryset.filter(is_admin_approved=True)
 
         if self.value() == 'no':
-            return queryset.filter(Q(is_verified=False), ~Q(proof_receipt=''))
+            return queryset.filter(Q(is_admin_approved=False), ~Q(proof_receipt=''))
 
         if self.value() == 'null':
-            return queryset.filter(Q(is_verified__isnull=True), ~Q(proof_receipt=''))
+            return queryset.filter(Q(is_admin_approved__isnull=True), ~Q(proof_receipt=''))
 
 
 class TransactionValueInUSDEmptyFilter(admin.SimpleListFilter):
@@ -47,14 +47,14 @@ class TransactionValueInUSDEmptyFilter(admin.SimpleListFilter):
 
 
 def approve_transactions(modeladmin, request, queryset):
-    queryset.update(is_verified=True)
+    queryset.update(is_admin_approved=True)
 
 
 approve_transactions.short_description = "Approve selected transactions"
 
 
 def deny_transactions(modeladmin, request, queryset):
-    queryset.update(is_verified=False)
+    queryset.update(is_admin_approved=False)
 
 
 deny_transactions.short_description = "Deny selected transactions"
@@ -80,10 +80,10 @@ class TransactionAdmin(admin.ModelAdmin):
         if not obj.proof_receipt:
             return 'N/A'
 
-        if obj.is_verified is None:
+        if obj.is_admin_approved is None:
             return 'Pending'
 
-        return 'Approved' if obj.is_verified else 'Denied'
+        return 'Approved' if obj.is_admin_approved else 'Denied'
 
     verified.short_description = 'Admin-Verified'
 
