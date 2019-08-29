@@ -39,7 +39,7 @@ class Transaction(models.Model):
                                                 default=None, verbose_name='Requestee\'s recommendation')
 
     is_confirmed = models.NullBooleanField(default=None, verbose_name='Requestee Confirmed')
-    is_verified = models.NullBooleanField(default=None, verbose_name='Verified from Admin')
+    is_admin_approved = models.NullBooleanField(default=None, verbose_name='Approved from Admin')
     amount = models.DecimalField(max_digits=14, decimal_places=2, verbose_name='Transaction Amount')
     value_in_usd = models.DecimalField(max_digits=14, decimal_places=2, verbose_name='Value in USD', null=True,
                                        blank=True)
