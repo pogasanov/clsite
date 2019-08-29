@@ -67,7 +67,7 @@ class TransactionAdmin(admin.ModelAdmin):
     list_filter = [TransactionApprovedFilter, TransactionValueInUSDEmptyFilter]
     list_display = (
         'requester', 'amount_direction', 'requestee', 'amount', 'currency', 'date',
-        'value_in_usd', 'currency_conversion', 'is_confirmed', 'admin_approved', 'proof_receipt'
+        'value_in_usd', 'currency_conversion', 'is_confirmed', 'is_verified', 'admin_approved', 'proof_receipt'
     )
     list_editable = ('value_in_usd',)
     ordering = ['-created_at']
@@ -75,6 +75,13 @@ class TransactionAdmin(admin.ModelAdmin):
 
     class Media:
         css = {'all': ('admin.css',)}
+
+    def is_verified(self, obj):
+        if obj.is_proof_by_requester is None:
+            return False
+        return True
+
+    is_verified.boolean = True
 
     def admin_approved(self, obj):
         if not obj.proof_receipt:
