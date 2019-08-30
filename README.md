@@ -120,8 +120,8 @@ python app/manage.py loaddata admin handcrafted
 # Alternately: Use admin / admin@correspondence.legal / asdfasdf
 #python app/manage.py createsuperuser
 
-# Optional: Create 100 dummy profiles
-python app/manage.py generateprofiles 100
+# Optional: Create 1000 dummy profiles
+python app/manage.py generateprofiles 1000
 
 python app/manage.py runserver
 ```
@@ -139,10 +139,10 @@ data as follows:
 python app/manage.py loaddata admin handcrafted
 ```
 
-You can create 100 random dummy profiles as follows:
+You can create 1000 random dummy profiles as follows:
 
 ```bash
-python app/manage.py generateprofiles 100
+python app/manage.py generateprofiles 1000
 ```
 
 * `admin` - adds admin profile. Login email is
@@ -382,8 +382,8 @@ uses `bulk_create` to do it efficiently and not stress database.
 ```python
 from profiles.faker import generate_profiles
 
-# populate database with 50 profiles with related models
-generate_profiles(50)
+# populate database with 1000 profiles with related models
+generate_profiles(1000)
 ```
 
 ### Fixtures
