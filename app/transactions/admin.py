@@ -82,9 +82,7 @@ class TransactionAdmin(admin.ModelAdmin):
     is_ready.boolean = True
 
     def is_verified(self, obj):
-        if obj.is_proof_by_requester is None:
-            return False
-        return True
+        return obj.is_verified
 
     is_verified.boolean = True
 

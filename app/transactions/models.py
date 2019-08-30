@@ -66,3 +66,9 @@ class Transaction(models.Model):
                 return True if (self.is_admin_approved and self.value_in_usd) else False
         else:
             return False
+
+    @property
+    def is_verified(self):
+        if self.is_proof_by_requester is None:
+            return False
+        return True
