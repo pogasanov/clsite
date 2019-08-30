@@ -58,15 +58,13 @@ class Transaction(models.Model):
     @property
     def is_ready(self):
         if self.is_confirmed:
-            if self.is_proof_by_requester is None:
-                return True if self.value_in_usd else False
-            else:
+            if self.proof_receipt:
                 return True if (self.is_admin_approved and self.value_in_usd) else False
+            else:
+                return True if self.value_in_usd else False
         else:
             return False
 
     @property
     def is_verified(self):
-        if self.is_proof_by_requester is None:
-            return False
-        return True
+        return True if self.proof_receipt else False
