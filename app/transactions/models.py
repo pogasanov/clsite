@@ -52,8 +52,6 @@ class Transaction(models.Model):
             if self.proof_receipt:
                 ext = self.proof_receipt.name.split('.')[-1]
                 self.proof_receipt.name = f'{uuid.uuid4().hex}.{ext}'
-            else:
-                self.is_verified = False
 
         super(Transaction, self).save(*args, **kwargs)
 
