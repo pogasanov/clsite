@@ -25,10 +25,10 @@ class TransactionVerifiedFilter(admin.SimpleListFilter):
             return queryset.filter(is_verified=True)
 
         if self.value() == 'no':
-            return queryset.filter(Q(is_verified=False), ~Q(proof_receipt_requester=''))
+            return queryset.filter(Q(is_verified=False), ~Q(proof_receipt=''))
 
         if self.value() == 'null':
-            return queryset.filter(Q(is_verified__isnull=True), ~Q(proof_receipt_requester=''))
+            return queryset.filter(Q(is_verified__isnull=True), ~Q(proof_receipt=''))
 
 
 class TransactionValueInUSDEmptyFilter(admin.SimpleListFilter):
@@ -67,7 +67,7 @@ class TransactionAdmin(admin.ModelAdmin):
     list_filter = [TransactionVerifiedFilter, TransactionValueInUSDEmptyFilter]
     list_display = (
         'requester', 'amount_direction', 'requestee', 'amount', 'currency', 'date',
-        'value_in_usd', 'currency_conversion', 'is_confirmed', 'verified', 'proof_receipt_requester'
+        'value_in_usd', 'currency_conversion', 'is_confirmed', 'verified', 'proof_receipt'
     )
     list_editable = ('value_in_usd',)
     ordering = ['-created_at']
@@ -77,7 +77,7 @@ class TransactionAdmin(admin.ModelAdmin):
         css = {'all': ('admin.css',)}
 
     def verified(self, obj):
-        if not obj.proof_receipt_requester:
+        if not obj.proof_receipt:
             return 'N/A'
 
         if obj.is_verified is None:
