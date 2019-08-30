@@ -56,3 +56,13 @@ class Transaction(models.Model):
                 self.is_verified = False
 
         super(Transaction, self).save(*args, **kwargs)
+
+    @property
+    def is_ready(self):
+        if self.is_confirmed:
+            if self.is_proof_by_requester is None:
+                return True if self.value_in_usd else False
+            else:
+                return True if (self.is_admin_approved and self.value_in_usd) else False
+        else:
+            return False
