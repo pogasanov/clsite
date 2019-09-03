@@ -8,6 +8,16 @@ from profiles.models import get_image_path
 from transactions.choices import CURRENCIES
 
 
+class TransactionQuerySet(models.QuerySet):
+    def unconfirmed(self):
+        return self.filter(is_confirmed=None)
+
+
+class TransactionUnconfirmedManager(models.Manager):
+    def get_queryset(self):
+        return TransactionQuerySet(self.model, using=self._db).unconfirmed()
+
+
 class Transaction(models.Model):
     REVIEW_CHOICES = (
         ('SD', 'Strongly Disagree'),
@@ -47,6 +57,9 @@ class Transaction(models.Model):
     currency = models.CharField(max_length=3, choices=CURRENCY_CHOICES,
                                 default='USD', verbose_name='Transaction Currency')
     is_requester_principal = models.BooleanField(default=False, verbose_name='Did one of you pay the other?')
+
+    objects = TransactionQuerySet.as_manager()
+    unconfirmed = TransactionUnconfirmedManager()
 
     def clean(self):
         super().clean()
