@@ -206,7 +206,7 @@ class Profile(AbstractUser):
         return static('dummy-img.png')
 
     def user_unconfirmed_transaction(self):
-        return self.requestee.unconfirmed().order_by('-created_at').first()
+        return self.requestee.unconfirmed().first()
 
     def _compile_headline(self):
         headline_format = '{tags} attorney{jurisdictions}'

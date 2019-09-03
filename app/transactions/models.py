@@ -61,10 +61,8 @@ class Transaction(models.Model):
     objects = TransactionQuerySet.as_manager()
     unconfirmed = TransactionUnconfirmedManager()
 
-    def clean(self):
-        super().clean()
-        if self.requester == self.requestee:
-            raise ValidationError('Requester and requestee cannot be the same user', code='same-requester-requestee')
+    class Meta:
+        ordering = ['-created_at']
 
     def save(self, *args, **kwargs):
         if self._state.adding:
@@ -78,3 +76,8 @@ class Transaction(models.Model):
             self.value_in_usd = self.amount
 
         super(Transaction, self).save(*args, **kwargs)
+
+    def clean(self):
+        super().clean()
+        if self.requester == self.requestee:
+            raise ValidationError('Requester and requestee cannot be the same user', code='same-requester-requestee')
