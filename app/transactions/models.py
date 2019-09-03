@@ -19,12 +19,17 @@ class TransactionUnconfirmedManager(models.Manager):
 
 
 class Transaction(models.Model):
+    REVIEW_STRONGLY_DISAGREE = 'SD'
+    REVIEW_DISAGREE = 'D'
+    REVIEW_NEUTRAL = 'N'
+    REVIEW_AGREE = 'A'
+    REVIEW_STRONGLY_AGREE = 'SA'
     REVIEW_CHOICES = (
-        ('SD', 'Strongly Disagree'),
-        ('D', 'Disagree'),
-        ('N', 'Neutral'),
-        ('A', 'Agree'),
-        ('SA', 'Strongly Agree')
+        (REVIEW_STRONGLY_DISAGREE, 'Strongly Disagree'),
+        (REVIEW_DISAGREE, 'Disagree'),
+        (REVIEW_NEUTRAL, 'Neutral'),
+        (REVIEW_AGREE, 'Agree'),
+        (REVIEW_STRONGLY_AGREE, 'Strongly Agree')
     )
     CURRENCY_CHOICES = CURRENCIES
 
