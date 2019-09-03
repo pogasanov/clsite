@@ -205,7 +205,7 @@ class Profile(AbstractUser):
             return self.photo.url
         return static('dummy-img.png')
 
-    def user_unconfirmed_transactions(self):
+    def unconfirmed_transactions(self):
         return self.requestee.unconfirmed()
 
     def _compile_headline(self):
