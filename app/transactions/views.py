@@ -21,7 +21,7 @@ def transaction(request, handle):
                                        requester=requester,
                                        requestee=requestee)
 
-    if transaction_form.is_valid():
+    if request.method == 'POST' and transaction_form.is_valid():
         transaction_form.save()
         messages.info(
             request,
