@@ -16,13 +16,13 @@ def transaction(request, handle):
     if requester == requestee:
         return redirect('profile')
 
-    transaction_form = TransactionForm(request.POST or None,
-                                       request.FILES or None,
-                                       requester=requester,
-                                       requestee=requestee)
+    form = TransactionForm(request.POST or None,
+                           request.FILES or None,
+                           requester=requester,
+                           requestee=requestee)
 
-    if request.method == 'POST' and transaction_form.is_valid():
-        transaction_form.save()
+    if request.method == 'POST' and form.is_valid():
+        form.save()
         messages.info(
             request,
             "Thank you. We have contacted {} to confirm the transaction with the following details.".format(
@@ -30,7 +30,7 @@ def transaction(request, handle):
         )
         return redirect('home')
 
-    return render(request, "transaction.html", context={'form': transaction_form})
+    return render(request, "transaction.html", context={'form': form})
 
 
 @login_required
