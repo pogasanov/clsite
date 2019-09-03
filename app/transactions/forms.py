@@ -42,15 +42,6 @@ class TransactionForm(ModelForm):
         self.fields['date'].label = 'What was the date of the transaction?'
         self.fields['date'].widget.attrs['class'] += ' datepicker'
 
-    def save(self, commit=True):
-        transaction = super().save(commit=False)
-
-        if transaction.currency == 'USD':
-            transaction.value_in_usd = transaction.amount
-
-        transaction.save()
-        return transaction
-
 
 class ConfirmTransactionForm(ModelForm):
     class Meta:

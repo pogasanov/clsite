@@ -55,4 +55,7 @@ class Transaction(models.Model):
             else:
                 self.is_verified = False
 
+        if self.currency == 'USD':
+            self.value_in_usd = self.amount
+
         super(Transaction, self).save(*args, **kwargs)
