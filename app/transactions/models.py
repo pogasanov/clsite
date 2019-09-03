@@ -1,5 +1,6 @@
 import uuid
 
+from django.core.exceptions import ValidationError
 from django.db import models
 
 from clsite.storage_backends import variativeStorage
@@ -46,6 +47,11 @@ class Transaction(models.Model):
     currency = models.CharField(max_length=3, choices=CURRENCY_CHOICES,
                                 default='USD', verbose_name='Transaction Currency')
     is_requester_principal = models.BooleanField(default=False, verbose_name='Requester Payed')
+
+    def clean(self):
+        super().clean()
+        if self.requester == self.requestee:
+            raise ValidationError('Requester and requestee cannot be the same user', code='same-requester-requestee')
 
     def save(self, *args, **kwargs):
         if self._state.adding:
