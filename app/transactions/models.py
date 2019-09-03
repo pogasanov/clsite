@@ -20,22 +20,22 @@ class Transaction(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    date = models.DateField(verbose_name='Transaction Date')
+    date = models.DateField(verbose_name='What was the date of the transaction?')
 
     requester = models.ForeignKey('profiles.Profile', on_delete=models.CASCADE,
                                   related_name='requester', verbose_name='Requester')
     proof_receipt = models.ImageField(upload_to=get_image_path, storage=variativeStorage(),
-                                      verbose_name='Transaction Proof', blank=True, null=True)
+                                      verbose_name='Screenshot of wire transfer (Optional)', blank=True, null=True)
     is_proof_by_requester = models.NullBooleanField(default=None, verbose_name="Receipt added by requester")
     requester_review = models.CharField(max_length=2, choices=REVIEW_CHOICES,
                                         default=None, verbose_name='Requester\'s Review')
     requester_recommendation = models.TextField(null=True, blank=True,
-                                                default=None, verbose_name='Requester\'s recommendation')
+                                                default=None, verbose_name='Write a brief recommendation')
 
     requestee = models.ForeignKey('profiles.Profile', on_delete=models.CASCADE,
                                   related_name='requestee', verbose_name='Requestee')
     requestee_review = models.CharField(max_length=2, choices=REVIEW_CHOICES,
-                                        default=None, verbose_name='Requestee\'s Review', null=True)
+                                        default=None, verbose_name='Would you work with them again?', null=True)
     requestee_recommendation = models.TextField(null=True, blank=True,
                                                 default=None, verbose_name='Requestee\'s recommendation')
 
@@ -46,7 +46,7 @@ class Transaction(models.Model):
                                        blank=True)
     currency = models.CharField(max_length=3, choices=CURRENCY_CHOICES,
                                 default='USD', verbose_name='Transaction Currency')
-    is_requester_principal = models.BooleanField(default=False, verbose_name='Requester Payed')
+    is_requester_principal = models.BooleanField(default=False, verbose_name='Did one of you pay the other?')
 
     def clean(self):
         super().clean()

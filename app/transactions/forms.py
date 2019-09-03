@@ -35,11 +35,6 @@ class TransactionForm(ModelForm):
         self.fields['requester_recommendation'].widget.attrs.update({'rows': '3'})
         self.fields['requester_review'].widget = forms.RadioSelect(choices=self.fields['requester_review'].choices)
 
-        self.fields['is_requester_principal'].label = 'Did one of you pay the other?'
-        self.fields['proof_receipt'].label = 'Screenshot of wire transfer (Optional)'
-        self.fields['requester_recommendation'].label = 'Write a brief recommendation'
-        self.fields['requester_review'].label = 'Would you work with them again?'
-        self.fields['date'].label = 'What was the date of the transaction?'
         self.fields['date'].widget.attrs['class'] += ' datepicker'
 
 
@@ -57,11 +52,8 @@ class ConfirmTransactionForm(ModelForm):
             field.widget.attrs.update({'class': 'form-control'})
 
         self.fields['requestee_review'].widget = forms.RadioSelect(choices=self.fields['requestee_review'].choices)
-        self.fields['proof_receipt'].label = 'Screenshot of wire transfer (Optional)'
-        self.fields['requestee_recommendation'].label = 'Write a brief recommendation'
         self.fields['requestee_recommendation'].widget.attrs['placeholder'] = 'Optional'
         self.fields['requestee_recommendation'].widget.attrs.update({'rows': '3'})
-        self.fields['requestee_review'].label = 'Would you work with them again?'
 
     def save(self, commit=True):
         transaction = super().save(commit=False)
