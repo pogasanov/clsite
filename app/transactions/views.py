@@ -16,13 +16,10 @@ def transaction(request, handle):
     if user == receiver:
         return HttpResponseBadRequest()
 
-    transaction_form = TransactionForm(request.POST or None, request.FILES or None)
+    transaction_form = TransactionForm(request.POST or None, request.FILES or None, requester=user, requestee=receiver)
 
     if transaction_form.is_valid():
-        if transaction_form.files:
-            transaction_form.save(requester=user, requestee=receiver, is_proof_by_requester=True)
-        else:
-            transaction_form.save(requester=user, requestee=receiver)
+        transaction_form.save()
         messages.info(
             request,
             "Thank you. We have contacted {} to confirm the transaction with the following details.".format(

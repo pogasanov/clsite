@@ -11,7 +11,15 @@ class TransactionForm(ModelForm):
                   'amount', 'currency', 'requester_recommendation', 'proof_receipt']
 
     def __init__(self, *args, **kwargs):
+        requester = kwargs.pop('requester')
+        requestee = kwargs.pop('requestee')
         super().__init__(*args, **kwargs)
+
+        self.instance.requester = requester
+        self.instance.requestee = requestee
+        if self.files:
+            self.instance.is_proof_by_requester = True
+
         self.fields['is_requester_principal'].widget = forms.NullBooleanSelect()
         self.fields['is_requester_principal'].widget.choices = (
             (True, "I paid them"),
@@ -34,11 +42,8 @@ class TransactionForm(ModelForm):
         self.fields['date'].label = 'What was the date of the transaction?'
         self.fields['date'].widget.attrs['class'] += ' datepicker'
 
-    def save(self, requester, requestee, is_proof_by_requester=None, commit=True):
+    def save(self, commit=True):
         transaction = super().save(commit=False)
-        transaction.requester = requester
-        transaction.requestee = requestee
-        transaction.is_proof_by_requester = is_proof_by_requester
 
         if transaction.currency == 'USD':
             transaction.value_in_usd = transaction.amount
