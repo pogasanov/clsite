@@ -1,7 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseBadRequest
 from django.shortcuts import render, get_object_or_404, redirect
 
 from .forms import TransactionForm, ConfirmTransactionForm
@@ -38,8 +37,8 @@ def confirm_transaction(request, transaction_id):
     user = request.user
     user_transaction = get_object_or_404(Transaction, id=transaction_id)
 
-    if user_transaction != user.user_unconfirmed_transaction():
-        return HttpResponseBadRequest()
+    if user_transaction not in user.user_unconfirmed_transactions():
+        return redirect('profile')
 
     form = ConfirmTransactionForm(request.POST or None, request.FILES or None,
                                   initial={'requestee_review': 'N'}, instance=user_transaction)

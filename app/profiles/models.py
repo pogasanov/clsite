@@ -205,8 +205,8 @@ class Profile(AbstractUser):
             return self.photo.url
         return static('dummy-img.png')
 
-    def user_unconfirmed_transaction(self):
-        return self.requestee.unconfirmed().first()
+    def user_unconfirmed_transactions(self):
+        return self.requestee.unconfirmed()
 
     def _compile_headline(self):
         headline_format = '{tags} attorney{jurisdictions}'
