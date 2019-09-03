@@ -10,20 +10,23 @@ from .models import Transaction
 
 @login_required
 def transaction(request, handle):
-    user = request.user
-    receiver = get_object_or_404(get_user_model(), handle=handle)
+    requester = request.user
+    requestee = get_object_or_404(get_user_model(), handle=handle)
 
-    if user == receiver:
-        return HttpResponseBadRequest()
+    if requester == requestee:
+        return redirect('profile')
 
-    transaction_form = TransactionForm(request.POST or None, request.FILES or None, requester=user, requestee=receiver)
+    transaction_form = TransactionForm(request.POST or None,
+                                       request.FILES or None,
+                                       requester=requester,
+                                       requestee=requestee)
 
     if transaction_form.is_valid():
         transaction_form.save()
         messages.info(
             request,
             "Thank you. We have contacted {} to confirm the transaction with the following details.".format(
-                receiver.full_name.upper()),
+                requestee.full_name.upper()),
         )
         return redirect('home')
 
