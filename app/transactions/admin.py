@@ -47,14 +47,14 @@ class TransactionValueInUSDEmptyFilter(admin.SimpleListFilter):
 
 
 def approve_transactions(modeladmin, request, queryset):
-    queryset.update(is_admin_approved=True)
+    queryset.exclude(proof_receipt='').update(is_admin_approved=True)
 
 
 approve_transactions.short_description = "Approve selected transactions"
 
 
 def deny_transactions(modeladmin, request, queryset):
-    queryset.update(is_admin_approved=False)
+    queryset.exclude(proof_receipt='').update(is_admin_approved=False)
 
 
 deny_transactions.short_description = "Deny selected transactions"
