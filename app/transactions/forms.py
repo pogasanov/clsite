@@ -46,8 +46,6 @@ class ConfirmTransactionForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        self.instance.is_confirmed = self.data['submit'] != 'deny'
-
         for key, field in self.fields.items():
             field.widget.attrs.update({'class': 'form-control'})
 
@@ -57,6 +55,8 @@ class ConfirmTransactionForm(ModelForm):
 
     def save(self, commit=True):
         transaction = super().save(commit=False)
+
+        transaction.is_confirmed = self.cleaned_data['submit'] != 'deny'
 
         if not transaction.is_confirmed:
             transaction.requestee_recommendation = None
