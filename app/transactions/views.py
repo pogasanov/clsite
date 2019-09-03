@@ -45,17 +45,11 @@ def confirm_transaction(request, transaction_id):
                                   initial={'requestee_review': 'N'}, instance=user_transaction)
 
     if request.POST and form.is_valid():
-        is_confirmed = request.POST['submit'] != 'deny'
-        if form.files:
-            form.save(is_confirmed=is_confirmed, is_proof_by_requester=False)
-        else:
-            form.save(is_confirmed=is_confirmed)
-
+        form.save()
         return redirect('home')
 
     context = {
         'transaction': user_transaction,
         'form': form
     }
-
     return render(request, "confirm_transaction.html", context=context)

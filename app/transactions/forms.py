@@ -50,6 +50,9 @@ class ConfirmTransactionForm(ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+
+        self.instance.is_confirmed = self.data['submit'] != 'deny'
+
         for key, field in self.fields.items():
             field.widget.attrs.update({'class': 'form-control'})
 
@@ -60,14 +63,14 @@ class ConfirmTransactionForm(ModelForm):
         self.fields['requestee_recommendation'].widget.attrs.update({'rows': '3'})
         self.fields['requestee_review'].label = 'Would you work with them again?'
 
-    def save(self, is_confirmed, is_proof_by_requester=None, commit=True):
+    def save(self, commit=True):
         transaction = super().save(commit=False)
 
-        if not is_confirmed:
+        if not transaction.is_confirmed:
             transaction.requestee_recommendation = None
             transaction.requestee_review = None
             transaction.proof_receipt = None
         else:
-            transaction.is_proof_by_requester = is_proof_by_requester
-        transaction.is_confirmed = is_confirmed
+            transaction.is_proof_by_requester = True if self.files else None
+
         transaction.save()
