@@ -39,7 +39,7 @@ class Transaction(models.Model):
                                                 default=None, verbose_name='Requestee\'s recommendation')
 
     is_confirmed = models.NullBooleanField(default=None, verbose_name='Requestee Confirmed')
-    is_verified = models.NullBooleanField(default=None, verbose_name='Verified from Admin')
+    is_admin_approved = models.NullBooleanField(default=None, verbose_name='Approved from Admin')
     amount = models.DecimalField(max_digits=14, decimal_places=2, verbose_name='Transaction Amount')
     value_in_usd = models.DecimalField(max_digits=14, decimal_places=2, verbose_name='Value in USD', null=True,
                                        blank=True)
@@ -52,7 +52,18 @@ class Transaction(models.Model):
             if self.proof_receipt:
                 ext = self.proof_receipt.name.split('.')[-1]
                 self.proof_receipt.name = f'{uuid.uuid4().hex}.{ext}'
-            else:
-                self.is_verified = False
 
         super(Transaction, self).save(*args, **kwargs)
+
+    @property
+    def is_ready(self):
+        if self.is_confirmed:
+            if self.proof_receipt:
+                return bool(self.is_admin_approved and self.value_in_usd)
+            else:
+                return bool(self.value_in_usd)
+        return False
+
+    @property
+    def is_verified(self):
+        return bool(self.proof_receipt)
