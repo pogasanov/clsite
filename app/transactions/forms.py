@@ -33,9 +33,17 @@ class TransactionForm(ModelForm):
 
 
 class ConfirmTransactionForm(ModelForm):
+    ACTION_CONFIRM = 'confirm'
+    ACTION_DENY = 'deny'
+    ACTION_CHOICES = (
+        (ACTION_CONFIRM, 'Confirm'),
+        (ACTION_DENY, 'Deny')
+    )
+    submit = forms.ChoiceField(choices=ACTION_CHOICES)
+
     class Meta:
         model = Transaction
-        fields = ['requestee_review', 'requestee_recommendation', 'proof_receipt']
+        fields = ['requestee_review', 'requestee_recommendation', 'proof_receipt', 'submit']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -51,7 +59,7 @@ class ConfirmTransactionForm(ModelForm):
     def save(self, commit=True):
         transaction = super().save(commit=False)
 
-        transaction.is_confirmed = self.cleaned_data['submit'] != 'deny'
+        transaction.is_confirmed = self.cleaned_data['submit'] == self.ACTION_CONFIRM
 
         if not transaction.is_confirmed:
             transaction.requestee_recommendation = None
