@@ -35,7 +35,17 @@ class Transaction(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
     date = models.DateField(verbose_name='What was the date of the transaction?')
+    amount = models.DecimalField(max_digits=14, decimal_places=2, verbose_name='Transaction Amount')
+    value_in_usd = models.DecimalField(max_digits=14, decimal_places=2, verbose_name='Value in USD', null=True,
+                                       blank=True)
+    currency = models.CharField(max_length=3, choices=CURRENCY_CHOICES,
+                                default='USD', verbose_name='Transaction Currency')
+
+    proof_receipt = models.ImageField(upload_to=get_image_path, storage=variativeStorage(),
+                                      verbose_name='Screenshot of wire transfer (Optional)', blank=True, null=True)
+    is_proof_by_requester = models.NullBooleanField(default=None, verbose_name="Receipt added by requester")
 
     requester = models.ForeignKey('profiles.Profile', on_delete=models.CASCADE,
                                   related_name='requester', verbose_name='Requester')
@@ -51,11 +61,6 @@ class Transaction(models.Model):
 
     is_confirmed = models.NullBooleanField(default=None, verbose_name='Requestee Confirmed')
     is_verified = models.NullBooleanField(default=None, verbose_name='Verified from Admin')
-    amount = models.DecimalField(max_digits=14, decimal_places=2, verbose_name='Transaction Amount')
-    value_in_usd = models.DecimalField(max_digits=14, decimal_places=2, verbose_name='Value in USD', null=True,
-                                       blank=True)
-    currency = models.CharField(max_length=3, choices=CURRENCY_CHOICES,
-                                default='USD', verbose_name='Transaction Currency')
     is_requester_principal = models.BooleanField(default=False, verbose_name='Did one of you pay the other?')
 
     objects = TransactionQuerySet.as_manager()
