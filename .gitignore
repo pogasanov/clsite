@@ -122,4 +122,5 @@ staticfiles
 node_modules
 # frontend assets
 app/clsite/static/*
+app/media
 !admin.css
