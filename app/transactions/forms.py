@@ -25,11 +25,10 @@ class TransactionForm(ModelForm):
 
         self.fields['amount'].widget.attrs['class'] = 'form-control col-md-4 mr-2'
         self.fields['currency'].widget.attrs['class'] = 'form-control col-md-4 mr-2'
+        self.fields['date'].widget.attrs['class'] = 'form-control datepicker'
         self.fields['requester_recommendation'].widget.attrs['placeholder'] = 'Optional'
         self.fields['requester_recommendation'].widget.attrs.update({'rows': '3'})
         self.fields['requester_review'].widget = forms.RadioSelect(choices=self.fields['requester_review'].choices)
-
-        self.fields['date'].widget.attrs['class'] += ' datepicker'
 
 
 class ConfirmTransactionForm(ModelForm):
