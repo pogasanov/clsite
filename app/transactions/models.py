@@ -68,7 +68,7 @@ class Transaction(models.Model):
     requestee_recommendation = models.TextField(verbose_name='Requestee\'s recommendation', default='', blank=True)
 
     is_confirmed = models.NullBooleanField(default=None, verbose_name='Requestee Confirmed')
-    is_verified = models.NullBooleanField(default=None, verbose_name='Verified from Admin')
+    is_admin_approved = models.NullBooleanField(default=None, verbose_name='Approved from Admin')
     is_requester_principal = models.BooleanField(choices=IS_REQUESTER_PRINCIPAL_CHOICES,
                                                  default=IS_REQUESTER_PRINCIPAL_REQUESTEE,
                                                  verbose_name='Did one of you pay the other?')
@@ -84,13 +84,25 @@ class Transaction(models.Model):
             if self.proof_receipt:
                 ext = self.proof_receipt.name.split('.')[-1]
                 self.proof_receipt.name = f'{uuid.uuid4().hex}.{ext}'
-            else:
-                self.is_verified = False
 
         if self.currency == 'USD':
             self.value_in_usd = self.amount
 
         super(Transaction, self).save(*args, **kwargs)
+        super(Transaction, self).save(*args, **kwargs)
+
+    @property
+    def is_ready(self):
+        if self.is_confirmed:
+            if self.proof_receipt:
+                return bool(self.is_admin_approved and self.value_in_usd)
+            else:
+                return bool(self.value_in_usd)
+        return False
+
+    @property
+    def is_verified(self):
+        return bool(self.proof_receipt)
 
     def clean(self):
         super().clean()

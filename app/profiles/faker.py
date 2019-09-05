@@ -1,22 +1,19 @@
-from faker.providers import BaseProvider
-from faker import Faker
-import numpy as np
-from django.db import transaction
 import random
-import pytz
 
-from .models import Profile, Address, Education, Admissions, LawSchool, WorkExperience, Organization, Award, Jurisdiction
+import numpy as np
+import pytz
+from django.db import transaction
+from faker import Faker
+from faker.providers import BaseProvider
+
+from clsite.utils import random_number_exponential_delay
+from transactions.faker import TransactionProvider, generate_transactions
+from transactions.models import Transaction
+from .models import Profile, Address, Education, Admissions, LawSchool, \
+    WorkExperience, Organization, Award, Jurisdiction
 from .utils import LAW_TYPE_TAGS_CHOICES, SUBJECTIVE_TAGS_CHOICES, COUNTRIES_CHOICES, _get_states_for_country
 
 SEED_VALUE = 54321
-
-def random_number_exponential_delay(pr=0.25, probability_of_none=0.0):
-    if random.random() < probability_of_none:
-        return 0
-    i = 1
-    while random.random() < pr:
-        i += 1
-    return i
 
 
 class ProfileProvider(BaseProvider):
@@ -39,7 +36,8 @@ class ProfileProvider(BaseProvider):
             size_of_clients=self.generator.pyint(min_value=0, max_value=3, step=1),
             preferred_communication_method=self.generator.pyint(min_value=0, max_value=3, step=1),
             law_type_tags=[self.get_random_law_type_tag() for x in range(random_number_exponential_delay(pr=0.25))],
-            subjective_tags=[self.get_random_subjective_tag() for x in range(random_number_exponential_delay(pr=0.25, probability_of_none=0.0))],
+            subjective_tags=[self.get_random_subjective_tag() for
+                             x in range(random_number_exponential_delay(pr=0.25, probability_of_none=0.0))],
             summary=self.generator.catch_phrase(),
             website=self.generator.uri(),
             twitter=self.generator.word(),
@@ -62,7 +60,6 @@ class ProfileProvider(BaseProvider):
         random_city = self.generator.city() if random_state else None
 
         return random_country, random_state, random_city
-
 
     def address(self, profile=None):
         country, state, city  = self.get_random_country_state_city()
@@ -158,14 +155,12 @@ class ProfileProvider(BaseProvider):
 def generate_profiles(count=1000):
     random.seed(SEED_VALUE)
     np.random.seed(SEED_VALUE)
+
     fake = Faker()
     fake.seed(SEED_VALUE)
     fake.add_provider(ProfileProvider)
+    fake.add_provider(TransactionProvider)
 
-    law_tags_previous_count = 4
-    subjective_tags_previous_count = 4
-
-    full_profiles = []
     field_to_objects = {
             "address": Address.objects,
             "education": Education.objects,
@@ -177,15 +172,23 @@ def generate_profiles(count=1000):
             "jurisdiction": Jurisdiction.objects
     }
     full_profiles = [fake.full_profile(i) for i in range(count)]
+
     with transaction.atomic():
-        ids = Profile.objects.bulk_create([full_profile["profile"] for full_profile in full_profiles])
-        assert(len(ids) == len(full_profiles))
-        for full_profile, id in zip(full_profiles, ids):
-            for object in full_profile.keys():
-                full_profile[object].profile = id
+        profiles = Profile.objects.bulk_create([full_profile["profile"] for full_profile in full_profiles])
+
+        assert(len(profiles) == len(full_profiles))
+
+        for full_profile, profile in zip(full_profiles, profiles):
+            for key in full_profile.keys():
+                full_profile[key].profile = profile
+
         # field_to_objects should have every field as full_profiles, except for "profile"
         assert(["profile"] + list(field_to_objects.keys()) == list(full_profiles[0].keys()))
+
         for field_name, field_objects in field_to_objects.items():
             field_objects.bulk_create([full_profile[field_name] for full_profile in full_profiles])
+
+        transactions = generate_transactions(profiles, fake)
+        Transaction.objects.bulk_create(transactions)
 
         print("Dummy data ingested to database successfully!")

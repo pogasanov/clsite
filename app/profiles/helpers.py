@@ -10,9 +10,9 @@ def get_user_relationships(user):
     :return: returns a dictionary that has user handle as key and list of transactions as value
     """
     transactions = {}
-    _filter = (Q(requester=user) | Q(requestee=user)) & Q(is_confirmed=True)
-
-    for transaction in  Transaction.objects.filter(_filter):
+    all_user_transaction = Transaction.objects.filter(Q(requester=user) | Q(requestee=user))
+    ready_user_transaction = [transaction for transaction in all_user_transaction if transaction.is_ready]
+    for transaction in ready_user_transaction:
         other_user_handle = transaction.requester.handle
 
         if user == transaction.requester:
