@@ -20,12 +20,6 @@ class TransactionForm(ModelForm):
         if self.files:
             self.instance.is_proof_by_requester = True
 
-        self.fields['is_requester_principal'].widget = forms.NullBooleanSelect()
-        self.fields['is_requester_principal'].widget.choices = (
-            (True, "I paid them"),
-            (False, "They paid me")
-        )
-
         for key, field in self.fields.items():
             field.widget.attrs.update({'class': 'form-control'})
 

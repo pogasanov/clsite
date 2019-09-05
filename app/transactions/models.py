@@ -31,6 +31,14 @@ class Transaction(models.Model):
         (REVIEW_AGREE, 'Agree'),
         (REVIEW_STRONGLY_AGREE, 'Strongly Agree')
     )
+
+    IS_REQUESTER_PRINCIPAL_REQUESTER = True
+    IS_REQUESTER_PRINCIPAL_REQUESTEE = False
+    IS_REQUESTER_PRINCIPAL_CHOICES = (
+        (IS_REQUESTER_PRINCIPAL_REQUESTER, 'I paid them'),
+        (IS_REQUESTER_PRINCIPAL_REQUESTEE, 'They paid me')
+    )
+
     CURRENCY_CHOICES = CURRENCIES
 
     created_at = models.DateTimeField(auto_now_add=True)
@@ -61,7 +69,9 @@ class Transaction(models.Model):
 
     is_confirmed = models.NullBooleanField(default=None, verbose_name='Requestee Confirmed')
     is_verified = models.NullBooleanField(default=None, verbose_name='Verified from Admin')
-    is_requester_principal = models.BooleanField(default=False, verbose_name='Did one of you pay the other?')
+    is_requester_principal = models.BooleanField(choices=IS_REQUESTER_PRINCIPAL_CHOICES,
+                                                 default=IS_REQUESTER_PRINCIPAL_REQUESTEE,
+                                                 verbose_name='Did one of you pay the other?')
 
     objects = TransactionQuerySet.as_manager()
     unconfirmed = TransactionUnconfirmedManager()
