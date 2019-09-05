@@ -57,14 +57,14 @@ class Transaction(models.Model):
 
     requester = models.ForeignKey('profiles.Profile', on_delete=models.CASCADE,
                                   related_name='requester', verbose_name='Requester')
-    requester_review = models.CharField(max_length=2, choices=REVIEW_CHOICES, default='',
+    requester_review = models.CharField(max_length=2, choices=REVIEW_CHOICES, default=REVIEW_NEUTRAL,
                                         verbose_name='Requester\'s Review')
     requester_recommendation = models.TextField(blank=True, default='', verbose_name='Write a brief recommendation')
 
     requestee = models.ForeignKey('profiles.Profile', on_delete=models.CASCADE,
                                   related_name='requestee', verbose_name='Requestee')
     requestee_review = models.CharField(max_length=2, choices=REVIEW_CHOICES,
-                                        default='', verbose_name='Would you work with them again?')
+                                        default=REVIEW_NEUTRAL, verbose_name='Would you work with them again?')
     requestee_recommendation = models.TextField(verbose_name='Requestee\'s recommendation', default='', blank=True)
 
     is_confirmed = models.NullBooleanField(default=None, verbose_name='Requestee Confirmed')

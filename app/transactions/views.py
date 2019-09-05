@@ -40,8 +40,9 @@ def confirm_transaction(request, transaction_id):
     if user_transaction not in user.unconfirmed_transactions():
         return redirect('profile')
 
-    form = ConfirmTransactionForm(request.POST or None, request.FILES or None,
-                                  initial={'requestee_review': 'N'}, instance=user_transaction)
+    form = ConfirmTransactionForm(request.POST or None,
+                                  request.FILES or None,
+                                  instance=user_transaction)
 
     if request.POST and form.is_valid():
         form.save()

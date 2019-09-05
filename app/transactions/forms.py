@@ -28,6 +28,7 @@ class TransactionForm(ModelForm):
         self.fields['date'].widget.attrs['class'] = 'form-control datepicker'
         self.fields['requester_recommendation'].widget.attrs['placeholder'] = 'Optional'
         self.fields['requester_recommendation'].widget.attrs.update({'rows': '3'})
+
         self.fields['requester_review'].widget = forms.RadioSelect(choices=self.fields['requester_review'].choices)
 
 
@@ -42,9 +43,10 @@ class ConfirmTransactionForm(ModelForm):
         for key, field in self.fields.items():
             field.widget.attrs.update({'class': 'form-control'})
 
-        self.fields['requestee_review'].widget = forms.RadioSelect(choices=self.fields['requestee_review'].choices)
         self.fields['requestee_recommendation'].widget.attrs['placeholder'] = 'Optional'
         self.fields['requestee_recommendation'].widget.attrs.update({'rows': '3'})
+
+        self.fields['requestee_review'].widget = forms.RadioSelect(choices=self.fields['requestee_review'].choices)
 
     def save(self, commit=True):
         transaction = super().save(commit=False)
