@@ -39,20 +39,15 @@ class Transaction(models.Model):
 
     requester = models.ForeignKey('profiles.Profile', on_delete=models.CASCADE,
                                   related_name='requester', verbose_name='Requester')
-    proof_receipt = models.ImageField(upload_to=get_image_path, storage=variativeStorage(),
-                                      verbose_name='Screenshot of wire transfer (Optional)', blank=True, null=True)
-    is_proof_by_requester = models.NullBooleanField(default=None, verbose_name="Receipt added by requester")
-    requester_review = models.CharField(max_length=2, choices=REVIEW_CHOICES,
-                                        default=None, verbose_name='Requester\'s Review')
-    requester_recommendation = models.TextField(null=True, blank=True,
-                                                default=None, verbose_name='Write a brief recommendation')
+    requester_review = models.CharField(max_length=2, choices=REVIEW_CHOICES, default='',
+                                        verbose_name='Requester\'s Review')
+    requester_recommendation = models.TextField(blank=True, default='', verbose_name='Write a brief recommendation')
 
     requestee = models.ForeignKey('profiles.Profile', on_delete=models.CASCADE,
                                   related_name='requestee', verbose_name='Requestee')
     requestee_review = models.CharField(max_length=2, choices=REVIEW_CHOICES,
-                                        default=None, verbose_name='Would you work with them again?', null=True)
-    requestee_recommendation = models.TextField(null=True, blank=True,
-                                                default=None, verbose_name='Requestee\'s recommendation')
+                                        default='', verbose_name='Would you work with them again?')
+    requestee_recommendation = models.TextField(verbose_name='Requestee\'s recommendation', default='', blank=True)
 
     is_confirmed = models.NullBooleanField(default=None, verbose_name='Requestee Confirmed')
     is_verified = models.NullBooleanField(default=None, verbose_name='Verified from Admin')
