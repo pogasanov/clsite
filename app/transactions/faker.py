@@ -61,42 +61,46 @@ class TransactionProvider(BaseProvider):
 
     def get_recommendation(self):
         if random.random() < 0.25:
-            return ''
+            return
 
         return ' '.join(self.generator.paragraphs(nb=3))
 
     def get_proof_receipt_requester(self):
-        if random.random() < 0.34:
+        if random.random() < 0.33:
             return generate_image(self.generator.hex_color())
 
     def confirm_from_requestee(self, profile_transaction):
         probability = random.random()
 
+        # 50% chance for transaction to stay unconfirmed from requestee
         if probability > 0.5:
             return
-
-        if probability > 0.4:
+        # 10% chance for the transaction to get denied from the requestee
+        elif 0.4 < probability <= 0.5:
             profile_transaction.is_confirmed = False
             return
-
-        profile_transaction.is_confirmed = True
-        profile_transaction.requestee_review = self.get_review()
-        profile_transaction.requestee_recommendation = self.get_recommendation()
+        # 40% chance for transaction to get confirmed from the requestee
+        else:
+            profile_transaction.is_confirmed = True
+            profile_transaction.requestee_review = self.get_review()
+            profile_transaction.requestee_recommendation = self.get_recommendation()
 
     def approve_from_admin(self, profile_transaction):
-        probability = random.random()
-
         if not profile_transaction.proof_receipt_requester:
             return
 
+        probability = random.random()
+
+        # 50% chance for transaction to stay unapproved
         if probability > 0.5:
             return
-
-        if probability > 0.4:
+        # 10% chance for transaction to get denied
+        elif 0.4 < probability <= 0.5:
             profile_transaction.is_verified = False
             return
-
-        profile_transaction.is_verified = True
+        # 40% chance for transaction to get approved from admin
+        else:
+            profile_transaction.is_verified = True
 
 
 def generate_transactions(profiles, faker):
