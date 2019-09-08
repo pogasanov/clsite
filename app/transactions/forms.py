@@ -62,8 +62,8 @@ class ConfirmTransactionForm(ModelForm):
         transaction.is_confirmed = self.cleaned_data['submit'] == self.ACTION_CONFIRM
 
         if not transaction.is_confirmed:
-            transaction.requestee_recommendation = None
-            transaction.requestee_review = None
+            transaction.requestee_recommendation = ''
+            transaction.requestee_review = ''
             transaction.proof_receipt = None
         else:
             transaction.is_proof_by_requester = True if self.files else None
