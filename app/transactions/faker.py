@@ -61,7 +61,7 @@ class TransactionProvider(BaseProvider):
 
     def get_recommendation(self):
         if random.random() < 0.25:
-            return
+            return ''
 
         return ' '.join(self.generator.paragraphs(nb=3))
 
