@@ -119,3 +119,6 @@ node_modules
 app/clsite/static/*
 app/media
 !admin.css
+
+# design pages
+design/js
