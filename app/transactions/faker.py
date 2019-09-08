@@ -42,7 +42,7 @@ class TransactionProvider(BaseProvider):
             is_requester_principal=self.generator.pybool(),
             date=self.generator.date_between(start_date="-3y", end_date="today"),
             requester_recommendation=self.get_recommendation(),
-            proof_receipt_requester=self.get_proof_receipt_requester(),
+            proof_receipt=self.get_proof_receipt(),
             value_in_usd=amount if currency == 'USD' else None
         )
 
@@ -65,7 +65,7 @@ class TransactionProvider(BaseProvider):
 
         return ' '.join(self.generator.paragraphs(nb=3))
 
-    def get_proof_receipt_requester(self):
+    def get_proof_receipt(self):
         if random.random() < 0.33:
             return generate_image(self.generator.hex_color())
 
@@ -86,7 +86,7 @@ class TransactionProvider(BaseProvider):
             profile_transaction.requestee_recommendation = self.get_recommendation()
 
     def approve_from_admin(self, profile_transaction):
-        if not profile_transaction.proof_receipt_requester:
+        if not profile_transaction.proof_receipt:
             return
 
         probability = random.random()
@@ -96,11 +96,11 @@ class TransactionProvider(BaseProvider):
             return
         # 10% chance for transaction to get denied
         elif 0.4 < probability <= 0.5:
-            profile_transaction.is_verified = False
+            profile_transaction.is_admin_approved = False
             return
         # 40% chance for transaction to get approved from admin
         else:
-            profile_transaction.is_verified = True
+            profile_transaction.is_admin_approved = True
 
 
 def generate_transactions(profiles, faker):
