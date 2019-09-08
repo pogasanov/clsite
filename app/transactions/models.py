@@ -89,7 +89,6 @@ class Transaction(models.Model):
             self.value_in_usd = self.amount
 
         super(Transaction, self).save(*args, **kwargs)
-        super(Transaction, self).save(*args, **kwargs)
 
     @property
     def is_ready(self):
