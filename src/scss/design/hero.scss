@@ -18,6 +18,15 @@
   padding: 28px 60px 28px 306px;
 }
 
+.hero__row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.hero__row--column {
+  flex-direction: column;
+}
+
 .hero__avatar {
   position: absolute;
   top: -107px;
@@ -44,20 +53,16 @@
 
 .hero__payments {
   display: flex;
-  align-items: center;
-}
-
-.hero__payment {
-  display: flex;
   flex-direction: column;
+  justify-content: center;
+  margin-left: 0.5rem;
+
+  & > span {
+    margin: 5px 0;
+  }
 }
 
 .hero__actions {
-  display: flex;
-  flex-direction: column;
-}
-
-.hero__action {
   display: flex;
   flex-direction: column;
   align-self: end;
