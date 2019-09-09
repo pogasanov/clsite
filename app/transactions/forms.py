@@ -9,6 +9,12 @@ class TransactionForm(ModelForm):
         model = Transaction
         fields = ['is_requester_principal', 'requester_review', 'date',
                   'amount', 'currency', 'requester_recommendation', 'proof_receipt']
+        labels = {
+            'date': 'What was the date of the transaction?',
+            'proof_receipt': 'Screenshot of wire transfer (Optional)',
+            'requester_recommendation': 'Write a brief recommendation',
+            'is_requester_principal': 'Did one of you pay the other?'
+        }
 
     def __init__(self, *args, **kwargs):
         requester = kwargs.pop('requester')
@@ -44,6 +50,10 @@ class ConfirmTransactionForm(ModelForm):
     class Meta:
         model = Transaction
         fields = ['requestee_review', 'requestee_recommendation', 'proof_receipt', 'submit']
+        labels = {
+            'proof_receipt': 'Screenshot of wire transfer (Optional)',
+            'requestee_review': 'Would you work with them again?',
+        }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

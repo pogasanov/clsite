@@ -44,7 +44,7 @@ class Transaction(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    date = models.DateField(verbose_name='What was the date of the transaction?')
+    date = models.DateField(verbose_name='Transaction Date')
     amount = models.DecimalField(max_digits=14, decimal_places=2, verbose_name='Transaction Amount')
     value_in_usd = models.DecimalField(max_digits=14, decimal_places=2, verbose_name='Value in USD', null=True,
                                        blank=True)
@@ -52,26 +52,26 @@ class Transaction(models.Model):
                                 default='USD', verbose_name='Transaction Currency')
 
     proof_receipt = models.ImageField(upload_to=get_image_path, storage=variativeStorage(),
-                                      verbose_name='Screenshot of wire transfer (Optional)', blank=True, null=True)
+                                      verbose_name='Transaction Proof', blank=True, null=True)
     is_proof_by_requester = models.NullBooleanField(default=None, verbose_name="Receipt added by requester")
 
     requester = models.ForeignKey('profiles.Profile', on_delete=models.CASCADE,
                                   related_name='requester', verbose_name='Requester')
     requester_review = models.CharField(max_length=2, choices=REVIEW_CHOICES, default=REVIEW_NEUTRAL,
                                         verbose_name='Requester\'s Review')
-    requester_recommendation = models.TextField(blank=True, default='', verbose_name='Write a brief recommendation')
+    requester_recommendation = models.TextField(blank=True, default='', verbose_name='Requester\'s recommendation')
 
     requestee = models.ForeignKey('profiles.Profile', on_delete=models.CASCADE,
                                   related_name='requestee', verbose_name='Requestee')
     requestee_review = models.CharField(max_length=2, choices=REVIEW_CHOICES,
-                                        default=REVIEW_NEUTRAL, verbose_name='Would you work with them again?')
+                                        default=REVIEW_NEUTRAL, verbose_name='Requestee\'s recommendation')
     requestee_recommendation = models.TextField(verbose_name='Requestee\'s recommendation', default='', blank=True)
 
     is_confirmed = models.NullBooleanField(default=None, verbose_name='Requestee Confirmed')
     is_admin_approved = models.NullBooleanField(default=None, verbose_name='Approved from Admin')
     is_requester_principal = models.BooleanField(choices=IS_REQUESTER_PRINCIPAL_CHOICES,
                                                  default=IS_REQUESTER_PRINCIPAL_REQUESTEE,
-                                                 verbose_name='Did one of you pay the other?')
+                                                 verbose_name='Requester Payed')
 
     objects = TransactionQuerySet.as_manager()
     unconfirmed = TransactionUnconfirmedManager()
