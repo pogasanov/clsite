@@ -38,6 +38,7 @@
     "sass-loader": "^7.1.0",
     "select2": "^4.0.8",
     "style-loader": "^0.23.1",
+    "typeface-frank-ruhl-libre": "0.0.72",
     "webpack": "^4.35.0",
     "webpack-cli": "^3.3.5"
   }

@@ -1,0 +1,68 @@
+.hero {
+  background-color: #fff;
+}
+
+.hero__img {
+  height: 276px;
+  width: 100%;
+  background-image: url("https://loremflickr.com/1920/276/design");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.hero__badge {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  padding: 28px 60px 28px 306px;
+}
+
+.hero__avatar {
+  position: absolute;
+  top: -107px;
+  left: 60px;
+
+  img {
+    border-radius: 50%;
+    border: 4px solid #fff;
+  }
+}
+
+.hero__name {
+  font-family: "Frank Ruhl Libre", serif;
+  font-size: 1.875rem;
+  font-weight: 500;
+  margin: 0;
+}
+
+.hero__title {
+  font-size: 1rem;
+  font-weight: 400;
+  margin: 0.5rem 0;
+}
+
+.hero__payments {
+  display: flex;
+  align-items: center;
+}
+
+.hero__payment {
+  display: flex;
+  flex-direction: column;
+}
+
+.hero__actions {
+  display: flex;
+  flex-direction: column;
+}
+
+.hero__action {
+  display: flex;
+  flex-direction: column;
+  align-self: end;
+
+  .btn {
+    margin: 5px 0;
+  }
+}
