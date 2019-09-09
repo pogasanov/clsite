@@ -1,0 +1,45 @@
+@import "variables";
+@import "~roboto-fontface/css/roboto/sass/roboto-fontface";
+@import "~@fortawesome/fontawesome-free/scss/fontawesome";
+@import "~@fortawesome/fontawesome-free/scss/solid";
+@import "~@fortawesome/fontawesome-free/scss/brands";
+@import "header";
+@import "input";
+
+body {
+  font-family: Roboto, serif;
+  font-size: 0.875rem;
+}
+
+a {
+  text-decoration: none;
+  color: $link-color;
+
+  &:hover {
+    color: $link-hover;
+  }
+}
+
+menu, ol, ul {
+  padding: 0;
+}
+
+dl, menu, ol, ul {
+  margin: 0;
+  list-style: none;
+}
+
+.relative {
+  position: relative;
+}
+
+.icon-counter {
+  position: absolute;
+  top: -.8rem;
+  right: -.8rem;
+  background-color: red;
+  font-size: 0.625rem;
+  border-radius: 50%;
+  color: #fff;
+  padding: 2px;
+}

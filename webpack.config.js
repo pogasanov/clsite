@@ -69,15 +69,53 @@ module.exports = [
         mode: 'development',
         entry: './src/design.js',
         output: {
-            filename: 'main.js',
-            path: path.resolve(__dirname, 'design/js')
+            filename: './js/main.js',
+            path: path.resolve(__dirname, 'design')
         },
+        plugins: [
+            new MiniCssExtractPlugin({
+                filename: './css/[name].css',
+                chunkFilename: './css/[id].css',
+            }),
+        ],
         module: {
             rules: [
                 {
-                    test: /\.css$/,
-                    use: [{loader: 'style-loader'}, {loader: 'css-loader'}]
-                }
+                    test: /\.(sa|sc|c)ss$/,
+                    use: [
+                        {
+                            loader: MiniCssExtractPlugin.loader,
+                        },
+                        'css-loader',
+                        'postcss-loader',
+                        'sass-loader'
+                    ],
+                },
+                {
+                    test: /\.(png|svg|jpg|gif)$/,
+                    use: [
+                        {
+                            loader: 'file-loader',
+                            options: {
+                                name: '[name].[ext]',
+                                outputPath: 'img',
+                            },
+                        }
+                    ]
+                },
+                {
+                    test: /\.(woff|woff2|eot|ttf)$/,
+                    use: [
+                        {
+                            loader: 'file-loader',
+                            options: {
+                                name: '[name].[ext]',
+                                outputPath: 'fonts',
+                                publicPath: '../fonts'
+                            },
+                        }
+                    ]
+                },
             ]
         }
     }];
