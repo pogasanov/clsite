@@ -1,8 +1,13 @@
 .hero {
   background-color: #fff;
+  display: grid;
+  grid-template-columns: 307px 1fr 1fr 1fr 26px;
+  grid-template-rows: auto;
+  grid-template-areas: "background background background background background" "avatar name payments actions ." ". location text text .";
 }
 
 .hero__img {
+  grid-area: background;
   height: 276px;
   width: 100%;
   background-image: url("https://loremflickr.com/1920/276/design");
@@ -11,25 +16,10 @@
   background-repeat: no-repeat;
 }
 
-.hero__badge {
-  display: flex;
-  justify-content: space-between;
-  position: relative;
-  padding: 28px 60px 28px 306px;
-}
-
-.hero__row {
-  display: flex;
-  justify-content: space-between;
-}
-
-.hero__row--column {
-  flex-direction: column;
-}
-
 .hero__avatar {
+  grid-area: avatar;
   position: absolute;
-  top: -107px;
+  top: 250px;
   left: 60px;
 
   img {
@@ -38,17 +28,34 @@
   }
 }
 
+.hero__names {
+  padding-top: 1.375rem;
+  grid-area: name;
+}
+
 .hero__name {
   font-family: "Frank Ruhl Libre", serif;
   font-size: 1.875rem;
   font-weight: 500;
-  margin: 0;
+  margin: .5rem 0;
 }
 
 .hero__title {
   font-size: 1rem;
   font-weight: 400;
   margin: 0.5rem 0;
+}
+
+.hero__location {
+  grid-area: location;
+  padding-bottom: 1.375rem;
+}
+
+.hero__payments-container {
+  padding-top: 1.375rem;
+  grid-area: payments;
+  display: flex;
+  align-items: center;
 }
 
 .hero__payments {
@@ -62,12 +69,25 @@
   }
 }
 
+.hero__actions-container {
+  padding-top: 1.375rem;
+  grid-area: actions;
+  display: flex;
+  justify-content: end;
+  padding-bottom: .3rem;
+}
+
 .hero__actions {
   display: flex;
   flex-direction: column;
-  align-self: end;
 
   .btn {
     margin: 5px 0;
   }
+}
+
+.hero__text {
+  grid-area: text;
+  text-align: right;
+  padding-bottom: 1.375rem;
 }
