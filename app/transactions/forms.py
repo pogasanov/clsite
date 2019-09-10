@@ -5,6 +5,11 @@ from transactions.models import Transaction
 
 
 class TransactionForm(ModelForm):
+    IS_REQUESTER_PRINCIPAL_CHOICES = (
+        (Transaction.IS_REQUESTER_PRINCIPAL_YES, 'I paid them'),
+        (Transaction.IS_REQUESTER_PRINCIPAL_NO, 'They paid me')
+    )
+
     class Meta:
         model = Transaction
         fields = ['is_requester_principal', 'requester_review', 'date',
@@ -36,6 +41,7 @@ class TransactionForm(ModelForm):
         self.fields['requester_recommendation'].widget.attrs.update({'rows': '3'})
 
         self.fields['requester_review'].widget = forms.RadioSelect(choices=self.fields['requester_review'].choices)
+        self.fields['is_requester_principal'].choices = self.IS_REQUESTER_PRINCIPAL_CHOICES
 
 
 class ConfirmTransactionForm(ModelForm):

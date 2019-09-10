@@ -32,11 +32,11 @@ class Transaction(models.Model):
         (REVIEW_STRONGLY_AGREE, 'Strongly Agree')
     )
 
-    IS_REQUESTER_PRINCIPAL_REQUESTER = True
-    IS_REQUESTER_PRINCIPAL_REQUESTEE = False
+    IS_REQUESTER_PRINCIPAL_YES = True
+    IS_REQUESTER_PRINCIPAL_NO = False
     IS_REQUESTER_PRINCIPAL_CHOICES = (
-        (IS_REQUESTER_PRINCIPAL_REQUESTER, 'I paid them'),
-        (IS_REQUESTER_PRINCIPAL_REQUESTEE, 'They paid me')
+        (IS_REQUESTER_PRINCIPAL_YES, 'Requester payed'),
+        (IS_REQUESTER_PRINCIPAL_NO, 'Requestee payed')
     )
 
     CURRENCY_CHOICES = CURRENCIES
@@ -70,7 +70,7 @@ class Transaction(models.Model):
     is_confirmed = models.NullBooleanField(default=None, verbose_name='Requestee Confirmed')
     is_admin_approved = models.NullBooleanField(default=None, verbose_name='Approved from Admin')
     is_requester_principal = models.BooleanField(choices=IS_REQUESTER_PRINCIPAL_CHOICES,
-                                                 default=IS_REQUESTER_PRINCIPAL_REQUESTEE,
+                                                 default=IS_REQUESTER_PRINCIPAL_NO,
                                                  verbose_name='Requester Payed')
 
     objects = TransactionQuerySet.as_manager()
