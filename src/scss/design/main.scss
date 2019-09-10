@@ -1,5 +1,4 @@
 @import "variables";
-
 @import "~roboto-fontface/css/roboto/sass/roboto-fontface";
 @import "~@fortawesome/fontawesome-free/scss/fontawesome";
 @import "~@fortawesome/fontawesome-free/scss/solid";
@@ -10,7 +9,6 @@
 @import "footer";
 @import "input";
 @import "circle";
-
 @import "hero";
 @import "profile-block";
 @import "correspondence";
@@ -76,7 +74,7 @@ dl, menu, ol, ul {
   background-color: $primary;
   color: #fff;
   border: 2px solid $primary;
-  border-radius: 17px;
+  border-radius: 20px;
   font-weight: 500;
   padding: 10px 29px;
   text-align: center;
@@ -136,10 +134,10 @@ dl, menu, ol, ul {
   font-style: italic;
   font-size: .875rem;
   font-weight: 400;
-  margin: 25px 0 20px;
+  margin: 1.2rem 0 .6rem;
 
   &:not(:first-child) {
-    margin-top: 40px;
+    margin-top: 30px;
   }
 }
 
@@ -152,10 +150,28 @@ dl, menu, ol, ul {
   margin: 0 10px;
   padding: 10px;
   font-size: 1rem;
-  color: $link-color;
 
   &[data-active] {
-    color: #2d2d2d;
     border-bottom: 4px solid $primary;
+
+    a {
+      color: #2d2d2d;
+    }
+  }
+}
+
+.list {
+
+}
+
+.list--condensed {
+  .list__item + .list__item {
+    margin-top: .5rem;
+  }
+}
+
+.list__item {
+  & + & {
+    margin-top: 2rem;
   }
 }

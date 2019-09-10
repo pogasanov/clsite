@@ -8,12 +8,13 @@
   border: 1px solid $border-color;
   padding: 29px 45px;
 
-  & > p {
-    line-height: 2.2;
-  }
-
   & + & {
     margin-top: 22px;
+  }
+
+  p {
+    line-height: 2.2;
+    margin: .6rem 0;
   }
 }
 
@@ -35,3 +36,11 @@
   margin: 10px 0;
 }
 
+.profile-block__main {
+  padding-right: 150px;
+}
+
+.profile-block__row {
+  display: flex;
+  justify-content: space-between;
+}

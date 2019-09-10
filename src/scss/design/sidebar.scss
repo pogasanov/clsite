@@ -1,6 +1,11 @@
 .sidebar {
   grid-area: sidebar;
   margin: 49px 12px 49px 60px;
+  color: $link-color;
+
+  p {
+    padding-left: 19px;
+  }
 }
 
 .sidebar-list {
