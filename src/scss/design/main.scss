@@ -23,10 +23,6 @@
   grid-template-areas: "header header header header header" "hero hero hero hero hero" ". sidebar main . ." "footer footer footer footer footer";
 }
 
-.main {
-  grid-area: main;
-}
-
 a {
   text-decoration: none;
   color: $link-color;
@@ -43,6 +39,10 @@ menu, ol, ul {
 dl, menu, ol, ul {
   margin: 0;
   list-style: none;
+}
+
+.main {
+  grid-area: main;
 }
 
 .relative {
