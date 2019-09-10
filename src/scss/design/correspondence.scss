@@ -1,0 +1,47 @@
+.correspondence-meta {
+  margin: 25px 0;
+}
+
+.correspondence-meta__total {
+  font-style: italic;
+  color: $link-color;
+}
+
+.correspondence {
+  display: grid;
+  grid-template-columns: auto 1fr auto auto;
+  grid-column-gap: 10px;
+  grid-template-rows: auto;
+  grid-template-areas: "avatar names reviews rating" "licences licences licences licences" "practice practice practice practice";
+
+  & + & {
+    margin-top: 30px;
+    padding-top: 30px;
+    border-top: 1px solid $border-color;
+  }
+}
+
+.correspondence__avatar {
+  grid-area: avatar;
+}
+
+.correspondence__names {
+  grid-area: names;
+}
+
+.correspondence__reviews {
+  grid-area: reviews;
+}
+
+.correspondence__rating {
+  grid-area: rating;
+  color: #1cd6c3;
+}
+
+.correspondence__licences {
+  grid-area: licences;
+}
+
+.correspondence__practice {
+  grid-area: practice;
+}

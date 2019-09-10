@@ -2,12 +2,14 @@
 @import "~roboto-fontface/css/roboto/sass/roboto-fontface";
 @import "~@fortawesome/fontawesome-free/scss/fontawesome";
 @import "~@fortawesome/fontawesome-free/scss/solid";
+@import "~@fortawesome/fontawesome-free/scss/regular";
 @import "~@fortawesome/fontawesome-free/scss/brands";
 @import "circle";
 @import "header";
 @import "hero";
 @import "input";
 @import "profile-block";
+@import "correspondence";
 
 body {
   font-family: Roboto, serif;
@@ -107,10 +109,41 @@ dl, menu, ol, ul {
   }
 }
 
+.tag--outline {
+  background-color: #fff;
+  color: $primary;
+
+  &:hover {
+    background-color: $primary;
+    color: #fff;
+  }
+}
+
 .text-header {
   color: $link-color;
   font-style: italic;
   font-size: .875rem;
   font-weight: 400;
-  margin: 40px 0 20px;
+  margin: 25px 0 20px;
+
+  &:not(:first-child) {
+    margin-top: 40px;
+  }
+}
+
+.tabs {
+  display: flex;
+  justify-content: space-between;
+}
+
+.tab {
+  margin: 0 10px;
+  padding: 10px;
+  font-size: 1rem;
+  color: $link-color;
+
+  &[data-active] {
+    color: #2d2d2d;
+    border-bottom: 4px solid $primary;
+  }
 }
