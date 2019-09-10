@@ -13,9 +13,9 @@
                 </a>
             </div>
             <div class="header__control">
-                <div class="search">
+                <div class="header__search">
                     <form>
-                        <div class="relative">
+                        <div class="search search--left">
                             <button type="submit" class="search__icon"><i class="fas fa-search"></i></button>
                             <input type="text" class="search__input" placeholder="Search Attorney">
                         </div>
@@ -370,6 +370,19 @@
                     </header>
                     <div class="correspondence-meta">
                         <span class="correspondence-meta__total">Total 2 correspondences</span>
+                        <div class="correspondence-meta__control">
+                            <form>
+                                <div class="search mr-3">
+                                    <button type="submit" class="search__icon"><i class="fas fa-search"></i></button>
+                                    <input type="text" class="search__input" placeholder="Search by name">
+                                </div>
+                                <select class="input-select">
+                                    <option disabled selected>Sort</option>
+                                    <option>Name</option>
+                                    <option>Rating</option>
+                                </select>
+                            </form>
+                        </div>
                     </div>
                     <ul class="correspondence-container">
                         <li class="correspondence">

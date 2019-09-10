@@ -1,10 +1,22 @@
 .correspondence-meta {
-  margin: 25px 0;
+  margin: 40px 0 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .correspondence-meta__total {
   font-style: italic;
   color: $link-color;
+}
+
+.correspondence-meta__control {
+  flex: 1 1 auto;
+
+  form {
+    display: flex;
+    justify-content: flex-end;
+  }
 }
 
 .correspondence {

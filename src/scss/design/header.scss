@@ -20,24 +20,14 @@
   padding-right: 50px;
 }
 
-.search {
+.header__search {
   flex: 1 1 0;
   padding: 0 29px;
-}
 
-.search__input {
-  padding: 10px 0 10px 30px;
-  border: none;
-  width: 100%;
-}
-
-.search__icon {
-  position: absolute;
-  left: 0;
-  top: 6px;
-  background-color: transparent;
-  border: none;
-  font-size: 1.125rem;
+  .search__input {
+    width: 100%;
+    font-size: inherit;
+  }
 }
 
 .main-nav {
