@@ -1,6 +1,7 @@
+import 'typeface-frank-ruhl-libre'
 import 'normalize.css'
+
 import './scss/design/main.scss'
 
 import './img/design/logo.png'
-
-require('typeface-frank-ruhl-libre')
+import './img/design/logo-white.png'
