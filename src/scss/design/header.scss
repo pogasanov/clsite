@@ -12,7 +12,7 @@
   border-right: 1px solid #f0f0f0;
 }
 
-.control {
+.header__control {
   flex: 1 1 0;
   display: flex;
   justify-content: space-between;
@@ -56,7 +56,7 @@
   }
 }
 
-.profile {
+.header__profile {
   display: flex;
 }
 
