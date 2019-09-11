@@ -16,5 +16,6 @@ boto3 = "*"
 faker = "*"
 django-select2 = "*"
 numpy = "*"
+factory-boy = "*"
 
 [dev-packages]
