@@ -2,9 +2,9 @@
   grid-area: hero;
   background-color: #fff;
   display: grid;
-  grid-template-columns: 307px 1fr 1fr 1fr 26px;
+  grid-template-columns: auto 307px 369px 369px 369px 26px auto;
   grid-template-rows: auto 1.375rem auto auto;
-  grid-template-areas: "background background background background background" ". . . . ." "avatar name payments actions ." ". location text text .";
+  grid-template-areas: "background background background background background background background" ". . . . . . ." ". avatar name payments actions . ." ". . location location text . .";
   border-bottom: 1px solid $border-color;
   padding-bottom: 1.375rem;
 }
@@ -21,13 +21,14 @@
 
 .hero__avatar {
   grid-area: avatar;
-  position: absolute;
-  top: 250px;
-  left: 60px;
+  position: relative;
 
   & > img {
     border-radius: 50%;
     border: 5px solid #fff;
+    position: absolute;
+    top: -130px;
+    left: 60px;
   }
 }
 
