@@ -61,13 +61,23 @@ dl, menu, ol, ul {
 
 .icon-counter {
   position: absolute;
-  top: -.8rem;
-  right: -.8rem;
+  top: -1.5em;
+  right: -1.2em;
   background-color: red;
   font-size: 0.625rem;
   border-radius: 50%;
   color: #fff;
   padding: .2rem;
+}
+
+.icon-counter--bubble {
+  background: url("../../img/design/message-bubble.png") no-repeat center;
+  width: 22px;
+  height: 20px;
+  text-align: center;
+  line-height: 19px;
+  top: -1.7em;
+  right: -2.3em;
 }
 
 .muted {
