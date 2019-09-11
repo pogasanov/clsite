@@ -1,6 +1,6 @@
 .sidebar {
   grid-area: sidebar;
-  margin: 49px 12px 49px 60px;
+  margin: 45px 12px 49px 60px;
   color: $link-color;
 
   p {
@@ -33,5 +33,7 @@
 
   a {
     color: $primary;
+    display: flex;
+    align-items: center;
   }
 }

@@ -7,6 +7,7 @@
   background-color: #2b2c2f;
   display: flex;
   padding: 100px 64px 10px;
+  margin: 0  -3rem;
 }
 
 .footer__copyright {
@@ -14,25 +15,37 @@
   padding: 56px 58px 49px;
 }
 
-.footer__intro, .footer__recent, .footer__about {
-  flex: 1 1 400px;
-  margin: 0 20px;
+.footer__intro, .footer__recent, .footer__menu, .footer__about {
+  flex-grow: 1;
+  flex-shrink: 1;
+  margin: 0 3rem;
 }
 
 .footer__intro {
+  flex-basis: 310px;
+
   p {
+    margin-top: 2rem;
     line-height: 1.6;
   }
 }
 
+.footer__recent {
+  flex-basis: 350px;
+}
+
 .footer__about {
+  flex-basis: 300px;
   p {
-    line-height: 1.9;
+    margin-top: 1.2rem;
+    line-height: 2.5;
   }
 }
 
 .footer__menu {
-  flex: 1 1 100px;
+  flex-basis: 100px;
+  margin-left: 0;
+  margin-right: 0;
 }
 
 .footer__header {
@@ -45,5 +58,5 @@
 }
 
 .footer-list__item {
-  margin: 1rem 0;
+  margin: 1.8rem 0;
 }

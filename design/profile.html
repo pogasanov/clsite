@@ -15,7 +15,7 @@
             <div class="header__control">
                 <div class="header__search">
                     <form>
-                        <div class="search search--left">
+                        <div class="search search--left search--big">
                             <button type="submit" class="search__icon"><i class="fas fa-search"></i></button>
                             <input type="text" class="search__input" placeholder="Search Attorney">
                         </div>
@@ -205,12 +205,12 @@
                         <div class="profile-block__row">
                             <div>
                                 <h6 class="text-header">Years of Practice / Experience</h6>
-                                <p>16</p>
+                                16
                             </div>
 
                             <div>
                                 <h6 class="text-header">Current Job / Affiliation / Law Firm</h6>
-                                <p>Partner at Lerman & Szlak</p>
+                                Partner at Lerman & Szlak
                             </div>
                         </div>
 
@@ -228,19 +228,19 @@
                     </div>
                 </section>
 
-                <section class="profile-block">
+                <section class="profile-block profile-block--empty">
                     <header class="profile-block__header">
                         <h2 class="profile-block__title">Contact</h2>
-                        <span class="muted">Contact information is hidden untill you contact this user</span>
-                        <a href="#0" class="btn">Contact</a>
+                        <span class="profile-block__subtitle">Contact information is hidden untill you contact this user</span>
+                        <a href="#0" class="btn btn--small">Contact</a>
                     </header>
                 </section>
 
-                <section class="profile-block">
+                <section class="profile-block profile-block--empty">
                     <header class="profile-block__header">
                         <h2 class="profile-block__title">Social Media</h2>
-                        <span class="muted">Social media information is hidden untill you contact this user</span>
-                        <a href="#0" class="btn">Contact</a>
+                        <span class="profile-block__subtitle">Social media information is hidden untill you contact this user</span>
+                        <a href="#0" class="btn btn--small">Contact</a>
                     </header>
                 </section>
 
@@ -333,30 +333,36 @@
                         <h2 class="profile-block__title">Awards</h2>
                     </header>
 
-                    <h6 class="text-header">Awards</h6>
-                    <ul class="list">
-                        <li class="list__item">
-                            <ul class="list list--condensed">
-                                <li class="list__item"><span class="muted">Title:</span> Top Attorney - DUI Defense</li>
-                                <li class="list__item"><span class="muted">Presented by:</span> Avvo</li>
-                                <li class="list__item"><span class="muted">Year:</span> 2018</li>
-                            </ul>
-                        </li>
-                        <li class="list__item">
-                            <ul class="list list--condensed">
-                                <li class="list__item"><span class="muted">Title:</span> Great Plains Super Lawyer</li>
-                                <li class="list__item"><span class="muted">Presented by:</span> Super Lawyers</li>
-                                <li class="list__item"><span class="muted">Year:</span> 2017</li>
-                            </ul>
-                        </li>
-                        <li class="list__item">
-                            <ul class="list list--condensed">
-                                <li class="list__item"><span class="muted">Title:</span> BV Rated</li>
-                                <li class="list__item"><span class="muted">Presented by:</span> Martindale-Hubbell</li>
-                                <li class="list__item"><span class="muted">Year:</span> 2016</li>
-                            </ul>
-                        </li>
-                    </ul>
+                    <div class="profile-block__main">
+
+                        <h6 class="text-header">Awards</h6>
+                        <ul class="list list--2-col">
+                            <li class="list__item">
+                                <ul class="list list--condensed">
+                                    <li class="list__item"><span class="muted">Title:</span> Top Attorney - DUI Defense
+                                    </li>
+                                    <li class="list__item"><span class="muted">Presented by:</span> Avvo</li>
+                                    <li class="list__item"><span class="muted">Year:</span> 2018</li>
+                                </ul>
+                            </li>
+                            <li class="list__item">
+                                <ul class="list list--condensed">
+                                    <li class="list__item"><span class="muted">Title:</span> Great Plains Super Lawyer
+                                    </li>
+                                    <li class="list__item"><span class="muted">Presented by:</span> Super Lawyers</li>
+                                    <li class="list__item"><span class="muted">Year:</span> 2017</li>
+                                </ul>
+                            </li>
+                            <li class="list__item">
+                                <ul class="list list--condensed">
+                                    <li class="list__item"><span class="muted">Title:</span> BV Rated</li>
+                                    <li class="list__item"><span class="muted">Presented by:</span> Martindale-Hubbell
+                                    </li>
+                                    <li class="list__item"><span class="muted">Year:</span> 2016</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
                 </section>
 
                 <section class="profile-block">
@@ -372,7 +378,7 @@
                         <span class="correspondence-meta__total">Total 2 correspondences</span>
                         <div class="correspondence-meta__control">
                             <form>
-                                <div class="search mr-3">
+                                <div class="search mr-12">
                                     <button type="submit" class="search__icon"><i class="fas fa-search"></i></button>
                                     <input type="text" class="search__input" placeholder="Search by name">
                                 </div>
@@ -391,10 +397,12 @@
                             </div>
                             <div class="correspondence__names">
                                 <h2 class="correspondence__name">John Doe</h2>
-                                <span class="muted">Attorney in Arizona, USA</span><br/>
-                                <span class="muted">Only Legal Group, PLLC</span><br/>
-                                <span class="muted">Office (844) 278-0606</span><br/>
-                                <span class="muted">http://www.johnsmith.com</span>
+                                <div class="correspondence__address">
+                                    Attorney in Arizona, USA<br/>
+                                    Only Legal Group, PLLC<br/>
+                                    Office (844) 278-0606<br/>
+                                    http://www.johnsmith.com
+                                </div>
                             </div>
 
                             <div class="correspondence__reviews">
@@ -409,15 +417,13 @@
                                 <i class="far fa-star"></i>
                             </div>
 
-                            <div class="correspondence__licences">
+                            <div class="correspondence__description">
                                 <h6 class="text-header">Licenced in</h6>
                                 <ul class="tag-container">
                                     <li class="tag">Arizona, USA</li>
                                     <li class="tag">Berlin, Germany</li>
                                 </ul>
-                            </div>
 
-                            <div class="correspondence__practice">
                                 <h6 class="text-header">Practice areas</h6>
                                 <ul class="tag-container">
                                     <li class="tag">Commercial Ship Accident</li>
@@ -432,10 +438,12 @@
                             </div>
                             <div class="correspondence__names">
                                 <h2 class="correspondence__name">John Smith</h2>
-                                <span class="muted">Finance attorney in New York City, USA</span><br/>
-                                <span class="muted">Just Legal Group, PLLC</span><br/>
-                                <span class="muted">Office (844) 278-0606</span><br/>
-                                <span class="muted">http://www.johnsmith.com</span>
+                                <div class="correspondence__address">
+                                    Finance attorney in New York City, USA<br/>
+                                    Just Legal Group, PLLC<br/>
+                                    Office (844) 278-0606<br/>
+                                    http://www.johnsmith.com
+                                </div>
                             </div>
 
                             <div class="correspondence__reviews">
@@ -450,19 +458,16 @@
                                 <i class="far fa-star"></i>
                             </div>
 
-                            <div class="correspondence__licences">
+                            <div class="correspondence__description">
                                 <h6 class="text-header">Licenced in</h6>
                                 <ul class="tag-container">
-                                    <li class="tag">Arizona, USA</li>
-                                    <li class="tag">Berlin, Germany</li>
+                                    <li class="tag">New York, USA</li>
                                 </ul>
-                            </div>
-
-                            <div class="correspondence__practice">
                                 <h6 class="text-header">Practice areas</h6>
                                 <ul class="tag-container">
-                                    <li class="tag">Commercial Ship Accident</li>
-                                    <li class="tag">Jones Act</li>
+                                    <li class="tag">Ship Registration</li>
+                                    <li class="tag">Bail bonds</li>
+                                    <li class="tag tag--outline">12+</li>
                                 </ul>
                             </div>
                         </li>

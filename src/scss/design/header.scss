@@ -10,7 +10,7 @@
 
 .logo {
   padding-right: 59px;
-  border-right: 1px solid #f0f0f0;
+  border-right: 2px solid #f0f0f0;
 }
 
 .header__control {
@@ -61,10 +61,12 @@
 
     i {
       font-size: 1.5rem;
+      color: $icon-color;
     }
   }
 }
 
 .avatar {
   border-radius: 50%;
+  display: block;
 }
