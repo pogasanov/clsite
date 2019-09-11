@@ -2,12 +2,17 @@ import random
 
 import factory
 import factory.fuzzy
+import factory.random
 from django.conf.global_settings import LANGUAGES
 
 from clsite.utils import random_number_exponential_delay
 from profiles import signals
 from profiles.models import Language
 from profiles.utils import LAW_TYPE_TAGS_CHOICES, SUBJECTIVE_TAGS_CHOICES, COUNTRIES_CHOICES, _get_states_for_country
+
+SEED_VALUE = 54321
+random.seed(SEED_VALUE)
+factory.random.reseed_random(SEED_VALUE)
 
 
 def get_random_law_type_tag():
@@ -26,7 +31,8 @@ class AddressFactory(factory.django.DjangoModelFactory):
     profile = factory.SubFactory('profiles.factories.ProfileFactory', address=None)
     country = factory.fuzzy.FuzzyChoice(COUNTRIES_CHOICES, getter=lambda c: c[0])
     state = factory.LazyAttribute(
-        lambda o: random.choice(_get_states_for_country(o.country))[0] if _get_states_for_country(o.country) else None
+        lambda o: random.choice(_get_states_for_country(o.country))[0] if _get_states_for_country(
+            o.country) else None
     )
     city = factory.LazyAttribute(
         lambda o: factory.Faker('city').generate() if o.state else None
