@@ -165,9 +165,11 @@ class ProfileFactory(factory.django.DjangoModelFactory):
     current_job = factory.Faker('job')
     size_of_clients = factory.Faker('pyint', min_value=0, max_value=3, step=1)
     preferred_communication_method = factory.Faker('pyint', min_value=0, max_value=3, step=1)
-    law_type_tags = factory.List([get_random_law_type_tag() for x in range(random_number_exponential_delay(pr=0.25))])
-    subjective_tags = [get_random_subjective_tag() for _ in
-                       range(random_number_exponential_delay(pr=0.25, probability_of_none=0.0))]
+    law_type_tags = factory.LazyFunction(
+        lambda: [get_random_law_type_tag() for _ in range(random_number_exponential_delay(pr=0.25))])
+    subjective_tags = factory.LazyFunction(
+        lambda: [get_random_subjective_tag() for _ in
+                 range(random_number_exponential_delay(pr=0.25, probability_of_none=0.0))])
     summary = factory.Faker('catch_phrase')
     website = factory.Faker('uri')
     twitter = factory.Faker('word')
