@@ -13,12 +13,6 @@ CURRENCY_CODES = [currency_code for currency_code, _ in CURRENCIES]
 TRANSACTION_REVIEW_CHOICES = [review_choice for review_choice, _ in Transaction.REVIEW_CHOICES]
 
 
-def get_currency():
-    assert 'USD' in CURRENCY_CODES
-    # 90% chance that currency is USD
-    return 'USD' if random.random() < 0.9 else random.choice(CURRENCY_CODES)
-
-
 def get_recommendation():
     if random.random() < 0.25:
         return ''
@@ -26,43 +20,12 @@ def get_recommendation():
 
 
 def generate_image(color=(255, 0, 0)):
-    thumb = Image.new('RGB', (200, 200), color=color)
+    # Pillow requires color to be tuple of ints
+    thumb = Image.new('RGB', (200, 200), color=tuple(map(int, color)))
     thumb_io = BytesIO()
     thumb.save(thumb_io, format='JPEG')
     content = ContentFile(thumb_io.getvalue())
     return File(content.file, 'test.jpg')
-
-
-def get_proof_receipt():
-    if random.random() < 0.33:
-        return generate_image(color=tuple(map(int, factory.Faker('rgb_color').generate().split(','))))
-
-
-def get_is_confirmed():
-    probability = random.random()
-    # 10% chance for the transaction to get denied from the requestee
-    if probability < 0.1:
-        return False
-    # 40% chance for transaction to get confirmed from the requestee
-    if probability < 0.5:
-        return True
-    # 50% chance for transaction to stay unconfirmed from requestee
-    return None
-
-
-def approve(transaction):
-    if not transaction.proof_receipt:
-        return None
-
-    probability = random.random()
-    # 10% chance for transaction to get denied
-    if probability < 0.1:
-        return False
-    # 40% chance for transaction to get approved from admin
-    if probability < 0.5:
-        return True
-    # 50% chance for transaction to stay unapproved
-    return None
 
 
 class TransactionFactory(factory.django.DjangoModelFactory):
@@ -72,16 +35,53 @@ class TransactionFactory(factory.django.DjangoModelFactory):
     requester = factory.SubFactory(ProfileFactory)
     requestee = factory.SubFactory(ProfileFactory)
     amount = factory.Faker('pyfloat', right_digits=2, min_value=1, max_value=100000)
-    currency = factory.LazyFunction(get_currency)
+
+    @factory.lazy_attribute
+    def currency(self):
+        assert 'USD' in CURRENCY_CODES
+        # 90% chance that currency is USD
+        return 'USD' if random.random() < 0.9 else random.choice(CURRENCY_CODES)
+
     value_in_usd = factory.LazyAttribute(lambda o: o.amount if o.currency == 'USD' else None)
 
     requester_review = factory.Faker('random_element', elements=TRANSACTION_REVIEW_CHOICES)
     is_requester_principal = factory.Faker('pybool')
     date = factory.Faker('date_between', start_date="-3y", end_date="today")
     requester_recommendation = factory.LazyFunction(get_recommendation)
-    proof_receipt = factory.LazyFunction(get_proof_receipt)
-    is_admin_approved = factory.LazyAttribute(approve)
-    is_confirmed = factory.LazyFunction(get_is_confirmed)
+
+    @factory.lazy_attribute
+    def proof_receipt(self):
+        if random.random() < 0.33:
+            random_rgb = factory.Faker('rgb_color').generate().split(',')
+            return generate_image(color=random_rgb)
+
+    @factory.lazy_attribute
+    def is_admin_approved(self):
+        if not self.proof_receipt:
+            return None
+
+        probability = random.random()
+        # 10% chance for transaction to get denied
+        if probability < 0.1:
+            return False
+        # 40% chance for transaction to get approved from admin
+        if probability < 0.5:
+            return True
+        # 50% chance for transaction to stay unapproved
+        return None
+
+    @factory.lazy_attribute
+    def is_confirmed(self):
+        probability = random.random()
+        # 10% chance for the transaction to get denied from the requestee
+        if probability < 0.1:
+            return False
+        # 40% chance for transaction to get confirmed from the requestee
+        if probability < 0.5:
+            return True
+        # 50% chance for transaction to stay unconfirmed from requestee
+        return None
+
     requestee_review = factory.LazyAttribute(
         lambda o: factory.Faker('random_element',
                                 elements=TRANSACTION_REVIEW_CHOICES).generate() if o.is_confirmed else '')
