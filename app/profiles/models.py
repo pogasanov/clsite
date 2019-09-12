@@ -1,12 +1,12 @@
 import os
 
-from clsite.storage_backends import variativeStorage
 from django.conf.global_settings import LANGUAGES
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.contrib.postgres.fields import ArrayField, DateRangeField
 from django.contrib.staticfiles.templatetags.staticfiles import static
 from django.db import models
 
+from clsite.storage_backends import variativeStorage
 from .utils import COUNTRIES_CHOICES
 
 
@@ -205,8 +205,8 @@ class Profile(AbstractUser):
             return self.photo.url
         return static('dummy-img.png')
 
-    def user_unconfirmed_transaction(self):
-        return self.requestee.filter(is_confirmed=None).order_by('-created_at').first()
+    def unconfirmed_transactions(self):
+        return self.requestee.unconfirmed()
 
     def _compile_headline(self):
         headline_format = '{tags} attorney{jurisdictions}'
