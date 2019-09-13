@@ -5,12 +5,12 @@ import factory.fuzzy
 import factory.random
 from django.conf.global_settings import LANGUAGES
 
+from clsite.settings import SEED_VALUE
 from clsite.utils import random_number_exponential_delay
 from profiles import signals
 from profiles.models import Language
 from profiles.utils import LAW_TYPE_TAGS_CHOICES, SUBJECTIVE_TAGS_CHOICES, COUNTRIES_CHOICES, _get_states_for_country
 
-SEED_VALUE = 54321
 random.seed(SEED_VALUE)
 factory.random.reseed_random(SEED_VALUE)
 
