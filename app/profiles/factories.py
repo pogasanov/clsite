@@ -159,22 +159,27 @@ class ProfileFactory(factory.django.DjangoModelFactory):
     full_name = factory.Faker('name')
     password = DEFAULT_USER_PASSWORD
 
-    phone = factory.Faker('msisdn')
-    bio = factory.LazyFunction(lambda: "<p>" + "</p><p>".join(factory.Faker('paragraphs', nb=3).generate()) + "</p>")
-    experience = factory.Faker('pyint', min_value=0, max_value=30, step=1)
-    current_job = factory.Faker('job')
-    size_of_clients = factory.Faker('pyint', min_value=0, max_value=3, step=1)
-    preferred_communication_method = factory.Faker('pyint', min_value=0, max_value=3, step=1)
+    phone = factory.LazyFunction(lambda: factory.Faker('msisdn').generate() if random.random() < 0.5 else '')
+    bio = factory.LazyFunction(lambda: "<p>" + "</p><p>".join(
+        factory.Faker('paragraphs', nb=3).generate()) + "</p>" if random.random() < 0.5 else '')
+    experience = factory.LazyFunction(
+        lambda: factory.Faker('pyint', min_value=0, max_value=30, step=1).generate() if random.random() < 0.5 else '')
+    current_job = factory.LazyFunction(
+        lambda: factory.Faker('job').generate() if random.random() < 0.5 else '')
+    size_of_clients = factory.LazyFunction(
+        lambda: factory.Faker('pyint', min_value=0, max_value=3, step=1).generate() if random.random() < 0.5 else None)
+    preferred_communication_method = factory.LazyFunction(
+        lambda: factory.Faker('pyint', min_value=0, max_value=3, step=1).generate() if random.random() < 0.5 else None)
     law_type_tags = factory.LazyFunction(
         lambda: [get_random_law_type_tag() for _ in range(random_number_exponential_delay(pr=0.25))])
     subjective_tags = factory.LazyFunction(
         lambda: [get_random_subjective_tag() for _ in
                  range(random_number_exponential_delay(pr=0.25, probability_of_none=0.0))])
-    summary = factory.Faker('catch_phrase')
-    website = factory.Faker('uri')
-    twitter = factory.Faker('word')
-    linkedin = factory.Faker('word')
-    facebook = factory.Faker('word')
+    summary = factory.LazyFunction(lambda: factory.Faker('catch_phrase').generate() if random.random() < 0.5 else '')
+    website = factory.LazyFunction(lambda: factory.Faker('uri').generate() if random.random() < 0.5 else '')
+    twitter = factory.LazyFunction(lambda: factory.Faker('word').generate() if random.random() < 0.5 else '')
+    linkedin = factory.LazyFunction(lambda: factory.Faker('word').generate() if random.random() < 0.5 else '')
+    facebook = factory.LazyFunction(lambda: factory.Faker('word').generate() if random.random() < 0.5 else '')
 
     address = factory.RelatedFactory(AddressFactory, 'profile')
     education = factory.RelatedFactoryList(EducationFactory, 'profile', size=lambda: random.randrange(3))
