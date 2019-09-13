@@ -120,7 +120,10 @@ python app/manage.py loaddata admin handcrafted
 # Alternately: Use admin / admin@correspondence.legal / asdfasdf
 #python app/manage.py createsuperuser
 
-# Optional: Create 1000 dummy transactions and 2000 profiles for them.
+# Optional: Create 1000 dummy profiles
+python app/manage.py generateprofiles 1000
+
+# Optional: Create 1000 dummy transactions shared randomly between existing profiles
 python app/manage.py generatetransactions 1000
 
 python app/manage.py runserver
@@ -155,7 +158,8 @@ Password is their first name + last name lowercase. For example,
 as argument and creates N profiles which have **password** as
 password.
 * `generatetransactions` is a custom command that accepts any integer(N)
-as argument and creates N transactions and 2*N profiles.
+as argument and creates N transactions randomly shared between existing profiles.  
+  Accepts `--generate-profiles` flag to generate profiles automatically.
 
 **Note:** those fixtures have predefined `id`, so it might overwrite
 existing data. Those `id` are forced to properly populate related
