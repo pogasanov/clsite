@@ -65,7 +65,7 @@ class TransactionFactory(factory.django.DjangoModelFactory):
         if probability < 0.1:
             return False
         # 40% chance for transaction to get approved from admin
-        if probability < 0.5:
+        if 0.1 <= probability < 0.5:
             return True
         # 50% chance for transaction to stay unapproved
         return None
@@ -77,7 +77,7 @@ class TransactionFactory(factory.django.DjangoModelFactory):
         if probability < 0.1:
             return False
         # 40% chance for transaction to get confirmed from the requestee
-        if probability < 0.5:
+        if 0.1 <= probability < 0.5:
             return True
         # 50% chance for transaction to stay unconfirmed from requestee
         return None
