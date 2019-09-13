@@ -155,7 +155,7 @@ class ProfileFactory(factory.django.DjangoModelFactory):
         django_get_or_create = ('handle', 'email')
 
     handle = factory.LazyAttributeSequence(lambda o, n: '-'.join(o.full_name.lower().split(' ')) + str(n))
-    email = factory.LazyAttributeSequence(lambda o, n: factory.Faker('email').generate() + str(n))
+    email = factory.Sequence(lambda n: factory.Faker('email').generate() + str(n))
     full_name = factory.Faker('name')
     password = DEFAULT_USER_PASSWORD
 
