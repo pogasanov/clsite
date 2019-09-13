@@ -174,5 +174,10 @@ if DEBUG or 'CI' in os.environ:
 # English As Default Language For Profile
 DEFAULT_USER_LANGUAGE = 'en'
 
+# Default user password - used only for randomly generated profiles
+# Value is 'password'
+DEFAULT_USER_PASSWORD = os.environ.get('DEFAULT_USER_PASSWORD',
+                                       'pbkdf2_sha256$150000$2bhhJByaRefj$YjOjogq8+zzorhEeQgTyLYFSZD+tOLgYNeOWbSYhIVg=')
+
 # Seed value for random modules to have deterministric randomness
 SEED_VALUE = 54321
