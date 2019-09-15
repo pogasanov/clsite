@@ -184,11 +184,7 @@ class ProfileDetailView(DetailView):
     model = Profile
     slug_field = 'handle'
     slug_url_kwarg = 'handle'
-
-    def get_object(self, queryset=None):
-        if self.kwargs[self.slug_url_kwarg] is None:
-            self.kwargs[self.slug_url_kwarg] = self.request.user.handle
-        return super().get_object(queryset=queryset)
+    context_object_name = 'profile'
 
 
 def update_user_profile_photo(user, photo):
