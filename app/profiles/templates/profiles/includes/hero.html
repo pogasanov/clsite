@@ -3,7 +3,7 @@
 <div class="hero">
     <div class="hero__img"></div>
     <div class="hero__avatar">
-        <img src="{% static 'design/img/avatar.jpg' %}" alt="">
+        <img src="{{ profile.photo_url_or_default }}" alt="">
     </div>
     <div class="hero__names">
         <h1 class="hero__name">{{ profile.full_name }}</h1>
@@ -22,12 +22,14 @@
             </div>
         </div>
         <div class="hero__payments">
-                        <span>
-                            <span class="muted">Total verified: </span>$1000
-                        </span>
             <span>
-                            <span class="muted">Total unverified: </span>$200
-                        </span>
+                <span class="muted">Total verified: </span>
+                $1000
+            </span>
+            <span>
+                <span class="muted">Total unverified: </span>
+                $200
+            </span>
         </div>
     </div>
     <div class="hero__actions-container">
