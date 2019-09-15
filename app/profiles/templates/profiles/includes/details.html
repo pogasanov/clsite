@@ -4,22 +4,29 @@
     </header>
 
     <div class="profile-block__main">
-        <h6 class="text-header">Practice areas</h6>
-        <ul class="tag-container">
-            <li class="tag">Commercial Ship Accident</li>
-            <li class="tag">Jones Act</li>
-        </ul>
+        {% if profile.law_type_tags %}
+            <h6 class="text-header">Practice areas</h6>
+            <ul class="tag-container">
+                {% for law_type_tag in profile.law_type_tags %}
+                    <li class="tag">{{ law_type_tag }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
 
         <div class="profile-block__row">
-            <div>
-                <h6 class="text-header">Years of Practice / Experience</h6>
-                16
-            </div>
+            {% if profile.experience %}
+                <div>
+                    <h6 class="text-header">Years of Practice / Experience</h6>
+                    {{ profile.experience }}
+                </div>
+            {% endif %}
 
-            <div>
-                <h6 class="text-header">Current Job / Affiliation / Law Firm</h6>
-                Partner at Lerman & Szlak
-            </div>
+            {% if profile.current_job %}
+                <div>
+                    <h6 class="text-header">Current Job / Affiliation / Law Firm</h6>
+                    {{ profile.current_job }}
+                </div>
+            {% endif %}
         </div>
 
         <h6 class="text-header">Licenses</h6>
