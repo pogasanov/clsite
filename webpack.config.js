@@ -70,7 +70,7 @@ module.exports = [
         entry: './src/design.js',
         output: {
             filename: './js/main.js',
-            path: path.resolve(__dirname, 'design')
+            path: path.resolve(__dirname, 'app/clsite/static/design')
         },
         plugins: [
             new MiniCssExtractPlugin({
