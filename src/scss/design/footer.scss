@@ -1,6 +1,7 @@
 .footer {
   grid-area: footer;
   color: $link-color;
+  overflow-x: hidden;
 }
 
 .footer__content {
