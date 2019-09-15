@@ -52,7 +52,7 @@
             </li>
         </ul>
         <a href="#0">
-            <img src="{% static 'img/avatar-small.jpg' %}" alt="" class="avatar">
+            <img src="{{ user.photo_url_or_default }}" alt="" class="avatar">
         </a>
     </div>
 </header>
