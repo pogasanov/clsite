@@ -3,28 +3,28 @@
         <h2 class="profile-block__title">Work experience</h2>
     </header>
 
-    <h6 class="text-header">Experience</h6>
-    <ul class="list">
-        <li class="list__item">
-            <ul class="list list--condensed">
-                <li class="list__item"><span class="muted">Company:</span> Lerman & Szlak</li>
-                <li class="list__item"><span class="muted">Position:</span> Partner</li>
-                <li class="list__item"><span class="muted">Duration:</span> Jan. 22, 2017 — Sep. 15,
-                    2019 (2 years, 9 months)
+    {% if profile.workexperience_set.all %}
+        <h6 class="text-header">Experience</h6>
+        <ul class="list">
+            {% for work_experience in profile.workexperience_set.all %}
+                <li class="list__item">
+                    <ul class="list list--condensed">
+                        <li class="list__item">
+                            <span class="muted">Company:</span>
+                            {{ work_experience.company_name }}
+                        </li>
+                        <li class="list__item">
+                            <span class="muted">Position:</span>
+                            {{ work_experience.position }}
+                        </li>
+                        <li class="list__item">
+                            <span class="muted">Duration:</span>
+                            {{ work_experience.duration.lower }} - {{ work_experience.duration.upper }}
+                            ({{ work_experience.duration.upper|timeuntil:work_experience.duration.lower }})
+                        </li>
+                    </ul>
                 </li>
-            </ul>
-        </li>
-        <li class="list__item">
-            <ul class="list list--condensed">
-                <li class="list__item"><span class="muted">Company:</span> Universidad Torcuato Di Tella
-                </li>
-                <li class="list__item"><span class="muted">Position:</span> Title Adjunct Professor of
-                    Law
-                </li>
-                <li class="list__item"><span class="muted">Duration:</span> Feb. 1, 2010 — Apr. 5, 2016
-                    (6 years, 1 month)
-                </li>
-            </ul>
-        </li>
-    </ul>
+            {% endfor %}
+        </ul>
+    {% endif %}
 </section>
