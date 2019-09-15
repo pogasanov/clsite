@@ -1,5 +1,4 @@
 require("jquery-ui/ui/widgets/datepicker");
-import LoaderSpinner from '../img/loader.gif'
 
 $(document).ready(function () {
     setupPictureUpload();
