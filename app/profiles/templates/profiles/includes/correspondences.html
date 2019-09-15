@@ -1,0 +1,110 @@
+{% load static %}
+
+<section class="profile-block">
+    <header class="profile-block__header">
+        <h2 class="profile-block__title">Correspondences</h2>
+        <ul class="tabs">
+            <li class="tab" data-active="true"><a href="#0">Verified</a></li>
+            <li class="tab"><a href="#0">Unverified</a></li>
+            <li class="tab"><a href="#0">Joint</a></li>
+        </ul>
+    </header>
+    <div class="correspondence-meta">
+        <span class="correspondence-meta__total">Total 2 correspondences</span>
+        <div class="correspondence-meta__control">
+            <form>
+                <div class="search mr-12">
+                    <button type="submit" class="search__icon"><i class="fas fa-search"></i></button>
+                    <input type="text" class="search__input" placeholder="Search by name">
+                </div>
+                <select class="input-select">
+                    <option disabled selected>Sort</option>
+                    <option>Name</option>
+                    <option>Rating</option>
+                </select>
+            </form>
+        </div>
+    </div>
+    <ul class="correspondence-container">
+        <li class="correspondence">
+            <div class="correspondence__avatar">
+                <img src="{% static 'design/img/avatar-small2.jpg' %}" alt="John Doe" class="avatar">
+            </div>
+            <div class="correspondence__names">
+                <h2 class="correspondence__name">John Doe</h2>
+                <div class="correspondence__address">
+                    Attorney in Arizona, USA<br/>
+                    Only Legal Group, PLLC<br/>
+                    Office (844) 278-0606<br/>
+                    http://www.johnsmith.com
+                </div>
+            </div>
+
+            <div class="correspondence__reviews">
+                Show reviews
+            </div>
+
+            <div class="correspondence__rating">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star-half-alt"></i>
+                <i class="far fa-star"></i>
+            </div>
+
+            <div class="correspondence__description">
+                <h6 class="text-header">Licenced in</h6>
+                <ul class="tag-container">
+                    <li class="tag">Arizona, USA</li>
+                    <li class="tag">Berlin, Germany</li>
+                </ul>
+
+                <h6 class="text-header">Practice areas</h6>
+                <ul class="tag-container">
+                    <li class="tag">Commercial Ship Accident</li>
+                    <li class="tag">Jones Act</li>
+                </ul>
+            </div>
+        </li>
+
+        <li class="correspondence">
+            <div class="correspondence__avatar">
+                <img src="{% static 'design/img/avatar-small3.jpg' %}" alt="John Doe" class="avatar">
+            </div>
+            <div class="correspondence__names">
+                <h2 class="correspondence__name">John Smith</h2>
+                <div class="correspondence__address">
+                    Finance attorney in New York City, USA<br/>
+                    Just Legal Group, PLLC<br/>
+                    Office (844) 278-0606<br/>
+                    http://www.johnsmith.com
+                </div>
+            </div>
+
+            <div class="correspondence__reviews">
+                Show reviews
+            </div>
+
+            <div class="correspondence__rating">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star-half-alt"></i>
+                <i class="far fa-star"></i>
+            </div>
+
+            <div class="correspondence__description">
+                <h6 class="text-header">Licenced in</h6>
+                <ul class="tag-container">
+                    <li class="tag">New York, USA</li>
+                </ul>
+                <h6 class="text-header">Practice areas</h6>
+                <ul class="tag-container">
+                    <li class="tag">Ship Registration</li>
+                    <li class="tag">Bail bonds</li>
+                    <li class="tag tag--outline">12+</li>
+                </ul>
+            </div>
+        </li>
+    </ul>
+</section>
