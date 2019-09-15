@@ -5,32 +5,28 @@
 
     <div class="profile-block__main">
 
-        <h6 class="text-header">Awards</h6>
-        <ul class="list list--2-col">
-            <li class="list__item">
-                <ul class="list list--condensed">
-                    <li class="list__item"><span class="muted">Title:</span> Top Attorney - DUI Defense
+        {% if profile.award_set.all %}
+            <h6 class="text-header">Awards</h6>
+            <ul class="list list--2-col">
+                {% for award in profile.award_set.all %}
+                    <li class="list__item">
+                        <ul class="list list--condensed">
+                            <li class="list__item">
+                                <span class="muted">Title:</span>
+                                {{ award.title|capfirst }}
+                            </li>
+                            <li class="list__item">
+                                <span class="muted">Presented by:</span>
+                                {{ award.presented_by }}
+                            </li>
+                            <li class="list__item">
+                                <span class="muted">Year:</span>
+                                {{ award.year }}
+                            </li>
+                        </ul>
                     </li>
-                    <li class="list__item"><span class="muted">Presented by:</span> Avvo</li>
-                    <li class="list__item"><span class="muted">Year:</span> 2018</li>
-                </ul>
-            </li>
-            <li class="list__item">
-                <ul class="list list--condensed">
-                    <li class="list__item"><span class="muted">Title:</span> Great Plains Super Lawyer
-                    </li>
-                    <li class="list__item"><span class="muted">Presented by:</span> Super Lawyers</li>
-                    <li class="list__item"><span class="muted">Year:</span> 2017</li>
-                </ul>
-            </li>
-            <li class="list__item">
-                <ul class="list list--condensed">
-                    <li class="list__item"><span class="muted">Title:</span> BV Rated</li>
-                    <li class="list__item"><span class="muted">Presented by:</span> Martindale-Hubbell
-                    </li>
-                    <li class="list__item"><span class="muted">Year:</span> 2016</li>
-                </ul>
-            </li>
-        </ul>
+                {% endfor %}
+            </ul>
+        {% endif %}
     </div>
 </section>
