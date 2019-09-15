@@ -3,14 +3,20 @@
         <h2 class="profile-block__title">Physical locations</h2>
     </header>
 
-    <h6 class="text-header">Addresses</h6>
-    <ul class="list">
-        <li class="list__item">
-            <ul class="list list--condensed">
-                <li class="list__item"><span class="muted">Country:</span> United States</li>
-                <li class="list__item"><span class="muted">State:</span> New York</li>
-                <li class="list__item"><span class="muted">City:</span> New York City</li>
-            </ul>
-        </li>
-    </ul>
+    {% if profile.address %}
+        <h6 class="text-header">Addresses</h6>
+        <ul class="list">
+            <li class="list__item">
+                <ul class="list list--condensed">
+                    <li class="list__item"><span class="muted">Country:</span> {{ profile.address.country }}</li>
+                    {% if profile.address.state %}
+                        <li class="list__item"><span class="muted">State:</span> {{ profile.address.state }}</li>
+                    {% endif %}
+                    {% if profile.address.city %}
+                        <li class="list__item"><span class="muted">City:</span> {{ profile.address.city }}</li>
+                    {% endif %}
+                </ul>
+            </li>
+        </ul>
+    {% endif %}
 </section>
