@@ -6,7 +6,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy, reverse
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView
 
 from clsite.settings import DEFAULT_CHOICES_SELECTION
@@ -178,6 +178,17 @@ def profile(request, handle=None):
         'languages': language_formset,
         'relationships': user_relationships(user)[:5] if handle else None
     })
+
+
+class ProfileDetailView(DetailView):
+    model = Profile
+    slug_field = 'handle'
+    slug_url_kwarg = 'handle'
+
+    def get_object(self, queryset=None):
+        if self.kwargs[self.slug_url_kwarg] is None:
+            self.kwargs[self.slug_url_kwarg] = self.request.user.handle
+        return super().get_object(queryset=queryset)
 
 
 def update_user_profile_photo(user, photo):
