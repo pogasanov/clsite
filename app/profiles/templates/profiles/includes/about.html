@@ -4,12 +4,14 @@
     </header>
 
     <div class="profile-block__main">
-        <h6 class="text-header">Summary</h6>
-        {{ profile.headline }}
+        {% if profile.summary %}
+            <h6 class="text-header">Summary</h6>
+            {{ profile.summary|safe }}
+        {% endif %}
 
         {% if profile.bio %}
             <h6 class="text-header">Overview</h6>
-            {{ profile.bio }}
+            {{ profile.bio|safe }}
         {% endif %}
 
         {% if profile.language_set %}
