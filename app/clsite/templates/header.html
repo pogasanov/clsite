@@ -1,0 +1,58 @@
+{% load static %}
+
+<header class="header">
+    <div class="logo">
+        <a href="#0">
+            <img src="{% static 'design/img/logo.png' %}" alt="Correspondence Legal Group logo">
+        </a>
+    </div>
+    <div class="header__control">
+        <div class="header__search">
+            <form>
+                <div class="search search--left search--big">
+                    <button type="submit" class="search__icon"><i class="fas fa-search"></i></button>
+                    <input type="text" class="search__input" placeholder="Search Attorney">
+                </div>
+            </form>
+        </div>
+        <nav class="main-nav">
+            <ul class="main-sections">
+                <li>
+                    <a href="#0">
+                        Transactions
+                    </a>
+                </li>
+                <li>
+                    <a href="#0">
+                        Verification
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    <div class="header__profile">
+        <ul class="actions">
+            <li>
+                <a href="#0">
+                    <div class="relative">
+                        <i class="fas fa-bolt"></i>
+                        <span class="icon-counter">32</span>
+                    </div>
+
+                </a>
+            </li>
+            <li>
+                <a href="#0">
+                    <div class="relative">
+                        <i class="fas fa-envelope"></i>
+                        <span class="icon-counter icon-counter--bubble">12</span>
+                    </div>
+
+                </a>
+            </li>
+        </ul>
+        <a href="#0">
+            <img src="{% static 'design/img/avatar-small.jpg' %}" alt="" class="avatar">
+        </a>
+    </div>
+</header>
