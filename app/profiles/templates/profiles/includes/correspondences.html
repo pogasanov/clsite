@@ -1,5 +1,4 @@
-{% load static %}
-
+{% if correspondents %}
 <section class="profile-block">
     <header class="profile-block__header">
         <h2 class="profile-block__title">Correspondences</h2>
@@ -74,3 +73,4 @@
         {% endfor %}
     </ul>
 </section>
+{% endif %}

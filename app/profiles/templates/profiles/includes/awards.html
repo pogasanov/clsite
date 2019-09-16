@@ -1,11 +1,11 @@
-<section class="profile-block">
-    <header class="profile-block__header">
-        <h2 class="profile-block__title">Awards</h2>
-    </header>
+{% if profile.award_set.all %}
+    <section class="profile-block">
+        <header class="profile-block__header">
+            <h2 class="profile-block__title">Awards</h2>
+        </header>
 
-    <div class="profile-block__main">
+        <div class="profile-block__main">
 
-        {% if profile.award_set.all %}
             <h6 class="text-header">Awards</h6>
             <ul class="list list--2-col">
                 {% for award in profile.award_set.all %}
@@ -27,6 +27,6 @@
                     </li>
                 {% endfor %}
             </ul>
-        {% endif %}
-    </div>
-</section>
+        </div>
+    </section>
+{% endif %}

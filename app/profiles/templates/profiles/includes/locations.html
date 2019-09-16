@@ -1,9 +1,9 @@
-<section class="profile-block">
-    <header class="profile-block__header">
-        <h2 class="profile-block__title">Physical locations</h2>
-    </header>
+{% if profile.address %}
+    <section class="profile-block">
+        <header class="profile-block__header">
+            <h2 class="profile-block__title">Physical locations</h2>
+        </header>
 
-    {% if profile.address %}
         <h6 class="text-header">Addresses</h6>
         <ul class="list">
             <li class="list__item">
@@ -18,5 +18,5 @@
                 </ul>
             </li>
         </ul>
-    {% endif %}
-</section>
+    </section>
+{% endif %}
