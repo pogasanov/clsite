@@ -17,8 +17,8 @@
         </span>
     </div>
     <div class="hero__payments-container">
-        <div class="c100 p80">
-            <span>80%</span>
+        <div class="c100 p{{ transactions_stats.percentage }}">
+            <span>{{ transactions_stats.percentage }}%</span>
             <div class="slice">
                 <div class="bar"></div>
                 <div class="fill"></div>
@@ -27,11 +27,11 @@
         <div class="hero__payments">
             <span>
                 <span class="muted">Total verified: </span>
-                $1000
+                ${{ transactions_stats.verified|default_if_none:'0' }}
             </span>
             <span>
                 <span class="muted">Total unverified: </span>
-                $200
+                ${{ transactions_stats.unverified|default_if_none:'0' }}
             </span>
         </div>
     </div>

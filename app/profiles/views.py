@@ -3,6 +3,7 @@ from itertools import groupby
 from django.contrib.auth import get_user_model, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Q, Sum
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy, reverse
@@ -10,6 +11,7 @@ from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView
 
 from clsite.settings import DEFAULT_CHOICES_SELECTION
+from transactions.models import Transaction
 from .forms import ProfileForm, EducationFormSet, WorkExperienceFormSet, AddressForm, AdmissionsFormSet, LawSchoolForm, \
     OrganizationFormSet, AwardFormSet, ProfileCreationForm, JurisdictionFormSet, \
     LanguageFormSet
@@ -180,6 +182,24 @@ class ProfileDetailView(LoginRequiredMixin, DetailView):
         requester_profiles = Profile.objects.filter(requester__in=user.requestee.all())
         requestee_profiles = Profile.objects.filter(requestee__in=user.requester.all())
         context['correspondents'] = requester_profiles.union(requestee_profiles)
+
+        all_user_transaction = Transaction.objects.filter(Q(requester=user) | Q(requestee=user))
+        verified = Sum('value_in_usd', filter=Q(is_confirmed=True))
+        unverified = Sum('value_in_usd', filter=Q(is_confirmed=False))
+        user_transaction_aggregated = all_user_transaction.aggregate(
+            verified=verified,
+            unverified=unverified
+        )
+        if user_transaction_aggregated['unverified']:
+            if user_transaction_aggregated['verified']:
+                percentage = int(100 * user_transaction_aggregated['verified'] / (
+                        user_transaction_aggregated['verified'] + user_transaction_aggregated['unverified']))
+            else:
+                percentage = 0
+        else:
+            percentage = 100
+        context['transactions_stats'] = user_transaction_aggregated
+        context['transactions_stats']['percentage'] = percentage
 
         return context
 
