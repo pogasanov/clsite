@@ -10,7 +10,7 @@
         </ul>
     </header>
     <div class="correspondence-meta">
-        <span class="correspondence-meta__total">Total 2 correspondences</span>
+        <span class="correspondence-meta__total">Total {{ correspondents|length }} correspondences</span>
         <div class="correspondence-meta__control">
             <form>
                 <div class="search mr-12">
@@ -26,85 +26,51 @@
         </div>
     </div>
     <ul class="correspondence-container">
-        <li class="correspondence">
-            <div class="correspondence__avatar">
-                <img src="{% static 'img/avatar-small2.jpg' %}" alt="John Doe" class="avatar">
-            </div>
-            <div class="correspondence__names">
-                <h2 class="correspondence__name">John Doe</h2>
-                <div class="correspondence__address">
-                    Attorney in Arizona, USA<br/>
-                    Only Legal Group, PLLC<br/>
-                    Office (844) 278-0606<br/>
-                    http://www.johnsmith.com
+        {% for correspondent in correspondents %}
+            <li class="correspondence">
+                <div class="correspondence__avatar">
+                    <img src="{{ correspondent.photo_url_or_default }}" alt="{{ correspondent.full_name }}"
+                         class="avatar">
                 </div>
-            </div>
-
-            <div class="correspondence__reviews">
-                Show reviews
-            </div>
-
-            <div class="correspondence__rating">
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star-half-alt"></i>
-                <i class="far fa-star"></i>
-            </div>
-
-            <div class="correspondence__description">
-                <h6 class="text-header">Licenced in</h6>
-                <ul class="tag-container">
-                    <li class="tag">Arizona, USA</li>
-                    <li class="tag">Berlin, Germany</li>
-                </ul>
-
-                <h6 class="text-header">Practice areas</h6>
-                <ul class="tag-container">
-                    <li class="tag">Commercial Ship Accident</li>
-                    <li class="tag">Jones Act</li>
-                </ul>
-            </div>
-        </li>
-
-        <li class="correspondence">
-            <div class="correspondence__avatar">
-                <img src="{% static 'img/avatar-small3.jpg' %}" alt="John Doe" class="avatar">
-            </div>
-            <div class="correspondence__names">
-                <h2 class="correspondence__name">John Smith</h2>
-                <div class="correspondence__address">
-                    Finance attorney in New York City, USA<br/>
-                    Just Legal Group, PLLC<br/>
-                    Office (844) 278-0606<br/>
-                    http://www.johnsmith.com
+                <div class="correspondence__names">
+                    <h2 class="correspondence__name">{{ correspondent.full_name }}</h2>
+                    <div class="correspondence__address">
+                        {{ correspondent.browsing_headline }}<br/>
+                        {{ correspondent.current_job }}<br/>
+                        {{ correspondent.phone }}<br/>
+                        {{ correspondent.website }}
+                    </div>
                 </div>
-            </div>
 
-            <div class="correspondence__reviews">
-                Show reviews
-            </div>
+                <div class="correspondence__reviews">
+                    Show reviews
+                </div>
 
-            <div class="correspondence__rating">
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star-half-alt"></i>
-                <i class="far fa-star"></i>
-            </div>
+                <div class="correspondence__rating">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star-half-alt"></i>
+                    <i class="far fa-star"></i>
+                </div>
 
-            <div class="correspondence__description">
-                <h6 class="text-header">Licenced in</h6>
-                <ul class="tag-container">
-                    <li class="tag">New York, USA</li>
-                </ul>
-                <h6 class="text-header">Practice areas</h6>
-                <ul class="tag-container">
-                    <li class="tag">Ship Registration</li>
-                    <li class="tag">Bail bonds</li>
-                    <li class="tag tag--outline">12+</li>
-                </ul>
-            </div>
-        </li>
+                <div class="correspondence__description">
+                    <h6 class="text-header">Licenced in</h6>
+                    <ul class="tag-container">
+                        <li class="tag">Arizona, USA</li>
+                        <li class="tag">Berlin, Germany</li>
+                    </ul>
+
+                    {% if correspondent.law_type_tags %}
+                        <h6 class="text-header">Practice areas</h6>
+                        <ul class="tag-container">
+                            {% for law_type_tag in correspondent.law_type_tags %}
+                                <li class="tag">{{ law_type_tag }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+            </li>
+        {% endfor %}
     </ul>
 </section>

@@ -173,6 +173,16 @@ class ProfileDetailView(DetailView):
     slug_url_kwarg = 'handle'
     context_object_name = 'profile'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        user = self.get_object()
+        requester_profiles = Profile.objects.filter(requester__in=user.requestee.all())
+        requestee_profiles = Profile.objects.filter(requestee__in=user.requester.all())
+        context['correspondents'] = requester_profiles.union(requestee_profiles)
+
+        return context
+
 
 def update_user_profile_photo(user, photo):
     if user.photo:
