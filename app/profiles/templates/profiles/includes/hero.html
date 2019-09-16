@@ -11,7 +11,10 @@
     </div>
 
     <div class="hero__location">
-        <i class="fas fa-map-marker-alt"></i><span class="muted">Arizona, USA</span>
+        <i class="fas fa-map-marker-alt"></i>
+        <span class="muted">
+            {% if profile.address.state %}{{ profile.address.state }}, {% endif %}{{ profile.address.country }}
+        </span>
     </div>
     <div class="hero__payments-container">
         <div class="c100 p80">
