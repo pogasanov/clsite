@@ -11,3 +11,5 @@ import './img/lfs/avatar.jpg'
 import './img/lfs/avatar-small.jpg'
 import './img/lfs/avatar-small2.jpg'
 import './img/lfs/avatar-small3.jpg'
+// Scripts
+import './js/profile'

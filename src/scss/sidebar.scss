@@ -1,6 +1,9 @@
-.sidebar {
+.sidebar-container {
   grid-area: sidebar;
   margin: 45px 12px 49px 60px;
+}
+
+.sidebar {
   color: $link-color;
 
   p {
