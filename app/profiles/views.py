@@ -85,84 +85,71 @@ def get_states(request, handle=None):
 
 @login_required
 def profile(request, handle=None):
-    if handle:
-        user = get_object_or_404(get_user_model(), handle=handle)
-        profile_form = None
-        jurisdiction_formset = None
-        address_form = None
-        education_formset = None
-        admissions_formset = None
-        lawschool_form = None
-        workexperience_formset = None
-        organization_formset = None
-        award_formset = None
-        language_formset = None
-    else:
-        user = request.user
-        profile_form = ProfileForm(request.POST or None, instance=user, prefix='profile')
-        jurisdiction_formset = JurisdictionFormSet(request.POST or None, instance=user, prefix='jurisdiction')
-        address_form = AddressForm(request.POST or None, instance=getattr(user, 'address', None), prefix='address')
-        education_formset = EducationFormSet(request.POST or None, instance=user, prefix='education')
-        admissions_formset = AdmissionsFormSet(request.POST or None, instance=user, prefix='admissions')
-        lawschool_form = LawSchoolForm(request.POST or None, instance=getattr(user, 'lawschool', None),
-                                       prefix='lawschool')
-        workexperience_formset = WorkExperienceFormSet(request.POST or None, instance=user, prefix='workexperience')
-        organization_formset = OrganizationFormSet(request.POST or None, instance=user, prefix='organization')
-        award_formset = AwardFormSet(request.POST or None, instance=user, prefix='award')
-        language_formset = LanguageFormSet(request.POST or None, instance=user, prefix='language')
+    user = request.user
+    profile_form = ProfileForm(request.POST or None, instance=user, prefix='profile')
+    jurisdiction_formset = JurisdictionFormSet(request.POST or None, instance=user, prefix='jurisdiction')
+    address_form = AddressForm(request.POST or None, instance=getattr(user, 'address', None), prefix='address')
+    education_formset = EducationFormSet(request.POST or None, instance=user, prefix='education')
+    admissions_formset = AdmissionsFormSet(request.POST or None, instance=user, prefix='admissions')
+    lawschool_form = LawSchoolForm(request.POST or None, instance=getattr(user, 'lawschool', None),
+                                   prefix='lawschool')
+    workexperience_formset = WorkExperienceFormSet(request.POST or None, instance=user, prefix='workexperience')
+    organization_formset = OrganizationFormSet(request.POST or None, instance=user, prefix='organization')
+    award_formset = AwardFormSet(request.POST or None, instance=user, prefix='award')
+    language_formset = LanguageFormSet(request.POST or None, instance=user, prefix='language')
 
-        if request.method == 'POST':
-            if request.FILES.get('photo-input'):
-                url = update_user_profile_photo(user, request.FILES['photo-input'])
-                return JsonResponse({'url': url})
+    if request.method == 'POST':
+        if request.FILES.get('photo-input'):
+            url = update_user_profile_photo(user, request.FILES['photo-input'])
+            return JsonResponse({'url': url})
+        else:
+            if profile_form.is_valid() and \
+                    jurisdiction_formset.is_valid() and \
+                    address_form.is_valid() and \
+                    education_formset.is_valid() and \
+                    admissions_formset.is_valid() and \
+                    lawschool_form.is_valid() and \
+                    workexperience_formset.is_valid() and \
+                    organization_formset.is_valid() and \
+                    award_formset.is_valid() and \
+                    language_formset.is_valid():
+                profile_form.save()
+                jurisdiction_formset.instance = user
+                jurisdiction_formset.save()
+                af = address_form.save(commit=False)
+                af.profile = user
+                af.save()
+                education_formset.instance = user
+                education_formset.save()
+                admissions_formset.instance = user
+                admissions_formset.save()
+                lf = lawschool_form.save(commit=False)
+                lf.profile = user
+                lf.save()
+                workexperience_formset.instance = user
+                workexperience_formset.save()
+                organization_formset.instance = user
+                organization_formset.save()
+                award_formset.instance = user
+                award_formset.save()
+                language_formset.instance = user
+                language_formset.save()
+                return JsonResponse({'message': 'Your data has been updated successfully!'})
             else:
-                if profile_form.is_valid() and \
-                        jurisdiction_formset.is_valid() and \
-                        address_form.is_valid() and \
-                        education_formset.is_valid() and \
-                        admissions_formset.is_valid() and \
-                        lawschool_form.is_valid() and \
-                        workexperience_formset.is_valid() and \
-                        organization_formset.is_valid() and \
-                        award_formset.is_valid() and \
-                        language_formset.is_valid():
-                    profile_form.save()
-                    jurisdiction_formset.instance = user
-                    jurisdiction_formset.save()
-                    af = address_form.save(commit=False)
-                    af.profile = user
-                    af.save()
-                    education_formset.instance = user
-                    education_formset.save()
-                    admissions_formset.instance = user
-                    admissions_formset.save()
-                    lf = lawschool_form.save(commit=False)
-                    lf.profile = user
-                    lf.save()
-                    workexperience_formset.instance = user
-                    workexperience_formset.save()
-                    organization_formset.instance = user
-                    organization_formset.save()
-                    award_formset.instance = user
-                    award_formset.save()
-                    language_formset.instance = user
-                    language_formset.save()
-                    return JsonResponse({'message': 'Your data has been updated successfully!'})
-                else:
-                    errors = {
-                        'profile': profile_form.errors,
-                        'jurisdiction': jurisdiction_formset.errors,
-                        'address': address_form.errors,
-                        'education': education_formset.errors,
-                        'admissions': admissions_formset.errors,
-                        'lawschool': lawschool_form.errors,
-                        'workexperience': workexperience_formset.errors,
-                        'organization': organization_formset.errors,
-                        'award': award_formset.errors,
-                        'language': language_formset.errors,
-                        'message': 'Invalid data provided!'
-                    }
-                    return JsonResponse(errors, status=400)
+                errors = {
+                    'profile': profile_form.errors,
+                    'jurisdiction': jurisdiction_formset.errors,
+                    'address': address_form.errors,
+                    'education': education_formset.errors,
+                    'admissions': admissions_formset.errors,
+                    'lawschool': lawschool_form.errors,
+                    'workexperience': workexperience_formset.errors,
+                    'organization': organization_formset.errors,
+                    'award': award_formset.errors,
+                    'language': language_formset.errors,
+                    'message': 'Invalid data provided!'
+                }
+                return JsonResponse(errors, status=400)
 
     return render(request, "profile-page.html", context={
         'selected_user': user,
