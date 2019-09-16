@@ -167,7 +167,7 @@ def profile(request, handle=None):
     })
 
 
-class ProfileDetailView(DetailView):
+class ProfileDetailView(LoginRequiredMixin, DetailView):
     model = Profile
     slug_field = 'handle'
     slug_url_kwarg = 'handle'
