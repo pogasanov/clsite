@@ -14,7 +14,7 @@ urlpatterns = \
         path('register', views.UserRegistrationView.as_view(), name='register'),
 
         path('profile', views.profile, name='profile'),
-        path('profile/<handle>', views.ProfileDetailView.as_view(), name='profile'),
+        path('profile/<handle>', views.ProfileDetailView.as_view(), name='profile-detail'),
 
         path('profiles', views.UserListView.as_view(), name='profiles'),
         path('profiles/jurisdictions/<jurisdiction_value>/law-type-tags/<law_tags_value>',

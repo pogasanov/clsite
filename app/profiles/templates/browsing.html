@@ -50,7 +50,7 @@
                 {% for user in users %}
                 <div class="card card--user">
                     <div class="card-body">
-                        <a href="{% url 'profile' user.handle %}">
+                        <a href="{% url 'profile-detail' user.handle %}">
                             <img src="{{ user.photo_url_or_default }}"
                                  class="d-block mx-auto card--user__avatar rounded-circle">
                             <h5 class="card-title my-0 text-center">
