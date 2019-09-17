@@ -10,12 +10,15 @@
         <h2 class="hero__title">{{ profile.browsing_headline }}</h2>
     </div>
 
-    <div class="hero__location">
-        <i class="fas fa-map-marker-alt"></i>
-        <span class="muted">
+    {% if profile.address.country %}
+        <div class="hero__location">
+            <i class="fas fa-map-marker-alt"></i>
+            <span class="muted">
             {% if profile.address.state %}{{ profile.address.state }}, {% endif %}{{ profile.address.country }}
         </span>
-    </div>
+        </div>
+    {% endif %}
+
     <div class="hero__payments-container">
         <div class="c100 p{{ transactions_stats.percentage }}">
             <span>{{ transactions_stats.percentage }}%</span>
