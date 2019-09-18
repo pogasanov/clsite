@@ -47,9 +47,6 @@ class TransactionModelsTestCase(TestCase):
         transaction = TransactionFactory(is_confirmed=True, amount=0)
         self.assertFalse(transaction.is_ready)
 
-        transaction = TransactionFactory(is_confirmed=True, amount=123)
-        self.assertTrue(transaction.is_ready)
-
         # If transaction has proof_receipt, it should be confirmed by admin
         transaction = TransactionFactory(is_confirmed=True,
                                          amount=123,
@@ -58,6 +55,11 @@ class TransactionModelsTestCase(TestCase):
                                          )
         self.assertFalse(transaction.is_ready)
 
+        # If transaction doesn't have proof_receipt but with value, it should be ready
+        transaction = TransactionFactory(is_confirmed=True, proof_receipt=None, amount=123)
+        self.assertTrue(transaction.is_ready)
+
+        # If transaction has approved proof receipt, it should be ready
         transaction = TransactionFactory(is_confirmed=True,
                                          amount=123,
                                          proof_receipt=TransactionFactory.create_proof_receipt(),
