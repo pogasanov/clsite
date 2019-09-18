@@ -85,3 +85,4 @@ class ConfirmTransactionForm(ModelForm):
             transaction.is_proof_by_requester = True if self.files else None
 
         transaction.save()
+        return transaction
