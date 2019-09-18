@@ -5,7 +5,7 @@ import factory.fuzzy
 import factory.random
 from django.conf.global_settings import LANGUAGES
 
-from clsite.settings import SEED_VALUE, DEFAULT_USER_PASSWORD
+from clsite.settings import SEED_VALUE, DEFAULT_USER_PASSWORD_HASH
 from clsite.utils import random_number_exponential_delay
 from profiles import signals
 from profiles.models import Language
@@ -157,7 +157,7 @@ class ProfileFactory(factory.django.DjangoModelFactory):
     handle = factory.LazyAttributeSequence(lambda o, n: '-'.join(o.full_name.lower().split(' ')) + str(n))
     email = factory.Sequence(lambda n: factory.Faker('email').generate() + str(n))
     full_name = factory.Faker('name')
-    password = DEFAULT_USER_PASSWORD
+    password = DEFAULT_USER_PASSWORD_HASH
 
     phone = factory.LazyFunction(lambda: factory.Faker('msisdn').generate() if random.random() < 0.5 else '')
     bio = factory.LazyFunction(lambda: "<p>" + "</p><p>".join(
