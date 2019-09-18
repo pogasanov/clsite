@@ -13,12 +13,6 @@ CURRENCY_CODES = [currency_code for currency_code, _ in CURRENCIES]
 TRANSACTION_REVIEW_CHOICES = [review_choice for review_choice, _ in Transaction.REVIEW_CHOICES]
 
 
-def get_recommendation():
-    if random.random() < 0.25:
-        return ''
-    return ' '.join(factory.Faker('paragraphs', nb=3).generate())
-
-
 def generate_image(color=(255, 0, 0)):
     # Pillow requires color to be tuple of ints
     thumb = Image.new('RGB', (200, 200), color=tuple(map(int, color)))
@@ -47,7 +41,7 @@ class TransactionFactory(factory.django.DjangoModelFactory):
     requester_review = factory.Faker('random_element', elements=TRANSACTION_REVIEW_CHOICES)
     is_requester_principal = factory.Faker('pybool')
     date = factory.Faker('date_between', start_date="-3y", end_date="today")
-    requester_recommendation = factory.LazyFunction(get_recommendation)
+    requester_recommendation = factory.LazyAttribute(lambda o: o.get_recommendation)
 
     @factory.lazy_attribute
     def proof_receipt(self):
@@ -84,9 +78,15 @@ class TransactionFactory(factory.django.DjangoModelFactory):
     requestee_review = factory.LazyAttribute(
         lambda o: factory.Faker('random_element',
                                 elements=TRANSACTION_REVIEW_CHOICES).generate() if o.is_confirmed else '')
-    requestee_recommendation = factory.LazyAttribute(lambda o: get_recommendation() if o.is_confirmed else '')
+    requestee_recommendation = factory.LazyAttribute(lambda o: o.get_recommendation() if o.is_confirmed else '')
 
     @staticmethod
     def get_proof_receipt():
         random_rgb = factory.Faker('rgb_color').generate().split(',')
         return generate_image(color=random_rgb)
+
+    @staticmethod
+    def get_recommendation():
+        if random.random() < 0.25:
+            return ''
+        return ' '.join(factory.Faker('paragraphs', nb=3).generate())
