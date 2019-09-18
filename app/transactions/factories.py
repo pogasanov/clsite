@@ -41,12 +41,12 @@ class TransactionFactory(factory.django.DjangoModelFactory):
     requester_review = factory.Faker('random_element', elements=TRANSACTION_REVIEW_CHOICES)
     is_requester_principal = factory.Faker('pybool')
     date = factory.Faker('date_between', start_date="-3y", end_date="today")
-    requester_recommendation = factory.LazyAttribute(lambda o: TransactionFactory.get_recommendation())
+    requester_recommendation = factory.LazyAttribute(lambda o: TransactionFactory.create_recommendation())
 
     @factory.lazy_attribute
     def proof_receipt(self):
         if random.random() < 0.33:
-            return TransactionFactory.get_proof_receipt()
+            return TransactionFactory.create_proof_receipt()
 
     @factory.lazy_attribute
     def is_admin_approved(self):
@@ -82,17 +82,17 @@ class TransactionFactory(factory.django.DjangoModelFactory):
     )
     requestee_recommendation = factory.Maybe(
         'is_confirmed',
-        yes_declaration=factory.LazyFunction(lambda: TransactionFactory.get_recommendation()),
+        yes_declaration=factory.LazyFunction(lambda: TransactionFactory.create_recommendation()),
         no_declaration=''
     )
 
     @staticmethod
-    def get_proof_receipt():
+    def create_proof_receipt():
         random_rgb = factory.Faker('rgb_color').generate().split(',')
         return generate_image(color=random_rgb)
 
     @staticmethod
-    def get_recommendation():
+    def create_recommendation():
         if random.random() < 0.25:
             return ''
         return ' '.join(factory.Faker('paragraphs', nb=3).generate())
