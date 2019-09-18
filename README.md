@@ -148,6 +148,11 @@ You can create 1000 random dummy profiles as follows:
 python app/manage.py generateprofiles 1000
 ```
 
+and then 1000 random dummy transactions:
+```bash
+python app/manage.py generatetransactions 1000
+```
+
 * `admin` - adds admin profile. Login email is
 **admin@correspondence.legal**. Password is **asdfasdf**.
 * `handcrafted` - adds real-life manually crafted profiles for
