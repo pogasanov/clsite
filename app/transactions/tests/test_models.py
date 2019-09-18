@@ -6,7 +6,7 @@ from transactions.factories import TransactionFactory
 from transactions.models import Transaction
 
 
-class TransactionTestCase(TestCase):
+class TransactionModelsTestCase(TestCase):
     def test_queryset_unconfirmed(self):
         TEST_BATCH_SIZE = 5
 
@@ -76,4 +76,5 @@ class TransactionTestCase(TestCase):
     def test_requestee_eq_reqeuester_fail(self):
         profile = ProfileFactory()
         transaction = TransactionFactory(requestee=profile, requester=profile)
-        self.assertRaises(ValidationError, transaction.full_clean)
+        with self.assertRaises(ValidationError):
+            transaction.full_clean()
