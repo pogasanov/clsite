@@ -10,12 +10,12 @@ class TransactionTestCase(TestCase):
     def test_queryset_unconfirmed(self):
         TEST_BATCH_SIZE = 5
 
-        denied_transaction = TransactionFactory.create_batch(TEST_BATCH_SIZE, is_confirmed=False)
-        unchecked_transactions = TransactionFactory.create_batch(TEST_BATCH_SIZE, is_confirmed=None)
+        transactions = TransactionFactory.create_batch(TEST_BATCH_SIZE, is_confirmed=None)
+        TransactionFactory.create_batch(TEST_BATCH_SIZE, is_confirmed=False)
         TransactionFactory.create_batch(TEST_BATCH_SIZE, is_confirmed=True)
 
         # assertQuerysetEqual compare model instances by their repr
-        unconfirmed_transactions = list(map(repr, denied_transaction + unchecked_transactions))
+        unconfirmed_transactions = list(map(repr, transactions))
 
         # Via manager
         fetched_transactions = Transaction.unconfirmed.all()
