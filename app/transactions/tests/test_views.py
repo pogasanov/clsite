@@ -1,4 +1,4 @@
-from django.test import TestCase
+from django.test import TestCase, override_settings
 from django.urls import reverse
 from django.utils import timezone
 
@@ -9,6 +9,7 @@ from transactions.forms import ConfirmTransactionForm
 from transactions.models import Transaction
 
 
+@override_settings(STATICFILES_STORAGE='django.contrib.staticfiles.storage.StaticFilesStorage')
 class TransactionViewTest(TestCase):
     @classmethod
     def setUpTestData(cls):
@@ -64,6 +65,7 @@ class TransactionViewTest(TestCase):
         self.assertEqual(transactions_count, 1)
 
 
+@override_settings(STATICFILES_STORAGE='django.contrib.staticfiles.storage.StaticFilesStorage')
 class ConfirmTransactionViewTest(TestCase):
     @classmethod
     def setUpTestData(cls):

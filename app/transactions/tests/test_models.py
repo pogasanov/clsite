@@ -1,11 +1,12 @@
 from django.core.exceptions import ValidationError
-from django.test import TestCase
+from django.test import TestCase, override_settings
 
 from profiles.factories import ProfileFactory
 from transactions.factories import TransactionFactory
 from transactions.models import Transaction
 
 
+@override_settings(STATICFILES_STORAGE='django.contrib.staticfiles.storage.StaticFilesStorage')
 class TransactionModelTest(TestCase):
     def test_queryset_unconfirmed(self):
         TEST_BATCH_SIZE = 5

@@ -1,5 +1,5 @@
 from django.core.files.uploadedfile import SimpleUploadedFile
-from django.test import TestCase
+from django.test import TestCase, override_settings
 from django.utils import timezone
 
 from profiles.factories import ProfileFactory
@@ -8,6 +8,7 @@ from transactions.forms import TransactionForm, ConfirmTransactionForm
 from transactions.models import Transaction
 
 
+@override_settings(STATICFILES_STORAGE='django.contrib.staticfiles.storage.StaticFilesStorage')
 class TransactionFormTestCase(TestCase):
     @classmethod
     def setUpTestData(cls):
@@ -66,6 +67,7 @@ class TransactionFormTestCase(TestCase):
         self.assertTrue(transaction.is_proof_by_requester)
 
 
+@override_settings(STATICFILES_STORAGE='django.contrib.staticfiles.storage.StaticFilesStorage')
 class ConfirmTransactionFormTest(TestCase):
     @classmethod
     def setUpTestData(cls):

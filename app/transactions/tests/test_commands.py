@@ -1,11 +1,12 @@
 from django.core.management import call_command
 from django.core.management.base import CommandError
-from django.test import TestCase
+from django.test import TestCase, override_settings
 
 from profiles.factories import ProfileFactory
 from transactions.models import Transaction
 
 
+@override_settings(STATICFILES_STORAGE='django.contrib.staticfiles.storage.StaticFilesStorage')
 class GenerateTransactionsCommandTest(TestCase):
     @classmethod
     def setUpTestData(cls):
