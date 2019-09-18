@@ -9,7 +9,7 @@ from transactions.factories import TransactionFactory
 
 class Command(BaseCommand):
     def add_arguments(self, parser):
-        parser.add_argument('transactions_count', nargs='?', type=int, default=100)
+        parser.add_argument('transactions_count', nargs='?', type=int, default=1000)
         parser.add_argument('--generate-profiles', action='store_true')
 
     def handle(self, *args, **options):

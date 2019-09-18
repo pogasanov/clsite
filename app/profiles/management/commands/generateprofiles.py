@@ -6,7 +6,7 @@ from profiles.factories import ProfileFactory
 
 class Command(BaseCommand):
     def add_arguments(self, parser):
-        parser.add_argument('profile_count', nargs='?', type=int, default=100)
+        parser.add_argument('profile_count', nargs='?', type=int, default=1000)
 
     def handle(self, *args, **options):
         try:
