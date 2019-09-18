@@ -6,7 +6,7 @@ from transactions.factories import TransactionFactory
 from transactions.models import Transaction
 
 
-class TransactionModelsTestCase(TestCase):
+class TransactionModelTest(TestCase):
     def test_queryset_unconfirmed(self):
         TEST_BATCH_SIZE = 5
 

@@ -6,7 +6,7 @@ from profiles.factories import ProfileFactory
 from transactions.models import Transaction
 
 
-class TransactionCommandsTestCase(TestCase):
+class GenerateTransactionsCommandTest(TestCase):
     @classmethod
     def setUpTestData(cls):
         cls.TRANSACTIONS_TO_CREATE = 20
