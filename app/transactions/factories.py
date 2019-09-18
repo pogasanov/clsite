@@ -26,6 +26,13 @@ class TransactionFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = 'transactions.Transaction'
 
+    class Params:
+        requestee_not_checked = factory.Trait(
+            is_confirmed=None,
+            requestee_review=Transaction.REVIEW_NEUTRAL,
+            requestee_recommendation=''
+        )
+
     requester = factory.SubFactory(ProfileFactory)
     requestee = factory.SubFactory(ProfileFactory)
     amount = factory.Faker('pyfloat', right_digits=2, min_value=1, max_value=100000)
