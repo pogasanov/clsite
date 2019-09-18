@@ -52,8 +52,7 @@ class TransactionFactory(factory.django.DjangoModelFactory):
     @factory.lazy_attribute
     def proof_receipt(self):
         if random.random() < 0.33:
-            random_rgb = factory.Faker('rgb_color').generate().split(',')
-            return generate_image(color=random_rgb)
+            return self.get_proof_receipt()
 
     @factory.lazy_attribute
     def is_admin_approved(self):
@@ -86,3 +85,8 @@ class TransactionFactory(factory.django.DjangoModelFactory):
         lambda o: factory.Faker('random_element',
                                 elements=TRANSACTION_REVIEW_CHOICES).generate() if o.is_confirmed else '')
     requestee_recommendation = factory.LazyAttribute(lambda o: get_recommendation() if o.is_confirmed else '')
+
+    @staticmethod
+    def get_proof_receipt():
+        random_rgb = factory.Faker('rgb_color').generate().split(',')
+        return generate_image(color=random_rgb)
