@@ -41,12 +41,12 @@ class TransactionFactory(factory.django.DjangoModelFactory):
     requester_review = factory.Faker('random_element', elements=TRANSACTION_REVIEW_CHOICES)
     is_requester_principal = factory.Faker('pybool')
     date = factory.Faker('date_between', start_date="-3y", end_date="today")
-    requester_recommendation = factory.LazyAttribute(lambda o: o.get_recommendation)
+    requester_recommendation = factory.LazyAttribute(lambda o: TransactionFactory.get_recommendation())
 
     @factory.lazy_attribute
     def proof_receipt(self):
         if random.random() < 0.33:
-            return self.get_proof_receipt()
+            return TransactionFactory.get_proof_receipt()
 
     @factory.lazy_attribute
     def is_admin_approved(self):
@@ -75,10 +75,16 @@ class TransactionFactory(factory.django.DjangoModelFactory):
         # 50% chance for transaction to stay unconfirmed from requestee
         return None
 
-    requestee_review = factory.LazyAttribute(
-        lambda o: factory.Faker('random_element',
-                                elements=TRANSACTION_REVIEW_CHOICES).generate() if o.is_confirmed else '')
-    requestee_recommendation = factory.LazyAttribute(lambda o: o.get_recommendation() if o.is_confirmed else '')
+    requestee_review = factory.Maybe(
+        'is_confirmed',
+        yes_declaration=factory.Faker('random_element', elements=TRANSACTION_REVIEW_CHOICES),
+        no_declaration=''
+    )
+    requestee_recommendation = factory.Maybe(
+        'is_confirmed',
+        yes_declaration=factory.LazyFunction(lambda: TransactionFactory.get_recommendation()),
+        no_declaration=''
+    )
 
     @staticmethod
     def get_proof_receipt():
