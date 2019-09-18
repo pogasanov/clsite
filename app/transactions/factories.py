@@ -48,6 +48,12 @@ class TransactionFactory(factory.django.DjangoModelFactory):
         if random.random() < 0.33:
             return TransactionFactory.create_proof_receipt()
 
+    is_proof_by_requester = factory.Maybe(
+        'proof_receipt',
+        yes_declaration=factory.Faker('pybool'),
+        no_declaration=None
+    )
+
     @factory.lazy_attribute
     def is_admin_approved(self):
         if not self.proof_receipt:
