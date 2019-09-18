@@ -10,6 +10,7 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
+
 import dj_database_url
 import django_heroku
 from django.urls import reverse_lazy
@@ -17,7 +18,6 @@ from django.urls import reverse_lazy
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
@@ -83,7 +83,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'clsite.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
@@ -95,7 +94,6 @@ DATABASES = {
 }
 
 DATABASES['default'].update(dj_database_url.config(conn_max_age=600, ssl_require=True))
-
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -175,3 +173,11 @@ if DEBUG or 'CI' in os.environ:
 
 # English As Default Language For Profile
 DEFAULT_USER_LANGUAGE = 'en'
+
+# Default user password - used only for randomly generated profiles
+# Value is 'password'
+DEFAULT_USER_PASSWORD = os.environ.get('DEFAULT_USER_PASSWORD',
+                                       'pbkdf2_sha256$150000$2bhhJByaRefj$YjOjogq8+zzorhEeQgTyLYFSZD+tOLgYNeOWbSYhIVg=')
+
+# Seed value for random modules to have deterministric randomness
+SEED_VALUE = 54321

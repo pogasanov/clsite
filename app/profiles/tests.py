@@ -1,9 +1,10 @@
-from django.test import TestCase, override_settings
-from django.contrib.auth import get_user_model
-from django.core.management import call_command
 import sys
 
-from .faker import generate_profiles
+from django.contrib.auth import get_user_model
+from django.core.management import call_command
+from django.test import TestCase, override_settings
+
+from profiles.factories import ProfileFactory
 from .models import Profile
 
 
@@ -129,7 +130,7 @@ class ProfileTests(TestCase):
 
         existing_profiles_count = Profile.objects.count()
 
-        generate_profiles(GENERATED_MODELS_COUNT)
+        ProfileFactory.create_batch(GENERATED_MODELS_COUNT)
 
         new_profiles_count = Profile.objects.count()
 

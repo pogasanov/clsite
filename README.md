@@ -123,6 +123,9 @@ python app/manage.py loaddata admin handcrafted
 # Optional: Create 1000 dummy profiles
 python app/manage.py generateprofiles 1000
 
+# Optional: Create 1000 dummy transactions shared randomly between existing profiles
+python app/manage.py generatetransactions 1000
+
 python app/manage.py runserver
 ```
 
@@ -154,6 +157,9 @@ Password is their first name + last name lowercase. For example,
 * `generateprofiles` is a custom command that accepts any integer(N)
 as argument and creates N profiles which have **password** as
 password.
+* `generatetransactions` is a custom command that accepts any integer(N)
+as argument and creates N transactions randomly shared between existing profiles.  
+  Accepts `--generate-profiles` flag to generate profiles automatically.
 
 **Note:** those fixtures have predefined `id`, so it might overwrite
 existing data. Those `id` are forced to properly populate related
@@ -339,51 +345,35 @@ pipenv lock
 
 ## Generating fixtures
 
-### Faker
+### Factory Boy
 
-`faker.py` is a module to generate model instances with random deterministic data.
+`factories.py` is a module to generate model instances with random deterministic data.
 We are using it to populate database with data and use it to test
 our website.
 
-We are using [Faker module](https://github.com/joke2k/faker) to
+We are using [Factory Boy module](https://factoryboy.readthedocs.io/en/latest/) to
 generate random data that makes sense for different field types.
 
-In order to use it with Django Models, we extend Faker `BaseProvider`
-for example with `profiles.faker.ProfileProvider`.
-
-`ProfileProvider` has multiple methods, each will return a **non-saved**
-django model instance with randomly populated fields.
+In order to use it with Django Models, we create factories for each model,
+for example with `profiles.factories.ProfileFactory`.
 
 For example, you can generate models:
 ```python
-from faker import Faker
-from profiles.faker import ProfileProvider
+# Generate profiles
+from profiles.factories import ProfileFactory
+from transactions.factories import TransactionFactory
 
-# Load Faker instance
-fake = Faker()
+# Will SAVE new instance IN DATABASE
+profile_saved = ProfileFactory()
+# Will NOT SAVE new instance
+profile_not_saved = ProfileFactory.build()
+# Will SAVE 100 instances
+profiles = ProfileFactory.create_batch(100)
 
-# Attach our provider, allowing faker to generate Django Instances
-fake.add_provider(ProfileProvider)
-
-# Generate simple profile without any related models
-profile = fake.profile()
-# <Profile: corey93@gmail.com>
-
-# Generate tuple with profile and all related models
-full_profile = fake.full_profile()
-# (<Profile: englishcheryl@wood-kirk.org>, <Address: Address object (None)>, <Education: Education object (None)>, <Admissions: Admissions object (None)>, <LawSchool: LawSchool object (None)>, <WorkExperience: WorkExperience object (None)>, <Organization: Organization object (None)>, <Award: Award object (None)>)
-```
-
-`ProfileProvider` django instances are not saved in database, so
-`faker.py` comes with `generate_profiles(count)` method that generate
-set number of profiles and populate it into current database. It
-uses `bulk_create` to do it efficiently and not stress database.
-
-```python
-from profiles.faker import generate_profiles
-
-# populate database with 1000 profiles with related models
-generate_profiles(1000)
+# 2 new profiles will be created and saved
+transaction = TransactionFactory()
+# Will create only 1 new profile
+transaction = TransactionFactory(requestee=profile_saved)
 ```
 
 ### Fixtures

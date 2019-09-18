@@ -1,18 +1,16 @@
 from django.core.management.base import BaseCommand, CommandError
 from django.db import IntegrityError
-from profiles.faker import generate_profiles
+
+from profiles.factories import ProfileFactory
 
 
 class Command(BaseCommand):
     def add_arguments(self, parser):
-        parser.add_argument('profiles_count', nargs='?', type=int)
+        parser.add_argument('profile_count', nargs='?', type=int, default=1000)
 
     def handle(self, *args, **options):
         try:
-            if options['profiles_count']:
-                generate_profiles(options['profiles_count'])
-            else:
-                generate_profiles()
+            ProfileFactory.create_batch(options['profile_count'])
         except IntegrityError as ie:
             raise CommandError('Unable to generate dummy profiles, truncate your database and try again.', ie)
         except Exception as ex:
