@@ -7,6 +7,9 @@ from transactions.factories import TransactionFactory
 from transactions.forms import TransactionForm, ConfirmTransactionForm
 from transactions.models import Transaction
 
+TEST_IMAGE_DATA = b'GIF87a\x01\x00\x01\x00\x80\x01\x00\x00\x00\x00ccc,\x00' \
+                  b'\x00\x00\x00\x01\x00\x01\x00\x00\x02\x02D\x01\x00;'
+
 
 @override_settings(STATICFILES_STORAGE='django.contrib.staticfiles.storage.StaticFilesStorage')
 class TransactionFormTestCase(TestCase):
@@ -52,9 +55,7 @@ class TransactionFormTestCase(TestCase):
 
     def test_is_proof_by_requester_set_if_files(self):
         files_payload = {
-            'proof_receipt': SimpleUploadedFile('test.jpg',
-                                                b'GIF87a\x01\x00\x01\x00\x80\x01\x00\x00\x00\x00ccc,\x00'
-                                                b'\x00\x00\x00\x01\x00\x01\x00\x00\x02\x02D\x01\x00;')
+            'proof_receipt': SimpleUploadedFile('test.jpg', TEST_IMAGE_DATA)
         }
         form = TransactionForm(requester=self.requester,
                                requestee=self.requestee,
@@ -103,9 +104,7 @@ class ConfirmTransactionFormTest(TestCase):
         self.assertIsNone(self.transaction.is_proof_by_requester)
 
         files_payload = {
-            'proof_receipt': SimpleUploadedFile('test.jpg',
-                                                b'GIF87a\x01\x00\x01\x00\x80\x01\x00\x00\x00\x00ccc,\x00'
-                                                b'\x00\x00\x00\x01\x00\x01\x00\x00\x02\x02D\x01\x00;')
+            'proof_receipt': SimpleUploadedFile('test.jpg', TEST_IMAGE_DATA)
         }
         form = ConfirmTransactionForm(data=self.data_payload, files=files_payload, instance=self.transaction)
 
