@@ -24,7 +24,7 @@ class TransactionViewTest(TestCase):
             'requester_review': Transaction.REVIEW_AGREE
         }
 
-    def setUp(self) -> None:
+    def setUp(self):
         self.client.login(username=self.requester.email, password=settings.DEFAULT_USER_PASSWORD)
 
     def test_redirect_to_login_for_not_logged_user(self):
@@ -76,7 +76,7 @@ class ConfirmTransactionViewTest(TestCase):
             'requestee_review': Transaction.REVIEW_AGREE
         }
 
-    def setUp(self) -> None:
+    def setUp(self):
         self.client.login(username=self.transaction.requestee.email, password=settings.DEFAULT_USER_PASSWORD)
 
     def test_redirect_to_login_for_not_logged_user(self):

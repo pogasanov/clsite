@@ -77,7 +77,7 @@ class ConfirmTransactionFormTest(TestCase):
             'requestee_review': Transaction.REVIEW_AGREE
         }
 
-    def setUp(self) -> None:
+    def setUp(self):
         self.transaction = TransactionFactory(requestee_not_checked=True)
 
     def test_valid_with_correct_payload(self):
