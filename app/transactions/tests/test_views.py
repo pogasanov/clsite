@@ -34,7 +34,7 @@ class TransactionViewTest(TestCase):
         self.assertRedirects(response, f'/login?next={self.TRANSACTION_URL}')
 
     def test_view_url_exists_at_desired_location(self):
-        response = self.client.get(f'/transaction/{self.requestee.handle}')
+        response = self.client.get(self.TRANSACTION_URL)
         self.assertEqual(response.status_code, 200)
 
     def test_view_url_accessible_by_name(self):
@@ -42,12 +42,12 @@ class TransactionViewTest(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_view_uses_correct_template(self):
-        response = self.client.get(reverse('create_transaction', kwargs={'handle': self.requestee.handle}))
+        response = self.client.get(self.TRANSACTION_URL)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'transaction.html')
 
     def test_requester_requestee_passed_to_form(self):
-        response = self.client.get(reverse('create_transaction', kwargs={'handle': self.requestee.handle}))
+        response = self.client.get(self.TRANSACTION_URL)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context['form'].instance.requester.id, self.requester.id)
         self.assertEqual(response.context['form'].instance.requestee.id, self.requestee.id)
@@ -57,8 +57,7 @@ class TransactionViewTest(TestCase):
         self.assertRedirects(response, reverse('profile'))
 
     def test_create_transaction_and_redirects_home_on_form_valid(self):
-        response = self.client.post(reverse('create_transaction', kwargs={'handle': self.requestee.handle}),
-                                    data=self.data_payload)
+        response = self.client.post(self.TRANSACTION_URL, data=self.data_payload)
         self.assertRedirects(response, reverse('home'))
 
         transactions_count = Transaction.objects.count()
@@ -94,7 +93,7 @@ class ConfirmTransactionViewTest(TestCase):
         self.assertRedirects(response, reverse('profile'))
 
     def test_view_url_exists_at_desired_location(self):
-        response = self.client.get(f'/confirm-transaction/{self.transaction.id}')
+        response = self.client.get(self.TRANSACTION_URL)
         self.assertEqual(response.status_code, 200)
 
     def test_view_url_accessible_by_name(self):
@@ -102,13 +101,12 @@ class ConfirmTransactionViewTest(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_view_uses_correct_template(self):
-        response = self.client.get(reverse('confirm_transaction', kwargs={'transaction_id': self.transaction.id}))
+        response = self.client.get(self.TRANSACTION_URL)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'confirm_transaction.html')
 
     def test_transaction_confirmed(self):
-        response = self.client.post(reverse('confirm_transaction', kwargs={'transaction_id': self.transaction.id}),
-                                    data=self.data_payload)
+        response = self.client.post(self.TRANSACTION_URL, data=self.data_payload)
         self.assertRedirects(response, reverse('home'))
 
         self.transaction.refresh_from_db()
@@ -117,8 +115,8 @@ class ConfirmTransactionViewTest(TestCase):
     def test_transaction_denied(self):
         denied_data_payload = dict(self.data_payload)
         denied_data_payload['submit'] = ConfirmTransactionForm.ACTION_DENY
-        response = self.client.post(reverse('confirm_transaction', kwargs={'transaction_id': self.transaction.id}),
-                                    data=denied_data_payload)
+
+        response = self.client.post(self.TRANSACTION_URL, data=denied_data_payload)
         self.assertRedirects(response, reverse('home'))
 
         self.transaction.refresh_from_db()
