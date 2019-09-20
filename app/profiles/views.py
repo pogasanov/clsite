@@ -226,7 +226,7 @@ class UserListView(LoginRequiredMixin, ListView):
 
         law_tags_with_occurrence = [{"name": tag, "occurrence": len(list(group))} for tag, group in
                                     groupby(sorted(flat_law_tags))]
-        return sorted(law_tags_with_occurrence, key=lambda k: k['occurrence'], reverse=True)
+        return sorted(law_tags_with_occurrence, key=lambda k: k['name'])
 
     def get(self, request, *args, **kwargs):
         list_users = Profile.objects.all()
@@ -237,7 +237,7 @@ class UserListView(LoginRequiredMixin, ListView):
                                                                                   flat=True)  # gets only non-null states entries
         usage_list_jurisdictions = [{"name": tag, "occurrence": len(list(group))} for tag, group in
                                     groupby(sorted(list_jurisdictions))]
-        usage_list_jurisdictions = sorted(usage_list_jurisdictions, key=lambda k: k['occurrence'], reverse=True)
+        usage_list_jurisdictions = sorted(usage_list_jurisdictions, key=lambda k: k['name'])
 
         return render(request, self.template_name, {'jurisdictions': usage_list_jurisdictions,
                                                     'law_type_tags': usage_list_law_type_tags,
