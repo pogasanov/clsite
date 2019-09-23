@@ -25,7 +25,7 @@ class TransactionApprovedFilter(admin.SimpleListFilter):
             return queryset.filter(is_admin_approved=True)
 
         if self.value() == 'no':
-            return queryset.filter(Q(is_admin_approved=False), ~Q(proof_receipt=''))
+            return queryset.filter(is_admin_approved=False)
 
         if self.value() == 'null':
             return queryset.filter(Q(is_admin_approved__isnull=True), ~Q(proof_receipt=''))
