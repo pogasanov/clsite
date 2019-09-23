@@ -11,6 +11,11 @@ module.exports = [
             filename: './js/main.js',
             path: path.resolve(__dirname, 'app/clsite/static')
         },
+        resolve: {
+            alias: {
+                'vue$': 'vue/dist/vue.esm.js'
+            }
+        },
         plugins: [
             new MiniCssExtractPlugin({
                 filename: './css/[name].css',

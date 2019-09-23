@@ -8,3 +8,4 @@ import './img/logo.png'
 import './img/logo-white.png'
 // Scripts
 import './js/profile'
+import './js/vue'
