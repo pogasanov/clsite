@@ -41,7 +41,7 @@ class TransactionFactory(factory.django.DjangoModelFactory):
     def currency(self):
         assert 'USD' in CURRENCY_CODES
         # 90% chance that currency is USD
-        return 'USD' if random.random() < 0.9 else random.choice(CURRENCY_CODES)
+        return 'USD' if random.random() < 0.9 else TransactionFactory.create_currency()
 
     value_in_usd = factory.LazyAttribute(lambda o: o.amount if o.currency == 'USD' else None)
 
@@ -109,3 +109,11 @@ class TransactionFactory(factory.django.DjangoModelFactory):
         if random.random() < 0.25:
             return ''
         return ' '.join(factory.Faker('paragraphs', nb=3).generate())
+
+    @staticmethod
+    def create_currency(ignore_usd=False):
+        if ignore_usd:
+            CHOICE_LIST = list(CURRENCY_CODES)
+            CHOICE_LIST.remove('USD')
+            return random.choice(CHOICE_LIST)
+        return random.choice(CURRENCY_CODES)
