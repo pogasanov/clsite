@@ -1,0 +1,29 @@
+{% if profile.education_set.all %}
+    <section class="profile-block" id="profile-educations">
+        <header class="profile-block__header">
+            <h2 class="profile-block__title">Educations</h2>
+        </header>
+
+        <h6 class="text-header">Educations</h6>
+        <ul class="list">
+            {% for education in profile.education_set.all %}
+                <li class="list__item">
+                    <ul class="list list--condensed">
+                        <li class="list__item">
+                            <span class="muted">Name:</span>
+                            {{ education.school }}
+                        </li>
+                        <li class="list__item">
+                            <span class="muted">Degree:</span>
+                            {{ education.degree }}
+                        </li>
+                        <li class="list__item">
+                            <span class="muted">Date of graduation:</span>
+                            {{ education.date_of_graduation }}
+                        </li>
+                    </ul>
+                </li>
+            {% endfor %}
+        </ul>
+    </section>
+{% endif %}

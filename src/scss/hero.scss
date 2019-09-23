@@ -1,0 +1,100 @@
+.hero {
+  grid-area: hero;
+  background-color: #fff;
+  display: grid;
+  grid-template-columns: auto 307px minmax(min-content, 369px) minmax(min-content, 369px) minmax(min-content, 369px) 26px auto;
+  grid-template-rows: auto 1.375rem auto auto;
+  grid-template-areas: "background background background background background background background" ". . . . . . ." ". avatar name payments actions . ." ". . location location text . .";
+  border-bottom: 1px solid $border-color;
+  padding-bottom: 1.375rem;
+}
+
+.hero__img {
+  grid-area: background;
+  height: 276px;
+  width: 100%;
+  background-image: url("../img/lfs/profile-background.jpg");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.hero__avatar {
+  grid-area: avatar;
+  position: relative;
+
+  & > img {
+    border-radius: 50%;
+    border: 5px solid #fff;
+    position: absolute;
+    top: -130px;
+    left: 60px;
+    width: 220px;
+    height: 220px;
+    box-shadow: rgba(250, 250, 250, 0.1) 0 15px 0 10px;
+  }
+}
+
+.hero__names {
+  grid-area: name;
+}
+
+.hero__name {
+  font-family: "Frank Ruhl Libre", serif;
+  font-size: 1.875rem;
+  font-weight: 500;
+  margin: .5rem 0;
+}
+
+.hero__title {
+  font-size: 1rem;
+  font-weight: 400;
+  margin: 0.5rem 0;
+}
+
+.hero__location {
+  grid-area: location;
+
+  i {
+    margin-right: .3rem;
+  }
+}
+
+.hero__payments-container {
+  grid-area: payments;
+  display: flex;
+  align-items: center;
+}
+
+.hero__payments {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: 0.5rem;
+
+  & > span {
+    margin: 5px 0;
+  }
+}
+
+.hero__actions-container {
+  grid-area: actions;
+  display: flex;
+  justify-content: flex-end;
+  padding-bottom: .3rem;
+}
+
+.hero__actions {
+  display: flex;
+  flex-direction: column;
+
+  .btn {
+    margin: 5px 0;
+  }
+}
+
+.hero__text {
+  grid-area: text;
+  text-align: right;
+  font-size: .75rem;
+}

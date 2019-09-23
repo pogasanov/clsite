@@ -1,0 +1,32 @@
+{% if profile.award_set.all %}
+    <section class="profile-block" id="profile-awards">
+        <header class="profile-block__header">
+            <h2 class="profile-block__title">Awards</h2>
+        </header>
+
+        <div class="profile-block__main">
+
+            <h6 class="text-header">Awards</h6>
+            <ul class="list list--2-col">
+                {% for award in profile.award_set.all %}
+                    <li class="list__item">
+                        <ul class="list list--condensed">
+                            <li class="list__item">
+                                <span class="muted">Title:</span>
+                                {{ award.title|capfirst }}
+                            </li>
+                            <li class="list__item">
+                                <span class="muted">Presented by:</span>
+                                {{ award.presented_by }}
+                            </li>
+                            <li class="list__item">
+                                <span class="muted">Year:</span>
+                                {{ award.year }}
+                            </li>
+                        </ul>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </section>
+{% endif %}

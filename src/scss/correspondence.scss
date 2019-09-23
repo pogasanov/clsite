@@ -1,0 +1,72 @@
+.correspondence-meta {
+  margin: 40px 0 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.correspondence-meta__total {
+  font-style: italic;
+  color: $link-color;
+}
+
+.correspondence-meta__control {
+  flex: 1 1 auto;
+
+  form {
+    display: flex;
+    justify-content: flex-end;
+  }
+}
+
+.correspondence {
+  display: grid;
+  grid-template-columns: auto 1fr auto auto;
+  grid-column-gap: 1rem;
+  grid-template-rows: auto;
+  grid-template-areas: "avatar names reviews rating" "description description description description";
+
+  & + & {
+    margin-top: 3.5rem;
+    padding-top: 3.5rem;
+    border-top: 1px solid $border-color;
+  }
+}
+
+.correspondence__avatar {
+  grid-area: avatar;
+}
+
+.correspondence__names {
+  grid-area: names;
+}
+
+.correspondence__name {
+  margin: 0 0 .5rem;
+  font-family: "Frank Ruhl Libre", serif;
+  font-size: 1.25rem;
+  font-weight: 500;
+}
+
+.correspondence__address {
+  color: $link-color;
+  font-size: .75rem;
+}
+
+.correspondence__reviews {
+  grid-area: reviews;
+  font-size: .75rem;
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+.correspondence__rating {
+  grid-area: rating;
+  color: #1cd6c3;
+  font-size: .75rem;
+}
+
+.correspondence__description {
+  grid-area: description;
+  margin-top: 2rem;
+}

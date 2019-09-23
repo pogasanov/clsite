@@ -1,168 +1,24 @@
-require("jquery-ui/ui/widgets/datepicker");
-import LoaderSpinner from '../img/loader.gif'
+// Make sidebar sticky
+const Sticky = require('sticky-js');
+const sticky_sidebar = new Sticky('.sidebar');
 
-$(document).ready(function () {
-    setupPictureUpload();
+// Scrollspy on profile sections to select item in sidebar
+const sections = document.querySelectorAll(".profile-block");
+const links = document.querySelectorAll(".sidebar-item")
 
-    $('.profile-form').on('submit', function (event) {
-        event.preventDefault();
-        let errorsDetailDiv = document.getElementById("response-details");
-        while (errorsDetailDiv.hasChildNodes()) {
-            errorsDetailDiv.removeChild(errorsDetailDiv.lastChild);
+const sections_id_with_position = {};
+Array.prototype.forEach.call(sections, function (e) {
+    sections_id_with_position[e.id] = e.offsetTop;
+});
+
+window.onscroll = function () {
+    for (let [section, position] of Object.entries(sections_id_with_position)) {
+        if (position >= document.documentElement.scrollTop) {
+            links.forEach(link => {
+                delete link.dataset.active
+            })
+            document.querySelector(`.sidebar-item a[href*=${section}]`).closest('.sidebar-item').dataset.active = true
+            break
         }
-        $.ajax({
-            type: 'POST',
-            url: '/profile',
-            data: new FormData(this),
-            contentType: false,
-            cache: false,
-            processData: false,
-            success: function (resp) {
-                document.getElementById("response-message").textContent = resp["message"];
-            },
-            error: function (resp) {
-                for (let key in resp["responseJSON"]) {
-                    if (resp["responseJSON"][key] !== undefined) {
-                        if (Array.isArray(resp["responseJSON"][key])) {
-                            if (resp["responseJSON"][key].length !== 0) {
-                                resp["responseJSON"][key].forEach((errorField) => {
-                                    if (Object.keys(errorField).length !== 0) {
-                                        appendToErrorDetail(errorsDetailDiv, key, JSON.stringify(errorField));
-                                    }
-                                });
-                            }
-                        } else if (typeof resp["responseJSON"][key] === 'object' && resp["responseJSON"][key] !== null) {
-                            if (Object.keys(resp["responseJSON"][key]).length !== 0) {
-                                for (let errorTitle in resp["responseJSON"][key]) {
-                                    appendToErrorDetail(errorsDetailDiv, errorTitle, resp["responseJSON"][key][errorTitle]);
-                                }
-                            }
-                        }
-                    }
-                }
-                document.getElementById("response-message").textContent = resp["message"];
-            }
-        });
-    });
-
-    $('.country').on('change', function (e) {
-        let stateDiv = $(e.currentTarget).parent().siblings('.state-div')[0];
-        let stateDropdown = $(stateDiv).children('select')[0];
-        let countryName = $(e.currentTarget).children("option").filter(":selected").text();
-        let csrfToken = getCookie('csrftoken');
-        while (stateDropdown.hasChildNodes()) {
-            stateDropdown.removeChild(stateDropdown.lastChild);
-        }
-        $.ajax({
-            type: 'POST',
-            url: '/states',
-            headers: {'X-CSRFToken': csrfToken},
-            data: {'country': countryName},
-            success: function (resp) {
-                resp['data'].forEach(value => {
-                    $(stateDropdown).append('<option value="' + value[0] + '">' + value[1] + '</option>');
-                });
-            }
-        });
-    });
-
-    $('#jurisdiction-clone').on('click', function (event) {
-        event.preventDefault();
-        var form_idx = $('#id_jurisdiction-TOTAL_FORMS').val();
-        $('#jurisdiction-formset').append($('#empty_form').html().replace(/__prefix__/g, form_idx));
-        $('#id_jurisdiction-TOTAL_FORMS').val(parseInt(form_idx) + 1);
-    });
-
-    $('#language-clone').on('click', function (event) {
-        event.preventDefault();
-        var form_idx = $('#id_language-TOTAL_FORMS').val();
-        $('#language-formset').append($('#language_empty_form').html().replace(/__prefix__/g, form_idx));
-        $('#id_language-TOTAL_FORMS').val(parseInt(form_idx) + 1);
-    });
-})
-
-function setupPictureUpload() {
-    if (window.location.href.split("profile")[1] === "") {
-        document.getElementsByClassName("photo-view")[0].style.cursor = "pointer";
-        //Upload picture code
-        $('.photo-view').click(function (event) {
-            $('.photo-input').trigger('click');
-        });
-
-        $('.photo-input').change(function () {
-            var img_file = this.files[0]
-            var valid_image_extensions = ["image/jpeg", "image/png"];
-            if (valid_image_extensions.indexOf(img_file.type) > -1) {
-                var img = new Image();
-                img.src = window.URL.createObjectURL(img_file);
-                img.onload = function () {
-                    var width = img.naturalWidth;
-                    var height = img.naturalHeight;
-                    window.URL.revokeObjectURL(img.src);
-
-                    if (Math.max(width, height) / Math.min(width, height) < 1.2) {
-                        var image_size = img_file.size;
-                        if (image_size > 8000000) {
-                            //Image is too big, must be 8MB or less
-                            alert('Your photo is too big, please make sure the image is 8 MB or less in size.');
-                        } else if (Math.max(width, height) < 300) {
-                            alert('Your photo dimension is insufficient, please make sure that it is atleast 300 X 300 in pixels.');
-                        } else {
-                            $('.photo-form').submit();
-                        }
-                    } else {
-                        //Image is too big, must be 8MB or less
-                        alert('Please make sure the photo is square.');
-                    }
-                    $('.photo-input')[0].value = '';
-                };
-            } else {
-                alert('invalid file format, please use JPEG/PNG format only.');
-            }
-        });
-
-        $('.photo-form').on('submit', function (event) {
-            event.preventDefault();
-
-            var picture = $('.photo-view');
-
-            //Grab the current picture src
-            var original_src = picture.attr('src');
-
-            //Set the
-            picture.attr('src', 'static/img/loader.gif');
-
-            $.ajax({
-                type: 'POST',
-                url: '/profile',
-                data: new FormData(this),
-                contentType: false,
-                cache: false,
-                processData: false,
-                success: function (resp) {
-                    if (resp['url']) {
-                        $('.photo-view').attr('src', resp['url']);
-                        $('.navbar-photo').attr('src', resp['url']);
-                    } else {
-                        alert(resp['msg']);
-                        //Set the original picture back
-                        picture.attr('src', original_src);
-                    }
-                }
-            });
-
-        });
     }
-}
-
-function appendToErrorDetail(errorDiv, errorTitle, errorDescription) {
-    let errorTitleDiv = document.createElement("div");
-    let errorDescriptionDiv = document.createElement("div");
-    errorTitleDiv.classList.add('col-md-3');
-    errorDescriptionDiv.classList.add('col-md-9');
-    errorTitleDiv.innerText = "[" + errorTitle + "]";
-    errorTitleDiv.style.color = "red";
-    errorDescriptionDiv.innerText = errorDescription;
-    errorDiv.appendChild(errorTitleDiv);
-    errorDiv.appendChild(errorDescriptionDiv);
-}
+};

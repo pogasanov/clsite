@@ -1,0 +1,48 @@
+{% load static %}
+
+<div class="hero">
+    <div class="hero__img"></div>
+    <div class="hero__avatar">
+        <img src="{{ profile.photo_url_or_default }}" alt="">
+    </div>
+    <div class="hero__names">
+        <h1 class="hero__name">{{ profile.full_name }}</h1>
+        <h2 class="hero__title">{{ profile.browsing_headline }}</h2>
+    </div>
+
+    {% if profile.address.country %}
+        <div class="hero__location">
+            <i class="fas fa-map-marker-alt"></i>
+            <span class="muted">
+            {% if profile.address.state %}{{ profile.address.state }}, {% endif %}{{ profile.address.country }}
+        </span>
+        </div>
+    {% endif %}
+
+    <div class="hero__payments-container">
+        <div class="c100 p{{ transactions_stats.percentage }}">
+            <span>{{ transactions_stats.percentage }}%</span>
+            <div class="slice">
+                <div class="bar"></div>
+                <div class="fill"></div>
+            </div>
+        </div>
+        <div class="hero__payments">
+            <span>
+                <span class="muted">Total verified: </span>
+                ${{ transactions_stats.verified|default_if_none:'0' }}
+            </span>
+            <span>
+                <span class="muted">Total unverified: </span>
+                ${{ transactions_stats.unverified|default_if_none:'0' }}
+            </span>
+        </div>
+    </div>
+    <div class="hero__actions-container">
+        <div class="hero__actions">
+            <a href="{% url 'create_transaction' handle=profile.handle %}" class="btn">Add correspondence</a>
+            <a href="#profile-contacts" class="btn btn--outline">Contact</a>
+        </div>
+    </div>
+    <span class="hero__text muted">If you contact this user, we will show you his contact details</span>
+</div>
