@@ -5,6 +5,7 @@ from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.contrib.postgres.fields import ArrayField, DateRangeField
 from django.contrib.staticfiles.templatetags.staticfiles import static
 from django.db import models
+from django.urls import reverse
 
 from clsite.storage_backends import variativeStorage
 from .utils import COUNTRIES_CHOICES
@@ -199,6 +200,9 @@ class Profile(AbstractUser):
             reference_id = str(full_name_profiles + 1) if full_name_profiles else ''
             self.handle = reference + reference_id
             self.save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return reverse('profile-detail', kwargs={'handle': self.handle})
 
     def photo_url_or_default(self):
         if self.photo:
