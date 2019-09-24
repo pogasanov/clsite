@@ -100,7 +100,7 @@ module.exports = [
                             options: {
                                 name: '[name].[ext]',
                                 outputPath: 'img',
-                                publicPath: '/static/img'
+                                publicPath: '/static/old/img'
                             },
                         }
                     ]

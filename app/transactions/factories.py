@@ -9,7 +9,6 @@ from profiles.factories import ProfileFactory
 from transactions.choices import CURRENCIES
 from transactions.models import Transaction
 
-CURRENCY_CODES = [currency_code for currency_code, _ in CURRENCIES]
 TRANSACTION_REVIEW_CHOICES = [review_choice for review_choice, _ in Transaction.REVIEW_CHOICES]
 
 
@@ -39,7 +38,7 @@ class TransactionFactory(factory.django.DjangoModelFactory):
 
     @factory.lazy_attribute
     def currency(self):
-        assert 'USD' in CURRENCY_CODES
+        assert 'USD' in CURRENCIES
         # 90% chance that currency is USD
         return 'USD' if random.random() < 0.9 else TransactionFactory.create_currency()
 
@@ -113,7 +112,7 @@ class TransactionFactory(factory.django.DjangoModelFactory):
     @staticmethod
     def create_currency(ignore_usd=False):
         if ignore_usd:
-            CHOICE_LIST = list(CURRENCY_CODES)
+            CHOICE_LIST = list(CURRENCIES)
             CHOICE_LIST.remove('USD')
             return random.choice(CHOICE_LIST)
-        return random.choice(CURRENCY_CODES)
+        return random.choice(CURRENCIES)
