@@ -61,6 +61,16 @@ heroku run python app/manage.py makemigrations
 heroku run python app/manage.py migrate
 ```
 
+## Sites
+
+On your first database migration, you will need to configure django `sites` package, otherwise
+you may have problems with links to your website.
+
+* Go to your admin page (`http://127.0.0.1:8000/admin` for local)
+* Choose `sites` app
+* Choose the only site you have, with `id = 1`
+* Replace both name and url to your domain name. For local it is `127.0.0.1:8000`.
+
 ## Local setup
 
 Make sure: 
