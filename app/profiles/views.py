@@ -20,10 +20,6 @@ from .models import Profile, Jurisdiction
 from .utils import _get_states_for_country
 
 
-def index(request):
-    return render(request, "landing-page.html", context={})
-
-
 def user_relationships(user):
     user_relations = get_user_relationships(user)
     # User with highest cumulative verified transactions amount first and so on. Secondly sorted by highest amount
