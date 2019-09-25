@@ -22,8 +22,8 @@
 
         <template v-if="editState || languages">
             <h6 class="text-header">Languages</h6>
-            <ul>
-                <li v-for="lang in languages">
+            <ul :class="editState ? 'list--selectable' : ''" class="list">
+                <li class="list__item" v-for="lang in languages">
                     {{ lang.name }},<br/>
                     <span class="muted">{{ lang.proficiency_level }}</span>
                 </li>

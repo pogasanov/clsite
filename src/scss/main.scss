@@ -192,11 +192,20 @@ dl, menu, ol, ul {
   grid-template-columns: 1fr;
   grid-template-rows: auto;
   grid-row-gap: 2rem;
-
 }
 
 .list--condensed {
   grid-row-gap: .5rem;
+}
+
+.list--selectable {
+  .list__item {
+    border: 1px solid #fff;
+
+    &:hover {
+      border: 1px solid gray;
+    }
+  }
 }
 
 
