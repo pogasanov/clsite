@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+    {% include 'profiles/includes/hero.html' %}
+
+    {% include 'profiles/includes/sidebar.html' %}
+
+    <main class="profile" id="profile-edit">
+        <div class="container">
+            <profile-about>
+            </profile-about>
+
+            {% include 'profiles/includes/details.html' %}
+
+            {% include 'profiles/includes/contacts.html' %}
+
+            {% include 'profiles/includes/socials.html' %}
+
+            {% include 'profiles/includes/locations.html' %}
+
+            {% include 'profiles/includes/educations.html' %}
+
+            {% include 'profiles/includes/work_experiences.html' %}
+
+            {% include 'profiles/includes/associations.html' %}
+
+            {% include 'profiles/includes/awards.html' %}
+
+            {% include 'profiles/includes/correspondences.html' %}
+        </div>
+    </main>
+{% endblock %}

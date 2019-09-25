@@ -102,8 +102,8 @@ def profile(request, handle=None):
                 }
                 return JsonResponse(errors, status=400)
 
-    return render(request, "profile-page.html", context={
-        'selected_user': user,
+    return render(request, 'profiles/profile_edit.html', context={
+        'profile': user,
         'form': profile_form,
         'jurisdiction': jurisdiction_formset,
         'address': address_form,
