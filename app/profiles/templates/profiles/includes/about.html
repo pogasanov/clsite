@@ -1,36 +1,30 @@
-<section class="profile-block" id="profile-about">
-    <header class="profile-block__header">
-        <h2 class="profile-block__title">About</h2>
-    </header>
+<profile-block title="About">
+    {% if profile.summary %}
+        <h6 class="text-header">Summary</h6>
+        {{ profile.summary|safe }}
+    {% endif %}
 
-    <div class="profile-block__main">
-        {% if profile.summary %}
-            <h6 class="text-header">Summary</h6>
-            {{ profile.summary|safe }}
-        {% endif %}
+    {% if profile.bio %}
+        <h6 class="text-header">Overview</h6>
+        {{ profile.bio|safe }}
+    {% endif %}
 
-        {% if profile.bio %}
-            <h6 class="text-header">Overview</h6>
-            {{ profile.bio|safe }}
-        {% endif %}
+    {% if profile.language_set %}
+        <h6 class="text-header">Languages</h6>
+        <ul>
+            {% for language in profile.language_set.all %}
+                <li>{{ language.get_name_display }},<br/><span
+                        class="muted">{{ language.get_proficiency_level_display }}</span></li>
+            {% endfor %}
+        </ul>
+    {% endif %}
 
-        {% if profile.language_set %}
-            <h6 class="text-header">Languages</h6>
-            <ul>
-                {% for language in profile.language_set.all %}
-                    <li>{{ language.get_name_display }},<br/><span
-                            class="muted">{{ language.get_proficiency_level_display }}</span></li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-
-        {% if profile.subjective_tags %}
-            <h6 class="text-header">Subjective Tags</h6>
-            <ul class="tag-container">
-                {% for subjective_tag in profile.subjective_tags %}
-                    <li class="tag">{{ subjective_tag }}</li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-    </div>
-</section>
+    {% if profile.subjective_tags %}
+        <h6 class="text-header">Subjective Tags</h6>
+        <ul class="tag-container">
+            {% for subjective_tag in profile.subjective_tags %}
+                <li class="tag">{{ subjective_tag }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</profile-block>
