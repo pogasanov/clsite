@@ -186,3 +186,11 @@ DEFAULT_USER_PASSWORD_HASH = os.environ.get('DEFAULT_USER_PASSWORD_HASH',
 
 # Seed value for random modules to have deterministric randomness
 SEED_VALUE = 54321
+
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}

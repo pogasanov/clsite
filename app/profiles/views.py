@@ -9,8 +9,11 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView
+from rest_framework import viewsets
 
 from clsite.settings import DEFAULT_CHOICES_SELECTION
+from profiles.serializers import ProfileSerializer
+from transactions.models import Transaction
 from .forms import ProfileForm, EducationFormSet, WorkExperienceFormSet, AddressForm, AdmissionsFormSet, LawSchoolForm, \
     OrganizationFormSet, AwardFormSet, ProfileCreationForm, JurisdictionFormSet, \
     LanguageFormSet
@@ -252,3 +255,8 @@ class BrowsingView(LoginRequiredMixin, ListView):
                 Jurisdiction.objects.filter(profile_id__in=list_users_ids).values_list('state', flat=True).distinct())
         return render(request, self.template_name,
                       {'users': list_users, 'jurisdiction_list': jurisdiction_list, 'law_tags_list': law_tags_list})
+
+
+class ProfileViewSet(viewsets.ModelViewSet):
+    queryset = Profile.objects.all()
+    serializer_class = ProfileSerializer
