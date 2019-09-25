@@ -9,7 +9,7 @@
 
     <main class="profile" id="profile-edit">
         <div class="container">
-            <profile-about>
+            <profile-about :about="about" @update="updateHandler">
             </profile-about>
 
             {% include 'profiles/includes/details.html' %}

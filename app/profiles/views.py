@@ -260,3 +260,4 @@ class BrowsingView(LoginRequiredMixin, ListView):
 class ProfileViewSet(viewsets.ModelViewSet):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
+    lookup_field = 'handle'
