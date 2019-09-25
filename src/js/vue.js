@@ -12,14 +12,14 @@ var app = new Vue({
         }
     },
     mounted() {
-        fetch('http://127.0.0.1:8000/api/profiles/admin/')
+        fetch('/api/profiles/admin/')
             .then(stream => stream.json())
             .then(data => this.about = data)
             .catch(error => console.error(error))
     },
     methods: {
         updateHandler(newAbout) {
-            fetch('http://127.0.0.1:8000/api/profiles/admin/', {
+            fetch('/api/profiles/admin/', {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
