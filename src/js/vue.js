@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import ProfileBlock from './components/profile-block.vue'
+import profileAbout from './components/profile-about.vue'
 
 var app = new Vue({
     el: '#app',
@@ -7,6 +7,6 @@ var app = new Vue({
         message: 'Hello Vue!'
     },
     components: {
-        ProfileBlock
+        profileAbout
     }
 })

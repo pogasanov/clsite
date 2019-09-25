@@ -2,20 +2,11 @@
     <section class="profile-block" id="profile-about">
         <header class="profile-block__header">
             <h2 class="profile-block__title">{{ title }}</h2>
+
+            <a @click="$emit('edit')" class="btn btn--small" href="#0">Edit</a>
         </header>
         <div class="profile-block__main">
-            <template v-for="(content, header) in bodyContent">
-                <h6 class="text-header">{{ header }}</h6>
-                <template v-if="content.type === 'paragraphs'">
-                    <p v-for="c in content.content">{{ c }}</p>
-                </template>
-
-                <ul :class="content.containerClass" v-else-if="content.type === 'list'">
-                    <li :class="content.itemClass" v-for="tag in content.content">
-                        {{ tag }}
-                    </li>
-                </ul>
-            </template>
+            <slot></slot>
         </div>
     </section>
 </template>
@@ -26,30 +17,6 @@
         props: ['title'],
         data: () => {
             return {
-                bodyContent: {
-                    Overview: {
-                        type: 'paragraphs',
-                        content: [
-                            'Part already down military really. Least once plant recently campaign.',
-                            'Subject soldier consider road continue who. Even only put baby protect structure bank. Change shoulder number side.',
-                            'Deep million system will floor form. Page change of.'
-                        ]
-                    },
-                    Languages: {
-                        type: 'list',
-                        content: [
-                            'English'
-                        ],
-                    },
-                    'Subjective Tags': {
-                        type: 'list',
-                        containerClass: 'tag-container',
-                        itemClass: 'tag',
-                        content: [
-                            'Fast'
-                        ]
-                    },
-                }
             }
         }
     }
