@@ -282,6 +282,12 @@ class LanguageForm(ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        choices = self.fields['name'].choices
+        for i, lang in enumerate(choices):
+            if lang[0] == 'en':
+                english_choice = choices.pop(i)
+        choices.insert(0, english_choice)
+        self.fields['name'].choices = choices
         for key, field in self.fields.items():
             field.widget.attrs.update({'class': 'form-control'})
 
