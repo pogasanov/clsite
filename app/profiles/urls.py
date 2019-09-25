@@ -8,7 +8,7 @@ from profiles.views import ProfileViewSet
 from . import views
 
 router = routers.DefaultRouter()
-router.register(r'users', ProfileViewSet)
+router.register(r'profiles', ProfileViewSet, basename='users')
 
 urlpatterns = \
     [
@@ -24,5 +24,5 @@ urlpatterns = \
              views.BrowsingView.as_view(), name='profiles-browsing'),
 
         path('states', views.get_states, name='states'),
-        path('', include(router.urls))
+        path('api/', include(router.urls))
     ] + static(MEDIA_URL, document_root=MEDIA_ROOT)
