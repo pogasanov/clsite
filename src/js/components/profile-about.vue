@@ -23,7 +23,7 @@
         <template v-if="editState || languages">
             <h6 class="text-header">Languages</h6>
             <ul :class="editState ? 'list--selectable' : ''" class="list">
-                <li class="list__item" v-for="lang in languages">
+                <li @click="showLanguageModal(lang.id)" class="list__item" v-for="lang in languages">
                     {{ lang.name }},<br/>
                     <span class="muted">{{ lang.proficiency_level }}</span>
                 </li>
@@ -38,16 +38,29 @@
                 </li>
             </ul>
         </template>
+
+        <modal @close="showModal = false" v-if="showModal">
+            <h3 slot="header">Edit language</h3>
+            <div slot="body">
+                <label for="language">Language</label>
+                <select id="language" v-model="selectedLanguage">
+                    <option value="ru">Ru</option>
+                    <option value="en">En</option>
+                </select>
+            </div>
+        </modal>
     </profile-block>
 </template>
 
 <script>
     import profileBlock from './profile-block.vue'
+    import modal from "./modal.vue"
 
     export default {
         name: "profile-about",
         components: {
-            profileBlock
+            profileBlock,
+            modal
         },
         props: ['about'],
         data: () => {
@@ -64,7 +77,9 @@
                         proficiency_level: 'dunno'
                     }
                 ],
-                subjectiveTags: ['dummy', 'subjective', 'tags']
+                subjectiveTags: ['dummy', 'subjective', 'tags'],
+                showModal: false,
+                selectedLanguage: ''
             }
         },
         methods: {
@@ -82,6 +97,11 @@
                     })
                 }
                 this.editState = !this.editState
+            },
+
+            showLanguageModal(id) {
+                this.selectedLanguage = this.languages[0].name
+                this.showModal = true
             }
         },
         created() {
