@@ -7,6 +7,7 @@ from django.db import models
 
 from clsite.storage_backends import variativeStorage
 from .utils import COUNTRIES_CHOICES
+from .choices import LANGUAGES_CHOICES
 
 
 class Address(models.Model):
@@ -88,83 +89,8 @@ class Language(models.Model):
                          ('PF', 'Professional fluency'),
                          ('CF', 'Conversational fluency'))
 
-    LANGUAGES = (('af', 'Afrikaans'),
-                 ('sq', 'Albanian'),
-                 ('ar', 'Arabic'),
-                 ('hy', 'Armenian'),
-                 ('eu', 'Basque'),
-                 ('bn', 'Bengali'),
-                 ('bg', 'Bulgarian'),
-                 ('ca', 'Catalan'),
-                 ('km', 'Cambodian'),
-                 ('zh', 'Chinese (Mandarin)'),
-                 ('hr', 'Croatian'),
-                 ('cs', 'Czech'),
-                 ('da', 'Danish'),
-                 ('nl', 'Dutch'),
-                 ('en', 'English'),
-                 ('cs', 'Czech'),
-                 ('et', 'Estonian'),
-                 ('fj', 'Fiji'),
-                 ('fi', 'Finnish'),
-                 ('fr', 'French'),
-                 ('ka', 'Georgian'),
-                 ('de', 'German'),
-                 ('el', 'Greek'),
-                 ('gu', 'Gujarati'),
-                 ('he', 'Hebrew'),
-                 ('hi', 'Hindi'),
-                 ('hu', 'Hungarian'),
-                 ('is', 'Icelandic'),
-                 ('gu', 'Gujarati'),
-                 ('id', 'Indonesian'),
-                 ('ga', 'Irish'),
-                 ('it', 'Italian'),
-                 ('ja', 'Japanese'),
-                 ('jw', 'Javanese'),
-                 ('ko', 'Korean'),
-                 ('la', 'Latin'),
-                 ('lv', 'Latvian'),
-                 ('lt', 'Lithuanian'),
-                 ('mk', 'Macedonian'),
-                 ('ms', 'Malay'),
-                 ('ml', 'Malayalam'),
-                 ('mt', 'Maltese'),
-                 ('mi', 'Maori'),
-                 ('mr', 'Marathi'),
-                 ('mn', 'Mongolian'),
-                 ('ne', 'Nepali'),
-                 ('no', 'Norwegian'),
-                 ('fa', 'Persian'),
-                 ('pl', 'Polish'),
-                 ('pt', 'Portuguese'),
-                 ('pa', 'Punjabi'),
-                 ('qu', 'Quechua'),
-                 ('ro', 'Romanian'),
-                 ('ru', 'Russian'),
-                 ('sm', 'Samoan'),
-                 ('sr', 'Serbian'),
-                 ('sk', 'Slovak'),
-                 ('sl', 'Slovenian'),
-                 ('es', 'Spanish'),
-                 ('sw', 'Swahili'),
-                 ('sv', 'Swedish'),
-                 ('ts', 'Tamil'),
-                 ('tt', 'Tatar'),
-                 ('te', 'Telugu'),
-                 ('bo', 'Tibetan'),
-                 ('th', 'Thai'),
-                 ('to', 'Tonga'),
-                 ('tr', 'Turkish'),
-                 ('uk', 'Ukrainian'),
-                 ('ur', 'Urdu'),
-                 ('uz', 'Uzbek'),
-                 ('vi', 'Vietnamese'),
-                 ('cy', 'Welsh'),
-                 ('xh', 'Xhosa'))
-
     profile = models.ForeignKey('Profile', on_delete=models.CASCADE, verbose_name='Profile')
-    name = models.CharField(max_length=10, choices=LANGUAGES)
+    name = models.CharField(max_length=10, choices=LANGUAGES_CHOICES)
     proficiency_level = models.CharField(max_length=20, choices=PROFICIENCY_LEVEL)
 
     def __repr__(self):

@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
 from django.forms import ModelForm, inlineformset_factory
 from django_select2.forms import Select2TagWidget
+from django.conf import settings
 
 from clsite.settings import DEFAULT_CHOICES_SELECTION, DEFAULT_COUNTRY
 from .models import (Profile, Education, WorkExperience, Address, Admissions,
@@ -284,9 +285,9 @@ class LanguageForm(ModelForm):
         super().__init__(*args, **kwargs)
         choices = self.fields['name'].choices
         for i, lang in enumerate(choices):
-            if lang[0] == 'en':
-                english_choice = choices.pop(i)
-        choices.insert(0, english_choice)
+            if lang[0] == settings.DEFAULT_USER_LANGUAGE:
+                default_language = choices.pop(i)
+        choices.insert(0, default_language)
         self.fields['name'].choices = choices
         for key, field in self.fields.items():
             field.widget.attrs.update({'class': 'form-control'})
