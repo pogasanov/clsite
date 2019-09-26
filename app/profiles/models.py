@@ -310,3 +310,6 @@ class Profile(AbstractUser):
 
     def browsing_headline(self):
         return f'The{self._compile_headline()}'
+
+    def __str__(self):
+        return self.handle

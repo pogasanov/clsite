@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'django_select2',
+    'pages.apps.PagesConfig',
     'profiles.apps.ProfilesConfig',
     'transactions.apps.TransactionsConfig'
 ]

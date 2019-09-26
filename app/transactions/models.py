@@ -39,7 +39,7 @@ class Transaction(models.Model):
         (IS_REQUESTER_PRINCIPAL_NO, 'Requestee payed')
     )
 
-    CURRENCY_CHOICES = CURRENCIES
+    CURRENCY_CHOICES = [(c, c) for c in CURRENCIES]
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -49,7 +49,7 @@ class Transaction(models.Model):
     value_in_usd = models.DecimalField(max_digits=14, decimal_places=2, verbose_name='Value in USD', null=True,
                                        blank=True)
     currency = models.CharField(max_length=3, choices=CURRENCY_CHOICES,
-                                default='USD', verbose_name='Transaction Currency')
+                                default='USD', verbose_name='Currency')
 
     proof_receipt = models.ImageField(upload_to=get_image_path, storage=variativeStorage(),
                                       verbose_name='Transaction Proof', blank=True, null=True)

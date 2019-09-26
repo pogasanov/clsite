@@ -1,0 +1,47 @@
+.sidebar-container {
+  grid-area: sidebar;
+  margin: 45px 12px 49px 60px;
+}
+
+.sidebar {
+  color: $link-color;
+
+  p {
+    padding-left: 19px;
+  }
+}
+
+.sidebar-list {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 36px;
+}
+
+.sidebar-item {
+  flex: 0 0 46px;
+  display: flex;
+  align-items: center;
+
+  &[data-active] {
+    color: #2d2d2d;
+    border-left: 5px solid $primary;
+    background-color: #cacfd1;
+
+    a {
+      padding-left: 14px;
+    }
+  }
+
+  .fas {
+    margin-right: 10px;
+  }
+
+  a {
+    color: $primary;
+    display: flex;
+    align-items: center;
+    padding: 0 19px;
+    height: 100%;
+    width: 100%;
+  }
+}

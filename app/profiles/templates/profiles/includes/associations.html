@@ -1,0 +1,30 @@
+{% if profile.organization_set.all %}
+    <section class="profile-block" id="profile-associations">
+        <header class="profile-block__header">
+            <h2 class="profile-block__title">Professional Associations</h2>
+        </header>
+
+        <h6 class="text-header">Association</h6>
+        <ul class="list">
+            {% for organization in profile.organization_set.all %}
+                <li class="list__item">
+                    <ul class="list list--condensed">
+                        <li class="list__item">
+                            <span class="muted">Name:</span>
+                            {{ organization.name }}
+                        </li>
+                        <li class="list__item">
+                            <span class="muted">Position:</span>
+                            {{ organization.position }}
+                        </li>
+                        <li class="list__item">
+                            <span class="muted">Duration:</span>
+                            {{ organization.duration.lower }} - {{ organization.duration.upper }}
+                            ({{ organization.duration.upper|timeuntil:organization.duration.lower }})
+                        </li>
+                    </ul>
+                </li>
+            {% endfor %}
+        </ul>
+    </section>
+{% endif %}

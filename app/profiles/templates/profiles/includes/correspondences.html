@@ -1,0 +1,76 @@
+{% if correspondents %}
+    <section class="profile-block" id="profile-correspondences">
+    <header class="profile-block__header">
+        <h2 class="profile-block__title">Correspondences</h2>
+        <ul class="tabs">
+            <li class="tab" data-active="true"><a href="#0">Verified</a></li>
+            <li class="tab"><a href="#0">Unverified</a></li>
+            <li class="tab"><a href="#0">Joint</a></li>
+        </ul>
+    </header>
+    <div class="correspondence-meta">
+        <span class="correspondence-meta__total">Total {{ correspondents|length }} correspondences</span>
+        <div class="correspondence-meta__control">
+            <form>
+                <div class="search mr-12">
+                    <button type="submit" class="search__icon"><i class="fas fa-search"></i></button>
+                    <input type="text" class="search__input" placeholder="Search by name">
+                </div>
+                <select class="input-select">
+                    <option disabled selected>Sort</option>
+                    <option>Name</option>
+                    <option>Rating</option>
+                </select>
+            </form>
+        </div>
+    </div>
+    <ul class="correspondence-container">
+        {% for correspondent in correspondents %}
+            <li class="correspondence">
+                <div class="correspondence__avatar">
+                    <img src="{{ correspondent.photo_url_or_default }}" alt="{{ correspondent.full_name }}"
+                         class="avatar">
+                </div>
+                <div class="correspondence__names">
+                    <h2 class="correspondence__name">{{ correspondent.full_name }}</h2>
+                    <div class="correspondence__address">
+                        {{ correspondent.browsing_headline }}<br/>
+                        {{ correspondent.current_job }}<br/>
+                        {{ correspondent.phone }}<br/>
+                        {{ correspondent.website }}
+                    </div>
+                </div>
+
+                <div class="correspondence__reviews">
+                    Show reviews
+                </div>
+
+                <div class="correspondence__rating">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star-half-alt"></i>
+                    <i class="far fa-star"></i>
+                </div>
+
+                <div class="correspondence__description">
+                    <h6 class="text-header">Licenced in</h6>
+                    <ul class="tag-container">
+                        <li class="tag">Arizona, USA</li>
+                        <li class="tag">Berlin, Germany</li>
+                    </ul>
+
+                    {% if correspondent.law_type_tags %}
+                        <h6 class="text-header">Practice areas</h6>
+                        <ul class="tag-container">
+                            {% for law_type_tag in correspondent.law_type_tags %}
+                                <li class="tag">{{ law_type_tag }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+</section>
+{% endif %}
