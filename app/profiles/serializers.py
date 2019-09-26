@@ -6,7 +6,7 @@ from profiles.models import Profile, Language
 class LanguageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Language
-        fields = ['name', 'proficiency_level']
+        fields = ['id', 'name', 'proficiency_level']
 
 
 class ProfileSerializer(serializers.HyperlinkedModelSerializer):
