@@ -1,4 +1,5 @@
 require("jquery-ui/ui/widgets/datepicker");
+import {getCookie} from "./global";
 
 $(document).ready(function () {
     setupPictureUpload();
