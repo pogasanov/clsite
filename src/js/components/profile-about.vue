@@ -143,8 +143,14 @@
                 }
             },
             hideSubjectiveTagModal(value) {
-                if (this.subjectiveTags.indexOf(value) === -1) {
+                const tagIndex = this.subjectiveTags.findIndex(e => {
+                    return e === this.selectedSubjectiveTag
+                })
+                console.log(tagIndex)
+                if (tagIndex === -1) {
                     this.subjectiveTags.push(value)
+                } else {
+                    this.subjectiveTags[tagIndex] = value
                 }
                 this.selectedSubjectiveTag = null
             }

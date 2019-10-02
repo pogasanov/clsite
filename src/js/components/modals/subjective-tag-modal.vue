@@ -26,8 +26,10 @@
                 _tag: ''
             }
         },
-        mounted() {
-            this._tag = this.tag
+        watch: {
+            tag(newTag, oldTag) {
+                this._tag = newTag
+            }
         }
     }
 </script>
