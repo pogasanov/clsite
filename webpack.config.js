@@ -8,6 +8,7 @@ module.exports = [
         name: 'app',
         mode: 'development',
         entry: './src/entry.js',
+        devtool: 'eval-source-map',
         output: {
             filename: './js/main.js',
             path: path.resolve(__dirname, 'app/clsite/static')
