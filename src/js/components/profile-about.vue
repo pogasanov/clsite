@@ -43,7 +43,10 @@
             </ul>
         </template>
 
-        <language-modal :language="selectedLanguage" :show="showModal" @ok="hideLanguageModal">
+        <language-modal :language="selectedLanguage"
+                        :show="showModal"
+                        @cancel="showModal = false"
+                        @ok="hideLanguageModal">
         </language-modal>
     </profile-block>
 </template>
