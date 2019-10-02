@@ -43,34 +43,20 @@
             </ul>
         </template>
 
-        <modal @cancel="showModal = false" @ok="hideLanguageModal" v-if="showModal">
-            <h3 slot="header">Edit language</h3>
-            <div slot="body">
-                <label for="language">Language</label>
-                <select id="language" v-model="selectedLanguage">
-                    <option value="ru">Ru</option>
-                    <option value="en">En</option>
-                </select>
-                <label for="proficiency_level">Proficiency Level</label>
-                <select id="proficiency_level" v-model="selectedProficiencyLevel">
-                    <option value="NS">Native speaker</option>
-                    <option value="PF">Professional fluency</option>
-                    <option value="CF">Conversational fluency</option>
-                </select>
-            </div>
-        </modal>
+        <language-modal :language="selectedLanguage" :show="showModal" @ok="hideLanguageModal">
+        </language-modal>
     </profile-block>
 </template>
 
 <script>
     import profileBlock from './profile-block.vue'
-    import modal from "./modals/modal.vue"
+    import languageModal from './modals/language-modal.vue'
 
     export default {
         name: "profile-about",
         components: {
             profileBlock,
-            modal
+            languageModal
         },
         props: ['about'],
         data: () => {
@@ -89,9 +75,7 @@
                 ],
                 subjectiveTags: ['dummy', 'subjective', 'tags'],
                 showModal: false,
-                selectedIndex: 0,
-                selectedLanguage: '',
-                selectedProficiencyLevel: ''
+                selectedLanguage: {},
             }
         },
         methods: {
@@ -114,26 +98,18 @@
 
             showLanguageModal(index) {
                 if (index === null) {
-                    this.selectedIndex = null
-                    this.selectedLanguage = 'en'
-                    this.selectedProficiencyLevel = 'NS'
+                    this.selectedLanguage = {
+                        name: 'en',
+                        proficiency_level: 'NS'
+                    }
                 } else {
-                    this.selectedIndex = index
-                    this.selectedLanguage = this.languages[index].name
-                    this.selectedProficiencyLevel = this.languages[index].proficiency_level
+                    this.selectedLanguage = this.languages[index]
                 }
                 this.showModal = true
             },
             hideLanguageModal() {
-                if (this.selectedIndex === null) {
-                    this.languages.push({
-                        name: this.selectedLanguage,
-                        proficiency_level: this.selectedProficiencyLevel
-                    })
-                } else {
-                    const index = this.selectedIndex
-                    this.languages[index].name = this.selectedLanguage
-                    this.languages[index].proficiency_level = this.selectedProficiencyLevel
+                if (this.languages.indexOf(this.selectedLanguage) === -1) {
+                    this.languages.push(this.selectedLanguage)
                 }
                 this.showModal = false
             }
