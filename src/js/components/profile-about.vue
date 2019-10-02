@@ -28,7 +28,7 @@
                     {{ lang.name }},<br/>
                     <span class="muted">{{ lang.proficiency_level }}</span>
                 </li>
-                <li @click="editState && showLanguageModal(null)" class="list__item">
+                <li @click="editState && showLanguageModal(null)" class="list__item" v-if="editState">
                     Add new language
                 </li>
             </ul>
