@@ -92,7 +92,8 @@
                     this.$emit('update', {
                         summary: this.summary,
                         bio: this.bio,
-                        languages: this.languages
+                        languages: this.languages,
+                        law_type_tags: this.subjectiveTags
                     })
                 }
                 this.editState = !this.editState
