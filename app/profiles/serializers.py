@@ -26,6 +26,7 @@ class ProfileSerializer(serializers.HyperlinkedModelSerializer):
         # Update the book instance
         instance.summary = validated_data['summary']
         instance.bio = validated_data['bio']
+        instance.law_type_tags = validated_data['law_type_tags']
         instance.save()
 
         # Delete any pages not included in the request
