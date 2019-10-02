@@ -23,7 +23,8 @@
         <template v-if="editState || languages">
             <h6 class="text-header">Languages</h6>
             <ul :class="editState ? 'list--selectable' : ''" class="list">
-                <li @click="showLanguageModal(lang.id)" class="list__item" v-for="lang in languages">
+                <li @click="editState && showLanguageModal(index)" class="list__item"
+                    v-for="(lang, index) in languages">
                     {{ lang.name }},<br/>
                     <span class="muted">{{ lang.proficiency_level }}</span>
                 </li>
@@ -39,13 +40,19 @@
             </ul>
         </template>
 
-        <modal @close="showModal = false" v-if="showModal">
+        <modal @close="hideLanguageModal" v-if="showModal">
             <h3 slot="header">Edit language</h3>
             <div slot="body">
                 <label for="language">Language</label>
                 <select id="language" v-model="selectedLanguage">
                     <option value="ru">Ru</option>
                     <option value="en">En</option>
+                </select>
+                <label for="proficiency_level">Proficiency Level</label>
+                <select id="proficiency_level" v-model="selectedProficiencyLevel">
+                    <option value="NS">Native speaker</option>
+                    <option value="PF">Professional fluency</option>
+                    <option value="CF">Conversational fluency</option>
                 </select>
             </div>
         </modal>
@@ -79,7 +86,9 @@
                 ],
                 subjectiveTags: ['dummy', 'subjective', 'tags'],
                 showModal: false,
-                selectedLanguage: ''
+                selectedIndex: 0,
+                selectedLanguage: '',
+                selectedProficiencyLevel: ''
             }
         },
         methods: {
@@ -93,15 +102,24 @@
                 if (this.editState) {
                     this.$emit('update', {
                         summary: this.summary,
-                        bio: this.bio
+                        bio: this.bio,
+                        languages: this.languages
                     })
                 }
                 this.editState = !this.editState
             },
 
-            showLanguageModal(id) {
-                this.selectedLanguage = this.languages[0].name
+            showLanguageModal(index) {
+                this.selectedIndex = index
+                this.selectedLanguage = this.languages[index].name
+                this.selectedProficiencyLevel = this.languages[index].proficiency_level
                 this.showModal = true
+            },
+            hideLanguageModal() {
+                const index = this.selectedIndex
+                this.languages[index].name = this.selectedLanguage
+                this.languages[index].proficiency_level = this.selectedProficiencyLevel
+                this.showModal = false
             }
         },
         created() {
