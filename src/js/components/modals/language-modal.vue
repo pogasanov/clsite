@@ -1,5 +1,5 @@
 <template>
-    <modal @cancel="$emit('cancel')" @ok="$emit('ok')" v-if="show">
+    <modal @cancel="$emit('cancel')" @ok="$emit('ok')" v-if="language !== null">
         <h3 slot="header">Edit language</h3>
         <div slot="body">
             <label for="language">Language</label>
@@ -26,13 +26,9 @@
             modal
         },
         props: {
-            show: {
-                type: Boolean,
-                required: true
-            },
             language: {
                 type: Object,
-                required: false
+                required: true
             }
         }
     }

@@ -44,8 +44,7 @@
         </template>
 
         <language-modal :language="selectedLanguage"
-                        :show="showModal"
-                        @cancel="showModal = false"
+                        @cancel="selectedLanguage = null"
                         @ok="hideLanguageModal">
         </language-modal>
     </profile-block>
@@ -78,7 +77,7 @@
                 ],
                 subjectiveTags: ['dummy', 'subjective', 'tags'],
                 showModal: false,
-                selectedLanguage: {},
+                selectedLanguage: null,
             }
         },
         methods: {
@@ -108,13 +107,12 @@
                 } else {
                     this.selectedLanguage = this.languages[index]
                 }
-                this.showModal = true
             },
             hideLanguageModal() {
                 if (this.languages.indexOf(this.selectedLanguage) === -1) {
                     this.languages.push(this.selectedLanguage)
                 }
-                this.showModal = false
+                this.selectedLanguage = null
             }
         },
         created() {
