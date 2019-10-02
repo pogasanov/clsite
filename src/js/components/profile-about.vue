@@ -43,7 +43,7 @@
             </ul>
         </template>
 
-        <modal @close="hideLanguageModal" v-if="showModal">
+        <modal @cancel="showModal = false" @ok="hideLanguageModal" v-if="showModal">
             <h3 slot="header">Edit language</h3>
             <div slot="body">
                 <label for="language">Language</label>
