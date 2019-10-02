@@ -27,7 +27,6 @@
         },
         props: {
             language: {
-                type: Object,
                 required: true
             }
         }

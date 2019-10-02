@@ -37,8 +37,12 @@
         <template v-if="editState || subjectiveTags">
             <h6 class="text-header">Subjective Tags</h6>
             <ul class="tag-container">
-                <li class="tag" v-for="tag in subjectiveTags">
+                <li @click="editState && showSubjectiveTagModal(index)" class="tag"
+                    v-for="(tag, index) in subjectiveTags">
                     {{ tag }}
+                </li>
+                <li @click="editState && showSubjectiveTagModal(null)" class="tag tag--outline" v-if="editState">
+                    Add new subjective tag
                 </li>
             </ul>
         </template>
@@ -47,18 +51,27 @@
                         @cancel="selectedLanguage = null"
                         @ok="hideLanguageModal">
         </language-modal>
+
+        <subjective-tag-modal :tag="selectedSubjectiveTag"
+                              @cancel="selectedSubjectiveTag = null"
+                              @ok="hideSubjectiveTagModal"
+        >
+
+        </subjective-tag-modal>
     </profile-block>
 </template>
 
 <script>
     import profileBlock from './profile-block.vue'
     import languageModal from './modals/language-modal.vue'
+    import subjectiveTagModal from './modals/subjective-tag-modal.vue'
 
     export default {
         name: "profile-about",
         components: {
             profileBlock,
-            languageModal
+            languageModal,
+            subjectiveTagModal
         },
         props: ['about'],
         data: () => {
@@ -77,7 +90,9 @@
                 ],
                 subjectiveTags: ['dummy', 'subjective', 'tags'],
                 showModal: false,
+
                 selectedLanguage: null,
+                selectedSubjectiveTag: null
             }
         },
         methods: {
@@ -114,6 +129,20 @@
                     this.languages.push(this.selectedLanguage)
                 }
                 this.selectedLanguage = null
+            },
+
+            showSubjectiveTagModal(index) {
+                if (index === null) {
+                    this.selectedSubjectiveTag = ''
+                } else {
+                    this.selectedSubjectiveTag = this.subjectiveTags[index]
+                }
+            },
+            hideSubjectiveTagModal(value) {
+                if (this.subjectiveTags.indexOf(value) === -1) {
+                    this.subjectiveTags.push(value)
+                }
+                this.selectedSubjectiveTag = null
             }
         },
         created() {

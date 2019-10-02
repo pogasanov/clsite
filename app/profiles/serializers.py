@@ -41,3 +41,9 @@ class ProfileSerializer(serializers.HyperlinkedModelSerializer):
             language.save()
 
         return instance
+
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        if not data['law_type_tags']:
+            data['law_type_tags'] = []
+        return data
