@@ -1,5 +1,5 @@
 <template>
-    <profile-block @edit="editHandler" title="About">
+    <profile-block @cancel="cancelHandler" @edit="editHandler" title="About">
         <template v-if="editState || summary">
             <h6 class="text-header">Summary</h6>
             <template v-if="editState">
@@ -111,6 +111,10 @@
                         law_type_tags: this.subjectiveTags
                     })
                 }
+                this.editState = !this.editState
+            },
+            cancelHandler() {
+                this.updateData(this.about)
                 this.editState = !this.editState
             },
 

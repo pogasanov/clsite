@@ -4,7 +4,10 @@
             <h2 class="profile-block__title">{{ title }}</h2>
 
             <a @click="toggleEdit" class="btn btn--small" href="#0" v-if="!editState">Edit</a>
-            <a @click="toggleEdit" class="btn btn--small" href="#0" v-else>Save</a>
+            <template v-else>
+                <a @click="toggleEdit" class="btn btn--small" href="#0">Save</a>
+                <a @click="cancelEdit" class="btn btn--small btn--outline" href="#0">Cancel</a>
+            </template>
         </header>
         <div class="profile-block__main">
             <slot></slot>
@@ -25,6 +28,10 @@
             toggleEdit() {
                 this.editState = !this.editState
                 this.$emit('edit')
+            },
+            cancelEdit() {
+                this.editState = false
+                this.$emit('cancel')
             }
         }
     }
