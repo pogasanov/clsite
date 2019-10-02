@@ -28,6 +28,9 @@
                     {{ lang.name }},<br/>
                     <span class="muted">{{ lang.proficiency_level }}</span>
                 </li>
+                <li @click="editState && showLanguageModal(null)" class="list__item">
+                    Add new language
+                </li>
             </ul>
         </template>
 
@@ -110,15 +113,28 @@
             },
 
             showLanguageModal(index) {
-                this.selectedIndex = index
-                this.selectedLanguage = this.languages[index].name
-                this.selectedProficiencyLevel = this.languages[index].proficiency_level
+                if (index === null) {
+                    this.selectedIndex = null
+                    this.selectedLanguage = 'en'
+                    this.selectedProficiencyLevel = 'NS'
+                } else {
+                    this.selectedIndex = index
+                    this.selectedLanguage = this.languages[index].name
+                    this.selectedProficiencyLevel = this.languages[index].proficiency_level
+                }
                 this.showModal = true
             },
             hideLanguageModal() {
-                const index = this.selectedIndex
-                this.languages[index].name = this.selectedLanguage
-                this.languages[index].proficiency_level = this.selectedProficiencyLevel
+                if (this.selectedIndex === null) {
+                    this.languages.push({
+                        name: this.selectedLanguage,
+                        proficiency_level: this.selectedProficiencyLevel
+                    })
+                } else {
+                    const index = this.selectedIndex
+                    this.languages[index].name = this.selectedLanguage
+                    this.languages[index].proficiency_level = this.selectedProficiencyLevel
+                }
                 this.showModal = false
             }
         },

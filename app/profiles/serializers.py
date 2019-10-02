@@ -29,15 +29,19 @@ class ProfileSerializer(serializers.HyperlinkedModelSerializer):
         instance.save()
 
         # Delete any pages not included in the request
-        language_ids = [item['id'] for item in validated_data['language_set']]
+        language_ids = [item['id'] for item in validated_data['language_set'] if 'id' in item]
         for language in instance.language_set.all():
             if language.id not in language_ids:
                 language.delete()
 
         # Create or update page instances that are in the request
         for item in validated_data['language_set']:
-            language = Language(id=item['id'], name=item['name'], proficiency_level=item['proficiency_level'],
-                                profile=instance)
+            if 'id' in item:
+                language = Language(id=item['id'], name=item['name'], proficiency_level=item['proficiency_level'],
+                                    profile=instance)
+            else:
+                language = Language(name=item['name'], proficiency_level=item['proficiency_level'],
+                                    profile=instance)
             language.save()
 
         return instance
