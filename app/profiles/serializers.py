@@ -36,12 +36,7 @@ class ProfileSerializer(serializers.HyperlinkedModelSerializer):
 
         # Create or update page instances that are in the request
         for item in validated_data['language_set']:
-            if 'id' in item:
-                language = Language(id=item['id'], name=item['name'], proficiency_level=item['proficiency_level'],
-                                    profile=instance)
-            else:
-                language = Language(name=item['name'], proficiency_level=item['proficiency_level'],
-                                    profile=instance)
+            language = Language(*item, profile=instance)
             language.save()
 
         return instance
