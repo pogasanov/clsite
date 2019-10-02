@@ -64,7 +64,7 @@
 
 <script>
     import profileBlock from './profile-block.vue'
-    import modal from "./modal.vue"
+    import modal from "./modals/modal.vue"
 
     export default {
         name: "profile-about",
