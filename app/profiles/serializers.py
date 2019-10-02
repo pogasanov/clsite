@@ -37,7 +37,7 @@ class ProfileSerializer(serializers.HyperlinkedModelSerializer):
 
         # Create or update page instances that are in the request
         for item in validated_data['language_set']:
-            language = Language(*item, profile=instance)
+            language = Language(**item, profile=instance)
             language.save()
 
         return instance
