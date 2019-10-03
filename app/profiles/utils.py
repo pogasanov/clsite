@@ -1,7 +1,8 @@
 import json
 import os
 from clsite.settings import BASE_DIR
-
+from django.conf import settings
+from .choices import LANGUAGES_CHOICES
 
 def _read_json(path):
     """
@@ -86,6 +87,18 @@ def _get_states_for_country(country_name):
 
     return tuple(result_list)
 
+
+def custom_language_choices():
+    choices = list(LANGUAGES_CHOICES)
+    choices.sort(key=lambda tup: tup[1])
+    for i, lang in enumerate(choices):
+        if lang[0] == settings.DEFAULT_USER_LANGUAGE:
+            default_language = choices.pop(i)
+    choices.insert(0, default_language)
+    return choices
+
+
+CUSTOM_SORTED_LANGUAGES_CHOICES = custom_language_choices()
 
 LAW_TYPE_TAGS_CHOICES = _get_all_law_type_tags_tuple()
 

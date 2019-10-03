@@ -8,7 +8,7 @@ from django.conf import settings
 from clsite.settings import DEFAULT_CHOICES_SELECTION, DEFAULT_COUNTRY
 from .models import (Profile, Education, WorkExperience, Address, Admissions,
                      LawSchool, Organization, Award, Jurisdiction, Language)
-from .utils import LAW_TYPE_TAGS_CHOICES, SUBJECTIVE_TAGS_CHOICES, _get_states_for_country
+from .utils import LAW_TYPE_TAGS_CHOICES, SUBJECTIVE_TAGS_CHOICES, _get_states_for_country, CUSTOM_SORTED_LANGUAGES_CHOICES
 
 
 def unique_field_formset(*fields):
@@ -283,12 +283,7 @@ class LanguageForm(ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        choices = self.fields['name'].choices
-        for i, lang in enumerate(choices):
-            if lang[0] == settings.DEFAULT_USER_LANGUAGE:
-                default_language = choices.pop(i)
-        choices.insert(0, default_language)
-        self.fields['name'].choices = choices
+        self.fields['name'].choices = CUSTOM_SORTED_LANGUAGES_CHOICES
         for key, field in self.fields.items():
             field.widget.attrs.update({'class': 'form-control'})
 
