@@ -25,6 +25,13 @@ class TransactionFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = 'transactions.Transaction'
 
+    class Params:
+        requestee_not_checked = factory.Trait(
+            is_confirmed=None,
+            requestee_review=Transaction.REVIEW_NEUTRAL,
+            requestee_recommendation=''
+        )
+
     requester = factory.SubFactory(ProfileFactory)
     requestee = factory.SubFactory(ProfileFactory)
     amount = factory.Faker('pyfloat', right_digits=2, min_value=1, max_value=100000)
@@ -33,7 +40,7 @@ class TransactionFactory(factory.django.DjangoModelFactory):
     def currency(self):
         assert 'USD' in CURRENCIES
         # 90% chance that currency is USD
-        return 'USD' if random.random() < 0.9 else random.choice(CURRENCIES)
+        return 'USD' if random.random() < 0.9 else TransactionFactory.create_currency()
 
     value_in_usd = factory.LazyAttribute(lambda o: o.amount if o.currency == 'USD' else None)
 
@@ -101,3 +108,11 @@ class TransactionFactory(factory.django.DjangoModelFactory):
         if random.random() < 0.25:
             return ''
         return ' '.join(factory.Faker('paragraphs', nb=3).generate())
+
+    @staticmethod
+    def create_currency(ignore_usd=False):
+        if ignore_usd:
+            CHOICE_LIST = list(CURRENCIES)
+            CHOICE_LIST.remove('USD')
+            return random.choice(CHOICE_LIST)
+        return random.choice(CURRENCIES)
