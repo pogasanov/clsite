@@ -1,6 +1,5 @@
 import os
 
-from django.conf.global_settings import LANGUAGES
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.contrib.postgres.fields import ArrayField, DateRangeField
 from django.contrib.staticfiles.templatetags.staticfiles import static
@@ -9,6 +8,7 @@ from django.urls import reverse
 
 from clsite.storage_backends import variativeStorage
 from .utils import COUNTRIES_CHOICES
+from .choices import LANGUAGES_CHOICES
 
 
 class Address(models.Model):
@@ -91,7 +91,7 @@ class Language(models.Model):
                          ('CF', 'Conversational fluency'))
 
     profile = models.ForeignKey('Profile', on_delete=models.CASCADE, verbose_name='Profile')
-    name = models.CharField(max_length=10, choices=LANGUAGES)
+    name = models.CharField(max_length=10, choices=LANGUAGES_CHOICES)
     proficiency_level = models.CharField(max_length=20, choices=PROFICIENCY_LEVEL)
 
     def __repr__(self):
