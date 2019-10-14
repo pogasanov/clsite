@@ -44,37 +44,16 @@ class TransactionModelTest(TestCase):
         transaction = TransactionFactory(is_confirmed=False)
         self.assertFalse(transaction.is_ready)
 
-        # No value transactions shouldn't be ready
-        transaction = TransactionFactory(is_confirmed=True, amount=0)
+        # If transaction has been flagged, it should not be ready
+        transaction = TransactionFactory(is_confirmed=True, is_flagged=True)
         self.assertFalse(transaction.is_ready)
 
-        # If transaction has proof_receipt, it should be confirmed by admin
-        transaction = TransactionFactory(is_confirmed=True,
-                                         amount=123,
-                                         proof_receipt=TransactionFactory.create_proof_receipt(),
-                                         is_admin_approved=False
-                                         )
+        # If transaction has other currency, it should not be ready
+        transaction = TransactionFactory(is_confirmed=True, currency='PKR')
         self.assertFalse(transaction.is_ready)
 
-        # If transaction doesn't have proof_receipt but with value, it should be ready
-        transaction = TransactionFactory(is_confirmed=True, proof_receipt=None, amount=123)
+        transaction = TransactionFactory(is_confirmed=True)
         self.assertTrue(transaction.is_ready)
-
-        # If transaction has approved proof receipt, it should be ready
-        transaction = TransactionFactory(is_confirmed=True,
-                                         amount=123,
-                                         proof_receipt=TransactionFactory.create_proof_receipt(),
-                                         is_admin_approved=True
-                                         )
-        self.assertTrue(transaction.is_ready)
-
-    def test_is_verified(self):
-        # Transaction without proof receipt shouldn't be verified
-        transaction = TransactionFactory(proof_receipt=None)
-        self.assertFalse(transaction.is_verified)
-
-        transaction = TransactionFactory(proof_receipt=TransactionFactory.create_proof_receipt())
-        self.assertTrue(transaction.is_verified)
 
     def test_requestee_eq_reqeuester_fail(self):
         profile = ProfileFactory()

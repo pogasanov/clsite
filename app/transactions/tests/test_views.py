@@ -21,7 +21,7 @@ class TransactionViewTest(TestCase):
             'amount': 1234,
             'currency': 'USD',
             'is_requester_principal': True,
-            'requester_review': Transaction.REVIEW_AGREE
+            'proof_receipt': TransactionFactory.create_proof_receipt()
         }
 
     def setUp(self):
@@ -72,8 +72,7 @@ class ConfirmTransactionViewTest(TestCase):
         cls.TRANSACTION_URL = f'/confirm-transaction/{cls.transaction.id}'
 
         cls.data_payload = {
-            'submit': ConfirmTransactionForm.ACTION_CONFIRM,
-            'requestee_review': Transaction.REVIEW_AGREE
+            'submit': ConfirmTransactionForm.ACTION_CONFIRM
         }
 
     def setUp(self):
