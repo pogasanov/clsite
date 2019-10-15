@@ -74,7 +74,6 @@ class Transaction(models.Model):
     def is_ready(self):
         return bool(self.value_in_usd and self.is_confirmed and not self.is_flagged)
 
-
     def clean(self):
         super().clean()
         if self.requester == self.requestee:

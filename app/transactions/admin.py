@@ -24,6 +24,7 @@ class TransactionValueInUSDEmptyFilter(admin.SimpleListFilter):
 def flag_transactions(modeladmin, request, queryset):
     queryset.update(is_flagged=True)
 
+
 flag_transactions.short_description = "Flag selected transactions"
 
 
