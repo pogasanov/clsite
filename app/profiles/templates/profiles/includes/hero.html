@@ -29,12 +29,16 @@
         </div>
         <div class="hero__payments">
             <span>
-                <span class="muted">Total verified: </span>
-                ${{ transactions_stats.verified|default_if_none:'0' }}
+                <span class="muted">Transactions total: </span>
+                ${{ transactions_stats.total_sum }}, and count {{ transactions_stats.total_count }}
             </span>
             <span>
-                <span class="muted">Total unverified: </span>
-                ${{ transactions_stats.unverified|default_if_none:'0' }}
+                <span class="muted">Transactions received: </span>
+                ${{ transactions_stats.received_sum }}, and count {{ transactions_stats.received_count}}
+            </span>
+            <span>
+                <span class="muted">Transactions sent: </span>
+                ${{ transactions_stats.sent_sum }}, and count {{ transactions_stats.sent_count }}
             </span>
         </div>
     </div>
