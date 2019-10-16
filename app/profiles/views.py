@@ -25,10 +25,7 @@ def user_relationships(user):
     # User with highest cumulative verified transactions amount first and so on. Secondly sorted by highest amount
     sorted_user_relationships = sorted(
         user_relations.items(),
-        key=lambda x: (
-            sum([t.value_in_usd or 0 for t in x[1] if t.is_verified]),
-            sum([t.value_in_usd or 0 for t in x[1]])
-        ),
+        key=lambda x: sum([t.value_in_usd or 0 for t in x[1]]),
         reverse=True
     )
     relationships = []
