@@ -7,14 +7,14 @@ services:
 
 test:
   stage: test
-  image: python:3.7
+  image: python:latest
   variables:
     DATABASE_URL: "postgresql://postgres:postgres@postgres:5432/postgres"
   before_script:
     - pip install pipenv
-    - pipenv install --system
+    - pipenv install
   script:
-    - python3 app/manage.py test app/
+    - pipenv run python3 app/manage.py test app/
   cache:
     paths:
       - ~/.cache/pip/
