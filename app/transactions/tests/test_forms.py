@@ -22,8 +22,7 @@ class TransactionFormTestCase(TestCase):
             'date': timezone.now(),
             'amount': 1234,
             'currency': 'USD',
-            'is_requester_principal': True,
-            'requester_review': Transaction.REVIEW_AGREE
+            'is_requester_principal': True
         }
 
     def test_require_requester_and_requestee(self):
@@ -37,35 +36,23 @@ class TransactionFormTestCase(TestCase):
             TransactionForm(requestee=self.requestee)
 
     def test_valid_with_correct_payload(self):
-        form = TransactionForm(requester=self.requester, requestee=self.requestee, data=self.data_payload)
+        files = {
+            'proof_receipt': TransactionFactory.create_proof_receipt()
+        }
+
+        form = TransactionForm(requester=self.requester, requestee=self.requestee, data=self.data_payload, files=files)
         self.assertTrue(form.is_valid())
 
     def test_pass_requester_requestee_to_instance(self):
-        form = TransactionForm(requester=self.requester, requestee=self.requestee, data=self.data_payload)
+        files = {
+            'proof_receipt': TransactionFactory.create_proof_receipt()
+        }
+
+        form = TransactionForm(requester=self.requester, requestee=self.requestee, data=self.data_payload, files=files)
         transaction = form.save()
 
         self.assertIs(transaction.requester, self.requester)
         self.assertIs(transaction.requestee, self.requestee)
-
-    def test_is_proof_by_requester_false_if_no_files(self):
-        form = TransactionForm(requester=self.requester, requestee=self.requestee, data=self.data_payload)
-        transaction = form.save()
-
-        self.assertFalse(transaction.is_proof_by_requester)
-
-    def test_is_proof_by_requester_set_if_files(self):
-        files_payload = {
-            'proof_receipt': SimpleUploadedFile('test.jpg', TEST_IMAGE_DATA)
-        }
-        form = TransactionForm(requester=self.requester,
-                               requestee=self.requestee,
-                               data=self.data_payload,
-                               files=files_payload)
-        self.assertTrue(form.is_valid())
-
-        transaction = form.save()
-
-        self.assertTrue(transaction.is_proof_by_requester)
 
 
 @override_settings(STATICFILES_STORAGE='django.contrib.staticfiles.storage.StaticFilesStorage')
@@ -73,8 +60,7 @@ class ConfirmTransactionFormTest(TestCase):
     @classmethod
     def setUpTestData(cls):
         cls.data_payload = {
-            'submit': ConfirmTransactionForm.ACTION_CONFIRM,
-            'requestee_review': Transaction.REVIEW_AGREE
+            'submit': ConfirmTransactionForm.ACTION_CONFIRM
         }
 
     def setUp(self):
@@ -99,15 +85,3 @@ class ConfirmTransactionFormTest(TestCase):
         transaction = form.save()
 
         self.assertFalse(transaction.is_confirmed)
-
-    def test_is_proof_by_requester_saved_if_files(self):
-        self.assertIsNone(self.transaction.is_proof_by_requester)
-
-        files_payload = {
-            'proof_receipt': SimpleUploadedFile('test.jpg', TEST_IMAGE_DATA)
-        }
-        form = ConfirmTransactionForm(data=self.data_payload, files=files_payload, instance=self.transaction)
-
-        transaction = form.save()
-
-        self.assertTrue(transaction.is_proof_by_requester)

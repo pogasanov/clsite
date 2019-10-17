@@ -6,31 +6,6 @@ from django.utils.translation import ugettext_lazy as _
 from .models import Transaction
 
 
-class TransactionApprovedFilter(admin.SimpleListFilter):
-    title = _('Admin Approved')
-
-    parameter_name = 'is_admin_approved'
-
-    def lookups(self, request, model_admin):
-
-        return (
-            ('yes', _('Admin Approved')),
-            ('no', _('Admin Denied')),
-            ('null', _('Pending Approval')),
-        )
-
-    def queryset(self, request, queryset):
-
-        if self.value() == 'yes':
-            return queryset.filter(is_admin_approved=True)
-
-        if self.value() == 'no':
-            return queryset.filter(is_admin_approved=False)
-
-        if self.value() == 'null':
-            return queryset.filter(Q(is_admin_approved__isnull=True), ~Q(proof_receipt=''))
-
-
 class TransactionValueInUSDEmptyFilter(admin.SimpleListFilter):
     title = _('USD Value Needed')
 
@@ -46,32 +21,25 @@ class TransactionValueInUSDEmptyFilter(admin.SimpleListFilter):
             return queryset.filter(value_in_usd__isnull=True)
 
 
-def approve_transactions(modeladmin, request, queryset):
-    queryset.exclude(proof_receipt='').update(is_admin_approved=True)
+def flag_transactions(modeladmin, request, queryset):
+    queryset.update(is_flagged=True)
 
 
-approve_transactions.short_description = "Approve selected transactions"
-
-
-def deny_transactions(modeladmin, request, queryset):
-    queryset.exclude(proof_receipt='').update(is_admin_approved=False)
-
-
-deny_transactions.short_description = "Deny selected transactions"
+flag_transactions.short_description = "Flag selected transactions"
 
 
 @admin.register(Transaction)
 class TransactionAdmin(admin.ModelAdmin):
     """Admin model for the Transactions."""
     change_list_template = 'transaction_admin.html'
-    list_filter = [TransactionApprovedFilter, TransactionValueInUSDEmptyFilter]
+    list_filter = ['is_flagged', TransactionValueInUSDEmptyFilter]
     list_display = (
         'requester', 'amount_direction', 'requestee', 'amount', 'currency', 'date',
-        'value_in_usd', 'currency_conversion', 'is_confirmed', 'is_verified', 'admin_approved', 'is_ready', 'proof_receipt'
+        'value_in_usd', 'currency_conversion', 'is_confirmed', 'is_flagged', 'is_ready', 'proof_receipt'
     )
-    list_editable = ('value_in_usd',)
+    list_editable = ('value_in_usd', 'is_flagged')
     ordering = ['-created_at']
-    actions = [approve_transactions, deny_transactions]
+    actions = [flag_transactions]
 
     class Media:
         css = {'all': ('admin.css',)}
@@ -80,22 +48,6 @@ class TransactionAdmin(admin.ModelAdmin):
         return obj.is_ready
 
     is_ready.boolean = True
-
-    def is_verified(self, obj):
-        return obj.is_verified
-
-    is_verified.boolean = True
-
-    def admin_approved(self, obj):
-        if not obj.proof_receipt:
-            return 'N/A'
-
-        if obj.is_admin_approved is None:
-            return 'Pending'
-
-        return 'Approved' if obj.is_admin_approved else 'Denied'
-
-    admin_approved.short_description = 'Admin-Approved'
 
     def amount_direction(self, obj):
         arrow_tag = '<img src="/static/admin/img/tooltag-arrowright.svg" class="{}"alt="None">'

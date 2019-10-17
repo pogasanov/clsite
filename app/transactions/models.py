@@ -19,19 +19,6 @@ class TransactionUnconfirmedManager(models.Manager):
 
 
 class Transaction(models.Model):
-    REVIEW_STRONGLY_DISAGREE = 'SD'
-    REVIEW_DISAGREE = 'D'
-    REVIEW_NEUTRAL = 'N'
-    REVIEW_AGREE = 'A'
-    REVIEW_STRONGLY_AGREE = 'SA'
-    REVIEW_CHOICES = (
-        (REVIEW_STRONGLY_DISAGREE, 'Strongly Disagree'),
-        (REVIEW_DISAGREE, 'Disagree'),
-        (REVIEW_NEUTRAL, 'Neutral'),
-        (REVIEW_AGREE, 'Agree'),
-        (REVIEW_STRONGLY_AGREE, 'Strongly Agree')
-    )
-
     IS_REQUESTER_PRINCIPAL_YES = True
     IS_REQUESTER_PRINCIPAL_NO = False
     IS_REQUESTER_PRINCIPAL_CHOICES = (
@@ -52,23 +39,16 @@ class Transaction(models.Model):
                                 default='USD', verbose_name='Currency')
 
     proof_receipt = models.ImageField(upload_to=get_image_path, storage=variativeStorage(),
-                                      verbose_name='Transaction Proof', blank=True, null=True)
-    is_proof_by_requester = models.NullBooleanField(default=None, verbose_name="Receipt added by requester")
+                                      verbose_name='Transaction Proof')
 
     requester = models.ForeignKey('profiles.Profile', on_delete=models.CASCADE,
                                   related_name='requester', verbose_name='Requester')
-    requester_review = models.CharField(max_length=2, choices=REVIEW_CHOICES, default=REVIEW_NEUTRAL,
-                                        verbose_name='Requester\'s Review')
-    requester_recommendation = models.TextField(blank=True, default='', verbose_name='Requester\'s recommendation')
 
     requestee = models.ForeignKey('profiles.Profile', on_delete=models.CASCADE,
                                   related_name='requestee', verbose_name='Requestee')
-    requestee_review = models.CharField(max_length=2, choices=REVIEW_CHOICES,
-                                        default=REVIEW_NEUTRAL, verbose_name='Requestee\'s recommendation')
-    requestee_recommendation = models.TextField(verbose_name='Requestee\'s recommendation', default='', blank=True)
 
     is_confirmed = models.NullBooleanField(default=None, verbose_name='Requestee Confirmed')
-    is_admin_approved = models.NullBooleanField(default=None, verbose_name='Approved from Admin')
+    is_flagged = models.BooleanField(default=False, verbose_name='Flagged')
     is_requester_principal = models.BooleanField(choices=IS_REQUESTER_PRINCIPAL_CHOICES,
                                                  default=IS_REQUESTER_PRINCIPAL_NO,
                                                  verbose_name='Requester Payed')
@@ -92,16 +72,7 @@ class Transaction(models.Model):
 
     @property
     def is_ready(self):
-        if self.is_confirmed:
-            if self.proof_receipt:
-                return bool(self.is_admin_approved and self.value_in_usd)
-            else:
-                return bool(self.value_in_usd)
-        return False
-
-    @property
-    def is_verified(self):
-        return bool(self.proof_receipt)
+        return bool(self.value_in_usd and self.is_confirmed and not self.is_flagged)
 
     def clean(self):
         super().clean()
