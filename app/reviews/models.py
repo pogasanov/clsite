@@ -26,26 +26,22 @@ class Review(models.Model):
 
     )
     sender = models.ForeignKey('profiles.Profile', on_delete=models.CASCADE, related_name='sender',
-                               verbose_name='Sender', null=False, blank=False)
+                               verbose_name='Sender')
     receiver = models.ForeignKey('profiles.Profile', on_delete=models.CASCADE, related_name='receiver',
-                                 verbose_name='Receiver', null=False, blank=False)
+                                 verbose_name='Receiver')
     is_sender_principal = models.NullBooleanField(default=None, choices=IS_SENDER_PRINCIPAL_CHOICES,
                                                   verbose_name='Sender Principal')
-    work_description = models.TextField(max_length=500, null=False, blank=False)
+    work_description = models.TextField(null=False, blank=False)
     rating = models.CharField(max_length=2, choices=REVIEW_CHOICES, default=REVIEW_NEUTRAL,
                               verbose_name='Rating')
-    review = models.CharField(max_length=100, null=False, blank=False)
+    recommendation = models.TextField(null=False, blank=False)
     deleted_status = models.BooleanField(default=False)
     created_at = models.DateTimeField(default=datetime.datetime.now())
 
-    class Meta:
-        unique_together = (('sender', 'receiver'),)
-
-    @property
-    def is_verified(self):
-        return bool(self.rating)
-
-    def clean(self):
-        super().clean()
+    def save(self, *args, **kwargs):
         if self.sender == self.receiver:
             raise ValidationError('Sender and receiver cannot be the same user', code='same-sender-receiver')
+        super(Review, self).save(*args, **kwargs)
+
+    class Meta:
+        unique_together = (('sender', 'receiver'),)
