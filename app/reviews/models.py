@@ -26,14 +26,14 @@ class Review(models.Model):
 
     )
     sender = models.ForeignKey('profiles.Profile', on_delete=models.CASCADE, related_name='sender',
-                               verbose_name='Sender')
+                               verbose_name='Sender', null=False, blank=False)
     receiver = models.ForeignKey('profiles.Profile', on_delete=models.CASCADE, related_name='receiver',
-                                 verbose_name='Receiver')
+                                 verbose_name='Receiver', null=False, blank=False)
     is_sender_principal = models.NullBooleanField(default=None, choices=IS_SENDER_PRINCIPAL_CHOICES,
                                                   verbose_name='Sender Principal')
     work_description = models.TextField(max_length=500, null=False, blank=False)
     rating = models.CharField(max_length=2, choices=REVIEW_CHOICES, default=REVIEW_NEUTRAL,
-                              verbose_name='Requester\'s Review')
+                              verbose_name='Rating')
     review = models.CharField(max_length=100, null=False, blank=False)
     deleted_status = models.BooleanField(default=False)
     created_at = models.DateTimeField(default=datetime.datetime.now())
