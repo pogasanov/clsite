@@ -136,6 +136,9 @@ class ProfileDetailView(LoginRequiredMixin, DetailView):
             received_ready_transactions.aggregate(received_sum=Sum('value_in_usd'), received_count=Count('*'))
         )
 
+        transaction_stats['sent_sum'] = transaction_stats['sent_sum'] or 0
+        transaction_stats['received_sum'] = transaction_stats['received_sum'] or 0
+
         transaction_stats['total_sum'] = transaction_stats['sent_sum'] + transaction_stats['received_sum']
         transaction_stats['total_count'] = transaction_stats['sent_count'] + transaction_stats['received_count']
 
