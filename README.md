@@ -377,6 +377,7 @@ For example, you can generate models:
 # Generate profiles
 from profiles.factories import ProfileFactory
 from transactions.factories import TransactionFactory
+from reviews.factories import ReviewFactory
 
 # Will SAVE new instance IN DATABASE
 profile_saved = ProfileFactory()
@@ -389,6 +390,9 @@ profiles = ProfileFactory.create_batch(100)
 transaction = TransactionFactory()
 # Will create only 1 new profile
 transaction = TransactionFactory(requestee=profile_saved)
+
+# will add 20 reviews in DB
+reviews=ReviewFactory.create_batch(20)
 ```
 
 ### Fixtures
