@@ -1,5 +1,5 @@
 from django.db import models
-import datetime
+from django.utils import timezone
 from django.core.exceptions import ValidationError
 
 
@@ -35,8 +35,8 @@ class Review(models.Model):
     rating = models.CharField(max_length=2, choices=REVIEW_CHOICES, default=REVIEW_NEUTRAL,
                               verbose_name='Rating')
     recommendation = models.TextField(null=False, blank=False)
-    deleted_status = models.BooleanField(default=False)
-    created_at = models.DateTimeField(default=datetime.datetime.now())
+    is_deleted = models.BooleanField(default=False)
+    created_at = models.DateTimeField(default=timezone.now)
 
     def save(self, *args, **kwargs):
         if self.sender == self.receiver:
