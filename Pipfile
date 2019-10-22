@@ -18,5 +18,8 @@ django-select2 = "*"
 numpy = "*"
 factory-boy = "*"
 django-rest-framework = "*"
+pre-commit = "*"
+black = "*"
+flake8 = "*"
 
 [dev-packages]
