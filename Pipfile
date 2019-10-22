@@ -21,5 +21,9 @@ django-rest-framework = "*"
 pre-commit = "*"
 black = "*"
 flake8 = "*"
+django = "==2.*"
 
 [dev-packages]
+
+[pipenv]
+allow_prereleases = true
