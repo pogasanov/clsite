@@ -1,19 +1,18 @@
 from itertools import groupby
 
-from django.contrib.auth import get_user_model, login
+from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q, Sum
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404
-from django.urls import reverse_lazy, reverse
+from django.urls import reverse
 from django.views.generic import ListView, DetailView
-from django.views.generic.edit import CreateView
 
 from clsite.settings import DEFAULT_CHOICES_SELECTION
 from transactions.models import Transaction
 from profiles.forms import ProfileForm, EducationFormSet, WorkExperienceFormSet, AddressForm, AdmissionsFormSet, LawSchoolForm, \
-    OrganizationFormSet, AwardFormSet, ProfileCreationForm, JurisdictionFormSet, \
+    OrganizationFormSet, AwardFormSet, JurisdictionFormSet, \
     LanguageFormSet
 from profiles.helpers import get_user_relationships
 from profiles.models import Profile, Jurisdiction
@@ -209,18 +208,6 @@ def update_user_profile_photo(user, photo):
     user.save()
 
     return user.photo.url
-
-
-class UserRegistrationView(CreateView):
-    template_name = 'registration/register.html'
-    form_class = ProfileCreationForm
-    success_url = reverse_lazy('profile')
-
-    def post(self, request, *args, **kwargs):
-        response = super().post(request, *args, **kwargs)
-        if self.object:
-            login(request, self.object)
-        return response
 
 
 class UserListView(LoginRequiredMixin, ListView):

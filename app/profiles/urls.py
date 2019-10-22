@@ -3,13 +3,13 @@ from django.contrib.auth import views as auth_views
 from django.urls import path
 
 from clsite.settings import MEDIA_URL, MEDIA_ROOT
-from .views import views
+from .views import views, view_register
 
 urlpatterns = \
     [
         path('login', auth_views.LoginView.as_view(success_url='/'), name='login'),
         path('logout', auth_views.LogoutView.as_view(), name='logout'),
-        path('register', views.UserRegistrationView.as_view(), name='register'),
+        path('register', view_register.UserRegistrationView.as_view(), name='register'),
 
         path('profile', views.profile, name='profile'),
         path('profile/<handle>', views.ProfileDetailView.as_view(), name='profile-detail'),
