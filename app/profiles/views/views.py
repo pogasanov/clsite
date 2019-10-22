@@ -12,12 +12,12 @@ from django.views.generic.edit import CreateView
 
 from clsite.settings import DEFAULT_CHOICES_SELECTION
 from transactions.models import Transaction
-from .forms import ProfileForm, EducationFormSet, WorkExperienceFormSet, AddressForm, AdmissionsFormSet, LawSchoolForm, \
+from profiles.forms import ProfileForm, EducationFormSet, WorkExperienceFormSet, AddressForm, AdmissionsFormSet, LawSchoolForm, \
     OrganizationFormSet, AwardFormSet, ProfileCreationForm, JurisdictionFormSet, \
     LanguageFormSet
-from .helpers import get_user_relationships
-from .models import Profile, Jurisdiction
-from .utils import _get_states_for_country
+from profiles.helpers import get_user_relationships
+from profiles.models import Profile, Jurisdiction
+from profiles.utils import _get_states_for_country
 
 
 def user_relationships(user):

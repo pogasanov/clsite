@@ -3,7 +3,7 @@ from django.contrib.auth import views as auth_views
 from django.urls import path
 
 from clsite.settings import MEDIA_URL, MEDIA_ROOT
-from . import views
+from .views import views
 
 urlpatterns = \
     [
