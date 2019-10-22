@@ -1,6 +1,8 @@
 from django.test import TestCase, override_settings
 from django.urls import reverse
 
+from profiles.forms import ProfileCreationForm
+
 
 @override_settings(STATICFILES_STORAGE='django.contrib.staticfiles.storage.StaticFilesStorage')
 class RegisterViewTest(TestCase):
@@ -20,3 +22,7 @@ class RegisterViewTest(TestCase):
         response = self.client.get(self.REGISTER_URL)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'registration/register.html')
+
+    def test_view_uses_correct_form(self):
+        response = self.client.get(self.REGISTER_URL)
+        self.assertIsInstance(response.context['form'], ProfileCreationForm)
