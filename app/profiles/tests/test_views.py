@@ -35,6 +35,10 @@ class RegisterViewTest(TestCase):
         response = self.client.get(self.REGISTER_URL)
         self.assertIsInstance(response.context['form'], ProfileCreationForm)
 
+    def test_redirected_to_profile_after_register(self):
+        response = self.client.post(self.REGISTER_URL, data=self.data_payload)
+        self.assertRedirects(response, '/profile')
+
     def test_user_created(self):
         profiles_count_before = Profile.objects.count()
 
