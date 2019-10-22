@@ -21,6 +21,6 @@ class ReviewFactory(factory.django.DjangoModelFactory):
     def is_deleted(self):
         probability = random.random()
         # 30% chance for the review to be deleted
-        if probability < 0.3:
+        if probability < 0.1:
             return True
         return False
