@@ -158,6 +158,8 @@ class ProfileFactory(factory.django.DjangoModelFactory):
         empty_profile = factory.Trait(
             register_status=Profile.REGISTER_STATUS_EMPTY_PROFILE,
 
+            full_name='',
+
             phone='',
             bio='',
             experience='',

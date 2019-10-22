@@ -255,3 +255,6 @@ class Profile(AbstractUser):
 
     def __str__(self):
         return self.handle
+
+    def is_filled(self):
+        return bool(self.full_name)
