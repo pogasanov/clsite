@@ -43,6 +43,15 @@
                                     {{ form.password2 }}
                                 </div>
                                 {{ form.password2.errors }}
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        {{ form.agree_tos }}
+                                        I agree to the T&S
+                                        <span class="form-check-sign">
+                                            <span class="check"></span>
+                                          </span>
+                                    </label>
+                                </div>
                                 {{ form.non_field_errors }}
                             </div>
                             <div class="footer text-center">

@@ -44,6 +44,8 @@ class ProfileCreationForm(UserCreationForm):
         for key, field in self.fields.items():
             field.widget.attrs.update({'class': 'form-control'})
 
+        self.fields['agree_tos'].widget.attrs['class'] = 'form-check-input'
+
 
 class MultiSelectArrayFieldWidget(Select2TagWidget):
     def value_from_datadict(self, data, files, name):
