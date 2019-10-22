@@ -46,3 +46,9 @@ class RegisterViewTest(TestCase):
 
         last_profile = profiles_after.last()
         self.assertEqual(last_profile.email, self.NEW_PROFILE_EMAIL)
+
+    def test_user_logged_on_register(self):
+        response = self.client.post(self.REGISTER_URL, data=self.data_payload, follow=True)
+        self.assertRedirects(response, '/profile')
+
+        self.assertTrue(response.context['user'].is_active)
