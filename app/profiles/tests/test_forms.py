@@ -17,3 +17,9 @@ class ProfileCreationFormTest(TestCase):
     def test_valid_with_correct_payload(self):
         form = ProfileCreationForm(data=self.data_payload)
         self.assertTrue(form.is_valid())
+
+    def test_requires_email(self):
+        INVALID_PAYLOAD = dict(self.data_payload)
+        del INVALID_PAYLOAD['email']
+        form = ProfileCreationForm(data=INVALID_PAYLOAD)
+        self.assertFalse(form.is_valid())
