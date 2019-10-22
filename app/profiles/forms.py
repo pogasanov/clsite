@@ -32,9 +32,11 @@ def unique_field_formset(*fields):
 
 
 class ProfileCreationForm(UserCreationForm):
+    agree_tos = forms.BooleanField()
+
     class Meta(UserCreationForm.Meta):
         model = get_user_model()
-        fields = ('email', 'password1', 'password2')
+        fields = ('email', 'password1', 'password2', 'agree_tos')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

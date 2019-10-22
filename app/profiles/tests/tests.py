@@ -18,7 +18,7 @@ class ProfileTests(TestCase):
             'password': 'test_password'
         }
         cls.credentials = {
-            'username': 'test_user@gmail.com', # because we overwrote username field with email field
+            'username': 'test_user@gmail.com',  # because we overwrote username field with email field
             'password': 'test_password'
         }
         cls.incorrect_credentials = {
@@ -27,10 +27,10 @@ class ProfileTests(TestCase):
         }
 
         cls.new_user_data = {
-            'full_name': 'Test User New',
             'email': 'test_user_new@gmail.com',
             'password1': 'test_password',
-            'password2': 'test_password'
+            'password2': 'test_password',
+            'agree_tos': 'on'
         }
         cls.incorrect_new_user_data = {
             'full_name': 'Test User',

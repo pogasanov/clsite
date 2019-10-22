@@ -23,3 +23,21 @@ class ProfileCreationFormTest(TestCase):
         del INVALID_PAYLOAD['email']
         form = ProfileCreationForm(data=INVALID_PAYLOAD)
         self.assertFalse(form.is_valid())
+
+    def test_requires_password(self):
+        INVALID_PAYLOAD = dict(self.data_payload)
+        del INVALID_PAYLOAD['password1']
+        form = ProfileCreationForm(data=INVALID_PAYLOAD)
+        self.assertFalse(form.is_valid())
+
+    def test_requires_password_confirm(self):
+        INVALID_PAYLOAD = dict(self.data_payload)
+        del INVALID_PAYLOAD['password2']
+        form = ProfileCreationForm(data=INVALID_PAYLOAD)
+        self.assertFalse(form.is_valid())
+
+    def test_requires_agree_tos(self):
+        INVALID_PAYLOAD = dict(self.data_payload)
+        del INVALID_PAYLOAD['agree_tos']
+        form = ProfileCreationForm(data=INVALID_PAYLOAD)
+        self.assertFalse(form.is_valid())
