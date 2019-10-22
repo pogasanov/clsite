@@ -32,7 +32,7 @@ def unique_field_formset(*fields):
 
 
 class ProfileCreationForm(UserCreationForm):
-    agree_tos = forms.BooleanField()
+    agree_tos = forms.BooleanField(label='I agree to the T&S')
 
     class Meta(UserCreationForm.Meta):
         model = get_user_model()
@@ -45,6 +45,9 @@ class ProfileCreationForm(UserCreationForm):
             field.widget.attrs.update({'class': 'form-control'})
 
         self.fields['agree_tos'].widget.attrs['class'] = 'form-check-input'
+        self.fields['email'].widget.attrs['placeholder'] = 'Email...'
+        self.fields['password1'].widget.attrs['placeholder'] = 'Password...'
+        self.fields['password2'].widget.attrs['placeholder'] = 'Repeat password...'
 
 
 class MultiSelectArrayFieldWidget(Select2TagWidget):

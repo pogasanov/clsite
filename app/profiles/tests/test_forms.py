@@ -41,3 +41,19 @@ class ProfileCreationFormTest(TestCase):
         del INVALID_PAYLOAD['agree_tos']
         form = ProfileCreationForm(data=INVALID_PAYLOAD)
         self.assertFalse(form.is_valid())
+
+    def test_email_placeholder(self):
+        form = ProfileCreationForm()
+        self.assertEqual(form.fields['email'].widget.attrs['placeholder'], 'Email...')
+
+    def test_password_placeholder(self):
+        form = ProfileCreationForm()
+        self.assertEqual(form.fields['password1'].widget.attrs['placeholder'], 'Password...')
+
+    def test_password_repeat_placeholder(self):
+        form = ProfileCreationForm()
+        self.assertEqual(form.fields['password2'].widget.attrs['placeholder'], 'Repeat password...')
+
+    def test_agree_tos_label(self):
+        form = ProfileCreationForm()
+        self.assertEqual(form.fields['agree_tos'].label, 'I agree to the T&S')
