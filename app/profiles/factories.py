@@ -8,7 +8,7 @@ from django.conf.global_settings import LANGUAGES
 from clsite.settings import SEED_VALUE, DEFAULT_USER_PASSWORD_HASH
 from clsite.utils import random_number_exponential_delay
 from profiles import signals
-from profiles.models import Language
+from profiles.models import Language, Profile
 from profiles.utils import LAW_TYPE_TAGS_CHOICES, SUBJECTIVE_TAGS_CHOICES, COUNTRIES_CHOICES, _get_states_for_country
 
 random.seed(SEED_VALUE)
@@ -153,6 +153,37 @@ class ProfileFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = 'profiles.Profile'
         django_get_or_create = ('handle', 'email')
+
+    class Params:
+        empty_profile = factory.Trait(
+            register_status=Profile.REGISTER_STATUS_EMPTY_PROFILE,
+
+            phone='',
+            bio='',
+            experience='',
+            current_job='',
+            size_of_clients=None,
+            preferred_communication_method=None,
+            law_type_tags=None,
+            subjective_tags=None,
+            summary='',
+            website='',
+            twitter='',
+            linkedin='',
+            facebook='',
+
+            address=None,
+            education=None,
+            jurisdiction=None,
+            admissions=None,
+            lawschool=None,
+            workexperience=None,
+            organization=None,
+            award=None,
+            language=None,
+        )
+
+    register_status = Profile.REGISTER_STATUS_COMPLETE
 
     handle = factory.LazyAttributeSequence(lambda o, n: '-'.join(o.full_name.lower().split(' ')) + str(n))
     email = factory.Sequence(lambda n: factory.Faker('email').generate() + str(n))

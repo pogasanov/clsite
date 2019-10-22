@@ -153,6 +153,16 @@ class Profile(AbstractUser):
         (2, 'Call'),
         (3, 'In-Person')
     )
+    REGISTER_STATUS_EMPTY_PROFILE = 0
+    REGISTER_STATUS_NO_ATTORNEY_PROOF = 1
+    REGISTER_STATUS_EMAIL_NOT_CONFIRMED = 2
+    REGISTER_STATUS_COMPLETE = 3
+    REGISTER_STATUSES = (
+        (REGISTER_STATUS_EMPTY_PROFILE, 'Empty profile'),
+        (REGISTER_STATUS_NO_ATTORNEY_PROOF, 'No attorney proof'),
+        (REGISTER_STATUS_EMAIL_NOT_CONFIRMED, 'Email not confirmed'),
+        (REGISTER_STATUS_COMPLETE, 'Complete')
+    )
     username = None
     full_name = models.CharField(max_length=100)
 
@@ -186,6 +196,8 @@ class Profile(AbstractUser):
     facebook = models.CharField(max_length=50, blank=True)
 
     publish_to_thb = models.BooleanField(default=False, verbose_name='Publish To THB')
+
+    register_status = models.PositiveSmallIntegerField(choices=REGISTER_STATUSES, default=REGISTER_STATUS_EMPTY_PROFILE)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
