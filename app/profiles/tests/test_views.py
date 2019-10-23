@@ -85,3 +85,10 @@ class ProfileProofViewTest(TestCase):
 
         response = self.client.get(reverse('profile-proof'))
         self.assertEqual(response.status_code, 200)
+
+    def test_view_uses_correct_template(self):
+        user = ProfileFactory()
+        self.client.force_login(user)
+
+        response = self.client.get(reverse('profile-proof'))
+        self.assertTemplateUsed(response, 'profiles/profile_proof.html')
