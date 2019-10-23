@@ -1,6 +1,7 @@
 from django.test import TestCase, override_settings
 from django.urls import reverse
 
+from profiles.factories import ProfileFactory
 from profiles.forms import ProfileCreationForm
 from profiles.models import Profile
 
@@ -56,3 +57,14 @@ class RegisterViewTest(TestCase):
         self.assertRedirects(response, '/profile')
 
         self.assertTrue(response.context['user'].is_active)
+
+    def test_redirected_to_profile_if_profile_is_not_filled(self):
+        user = ProfileFactory(empty_profile=True)
+        self.client.force_login(user)
+
+        response = self.client.get('/')
+        self.assertRedirects(response, '/profile')
+
+        messages = list(response.context['messages'])
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(str(messages[0]), 'You should fill out profile')
