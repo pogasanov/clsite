@@ -78,3 +78,10 @@ class ProfileProofViewTest(TestCase):
 
         response = self.client.get(self.VIEW_URL)
         self.assertEqual(response.status_code, 200)
+
+    def test_view_url_accessible_by_name(self):
+        user = ProfileFactory()
+        self.client.force_login(user)
+
+        response = self.client.get(reverse('profile-proof'))
+        self.assertEqual(response.status_code, 200)
