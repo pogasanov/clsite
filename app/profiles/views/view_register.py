@@ -1,9 +1,11 @@
 from django.contrib.auth import login
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
+from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, UpdateView
 
 from profiles.forms import ProfileCreationForm
+from profiles.mixins import profile_filled
 from profiles.models import Profile
 
 
@@ -19,6 +21,7 @@ class UserRegistrationView(CreateView):
         return response
 
 
+@method_decorator(profile_filled, name='dispatch')
 class ProfileProofView(LoginRequiredMixin, UpdateView):
     model = Profile
     fields = ('email',)

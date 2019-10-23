@@ -7,16 +7,19 @@ from django.db.models import Q, Sum
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
+from django.utils.decorators import method_decorator
 from django.views.generic import ListView, DetailView
 
 from clsite.settings import DEFAULT_CHOICES_SELECTION
-from transactions.models import Transaction
-from profiles.forms import ProfileForm, EducationFormSet, WorkExperienceFormSet, AddressForm, AdmissionsFormSet, LawSchoolForm, \
+from profiles.forms import ProfileForm, EducationFormSet, WorkExperienceFormSet, AddressForm, AdmissionsFormSet, \
+    LawSchoolForm, \
     OrganizationFormSet, AwardFormSet, JurisdictionFormSet, \
     LanguageFormSet
 from profiles.helpers import get_user_relationships
+from profiles.mixins import profile_filled
 from profiles.models import Profile, Jurisdiction
 from profiles.utils import _get_states_for_country
+from transactions.models import Transaction
 
 
 def user_relationships(user):
@@ -210,6 +213,7 @@ def update_user_profile_photo(user, photo):
     return user.photo.url
 
 
+@method_decorator(profile_filled, name='dispatch')
 class UserListView(LoginRequiredMixin, ListView):
     model = get_user_model()
     template_name = 'user_list.html'
@@ -248,6 +252,7 @@ class UserListView(LoginRequiredMixin, ListView):
                                                     'users': list_users})
 
 
+@method_decorator(profile_filled, name='dispatch')
 class BrowsingView(LoginRequiredMixin, ListView):
     model = get_user_model()
     template_name = 'browsing.html'

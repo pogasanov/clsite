@@ -1,20 +1,28 @@
+from django.contrib.auth.models import AnonymousUser
 from django.contrib.messages.storage.fallback import FallbackStorage
+from django.http import HttpResponse
 from django.test import TestCase, override_settings, RequestFactory
 
 from profiles.factories import ProfileFactory
-from profiles.middlewares import ProfileFilledMiddleware
+from profiles.mixins import profile_filled
+
+EXPECTED_RESULT = HttpResponse('')
+
+
+@profile_filled
+def profile_filled_view(request):
+    return EXPECTED_RESULT
 
 
 @override_settings(STATICFILES_STORAGE='django.contrib.staticfiles.storage.StaticFilesStorage')
-class ProfileFilledMiddlewareTest(TestCase):
+class ProfileFilledDecoratorTest(TestCase):
     @classmethod
     def setUpTestData(cls):
         cls.factory = RequestFactory()
-        cls.EXPECTED_RESULT = object()
-        cls.get_response = lambda x, y: cls.EXPECTED_RESULT
 
     def setUp(self) -> None:
         self.request = self.factory.get('/')
+        self.view = profile_filled_view
 
         # Set up session and messages middleware
         setattr(self.request, 'session', 'session')
@@ -25,31 +33,22 @@ class ProfileFilledMiddlewareTest(TestCase):
         user = ProfileFactory()
         self.request.user = user
 
-        middleware = ProfileFilledMiddleware(self.get_response)
-        response = middleware(self.request)
-        self.assertEqual(response, self.EXPECTED_RESULT)
+        response = profile_filled_view(self.request)
+
+        self.assertEqual(response, EXPECTED_RESULT)
 
     def test_not_redirected_if_anonymous_user(self):
-        middleware = ProfileFilledMiddleware(self.get_response)
-        response = middleware(self.request)
-        self.assertEqual(response, self.EXPECTED_RESULT)
+        self.request.user = AnonymousUser()
 
-    def test_not_redirected_if_request_profile_page(self):
-        request = self.factory.get('/profile')
-        user = ProfileFactory()
-        request.user = user
-
-        middleware = ProfileFilledMiddleware(self.get_response)
-        response = middleware(request)
-        self.assertEqual(response, self.EXPECTED_RESULT)
+        response = self.view(self.request)
+        self.assertEqual(response, EXPECTED_RESULT)
 
     def test_redirected_if_profile_not_filled(self):
         user = ProfileFactory(empty_profile=True)
         self.request.user = user
 
-        middleware = ProfileFilledMiddleware(self.get_response)
-        response = middleware(self.request)
-        self.assertNotEqual(response, self.EXPECTED_RESULT)
+        response = self.view(self.request)
+        self.assertNotEqual(response, EXPECTED_RESULT)
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response._headers['location'][1], '/profile')
 
@@ -57,8 +56,7 @@ class ProfileFilledMiddlewareTest(TestCase):
         user = ProfileFactory(empty_profile=True)
         self.request.user = user
 
-        middleware = ProfileFilledMiddleware(self.get_response)
-        response = middleware(self.request)
+        response = self.view(self.request)
         self.assertEqual(response.status_code, 302)
 
         self.assertEqual(len(self.messages._queued_messages), 1)
