@@ -1,22 +1,10 @@
 import random
-from io import BytesIO
 
 import factory.random
-from PIL import Image
-from django.core.files.base import ContentFile, File
 
+from clsite.utils import generate_image
 from profiles.factories import ProfileFactory
 from transactions.choices import CURRENCIES
-from transactions.models import Transaction
-
-
-def generate_image(color=(255, 0, 0)):
-    # Pillow requires color to be tuple of ints
-    thumb = Image.new('RGB', (200, 200), color=tuple(map(int, color)))
-    thumb_io = BytesIO()
-    thumb.save(thumb_io, format='JPEG')
-    content = ContentFile(thumb_io.getvalue())
-    return File(content.file, 'test.jpg')
 
 
 class TransactionFactory(factory.django.DjangoModelFactory):
