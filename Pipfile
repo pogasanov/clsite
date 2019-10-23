@@ -17,5 +17,6 @@ faker = "*"
 django-select2 = "*"
 numpy = "*"
 factory-boy = "*"
+django-rest-framework = "*"
 
 [dev-packages]
