@@ -4,11 +4,11 @@ from django.core.exceptions import ValidationError
 
 
 class Review(models.Model):
-    REVIEW_STRONGLY_DISAGREE = '1'
-    REVIEW_DISAGREE = '2'
-    REVIEW_NEUTRAL = '3'
-    REVIEW_AGREE = '4'
-    REVIEW_STRONGLY_AGREE = '5'
+    REVIEW_STRONGLY_DISAGREE = 1
+    REVIEW_DISAGREE = 2
+    REVIEW_NEUTRAL = 3
+    REVIEW_AGREE = 4
+    REVIEW_STRONGLY_AGREE = 5
     REVIEW_CHOICES = (
         (REVIEW_STRONGLY_DISAGREE, 'Strongly Disagree'),
         (REVIEW_DISAGREE, 'Disagree'),
@@ -32,8 +32,7 @@ class Review(models.Model):
     is_sender_principal = models.NullBooleanField(default=None, choices=IS_SENDER_PRINCIPAL_CHOICES,
                                                   verbose_name='Sender Principal')
     work_description_private = models.TextField(null=False, blank=False)
-    rating = models.CharField(max_length=2, choices=REVIEW_CHOICES, default=REVIEW_NEUTRAL,
-                              verbose_name='Rating')
+    rating = models.IntegerField(choices=REVIEW_CHOICES, default=REVIEW_NEUTRAL, verbose_name='Rating')
     recommendation = models.TextField(null=False, blank=False)
     is_deleted = models.BooleanField(default=False)
     created_at = models.DateTimeField(default=timezone.now)
