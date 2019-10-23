@@ -48,3 +48,16 @@ class ProfileTest(TestCase):
         self.assertEqual(profile._meta.get_field('bar_license_photo').storage, variativeStorage())
         self.assertTrue(profile._meta.get_field('bar_license_photo').null)
         self.assertTrue(profile._meta.get_field('bar_license_photo').blank)
+
+    def test_register_status_correct(self):
+        profile = ProfileFactory(empty_profile=True)
+        self.assertEqual(profile.register_status, Profile.REGISTER_STATUS_EMPTY_PROFILE)
+
+        profile = ProfileFactory(no_attorney_proof=True)
+        self.assertEqual(profile.register_status, Profile.REGISTER_STATUS_NO_ATTORNEY_PROOF)
+
+        profile = ProfileFactory(email_not_confirmed=True)
+        self.assertEqual(profile.register_status, Profile.REGISTER_STATUS_EMAIL_NOT_CONFIRMED)
+
+        profile = ProfileFactory()
+        self.assertEqual(profile.register_status, Profile.REGISTER_STATUS_COMPLETE)

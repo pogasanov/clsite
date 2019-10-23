@@ -6,9 +6,9 @@ import factory.random
 from django.conf.global_settings import LANGUAGES
 
 from clsite.settings import SEED_VALUE, DEFAULT_USER_PASSWORD_HASH
-from clsite.utils import random_number_exponential_delay
+from clsite.utils import random_number_exponential_delay, generate_image
 from profiles import signals
-from profiles.models import Language, Profile
+from profiles.models import Language
 from profiles.utils import LAW_TYPE_TAGS_CHOICES, SUBJECTIVE_TAGS_CHOICES, COUNTRIES_CHOICES, _get_states_for_country
 
 random.seed(SEED_VALUE)
@@ -150,47 +150,6 @@ class LanguageFactory(factory.django.DjangoModelFactory):
 
 @factory.django.mute_signals(signals.post_save)
 class ProfileFactory(factory.django.DjangoModelFactory):
-    class Meta:
-        model = 'profiles.Profile'
-        django_get_or_create = ('handle', 'email')
-
-    class Params:
-        empty_profile = factory.Trait(
-            register_status=Profile.REGISTER_STATUS_EMPTY_PROFILE,
-
-            full_name='',
-
-            phone='',
-            bio='',
-            experience='',
-            current_job='',
-            size_of_clients=None,
-            preferred_communication_method=None,
-            law_type_tags=None,
-            subjective_tags=None,
-            summary='',
-            website='',
-            twitter='',
-            linkedin='',
-            facebook='',
-
-            address=None,
-            education=None,
-            jurisdiction=None,
-            admissions=None,
-            lawschool=None,
-            workexperience=None,
-            organization=None,
-            award=None,
-            language=None,
-        )
-
-        email_not_confirmed = factory.Trait(
-            email_confirmed_at=None
-        )
-
-    register_status = Profile.REGISTER_STATUS_COMPLETE
-
     handle = factory.LazyAttributeSequence(lambda o, n: '-'.join(o.full_name.lower().split(' ')) + str(n))
     email = factory.Sequence(lambda n: factory.Faker('email').generate() + str(n))
     email_confirmed_at = factory.Faker('date_between', start_date="-3y", end_date="today")
@@ -228,3 +187,67 @@ class ProfileFactory(factory.django.DjangoModelFactory):
     organization = factory.RelatedFactoryList(OrganizationFactory, 'profile', size=lambda: random.randrange(3))
     award = factory.RelatedFactoryList(AwardFactory, 'profile', size=lambda: random.randrange(3))
     language = factory.RelatedFactoryList(LanguageFactory, 'profile', size=lambda: random.randrange(3))
+
+    @staticmethod
+    def create_passport_photo():
+        random_rgb = factory.Faker('rgb_color').generate().split(',')
+        return generate_image(color=random_rgb)
+
+    @factory.lazy_attribute
+    def passport_photo(self):
+        return ProfileFactory.create_passport_photo()
+
+    @staticmethod
+    def create_bar_license_photo():
+        random_rgb = factory.Faker('rgb_color').generate().split(',')
+        return generate_image(color=random_rgb)
+
+    @factory.lazy_attribute
+    def bar_license_photo(self):
+        return ProfileFactory.create_bar_license_photo()
+
+    class Meta:
+        model = 'profiles.Profile'
+        django_get_or_create = ('handle', 'email')
+
+    class Params:
+        empty_profile = factory.Trait(
+            no_attorney_proof=True,
+
+            full_name='',
+
+            phone='',
+            bio='',
+            experience='',
+            current_job='',
+            size_of_clients=None,
+            preferred_communication_method=None,
+            law_type_tags=None,
+            subjective_tags=None,
+            summary='',
+            website='',
+            twitter='',
+            linkedin='',
+            facebook='',
+
+            address=None,
+            education=None,
+            jurisdiction=None,
+            admissions=None,
+            lawschool=None,
+            workexperience=None,
+            organization=None,
+            award=None,
+            language=None,
+        )
+
+        no_attorney_proof = factory.Trait(
+            email_not_confirmed=True,
+
+            passport_photo=None,
+            bar_license_photo=None
+        )
+
+        email_not_confirmed = factory.Trait(
+            email_confirmed_at=None
+        )

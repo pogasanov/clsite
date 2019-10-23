@@ -5,7 +5,6 @@ from django.contrib.postgres.fields import ArrayField, DateRangeField
 from django.contrib.staticfiles.templatetags.staticfiles import static
 from django.db import models
 from django.urls import reverse
-from django.utils import timezone
 
 from clsite.storage_backends import variativeStorage
 from .choices import LANGUAGES_CHOICES
@@ -206,8 +205,6 @@ class Profile(AbstractUser):
                                           verbose_name='Bar license photo',
                                           blank=True, null=True)
 
-    register_status = models.PositiveSmallIntegerField(choices=REGISTER_STATUSES, default=REGISTER_STATUS_EMPTY_PROFILE)
-
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
 
@@ -215,13 +212,11 @@ class Profile(AbstractUser):
 
     def save(self, *args, **kwargs):
         if self._state.adding:
-            self.email_confirmed_at = timezone.now()
-
             reference = '-'.join(self.full_name.lower().split(' '))
             full_name_profiles = Profile.objects.filter(handle=reference).count()
             reference_id = str(full_name_profiles + 1) if full_name_profiles else ''
             self.handle = reference + reference_id
-        super(Profile, self).save(*args, **kwargs)
+        return super(Profile, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
         return reverse('profile-detail', kwargs={'handle': self.handle})
@@ -268,3 +263,13 @@ class Profile(AbstractUser):
 
     def is_filled(self):
         return bool(self.full_name)
+
+    @property
+    def register_status(self):
+        if not self.is_filled():
+            return self.REGISTER_STATUS_EMPTY_PROFILE
+        if not self.passport_photo or not self.bar_license_photo:
+            return self.REGISTER_STATUS_NO_ATTORNEY_PROOF
+        if not self.email_confirmed_at:
+            return self.REGISTER_STATUS_EMAIL_NOT_CONFIRMED
+        return self.REGISTER_STATUS_COMPLETE
