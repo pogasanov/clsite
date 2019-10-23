@@ -1,4 +1,5 @@
 from django.contrib.auth import login
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView
 
@@ -18,7 +19,7 @@ class UserRegistrationView(CreateView):
         return response
 
 
-class ProfileProofView(UpdateView):
+class ProfileProofView(LoginRequiredMixin, UpdateView):
     model = Profile
     fields = ('email',)
     template_name = 'profiles/profile_proof.html'

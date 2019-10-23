@@ -85,5 +85,11 @@ class ProfileProofViewTest(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_view_uses_correct_template(self):
-        response = self.client.get(reverse('profile-proof'))
+        response = self.client.get(self.VIEW_URL)
         self.assertTemplateUsed(response, 'profiles/profile_proof.html')
+
+    def test_anonymous_user_cant_access(self):
+        self.client.logout()
+
+        response = self.client.get(self.VIEW_URL)
+        self.assertRedirects(response, f"{reverse('login')}?next={self.VIEW_URL}")
