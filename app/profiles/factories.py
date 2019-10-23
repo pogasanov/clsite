@@ -185,10 +185,15 @@ class ProfileFactory(factory.django.DjangoModelFactory):
             language=None,
         )
 
+        email_not_confirmed = factory.Trait(
+            email_confirmed_at=None
+        )
+
     register_status = Profile.REGISTER_STATUS_COMPLETE
 
     handle = factory.LazyAttributeSequence(lambda o, n: '-'.join(o.full_name.lower().split(' ')) + str(n))
     email = factory.Sequence(lambda n: factory.Faker('email').generate() + str(n))
+    email_confirmed_at = factory.Faker('date_between', start_date="-3y", end_date="today")
     full_name = factory.Faker('name')
     password = DEFAULT_USER_PASSWORD_HASH
 
