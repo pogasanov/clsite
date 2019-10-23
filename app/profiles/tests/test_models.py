@@ -23,7 +23,11 @@ class ProfileTest(TestCase):
         self.assertTrue(profile.is_filled())
 
     def test_email_confirmed_at_meta(self):
-        profile = Profile.objects.get(id=1)
+        profile = Profile.objects.first()
         self.assertEqual(profile._meta.get_field('email_confirmed_at').verbose_name, 'email confirmed at')
         self.assertTrue(profile._meta.get_field('email_confirmed_at').null)
         self.assertTrue(profile._meta.get_field('email_confirmed_at').blank)
+
+    def test_email_confirmed_by_default(self):
+        profile = Profile.objects.first()
+        self.assertIsNotNone(profile.email_confirmed_at)

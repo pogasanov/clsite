@@ -5,6 +5,7 @@ from django.contrib.postgres.fields import ArrayField, DateRangeField
 from django.contrib.staticfiles.templatetags.staticfiles import static
 from django.db import models
 from django.urls import reverse
+from django.utils import timezone
 
 from clsite.storage_backends import variativeStorage
 from .choices import LANGUAGES_CHOICES
@@ -206,13 +207,14 @@ class Profile(AbstractUser):
     objects = UserManager()
 
     def save(self, *args, **kwargs):
-        super(Profile, self).save(*args, **kwargs)
-        if not self.handle:
+        if self._state.adding:
+            self.email_confirmed_at = timezone.now()
+
             reference = '-'.join(self.full_name.lower().split(' '))
             full_name_profiles = Profile.objects.filter(handle=reference).count()
             reference_id = str(full_name_profiles + 1) if full_name_profiles else ''
             self.handle = reference + reference_id
-            self.save(*args, **kwargs)
+        super(Profile, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
         return reverse('profile-detail', kwargs={'handle': self.handle})
