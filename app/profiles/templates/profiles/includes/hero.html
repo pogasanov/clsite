@@ -1,4 +1,5 @@
 {% load static %}
+{% load humanize %}
 
 <div class="hero">
     <div class="hero__img"></div>
@@ -28,17 +29,15 @@
             </div>
         </div>
         <div class="hero__payments">
+            <span class="muted">Correspondences</span>
             <span>
-                <span class="muted">Transactions total: </span>
-                ${{ transactions_stats.total_sum }}, and count {{ transactions_stats.total_count }}
+                ${{ transactions_stats.sent_sum|floatformat|intcomma }} given ({{ transactions_stats.sent_count }} jobs)
             </span>
             <span>
-                <span class="muted">Transactions received: </span>
-                ${{ transactions_stats.received_sum }}, and count {{ transactions_stats.received_count}}
+                ${{ transactions_stats.received_sum|floatformat|intcomma }} received ({{ transactions_stats.received_count}} jobs)
             </span>
             <span>
-                <span class="muted">Transactions sent: </span>
-                ${{ transactions_stats.sent_sum }}, and count {{ transactions_stats.sent_count }}
+                ${{ transactions_stats.total_sum|floatformat|intcomma }} total ({{ transactions_stats.total_count }} jobs)
             </span>
         </div>
     </div>
