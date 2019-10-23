@@ -6,7 +6,10 @@ class ProfileFilledMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
-        if hasattr(request, 'user') and not request.user.is_filled():
+        if request.path != '/profile' \
+                and hasattr(request, 'user') \
+                and not request.user.is_anonymous \
+                and not request.user.is_filled():
             return HttpResponseRedirect('/profile')
         response = self.get_response(request)
         return response

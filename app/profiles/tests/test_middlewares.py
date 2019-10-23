@@ -28,6 +28,15 @@ class ProfileFilledMiddlewareTest(TestCase):
         response = middleware(self.request)
         self.assertEqual(response, self.EXPECTED_RESULT)
 
+    def test_not_redirected_if_request_profile_page(self):
+        request = self.factory.get('/profile')
+        user = ProfileFactory()
+        request.user = user
+
+        middleware = ProfileFilledMiddleware(self.get_response)
+        response = middleware(request)
+        self.assertEqual(response, self.EXPECTED_RESULT)
+
     def test_redirected_if_profile_not_filled(self):
         user = ProfileFactory(empty_profile=True)
         self.request.user = user
