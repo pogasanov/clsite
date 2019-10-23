@@ -3,4 +3,13 @@
 {% load static %}
 
 {% block content %}
+    <main class="profile">
+        <div class="container">
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input type="submit" value="Update">
+            </form>
+        </div>
+    </main>
 {% endblock %}
