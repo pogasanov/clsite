@@ -1,7 +1,8 @@
 from django.test import TestCase, override_settings
 
+from clsite.storage_backends import variativeStorage
 from profiles.factories import ProfileFactory
-from profiles.models import Profile
+from profiles.models import Profile, get_image_path
 
 
 @override_settings(STATICFILES_STORAGE='django.contrib.staticfiles.storage.StaticFilesStorage')
@@ -31,3 +32,11 @@ class ProfileTest(TestCase):
     def test_email_confirmed_by_default(self):
         profile = Profile.objects.first()
         self.assertIsNotNone(profile.email_confirmed_at)
+
+    def test_passport_photo_meta(self):
+        profile = Profile.objects.first()
+        self.assertEqual(profile._meta.get_field('passport_photo').verbose_name, 'Passport photo')
+        self.assertEqual(profile._meta.get_field('passport_photo').upload_to, get_image_path)
+        self.assertEqual(profile._meta.get_field('passport_photo').storage, variativeStorage())
+        self.assertTrue(profile._meta.get_field('passport_photo').null)
+        self.assertTrue(profile._meta.get_field('passport_photo').blank)

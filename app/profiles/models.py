@@ -199,6 +199,10 @@ class Profile(AbstractUser):
 
     publish_to_thb = models.BooleanField(default=False, verbose_name='Publish To THB')
 
+    passport_photo = models.ImageField(upload_to=get_image_path, storage=variativeStorage(),
+                                       verbose_name='Passport photo',
+                                       blank=True, null=True)
+
     register_status = models.PositiveSmallIntegerField(choices=REGISTER_STATUSES, default=REGISTER_STATUS_EMPTY_PROFILE)
 
     USERNAME_FIELD = 'email'
