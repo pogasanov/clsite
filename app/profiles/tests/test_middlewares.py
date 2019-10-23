@@ -16,7 +16,7 @@ class ProfileFilledMiddlewareTest(TestCase):
         self.request = self.factory.get('/')
 
     def test_not_redirected_if_profile_filled(self):
-        user = ProfileFactory(empty_profile=True)
+        user = ProfileFactory()
         self.client.force_login(user)
 
         middleware = ProfileFilledMiddleware(self.get_response)
