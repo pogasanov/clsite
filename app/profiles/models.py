@@ -5,6 +5,7 @@ from django.contrib.postgres.fields import ArrayField, DateRangeField
 from django.contrib.staticfiles.templatetags.staticfiles import static
 from django.db import models
 from django.urls import reverse
+from django.utils import timezone
 
 from clsite.storage_backends import variativeStorage
 from .choices import LANGUAGES_CHOICES
@@ -168,7 +169,7 @@ class Profile(AbstractUser):
 
     handle = models.CharField(max_length=50, unique=True, null=True, blank=True)
     email = models.EmailField(verbose_name='Email address', unique=True)
-    email_confirmed_at = models.DateTimeField(null=True, blank=True)
+    email_confirmed_at = models.DateTimeField(default=timezone.now, null=True, blank=True)
 
     phone = models.CharField(max_length=20, verbose_name='Contact Number (Office)', blank=True)
     photo = models.ImageField(upload_to=get_image_path, storage=variativeStorage(), verbose_name='Profile Picture',

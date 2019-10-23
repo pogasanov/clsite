@@ -1,4 +1,5 @@
 from django.test import TestCase, override_settings
+from django.utils import timezone
 
 from clsite.storage_backends import variativeStorage
 from profiles.factories import ProfileFactory
@@ -28,6 +29,7 @@ class ProfileTest(TestCase):
         self.assertEqual(profile._meta.get_field('email_confirmed_at').verbose_name, 'email confirmed at')
         self.assertTrue(profile._meta.get_field('email_confirmed_at').null)
         self.assertTrue(profile._meta.get_field('email_confirmed_at').blank)
+        self.assertEqual(profile._meta.get_field('email_confirmed_at').default, timezone.now)
 
     def test_email_confirmed_by_default(self):
         profile = Profile.objects.first()
