@@ -64,3 +64,17 @@ class RegisterViewTest(TestCase):
 
         response = self.client.get('/', follow=True)
         self.assertRedirects(response, '/profile')
+
+
+@override_settings(STATICFILES_STORAGE='django.contrib.staticfiles.storage.StaticFilesStorage')
+class ProfileProofViewTest(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.VIEW_URL = '/profile/proof'
+
+    def test_view_url_exists_at_desired_location(self):
+        user = ProfileFactory()
+        self.client.force_login(user)
+
+        response = self.client.get(self.VIEW_URL)
+        self.assertEqual(response.status_code, 200)

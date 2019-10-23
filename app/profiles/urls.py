@@ -12,6 +12,7 @@ urlpatterns = \
         path('register', view_register.UserRegistrationView.as_view(), name='register'),
 
         path('profile', views.profile, name='profile'),
+        path('profile/proof', view_register.ProfileProofView.as_view()),
         path('profile/<handle>', views.ProfileDetailView.as_view(), name='profile-detail'),
 
         path('profiles', views.UserListView.as_view(), name='profiles'),

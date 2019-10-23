@@ -1,8 +1,9 @@
 from django.contrib.auth import login
 from django.urls import reverse_lazy
-from django.views.generic import CreateView
+from django.views.generic import CreateView, UpdateView
 
 from profiles.forms import ProfileCreationForm
+from profiles.models import Profile
 
 
 class UserRegistrationView(CreateView):
@@ -15,3 +16,12 @@ class UserRegistrationView(CreateView):
         if self.object:
             login(request, self.object)
         return response
+
+
+class ProfileProofView(UpdateView):
+    model = Profile
+    fields = ('email',)
+    template_name = 'profiles/profile_proof.html'
+
+    def get_object(self, queryset=None):
+        return self.request.user
