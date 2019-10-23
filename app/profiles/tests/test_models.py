@@ -40,3 +40,11 @@ class ProfileTest(TestCase):
         self.assertEqual(profile._meta.get_field('passport_photo').storage, variativeStorage())
         self.assertTrue(profile._meta.get_field('passport_photo').null)
         self.assertTrue(profile._meta.get_field('passport_photo').blank)
+
+    def test_bar_license_photo_meta(self):
+        profile = Profile.objects.first()
+        self.assertEqual(profile._meta.get_field('bar_license_photo').verbose_name, 'Bar license photo')
+        self.assertEqual(profile._meta.get_field('bar_license_photo').upload_to, get_image_path)
+        self.assertEqual(profile._meta.get_field('bar_license_photo').storage, variativeStorage())
+        self.assertTrue(profile._meta.get_field('bar_license_photo').null)
+        self.assertTrue(profile._meta.get_field('bar_license_photo').blank)

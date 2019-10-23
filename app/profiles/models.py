@@ -202,6 +202,9 @@ class Profile(AbstractUser):
     passport_photo = models.ImageField(upload_to=get_image_path, storage=variativeStorage(),
                                        verbose_name='Passport photo',
                                        blank=True, null=True)
+    bar_license_photo = models.ImageField(upload_to=get_image_path, storage=variativeStorage(),
+                                          verbose_name='Bar license photo',
+                                          blank=True, null=True)
 
     register_status = models.PositiveSmallIntegerField(choices=REGISTER_STATUSES, default=REGISTER_STATUS_EMPTY_PROFILE)
 
