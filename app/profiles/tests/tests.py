@@ -114,7 +114,7 @@ class ProfileTests(TestCase):
         }
 
     def setUp(self):
-        get_user_model().objects.create_user(**self.signup_credentials)
+        self.user = get_user_model().objects.create_user(**self.signup_credentials)
 
     def test_python_version_correct(self):
         self.assertEqual(sys.version_info.major, 3)
@@ -158,6 +158,23 @@ class ProfileTests(TestCase):
         # Expects 302 and redirect to profile)
         self.assertRedirects(response, '/profile')
         self.assertTrue(response.context['user'].is_active)
+
+    def test_logout(self):
+        # User is already logged in
+        self.client.force_login(self.user)
+
+        # User goes to profile
+        response = self.client.get('/profile')
+        # Expects 200 and rendered page
+        self.assertEqual(response.status_code, 200)
+
+        # User goes to logout
+        response = self.client.get('/logout', follow=True)
+        # Expects 302 and redirected to homepage
+        self.assertRedirects(response, '/')
+
+        # User is logged out
+        self.assertFalse(response.context['user'].is_active)
 
     def test_register(self):
         # User go to homepage
