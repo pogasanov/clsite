@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.http import HttpResponseRedirect
 
 
@@ -10,6 +11,7 @@ class ProfileFilledMiddleware:
                 and hasattr(request, 'user') \
                 and not request.user.is_anonymous \
                 and not request.user.is_filled():
+            messages.add_message(request, messages.ERROR, 'You should fill out profile')
             return HttpResponseRedirect('/profile')
         response = self.get_response(request)
         return response

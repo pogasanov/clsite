@@ -1,3 +1,4 @@
+from django.contrib.messages.storage.fallback import FallbackStorage
 from django.test import TestCase, override_settings, RequestFactory
 
 from profiles.factories import ProfileFactory
@@ -14,6 +15,11 @@ class ProfileFilledMiddlewareTest(TestCase):
 
     def setUp(self) -> None:
         self.request = self.factory.get('/')
+
+        # Set up session and messages middleware
+        setattr(self.request, 'session', 'session')
+        self.messages = FallbackStorage(self.request)
+        setattr(self.request, '_messages', self.messages)
 
     def test_not_redirected_if_profile_filled(self):
         user = ProfileFactory()
@@ -46,3 +52,14 @@ class ProfileFilledMiddlewareTest(TestCase):
         self.assertNotEqual(response, self.EXPECTED_RESULT)
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response._headers['location'][1], '/profile')
+
+    def test_message_added_on_redirect(self):
+        user = ProfileFactory(empty_profile=True)
+        self.request.user = user
+
+        middleware = ProfileFilledMiddleware(self.get_response)
+        response = middleware(self.request)
+        self.assertEqual(response.status_code, 302)
+
+        self.assertEqual(len(self.messages._queued_messages), 1)
+        self.assertEqual(str(self.messages._queued_messages[0].message), 'You should fill out profile')
