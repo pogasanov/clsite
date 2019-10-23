@@ -100,3 +100,7 @@ class ProfileProofViewTest(TestCase):
 
         response = self.client.get(self.VIEW_URL)
         self.assertRedirects(response, '/profile')
+
+    def test_view_object_is_current_user(self):
+        response = self.client.get(self.VIEW_URL)
+        self.assertEqual(response.context['object'], self.user)
