@@ -62,9 +62,5 @@ class RegisterViewTest(TestCase):
         user = ProfileFactory(empty_profile=True)
         self.client.force_login(user)
 
-        response = self.client.get('/')
+        response = self.client.get('/', follow=True)
         self.assertRedirects(response, '/profile')
-
-        messages = list(response.context['messages'])
-        self.assertEqual(len(messages), 1)
-        self.assertEqual(str(messages[0]), 'You should fill out profile')
