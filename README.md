@@ -136,6 +136,9 @@ python app/manage.py generateprofiles 1000
 # Optional: Create 1000 dummy transactions shared randomly between existing profiles
 python app/manage.py generatetransactions 1000
 
+# Optional: Create 1000 dummy reviews shared randomly between existing profiles
+python app/manage.py generatereviews 1000
+
 python app/manage.py runserver
 ```
 
