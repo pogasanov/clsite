@@ -71,24 +71,19 @@ class ProfileProofViewTest(TestCase):
     @classmethod
     def setUpTestData(cls):
         cls.VIEW_URL = '/profile/proof'
+        cls.user = ProfileFactory()
+
+    def setUp(self):
+        self.client.force_login(self.user)
 
     def test_view_url_exists_at_desired_location(self):
-        user = ProfileFactory()
-        self.client.force_login(user)
-
         response = self.client.get(self.VIEW_URL)
         self.assertEqual(response.status_code, 200)
 
     def test_view_url_accessible_by_name(self):
-        user = ProfileFactory()
-        self.client.force_login(user)
-
         response = self.client.get(reverse('profile-proof'))
         self.assertEqual(response.status_code, 200)
 
     def test_view_uses_correct_template(self):
-        user = ProfileFactory()
-        self.client.force_login(user)
-
         response = self.client.get(reverse('profile-proof'))
         self.assertTemplateUsed(response, 'profiles/profile_proof.html')
