@@ -272,7 +272,7 @@ class Profile(AbstractUser):
     def register_status(self):
         if not self.is_filled():
             return self.REGISTER_STATUS_EMPTY_PROFILE
-        if not self.passport_photo or not self.bar_license_photo:
+        if not self.is_attorney_proof_submitted():
             return self.REGISTER_STATUS_NO_ATTORNEY_PROOF
         if not self.email_confirmed_at:
             return self.REGISTER_STATUS_EMAIL_NOT_CONFIRMED
