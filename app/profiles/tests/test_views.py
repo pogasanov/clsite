@@ -13,6 +13,7 @@ class RegisterViewTest(TestCase):
         cls.REGISTER_URL = '/register'
         cls.NEW_PROFILE_EMAIL = 'test@test.com'
         cls.data_payload = {
+            'full_name': 'Test User',
             'email': cls.NEW_PROFILE_EMAIL,
             'password1': 'c0mpl1xp4ssw0rd',
             'password2': 'c0mpl1xp4ssw0rd',

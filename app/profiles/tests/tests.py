@@ -26,6 +26,7 @@ class ProfileTests(TestCase):
         }
 
         cls.new_user_data = {
+            'full_name': 'Test User',
             'email': 'test_user_new@gmail.com',
             'password1': 'test_password',
             'password2': 'test_password',
