@@ -127,3 +127,26 @@ class ProfileProofViewTest(TestCase):
         self.user.refresh_from_db()
         self.assertTrue(self.user.passport_photo)
         self.assertTrue(self.user.bar_license_photo)
+
+
+@override_settings(STATICFILES_STORAGE='django.contrib.staticfiles.storage.StaticFilesStorage')
+class ProfileEmailConfirmationViewTest(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.VIEW_URL = '/profile/email'
+        cls.user = ProfileFactory(email_not_confirmed=True)
+
+    def setUp(self):
+        self.client.force_login(self.user)
+
+    def test_view_url_exists_at_desired_location(self):
+        response = self.client.get(self.VIEW_URL)
+        self.assertEqual(response.status_code, 200)
+
+    def test_view_url_accessible_by_name(self):
+        response = self.client.get(reverse('profile-email-confirmation'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_view_uses_correct_template(self):
+        response = self.client.get(self.VIEW_URL)
+        self.assertTemplateUsed(response, 'profiles/profile_email_confirmation.html')
