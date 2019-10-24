@@ -71,7 +71,11 @@ class ProfileProofViewTest(TestCase):
     @classmethod
     def setUpTestData(cls):
         cls.VIEW_URL = '/profile/proof'
-        cls.user = ProfileFactory()
+        cls.user = ProfileFactory(no_attorney_proof=True)
+        cls.data_payload = {
+            'passport_photo': ProfileFactory.create_passport_photo(),
+            'bar_license_photo': ProfileFactory.create_bar_license_photo()
+        }
 
     def setUp(self):
         self.client.force_login(self.user)
@@ -109,3 +113,7 @@ class ProfileProofViewTest(TestCase):
         response = self.client.get(self.VIEW_URL)
         self.assertIn('passport_photo', response.context['form'].fields)
         self.assertIn('bar_license_photo', response.context['form'].fields)
+
+    def test_redirects_to_itself_when_submitted(self):
+        response = self.client.post(self.VIEW_URL, data=self.data_payload)
+        self.assertRedirects(response, self.VIEW_URL)

@@ -26,6 +26,7 @@ class ProfileProofView(LoginRequiredMixin, UpdateView):
     model = Profile
     fields = ('passport_photo', 'bar_license_photo')
     template_name = 'profiles/profile_proof.html'
+    success_url = reverse_lazy('profile-proof')
 
     def get_object(self, queryset=None):
         return self.request.user
