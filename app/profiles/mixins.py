@@ -18,7 +18,7 @@ def signup_flow_complete(function):
                     messages.add_message(request, messages.ERROR, 'You should submit your attorney proof')
                     return HttpResponseRedirect(reverse('profile-proof'))
 
-                if not request.user.email_confirmed_at:
+                if request.path != reverse('profile-email-confirmation') and not request.user.email_confirmed_at:
                     return HttpResponseRedirect(reverse('profile-email-confirmation'))
 
         return function(request, *args, **kwargs)

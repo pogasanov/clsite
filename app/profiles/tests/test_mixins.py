@@ -122,3 +122,12 @@ class SignupFlowCompleteDecoratorTest(TestCase):
         self.assertNotEqual(response, EXPECTED_RESULT)
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response._headers['location'][1], reverse('profile-email-confirmation'))
+
+    def test_not_redirected_if_email_confirmation_path(self):
+        request = self.factory.get(reverse('profile-email-confirmation'))
+        user = ProfileFactory(email_not_confirmed=True)
+        request.user = user
+
+        response = self.view(request)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response, EXPECTED_RESULT)
