@@ -16,7 +16,7 @@ from profiles.forms import ProfileForm, EducationFormSet, WorkExperienceFormSet,
     OrganizationFormSet, AwardFormSet, JurisdictionFormSet, \
     LanguageFormSet
 from profiles.helpers import get_user_relationships
-from profiles.mixins import profile_filled
+from profiles.mixins import signup_flow_complete
 from profiles.models import Profile, Jurisdiction
 from profiles.utils import _get_states_for_country
 from transactions.models import Transaction
@@ -213,7 +213,7 @@ def update_user_profile_photo(user, photo):
     return user.photo.url
 
 
-@method_decorator(profile_filled, name='dispatch')
+@method_decorator(signup_flow_complete, name='dispatch')
 class UserListView(LoginRequiredMixin, ListView):
     model = get_user_model()
     template_name = 'user_list.html'
@@ -252,7 +252,7 @@ class UserListView(LoginRequiredMixin, ListView):
                                                     'users': list_users})
 
 
-@method_decorator(profile_filled, name='dispatch')
+@method_decorator(signup_flow_complete, name='dispatch')
 class BrowsingView(LoginRequiredMixin, ListView):
     model = get_user_model()
     template_name = 'browsing.html'

@@ -5,7 +5,7 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
 
 
-def profile_filled(function):
+def signup_flow_complete(function):
     EXCLUDED_PATHS = (
         reverse_lazy('profile'),
         reverse_lazy('profile-proof'),

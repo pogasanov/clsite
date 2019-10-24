@@ -5,25 +5,25 @@ from django.test import TestCase, override_settings, RequestFactory
 from django.urls import reverse
 
 from profiles.factories import ProfileFactory
-from profiles.mixins import profile_filled
+from profiles.mixins import signup_flow_complete
 
 EXPECTED_RESULT = HttpResponse('')
 
 
-@profile_filled
-def profile_filled_view(request):
+@signup_flow_complete
+def signup_flow_complete_view(request):
     return EXPECTED_RESULT
 
 
 @override_settings(STATICFILES_STORAGE='django.contrib.staticfiles.storage.StaticFilesStorage')
-class ProfileFilledDecoratorTest(TestCase):
+class SignupFlowCompleteDecoratorTest(TestCase):
     @classmethod
     def setUpTestData(cls):
         cls.factory = RequestFactory()
 
     def setUp(self) -> None:
         self.request = self.factory.get('/')
-        self.view = profile_filled_view
+        self.view = signup_flow_complete_view
 
         self.messages = self._get_messages_container(self.request)
 
@@ -37,7 +37,7 @@ class ProfileFilledDecoratorTest(TestCase):
         user = ProfileFactory()
         self.request.user = user
 
-        response = profile_filled_view(self.request)
+        response = signup_flow_complete_view(self.request)
 
         self.assertEqual(response, EXPECTED_RESULT)
 

@@ -1,8 +1,8 @@
 from django.shortcuts import render
 
-from profiles.mixins import profile_filled
+from profiles.mixins import signup_flow_complete
 
 
-@profile_filled
+@signup_flow_complete
 def home(request):
     return render(request, 'pages/home.html')
