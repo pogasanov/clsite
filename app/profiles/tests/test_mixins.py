@@ -60,7 +60,6 @@ class SignupFlowCompleteDecoratorTest(TestCase):
         request = self.factory.get(reverse('profile'))
         user = ProfileFactory(empty_profile=True)
         request.user = user
-        self._get_messages_container(request)
 
         response = self.view(request)
         self.assertEqual(response.status_code, 200)
@@ -100,7 +99,6 @@ class SignupFlowCompleteDecoratorTest(TestCase):
         request = self.factory.get(reverse('profile-proof'))
         user = ProfileFactory(no_attorney_proof=True)
         request.user = user
-        self._get_messages_container(request)
 
         response = self.view(request)
         self.assertEqual(response.status_code, 200)
