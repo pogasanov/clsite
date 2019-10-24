@@ -66,3 +66,12 @@ class ProfileTest(TestCase):
 
         profile = ProfileFactory()
         self.assertEqual(profile.register_status, Profile.REGISTER_STATUS_COMPLETE)
+
+    def test_is_attorney_proof_submitted(self):
+        profile = ProfileFactory(no_attorney_proof=True)
+        self.assertFalse(profile.is_attorney_proof_submitted())
+
+        profile.passport_photo = ProfileFactory.create_passport_photo()
+        profile.bar_license_photo = ProfileFactory.create_bar_license_photo()
+        profile.save()
+        self.assertTrue(profile.is_attorney_proof_submitted())

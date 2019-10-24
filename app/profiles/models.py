@@ -265,6 +265,9 @@ class Profile(AbstractUser):
     def is_filled(self):
         return bool(self.full_name)
 
+    def is_attorney_proof_submitted(self):
+        return self.passport_photo and self.bar_license_photo
+
     @property
     def register_status(self):
         if not self.is_filled():
