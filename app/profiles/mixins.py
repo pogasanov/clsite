@@ -16,11 +16,11 @@ def profile_filled(function):
         if request.path not in EXCLUDED_PATHS and not request.user.is_anonymous:
             if not request.user.is_filled():
                 messages.add_message(request, messages.ERROR, 'You should fill out profile')
-                return HttpResponseRedirect('/profile')
+                return HttpResponseRedirect(reverse_lazy('profile'))
 
             if not request.user.is_attorney_proof_submitted():
                 messages.add_message(request, messages.ERROR, 'You should submit your attorney proof')
-                return HttpResponseRedirect('/profile/proof')
+                return HttpResponseRedirect(reverse_lazy('profile-proof'))
 
         return function(request, *args, **kwargs)
 

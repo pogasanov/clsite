@@ -2,6 +2,7 @@ from django.contrib.auth.models import AnonymousUser
 from django.contrib.messages.storage.fallback import FallbackStorage
 from django.http import HttpResponse
 from django.test import TestCase, override_settings, RequestFactory
+from django.urls import reverse
 
 from profiles.factories import ProfileFactory
 from profiles.mixins import profile_filled
@@ -53,10 +54,10 @@ class ProfileFilledDecoratorTest(TestCase):
         response = self.view(self.request)
         self.assertNotEqual(response, EXPECTED_RESULT)
         self.assertEqual(response.status_code, 302)
-        self.assertEqual(response._headers['location'][1], '/profile')
+        self.assertEqual(response._headers['location'][1], reverse('profile'))
 
     def test_not_redirected_to_profile_if_profile_path(self):
-        request = self.factory.get('/profile')
+        request = self.factory.get(reverse('profile'))
         user = ProfileFactory(empty_profile=True)
         request.user = user
         self._get_messages_container(request)
@@ -82,10 +83,10 @@ class ProfileFilledDecoratorTest(TestCase):
         response = self.view(self.request)
         self.assertNotEqual(response, EXPECTED_RESULT)
         self.assertEqual(response.status_code, 302)
-        self.assertEqual(response._headers['location'][1], '/profile/proof')
+        self.assertEqual(response._headers['location'][1], reverse('profile-proof'))
 
     def test_not_redirected_if_profile_proof_path(self):
-        request = self.factory.get('/profile/proof')
+        request = self.factory.get(reverse('profile-proof'))
         user = ProfileFactory(no_attorney_proof=True)
         request.user = user
         self._get_messages_container(request)
