@@ -1,5 +1,6 @@
 from django.test import TestCase, override_settings
 from django.urls import reverse
+from django.utils import timezone
 
 from profiles.factories import ProfileFactory
 from profiles.forms import ProfileCreationForm
@@ -151,7 +152,22 @@ class ProfileProofViewTest(TestCase):
         self.assertIn('passport_photo', response.context['form'].fields)
         self.assertIn('bar_license_photo', response.context['form'].fields)
 
-    def test_redirects_to_itself_when_submitted(self):
+    def test_redirects_to_signup_flow_complete_when_submitted_first_time_and_email_confirmed(self):
+        self.user.email_confirmed_at = timezone.now()
+        self.user.save()
+
+        response = self.client.post(self.VIEW_URL, data=self.data_payload)
+        self.assertRedirects(response, reverse('profile-signup-flow-completed'))
+
+    def test_redirects_to_email_confirmation_when_submitted_first_time_and_email_not_confirmed(self):
+        response = self.client.post(self.VIEW_URL, data=self.data_payload)
+        self.assertRedirects(response, reverse('profile-email-confirmation'))
+
+    def test_redirects_to_itself_when_submitted_second_time(self):
+        self.user.passport_photo = ProfileFactory.create_passport_photo()
+        self.user.bar_license_photo = ProfileFactory.create_bar_license_photo()
+        self.user.save()
+
         response = self.client.post(self.VIEW_URL, data=self.data_payload)
         self.assertRedirects(response, self.VIEW_URL)
 

@@ -28,10 +28,19 @@ class ProfileProofView(LoginRequiredMixin, UpdateView):
     model = Profile
     fields = ('passport_photo', 'bar_license_photo')
     template_name = 'profiles/profile_proof.html'
-    success_url = reverse_lazy('profile-proof')
 
     def get_object(self, queryset=None):
+        self.previous_object_status = self.request.user.register_status
         return self.request.user
+
+    def get_success_url(self):
+        if self.previous_object_status == Profile.REGISTER_STATUS_NO_ATTORNEY_PROOF:
+            if self.object.register_status == Profile.REGISTER_STATUS_COMPLETE:
+                return reverse('profile-signup-flow-completed')
+            if self.object.register_status == Profile.REGISTER_STATUS_EMAIL_NOT_CONFIRMED:
+                return reverse('profile-email-confirmation')
+        return reverse('profile-proof')
+
 
 
 @login_required
