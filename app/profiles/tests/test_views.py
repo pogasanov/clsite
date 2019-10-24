@@ -94,7 +94,7 @@ class ProfileProofViewTest(TestCase):
         response = self.client.get(self.VIEW_URL)
         self.assertRedirects(response, f"{reverse('login')}?next={self.VIEW_URL}")
 
-    def test_profile_should_be_filled(self):
+    def test_redirects_if_profile_is_not_filled(self):
         user = ProfileFactory(empty_profile=True)
         self.client.force_login(user)
 
