@@ -104,3 +104,8 @@ class ProfileProofViewTest(TestCase):
     def test_view_object_is_current_user(self):
         response = self.client.get(self.VIEW_URL)
         self.assertEqual(response.context['object'], self.user)
+
+    def test_shows_correct_fields(self):
+        response = self.client.get(self.VIEW_URL)
+        self.assertIn('passport_photo', response.context['form'].fields)
+        self.assertIn('bar_license_photo', response.context['form'].fields)

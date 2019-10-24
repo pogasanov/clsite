@@ -24,7 +24,7 @@ class UserRegistrationView(CreateView):
 @method_decorator(profile_filled, name='dispatch')
 class ProfileProofView(LoginRequiredMixin, UpdateView):
     model = Profile
-    fields = ('email',)
+    fields = ('passport_photo', 'bar_license_photo')
     template_name = 'profiles/profile_proof.html'
 
     def get_object(self, queryset=None):
