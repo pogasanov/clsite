@@ -75,6 +75,18 @@ class SignupFlowCompleteDecoratorTest(TestCase):
         self.assertEqual(len(self.messages._queued_messages), 1)
         self.assertEqual(str(self.messages._queued_messages[0].message), 'You should fill out profile')
 
+    def test_redirected_to_attorney_proof_if_profile_path_but_no_attorney_proof(self):
+        request = self.factory.get(reverse('profile'))
+        user = ProfileFactory(no_attorney_proof=True)
+        request.user = user
+        self._get_messages_container(request)
+
+        response = self.view(request)
+        self.assertNotEqual(response, EXPECTED_RESULT)
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response._headers['location'][1], reverse('profile-proof'))
+
+
     def test_redirected_if_no_attorney_proof(self):
         user = ProfileFactory(no_attorney_proof=True)
         self.request.user = user
