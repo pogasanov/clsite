@@ -1,8 +1,8 @@
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render
-from django.urls import reverse_lazy
+from django.shortcuts import render, redirect
+from django.urls import reverse_lazy, reverse
 from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, UpdateView
 
@@ -36,4 +36,6 @@ class ProfileProofView(LoginRequiredMixin, UpdateView):
 
 @login_required
 def profile_email_confirmation_view(request):
+    if request.user.email_confirmed_at:
+        return redirect(reverse('profile'))
     return render(request, 'profiles/profile_email_confirmation.html')

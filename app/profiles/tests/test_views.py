@@ -156,3 +156,10 @@ class ProfileEmailConfirmationViewTest(TestCase):
 
         response = self.client.get(self.VIEW_URL)
         self.assertRedirects(response, f"{reverse('login')}?next={self.VIEW_URL}")
+
+    def test_user_with_confirmed_email_cant_access(self):
+        user = ProfileFactory()
+        self.client.force_login(user)
+
+        response = self.client.get(reverse('profile-email-confirmation'))
+        self.assertRedirects(response, reverse('profile'))
