@@ -85,6 +85,17 @@ class SignupFlowCompleteDecoratorTest(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response._headers['location'][1], reverse('profile-proof'))
 
+    def test_redirected_to_profile_from_profile_proof_if_profile_not_filled(self):
+        request = self.factory.get(reverse('profile-proof'))
+        user = ProfileFactory(empty_profile=True)
+        request.user = user
+        self._get_messages_container(request)
+
+        response = self.view(request)
+        self.assertNotEqual(response, EXPECTED_RESULT)
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response._headers['location'][1], reverse('profile'))
+
     def test_not_redirected_if_profile_proof_path(self):
         request = self.factory.get(reverse('profile-proof'))
         user = ProfileFactory(no_attorney_proof=True)
