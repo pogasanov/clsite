@@ -113,3 +113,12 @@ class SignupFlowCompleteDecoratorTest(TestCase):
 
         self.assertEqual(len(self.messages._queued_messages), 1)
         self.assertEqual(str(self.messages._queued_messages[0].message), 'You should submit your attorney proof')
+
+    def test_redirected_if_email_not_confirmed(self):
+        user = ProfileFactory(email_not_confirmed=True)
+        self.request.user = user
+
+        response = self.view(self.request)
+        self.assertNotEqual(response, EXPECTED_RESULT)
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response._headers['location'][1], reverse('profile-email-confirmation'))

@@ -13,9 +13,13 @@ def signup_flow_complete(function):
                 messages.add_message(request, messages.ERROR, 'You should fill out profile')
                 return HttpResponseRedirect(reverse('profile'))
 
-            if request.path != reverse('profile-proof') and not request.user.is_attorney_proof_submitted():
-                messages.add_message(request, messages.ERROR, 'You should submit your attorney proof')
-                return HttpResponseRedirect(reverse('profile-proof'))
+            if request.path != reverse('profile-proof'):
+                if not request.user.is_attorney_proof_submitted():
+                    messages.add_message(request, messages.ERROR, 'You should submit your attorney proof')
+                    return HttpResponseRedirect(reverse('profile-proof'))
+
+                if not request.user.email_confirmed_at:
+                    return HttpResponseRedirect(reverse('profile-email-confirmation'))
 
         return function(request, *args, **kwargs)
 
