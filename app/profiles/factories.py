@@ -186,7 +186,7 @@ class ProfileFactory(factory.django.DjangoModelFactory):
     workexperience = factory.RelatedFactoryList(WorkExperienceFactory, 'profile', size=lambda: random.randrange(3))
     organization = factory.RelatedFactoryList(OrganizationFactory, 'profile', size=lambda: random.randrange(3))
     award = factory.RelatedFactoryList(AwardFactory, 'profile', size=lambda: random.randrange(3))
-    language = factory.RelatedFactoryList(LanguageFactory, 'profile', size=lambda: random.randrange(3))
+    language = factory.RelatedFactoryList(LanguageFactory, 'profile', size=lambda: random.randrange(3) + 1)
 
     @staticmethod
     def create_passport_photo():
