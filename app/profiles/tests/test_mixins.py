@@ -24,10 +24,13 @@ class ProfileFilledDecoratorTest(TestCase):
         self.request = self.factory.get('/')
         self.view = profile_filled_view
 
-        # Set up session and messages middleware
-        setattr(self.request, 'session', 'session')
-        self.messages = FallbackStorage(self.request)
-        setattr(self.request, '_messages', self.messages)
+        self.messages = self._get_messages_container(self.request)
+
+    def _get_messages_container(self, request):
+        setattr(request, 'session', 'session')
+        messages = FallbackStorage(request)
+        setattr(request, '_messages', messages)
+        return messages
 
     def test_not_redirected_if_profile_filled(self):
         user = ProfileFactory()
@@ -51,6 +54,16 @@ class ProfileFilledDecoratorTest(TestCase):
         self.assertNotEqual(response, EXPECTED_RESULT)
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response._headers['location'][1], '/profile')
+
+    def test_not_redirected_to_profile_if_profile_path(self):
+        request = self.factory.get('/profile')
+        user = ProfileFactory(empty_profile=True)
+        request.user = user
+        self._get_messages_container(request)
+
+        response = self.view(request)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response, EXPECTED_RESULT)
 
     def test_message_added_on_profile_not_filled(self):
         user = ProfileFactory(empty_profile=True)

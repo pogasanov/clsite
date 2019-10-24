@@ -2,12 +2,17 @@ from functools import wraps
 
 from django.contrib import messages
 from django.http import HttpResponseRedirect
+from django.urls import reverse_lazy
 
 
 def profile_filled(function):
+    EXCLUDED_PATHS = (
+        reverse_lazy('profile'),
+    )
+
     @wraps(function)
     def wrap(request, *args, **kwargs):
-        if not request.user.is_anonymous:
+        if request.path not in EXCLUDED_PATHS and not request.user.is_anonymous:
             if not request.user.is_filled():
                 messages.add_message(request, messages.ERROR, 'You should fill out profile')
                 return HttpResponseRedirect('/profile')
