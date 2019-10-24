@@ -71,13 +71,13 @@ class ProfileProofViewTest(TestCase):
     @classmethod
     def setUpTestData(cls):
         cls.VIEW_URL = '/profile/proof'
-        cls.user = ProfileFactory(no_attorney_proof=True)
-        cls.data_payload = {
+
+    def setUp(self):
+        self.data_payload = {
             'passport_photo': ProfileFactory.create_passport_photo(),
             'bar_license_photo': ProfileFactory.create_bar_license_photo()
         }
-
-    def setUp(self):
+        self.user = ProfileFactory(no_attorney_proof=True)
         self.client.force_login(self.user)
 
     def test_view_url_exists_at_desired_location(self):
@@ -117,3 +117,13 @@ class ProfileProofViewTest(TestCase):
     def test_redirects_to_itself_when_submitted(self):
         response = self.client.post(self.VIEW_URL, data=self.data_payload)
         self.assertRedirects(response, self.VIEW_URL)
+
+    def test_save_changes_on_valid_payload(self):
+        self.assertFalse(self.user.passport_photo)
+        self.assertFalse(self.user.bar_license_photo)
+
+        self.client.post(self.VIEW_URL, data=self.data_payload)
+
+        self.user.refresh_from_db()
+        self.assertTrue(self.user.passport_photo)
+        self.assertTrue(self.user.bar_license_photo)
