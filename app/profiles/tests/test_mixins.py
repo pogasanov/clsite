@@ -84,6 +84,16 @@ class ProfileFilledDecoratorTest(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response._headers['location'][1], '/profile/proof')
 
+    def test_not_redirected_if_profile_proof_path(self):
+        request = self.factory.get('/profile/proof')
+        user = ProfileFactory(no_attorney_proof=True)
+        request.user = user
+        self._get_messages_container(request)
+
+        response = self.view(request)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response, EXPECTED_RESULT)
+
     def test_message_added_on_no_attorney_proof(self):
         user = ProfileFactory(no_attorney_proof=True)
         self.request.user = user
