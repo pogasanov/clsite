@@ -13,6 +13,7 @@ def profile_filled(function):
                 return HttpResponseRedirect('/profile')
 
             if not request.user.is_attorney_proof_submitted():
+                messages.add_message(request, messages.ERROR, 'You should submit your attorney proof')
                 return HttpResponseRedirect('/profile/proof')
 
         return function(request, *args, **kwargs)

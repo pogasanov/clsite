@@ -52,7 +52,7 @@ class ProfileFilledDecoratorTest(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response._headers['location'][1], '/profile')
 
-    def test_message_added_on_redirect(self):
+    def test_message_added_on_profile_not_filled(self):
         user = ProfileFactory(empty_profile=True)
         self.request.user = user
 
@@ -70,3 +70,13 @@ class ProfileFilledDecoratorTest(TestCase):
         self.assertNotEqual(response, EXPECTED_RESULT)
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response._headers['location'][1], '/profile/proof')
+
+    def test_message_added_on_no_attorney_proof(self):
+        user = ProfileFactory(no_attorney_proof=True)
+        self.request.user = user
+
+        response = self.view(self.request)
+        self.assertEqual(response.status_code, 302)
+
+        self.assertEqual(len(self.messages._queued_messages), 1)
+        self.assertEqual(str(self.messages._queued_messages[0].message), 'You should submit your attorney proof')
