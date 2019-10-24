@@ -4,6 +4,7 @@ import factory
 import factory.fuzzy
 import factory.random
 from django.conf.global_settings import LANGUAGES
+from django.utils import timezone
 
 from clsite.settings import SEED_VALUE, DEFAULT_USER_PASSWORD_HASH
 from clsite.utils import random_number_exponential_delay, generate_image
@@ -152,7 +153,7 @@ class LanguageFactory(factory.django.DjangoModelFactory):
 class ProfileFactory(factory.django.DjangoModelFactory):
     handle = factory.LazyAttributeSequence(lambda o, n: '-'.join(o.full_name.lower().split(' ')) + str(n))
     email = factory.Sequence(lambda n: factory.Faker('email').generate() + str(n))
-    email_confirmed_at = factory.Faker('date_between', start_date="-3y", end_date="today")
+    email_confirmed_at = factory.Faker('date_time_between', start_date="-3y", end_date="now", tzinfo=timezone.utc)
     full_name = factory.Faker('name')
     password = DEFAULT_USER_PASSWORD_HASH
 
