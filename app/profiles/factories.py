@@ -180,7 +180,7 @@ class ProfileFactory(factory.django.DjangoModelFactory):
 
     address = factory.RelatedFactory(AddressFactory, 'profile')
     education = factory.RelatedFactoryList(EducationFactory, 'profile', size=lambda: random.randrange(3))
-    jurisdiction = factory.RelatedFactoryList(JurisdictionFactory, 'profile', size=lambda: random.randrange(3))
+    jurisdiction = factory.RelatedFactoryList(JurisdictionFactory, 'profile', size=lambda: random.randrange(3) + 1)
     admissions = factory.RelatedFactoryList(AdmissionFactory, 'profile', size=lambda: random.randrange(3))
     lawschool = factory.RelatedFactory(LawSchoolFactory, 'profile')
     workexperience = factory.RelatedFactoryList(WorkExperienceFactory, 'profile', size=lambda: random.randrange(3))
