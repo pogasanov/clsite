@@ -45,6 +45,7 @@ class ProfileCreationForm(UserCreationForm):
             field.widget.attrs.update({'class': 'form-control'})
 
         self.fields['agree_tos'].widget.attrs['class'] = 'form-check-input'
+        self.fields['full_name'].widget.attrs['placeholder'] = 'Full name...'
         self.fields['email'].widget.attrs['placeholder'] = 'Email...'
         self.fields['password1'].widget.attrs['placeholder'] = 'Password...'
         self.fields['password2'].widget.attrs['placeholder'] = 'Repeat password...'

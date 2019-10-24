@@ -49,6 +49,10 @@ class ProfileCreationFormTest(TestCase):
         form = ProfileCreationForm(data=INVALID_PAYLOAD)
         self.assertFalse(form.is_valid())
 
+    def test_full_name_placeholder(self):
+        form = ProfileCreationForm()
+        self.assertEqual(form.fields['full_name'].widget.attrs['placeholder'], 'Full name...')
+
     def test_email_placeholder(self):
         form = ProfileCreationForm()
         self.assertEqual(form.fields['email'].widget.attrs['placeholder'], 'Email...')
