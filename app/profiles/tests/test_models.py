@@ -17,12 +17,24 @@ class ProfileTest(TestCase):
         self.assertEqual(profile.register_status, Profile.REGISTER_STATUS_EMPTY_PROFILE)
 
     def test_is_filled(self):
-        profile = ProfileFactory(empty_profile=True)
-        self.assertFalse(profile.is_filled())
+        filled_profile = ProfileFactory()
+        self.assertTrue(filled_profile.is_filled())
 
-        profile.full_name = 'Dummy full name'
-        profile.save()
-        self.assertTrue(profile.is_filled())
+        not_filled_profile = ProfileFactory()
+        not_filled_profile.full_name = ''
+        self.assertFalse(not_filled_profile.is_filled())
+
+        not_filled_profile = ProfileFactory()
+        not_filled_profile.jurisdiction_set.all().delete()
+        self.assertFalse(not_filled_profile.is_filled())
+
+        not_filled_profile = ProfileFactory()
+        not_filled_profile.law_type_tags = ''
+        self.assertFalse(not_filled_profile.is_filled())
+
+        not_filled_profile = ProfileFactory()
+        not_filled_profile.language_set.all().delete()
+        self.assertFalse(not_filled_profile.is_filled())
 
     def test_email_confirmed_at_meta(self):
         profile = Profile.objects.first()

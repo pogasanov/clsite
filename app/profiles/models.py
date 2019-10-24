@@ -263,7 +263,7 @@ class Profile(AbstractUser):
         return self.handle
 
     def is_filled(self):
-        return bool(self.full_name)
+        return self.full_name and self.jurisdiction_set.exists() and self.law_type_tags and self.language_set.exists()
 
     def is_attorney_proof_submitted(self):
         return self.passport_photo and self.bar_license_photo
