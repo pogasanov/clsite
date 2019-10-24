@@ -61,3 +61,12 @@ class ProfileFilledDecoratorTest(TestCase):
 
         self.assertEqual(len(self.messages._queued_messages), 1)
         self.assertEqual(str(self.messages._queued_messages[0].message), 'You should fill out profile')
+
+    def test_redirected_if_no_attorney_proof(self):
+        user = ProfileFactory(no_attorney_proof=True)
+        self.request.user = user
+
+        response = self.view(self.request)
+        self.assertNotEqual(response, EXPECTED_RESULT)
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response._headers['location'][1], '/profile/proof')
