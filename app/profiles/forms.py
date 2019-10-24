@@ -36,7 +36,7 @@ class ProfileCreationForm(UserCreationForm):
 
     class Meta(UserCreationForm.Meta):
         model = get_user_model()
-        fields = ('email', 'password1', 'password2', 'agree_tos')
+        fields = ('full_name', 'email', 'password1', 'password2', 'agree_tos')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

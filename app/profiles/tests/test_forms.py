@@ -8,6 +8,7 @@ class ProfileCreationFormTest(TestCase):
     @classmethod
     def setUpTestData(cls):
         cls.data_payload = {
+            'full_name': 'Test User',
             'email': 'test@test.com',
             'password1': 'c0mpl1xp4ssw0rd',
             'password2': 'c0mpl1xp4ssw0rd',
@@ -17,6 +18,12 @@ class ProfileCreationFormTest(TestCase):
     def test_valid_with_correct_payload(self):
         form = ProfileCreationForm(data=self.data_payload)
         self.assertTrue(form.is_valid())
+
+    def test_requires_full_name(self):
+        INVALID_PAYLOAD = dict(self.data_payload)
+        del INVALID_PAYLOAD['full_name']
+        form = ProfileCreationForm(data=INVALID_PAYLOAD)
+        self.assertFalse(form.is_valid())
 
     def test_requires_email(self):
         INVALID_PAYLOAD = dict(self.data_payload)
