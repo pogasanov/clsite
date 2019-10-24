@@ -94,6 +94,13 @@ class ProfileViewTest(TestCase):
         response = self.client.get(self.VIEW_URL)
         self.assertRedirects(response, f"{reverse('login')}?next={self.VIEW_URL}")
 
+    def test_redirects_to_proof_view_if_no_proof_but_profile_filled(self):
+        user = ProfileFactory(no_attorney_proof=True)
+        self.client.force_login(user)
+
+        response = self.client.get(self.VIEW_URL)
+        self.assertRedirects(response, reverse('profile-proof'))
+
 
 @override_settings(STATICFILES_STORAGE='django.contrib.staticfiles.storage.StaticFilesStorage')
 class ProfileProofViewTest(TestCase):

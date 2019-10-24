@@ -81,6 +81,7 @@ def get_states(request, handle=None):
 
 
 @login_required
+@signup_flow_complete
 def profile(request, handle=None):
     user = request.user
     profile_form = ProfileForm(request.POST or None, instance=user, prefix='profile')

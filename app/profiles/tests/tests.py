@@ -1,6 +1,5 @@
 import sys
 
-from django.contrib.auth import get_user_model
 from django.core.management import call_command
 from django.test import TestCase, override_settings
 
@@ -112,9 +111,9 @@ class ProfileTests(TestCase):
             'language-TOTAL_FORMS': 0,
             'language-INITIAL_FORMS': 0
         }
-
-    def setUp(self):
-        self.user = get_user_model().objects.create_user(**self.signup_credentials)
+        cls.user = ProfileFactory(**cls.signup_credentials)
+        cls.user.set_password(cls.signup_credentials['password'])
+        cls.user.save()
 
     def test_python_version_correct(self):
         self.assertEqual(sys.version_info.major, 3)
@@ -137,6 +136,8 @@ class ProfileTests(TestCase):
         self.assertEqual(new_profiles_count, existing_profiles_count + GENERATED_MODELS_COUNT)
 
     def test_login(self):
+        users = Profile.objects.all()
+
         # User go to homepage
         response = self.client.get('/')
         # Expects 200 and rendered page
