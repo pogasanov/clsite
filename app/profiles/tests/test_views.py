@@ -200,3 +200,32 @@ class ProfileEmailConfirmationViewTest(TestCase):
 
         response = self.client.get(reverse('profile-email-confirmation'))
         self.assertRedirects(response, reverse('profile'))
+
+
+@override_settings(STATICFILES_STORAGE='django.contrib.staticfiles.storage.StaticFilesStorage')
+class ProfileSignupFlowCompletedViewTest(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.VIEW_URL = '/profile/complete'
+        cls.user = ProfileFactory()
+
+    def setUp(self):
+        self.client.force_login(self.user)
+
+    def test_view_url_exists_at_desired_location(self):
+        response = self.client.get(self.VIEW_URL)
+        self.assertEqual(response.status_code, 200)
+
+    def test_view_url_accessible_by_name(self):
+        response = self.client.get(reverse('profile-signup-flow-completed'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_view_uses_correct_template(self):
+        response = self.client.get(self.VIEW_URL)
+        self.assertTemplateUsed(response, 'profiles/signup_flow_completed.html')
+
+    def test_anonymous_user_cant_access(self):
+        self.client.logout()
+
+        response = self.client.get(self.VIEW_URL)
+        self.assertRedirects(response, f"{reverse('login')}?next={self.VIEW_URL}")

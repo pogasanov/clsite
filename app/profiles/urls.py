@@ -14,6 +14,8 @@ urlpatterns = \
         path('profile', views.profile, name='profile'),
         path('profile/proof', view_register.ProfileProofView.as_view(), name='profile-proof'),
         path('profile/email', view_register.profile_email_confirmation_view, name='profile-email-confirmation'),
+        path('profile/complete', view_register.profile_signup_flow_complteted_view,
+             name='profile-signup-flow-completed'),
         path('profile/<handle>', views.ProfileDetailView.as_view(), name='profile-detail'),
 
         path('profiles', views.UserListView.as_view(), name='profiles'),

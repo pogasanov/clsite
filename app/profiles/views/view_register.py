@@ -39,3 +39,8 @@ def profile_email_confirmation_view(request):
     if request.user.email_confirmed_at:
         return redirect(reverse('profile'))
     return render(request, 'profiles/profile_email_confirmation.html')
+
+
+@login_required
+def profile_signup_flow_complteted_view(request):
+    return render(request, 'profiles/signup_flow_completed.html')
