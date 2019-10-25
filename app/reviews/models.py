@@ -25,10 +25,10 @@ class Review(models.Model):
         (ARE_BOTH_PRINCIPAL, 'We have paid each other for work.'),
 
     )
-    created_by = models.ForeignKey('profiles.Profile', on_delete=models.CASCADE, related_name='sender',
-                                   verbose_name='Sender')
-    sent_to = models.ForeignKey('profiles.Profile', on_delete=models.CASCADE, related_name='receiver',
-                                verbose_name='Receiver')
+    created_by = models.ForeignKey('profiles.Profile', on_delete=models.CASCADE, related_name='created_by',
+                                   verbose_name='Created by')
+    sent_to = models.ForeignKey('profiles.Profile', on_delete=models.CASCADE, related_name='sent_to',
+                                verbose_name='Sent to')
     is_sender_principal = models.NullBooleanField(default=None, choices=IS_SENDER_PRINCIPAL_CHOICES,
                                                   verbose_name='Sender Principal')
     work_description_private = models.TextField(null=False, blank=False)
