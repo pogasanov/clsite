@@ -10,17 +10,13 @@ from django.utils.decorators import method_decorator
 from django.views.generic import ListView, DetailView
 
 from clsite.settings import DEFAULT_CHOICES_SELECTION
+from profiles.forms import LanguageFormSet
 from profiles.forms import ProfileForm, EducationFormSet, WorkExperienceFormSet, AddressForm, AdmissionsFormSet, \
     LawSchoolForm, \
-    OrganizationFormSet, AwardFormSet, JurisdictionFormSet, \
-    LanguageFormSet
+    OrganizationFormSet, AwardFormSet, JurisdictionFormSet
 from profiles.mixins import signup_flow_complete
 from profiles.models import Profile, Jurisdiction
 from profiles.utils import _get_states_for_country
-from .forms import ProfileForm, EducationFormSet, WorkExperienceFormSet, AddressForm, AdmissionsFormSet, LawSchoolForm, \
-    OrganizationFormSet, AwardFormSet, JurisdictionFormSet
-from .models import Profile, Jurisdiction
-from .utils import _get_states_for_country
 
 
 @login_required
