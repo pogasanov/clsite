@@ -46,7 +46,8 @@ INSTALLED_APPS = [
     'django_select2',
     'pages.apps.PagesConfig',
     'profiles.apps.ProfilesConfig',
-    'transactions.apps.TransactionsConfig'
+    'transactions.apps.TransactionsConfig',
+    'reviews.apps.ReviewsConfig'
 ]
 
 SITE_ID = 1
