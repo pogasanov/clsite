@@ -3,10 +3,9 @@ from itertools import groupby
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db.models import Q, Sum
+from django.db.models import Sum, Count
 from django.http import JsonResponse
-from django.shortcuts import render, get_object_or_404
-from django.urls import reverse
+from django.shortcuts import render
 from django.utils.decorators import method_decorator
 from django.views.generic import ListView, DetailView
 
@@ -15,57 +14,13 @@ from profiles.forms import ProfileForm, EducationFormSet, WorkExperienceFormSet,
     LawSchoolForm, \
     OrganizationFormSet, AwardFormSet, JurisdictionFormSet, \
     LanguageFormSet
-from profiles.helpers import get_user_relationships
 from profiles.mixins import signup_flow_complete
 from profiles.models import Profile, Jurisdiction
 from profiles.utils import _get_states_for_country
-from transactions.models import Transaction
-
-
-def user_relationships(user):
-    user_relations = get_user_relationships(user)
-    # User with highest cumulative verified transactions amount first and so on. Secondly sorted by highest amount
-    sorted_user_relationships = sorted(
-        user_relations.items(),
-        key=lambda x: sum([t.value_in_usd or 0 for t in x[1]]),
-        reverse=True
-    )
-    relationships = []
-
-    for user_handle, transactions in sorted_user_relationships:
-        relationship = {}
-
-        other_user = get_object_or_404(get_user_model(), handle=user_handle)
-        relationship['name'] = other_user.full_name
-        relationship['url'] = reverse('profile', args=[other_user.handle])
-        relationship['photo'] = other_user.photo_url_or_default()
-
-        relationship['verified_amount'] = sum([t.value_in_usd or 0 for t in transactions if t.is_verified])
-        relationship['unverified_amount'] = sum([t.value_in_usd or 0 for t in transactions if not t.is_verified])
-
-        amount_given = 0
-        amount_given += sum(
-            [t.value_in_usd or 0 for t in transactions if t.requester == user and t.is_requester_principal])
-        amount_given += sum(
-            [t.value_in_usd or 0 for t in transactions if t.requestee == user and not t.is_requester_principal])
-        relationship['amount_given'] = amount_given
-
-        amount_received = 0
-        amount_received += sum(
-            [t.value_in_usd or 0 for t in transactions if t.requester == user and not t.is_requester_principal])
-        amount_received += sum(
-            [t.value_in_usd or 0 for t in transactions if t.requestee == user and t.is_requester_principal])
-        relationship['amount_received'] = amount_received
-
-        relationship['jurisdiction'] = [str(j) for j in other_user.jurisdiction_set.all()]
-        relationship['law_type_tags'] = other_user.law_type_tags or []
-
-        if not amount_given and not amount_received:
-            continue
-
-        relationships.append(relationship)
-
-    return relationships
+from .forms import ProfileForm, EducationFormSet, WorkExperienceFormSet, AddressForm, AdmissionsFormSet, LawSchoolForm, \
+    OrganizationFormSet, AwardFormSet, JurisdictionFormSet
+from .models import Profile, Jurisdiction
+from .utils import _get_states_for_country
 
 
 @login_required
@@ -160,8 +115,7 @@ def profile(request, handle=None):
         'workexperiences': workexperience_formset,
         'organizations': organization_formset,
         'awards': award_formset,
-        'languages': language_formset,
-        'relationships': user_relationships(user)[:5] if handle else None
+        'languages': language_formset
     })
 
 
@@ -179,23 +133,22 @@ class ProfileDetailView(LoginRequiredMixin, DetailView):
         requestee_profiles = Profile.objects.filter(requestee__in=user.requester.all())
         context['correspondents'] = requester_profiles.union(requestee_profiles)
 
-        all_user_transaction = Transaction.objects.filter(Q(requester=user) | Q(requestee=user))
-        verified = Sum('value_in_usd', filter=Q(is_confirmed=True))
-        unverified = Sum('value_in_usd', filter=Q(is_confirmed=False))
-        user_transaction_aggregated = all_user_transaction.aggregate(
-            verified=verified,
-            unverified=unverified
+        received_ready_transactions = user.ready_transactions_where_amount_received()
+        sent_ready_transactions = user.ready_transactions_where_amount_sent()
+
+        transaction_stats = sent_ready_transactions.aggregate(sent_sum=Sum('value_in_usd'), sent_count=Count('*'))
+        transaction_stats.update(
+            received_ready_transactions.aggregate(received_sum=Sum('value_in_usd'), received_count=Count('*'))
         )
-        if user_transaction_aggregated['unverified']:
-            if user_transaction_aggregated['verified']:
-                percentage = int(100 * user_transaction_aggregated['verified'] / (
-                        user_transaction_aggregated['verified'] + user_transaction_aggregated['unverified']))
-            else:
-                percentage = 0
-        else:
-            percentage = 100
-        context['transactions_stats'] = user_transaction_aggregated
-        context['transactions_stats']['percentage'] = percentage
+
+        transaction_stats['sent_sum'] = transaction_stats['sent_sum'] or 0
+        transaction_stats['received_sum'] = transaction_stats['received_sum'] or 0
+
+        transaction_stats['total_sum'] = transaction_stats['sent_sum'] + transaction_stats['received_sum']
+        transaction_stats['total_count'] = transaction_stats['sent_count'] + transaction_stats['received_count']
+
+        context['transactions_stats'] = transaction_stats
+        context['transactions_stats']['percentage'] = 100
 
         return context
 

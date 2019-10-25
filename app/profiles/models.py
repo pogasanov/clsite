@@ -230,6 +230,14 @@ class Profile(AbstractUser):
     def unconfirmed_transactions(self):
         return self.requestee.unconfirmed()
 
+    def ready_transactions_where_amount_received(self):
+        return self.requestee.is_ready().filter(is_requester_principal=True) | \
+               self.requester.is_ready().filter(is_requester_principal=False)
+
+    def ready_transactions_where_amount_sent(self):
+        return self.requestee.is_ready().filter(is_requester_principal=False) | \
+               self.requester.is_ready().filter(is_requester_principal=True)
+
     def _compile_headline(self):
         headline_format = '{tags} attorney{jurisdictions}'
 
