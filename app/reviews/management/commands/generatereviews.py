@@ -24,8 +24,8 @@ class Command(BaseCommand):
                     tried = 0
                     while True:
                         try:
-                            sender, receiver = random.sample(profiles, 2)
-                            ReviewFactory(sender=sender, receiver=receiver)
+                            created_by, sent_to = random.sample(profiles, 2)
+                            ReviewFactory(created_by=created_by, sent_to=sent_to)
                         except IntegrityError as ie:
                             tried += 1
                             if tried == 10:
