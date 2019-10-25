@@ -18,17 +18,17 @@ class Review(models.Model):
     )
     IS_SENDER_PRINCIPAL_YES = True
     IS_SENDER_PRINCIPAL_NO = False
-    IS_SENDER_PRINCIPAL_NONE = None
+    ARE_BOTH_PRINCIPAL = None
     IS_SENDER_PRINCIPAL_CHOICES = (
         (IS_SENDER_PRINCIPAL_YES, 'I paid them for work.'),
         (IS_SENDER_PRINCIPAL_NO, 'They paid me for work.'),
-        (IS_SENDER_PRINCIPAL_NONE, 'We have paid each other for work.'),
+        (ARE_BOTH_PRINCIPAL, 'We have paid each other for work.'),
 
     )
-    sender = models.ForeignKey('profiles.Profile', on_delete=models.CASCADE, related_name='sender',
-                               verbose_name='Sender')
-    receiver = models.ForeignKey('profiles.Profile', on_delete=models.CASCADE, related_name='receiver',
-                                 verbose_name='Receiver')
+    created_by = models.ForeignKey('profiles.Profile', on_delete=models.CASCADE, related_name='sender',
+                                   verbose_name='Sender')
+    sent_to = models.ForeignKey('profiles.Profile', on_delete=models.CASCADE, related_name='receiver',
+                                verbose_name='Receiver')
     is_sender_principal = models.NullBooleanField(default=None, choices=IS_SENDER_PRINCIPAL_CHOICES,
                                                   verbose_name='Sender Principal')
     work_description_private = models.TextField(null=False, blank=False)
@@ -38,9 +38,9 @@ class Review(models.Model):
     created_at = models.DateTimeField(default=timezone.now)
 
     def save(self, *args, **kwargs):
-        if self.sender == self.receiver:
-            raise ValidationError('Sender and receiver cannot be the same user', code='same-sender-receiver')
+        if self.created_by == self.sent_to:
+            raise ValidationError('Review Creator and review receiver cannot be same.')
         super(Review, self).save(*args, **kwargs)
 
     class Meta:
-        unique_together = (('sender', 'receiver'),)
+        unique_together = (('created_by', 'sent_to'),)
