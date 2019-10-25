@@ -143,6 +143,13 @@ python app/manage.py runserver
 
 If you want to sync from the remote Heroku DB, use `heroku pg:pull`.
 
+Before submitting any new commits, make sure you run code style tools - `black` and `flake8`  
+Run:
+```
+# Setup git pre-commit hooks to run code style tools on every new commit
+pre-commit install
+```
+
 ## Fixtures
 
 You can populate database with an admin account and pregenerated
