@@ -52,7 +52,7 @@ class TransactionModelTest(TestCase):
         transaction = TransactionFactory(is_confirmed=True, currency='PKR')
         self.assertFalse(transaction.is_ready)
 
-        transaction = TransactionFactory(is_confirmed=True)
+        transaction = TransactionFactory(is_confirmed=True, currency='USD')
         self.assertTrue(transaction.is_ready)
 
     def test_requestee_eq_reqeuester_fail(self):
