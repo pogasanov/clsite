@@ -74,22 +74,34 @@ class ProfileCreationFormTest(TestCase):
 
 
 class ProfileProofFormTest(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.data_payload = {
+            'attorney_confirm': 'on'
+        }
+
     def setUp(self):
-        self.data_payload = {
+        self.files_payload = {
             'passport_photo': ProfileFactory.create_passport_photo(),
             'bar_license_photo': ProfileFactory.create_bar_license_photo(),
         }
 
     def test_valid_with_correct_payload(self):
-        form = ProfileProofForm(data=self.data_payload, files=self.data_payload)
+        form = ProfileProofForm(data=self.data_payload, files=self.files_payload)
         self.assertTrue(form.is_valid())
 
     def test_requires_passport_photo(self):
-        del self.data_payload['passport_photo']
-        form = ProfileProofForm(data=self.data_payload, files=self.data_payload)
+        del self.files_payload['passport_photo']
+        form = ProfileProofForm(data=self.data_payload, files=self.files_payload)
         self.assertFalse(form.is_valid())
 
     def test_requires_bar_license_photo(self):
-        del self.data_payload['bar_license_photo']
-        form = ProfileProofForm(data=self.data_payload, files=self.data_payload)
+        del self.files_payload['bar_license_photo']
+        form = ProfileProofForm(data=self.data_payload, files=self.files_payload)
+        self.assertFalse(form.is_valid())
+
+    def test_requires_attorney_confirm(self):
+        data_payload = dict(self.data_payload)
+        del data_payload['attorney_confirm']
+        form = ProfileProofForm(data=data_payload, files=self.files_payload)
         self.assertFalse(form.is_valid())

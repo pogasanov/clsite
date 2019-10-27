@@ -306,6 +306,8 @@ LanguageFormSet = inlineformset_factory(Profile, Language, formset=unique_field_
 
 
 class ProfileProofForm(ModelForm):
+    attorney_confirm = forms.BooleanField(required=True)
+
     class Meta:
         model = Profile
         fields = ('passport_photo', 'bar_license_photo')
