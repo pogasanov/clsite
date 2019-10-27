@@ -1,7 +1,8 @@
 from django.test import TestCase, override_settings
 from django.utils.safestring import mark_safe
 
-from profiles.forms import ProfileCreationForm
+from profiles.factories import ProfileFactory
+from profiles.forms import ProfileCreationForm, ProfileProofForm
 
 
 @override_settings(STATICFILES_STORAGE='django.contrib.staticfiles.storage.StaticFilesStorage')
@@ -70,3 +71,15 @@ class ProfileCreationFormTest(TestCase):
         form = ProfileCreationForm()
         self.assertEqual(form.fields['agree_tos'].label, mark_safe(
             'I agree to the <a href="/privacy-terms-and-conditions" _target="blank">Terms and Conditions</a>'))
+
+
+class ProfileProofFormTest(TestCase):
+    def setUp(self):
+        self.data_payload = {
+            'passport_photo': ProfileFactory.create_passport_photo(),
+            'bar_license_photo': ProfileFactory.create_bar_license_photo()
+        }
+
+    def test_valid_with_correct_payload(self):
+        form = ProfileProofForm(data=self.data_payload)
+        self.assertTrue(form.is_valid())

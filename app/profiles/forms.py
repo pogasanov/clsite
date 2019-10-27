@@ -303,3 +303,9 @@ class LanguageForm(ModelForm):
 
 LanguageFormSet = inlineformset_factory(Profile, Language, formset=unique_field_formset('name'), form=LanguageForm,
                                         extra=0)
+
+
+class ProfileProofForm(ModelForm):
+    class Meta:
+        model = Profile
+        fields = ('passport_photo', 'bar_license_photo')
