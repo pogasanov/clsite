@@ -306,7 +306,8 @@ LanguageFormSet = inlineformset_factory(Profile, Language, formset=unique_field_
 
 
 class ProfileProofForm(ModelForm):
-    attorney_confirm = forms.BooleanField(required=True)
+    attorney_confirm = forms.BooleanField(required=True,
+                                          label='I affirm, under penalty of perjury, that I am a licensed attorney.')
 
     class Meta:
         model = Profile

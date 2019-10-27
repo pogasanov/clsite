@@ -105,3 +105,8 @@ class ProfileProofFormTest(TestCase):
         del data_payload['attorney_confirm']
         form = ProfileProofForm(data=data_payload, files=self.files_payload)
         self.assertFalse(form.is_valid())
+
+    def test_attorney_confirm_label(self):
+        form = ProfileProofForm()
+        self.assertEqual(form.fields['attorney_confirm'].label,
+                         'I affirm, under penalty of perjury, that I am a licensed attorney.')
