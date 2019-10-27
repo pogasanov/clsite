@@ -309,3 +309,7 @@ class ProfileProofForm(ModelForm):
     class Meta:
         model = Profile
         fields = ('passport_photo', 'bar_license_photo')
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['passport_photo'].required = True

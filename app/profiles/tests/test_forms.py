@@ -77,9 +77,14 @@ class ProfileProofFormTest(TestCase):
     def setUp(self):
         self.data_payload = {
             'passport_photo': ProfileFactory.create_passport_photo(),
-            'bar_license_photo': ProfileFactory.create_bar_license_photo()
+            'bar_license_photo': ProfileFactory.create_bar_license_photo(),
         }
 
     def test_valid_with_correct_payload(self):
-        form = ProfileProofForm(data=self.data_payload)
+        form = ProfileProofForm(data=self.data_payload, files=self.data_payload)
         self.assertTrue(form.is_valid())
+
+    def test_requires_passport_photo(self):
+        del self.data_payload['passport_photo']
+        form = ProfileProofForm(data=self.data_payload, files=self.data_payload)
+        self.assertFalse(form.is_valid())
