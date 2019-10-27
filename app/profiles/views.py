@@ -13,11 +13,9 @@ from rest_framework import viewsets
 
 from clsite.settings import DEFAULT_CHOICES_SELECTION
 from profiles.serializers import ProfileSerializer
-from transactions.models import Transaction
 from .forms import ProfileForm, EducationFormSet, WorkExperienceFormSet, AddressForm, AdmissionsFormSet, LawSchoolForm, \
     OrganizationFormSet, AwardFormSet, ProfileCreationForm, JurisdictionFormSet, \
     LanguageFormSet
-
 from .models import Profile, Jurisdiction
 from .utils import _get_states_for_country
 
