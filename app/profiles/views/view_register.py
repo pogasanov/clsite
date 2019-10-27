@@ -6,7 +6,7 @@ from django.urls import reverse_lazy, reverse
 from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, UpdateView
 
-from profiles.forms import ProfileCreationForm
+from profiles.forms import ProfileCreationForm, ProfileProofForm
 from profiles.mixins import signup_flow_complete
 from profiles.models import Profile
 
@@ -25,8 +25,7 @@ class UserRegistrationView(CreateView):
 
 @method_decorator(signup_flow_complete, name='dispatch')
 class ProfileProofView(LoginRequiredMixin, UpdateView):
-    model = Profile
-    fields = ('passport_photo', 'bar_license_photo')
+    form_class = ProfileProofForm
     template_name = 'profiles/profile_proof.html'
 
     def get_object(self, queryset=None):

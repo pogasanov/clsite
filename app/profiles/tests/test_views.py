@@ -3,7 +3,7 @@ from django.urls import reverse
 from django.utils import timezone
 
 from profiles.factories import ProfileFactory
-from profiles.forms import ProfileCreationForm
+from profiles.forms import ProfileCreationForm, ProfileProofForm
 from profiles.models import Profile
 
 
@@ -113,7 +113,8 @@ class ProfileProofViewTest(TestCase):
     def setUp(self):
         self.data_payload = {
             'passport_photo': ProfileFactory.create_passport_photo(),
-            'bar_license_photo': ProfileFactory.create_bar_license_photo()
+            'bar_license_photo': ProfileFactory.create_bar_license_photo(),
+            'attorney_confirm': 'on',
         }
         self.user = ProfileFactory(no_attorney_proof=True)
         self.client.force_login(self.user)
@@ -180,6 +181,10 @@ class ProfileProofViewTest(TestCase):
         self.user.refresh_from_db()
         self.assertTrue(self.user.passport_photo)
         self.assertTrue(self.user.bar_license_photo)
+
+    def test_uses_profile_proof_form(self):
+        response = self.client.get(self.VIEW_URL)
+        self.assertIsInstance(response.context['form'], ProfileProofForm)
 
 
 @override_settings(STATICFILES_STORAGE='django.contrib.staticfiles.storage.StaticFilesStorage')
