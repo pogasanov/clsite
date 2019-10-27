@@ -229,7 +229,8 @@ class ProfileTests(TestCase):
         # User fills attorney proof
         response = self.client.post(reverse('profile-proof'), {
             'passport_photo': ProfileFactory.create_passport_photo(),
-            'bar_license_photo': ProfileFactory.create_bar_license_photo()
+            'bar_license_photo': ProfileFactory.create_bar_license_photo(),
+            'attorney_confirm': 'on',
         }, follow=True)
 
         # Expects 302 and redirect to email confirmation
