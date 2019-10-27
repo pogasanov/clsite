@@ -88,3 +88,8 @@ class ProfileProofFormTest(TestCase):
         del self.data_payload['passport_photo']
         form = ProfileProofForm(data=self.data_payload, files=self.data_payload)
         self.assertFalse(form.is_valid())
+
+    def test_requires_bar_license_photo(self):
+        del self.data_payload['bar_license_photo']
+        form = ProfileProofForm(data=self.data_payload, files=self.data_payload)
+        self.assertFalse(form.is_valid())
