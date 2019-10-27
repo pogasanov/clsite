@@ -1,4 +1,5 @@
 from django.test import TestCase, override_settings
+from django.utils.safestring import mark_safe
 
 from profiles.forms import ProfileCreationForm
 
@@ -67,4 +68,5 @@ class ProfileCreationFormTest(TestCase):
 
     def test_agree_tos_label(self):
         form = ProfileCreationForm()
-        self.assertEqual(form.fields['agree_tos'].label, 'I agree to the T&S')
+        self.assertEqual(form.fields['agree_tos'].label, mark_safe(
+            'I agree to the <a href="/privacy-terms-and-conditions" _target="blank">Terms and Conditions</a>'))

@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
 from django.forms import ModelForm, inlineformset_factory
+from django.utils.safestring import mark_safe
 from django_select2.forms import Select2TagWidget
 
 from clsite.settings import DEFAULT_CHOICES_SELECTION, DEFAULT_COUNTRY
@@ -32,7 +33,8 @@ def unique_field_formset(*fields):
 
 
 class ProfileCreationForm(UserCreationForm):
-    agree_tos = forms.BooleanField(label='I agree to the T&S')
+    agree_tos = forms.BooleanField(label=mark_safe(
+        'I agree to the <a href="/privacy-terms-and-conditions" _target="blank">Terms and Conditions</a>'))
 
     class Meta(UserCreationForm.Meta):
         model = get_user_model()
