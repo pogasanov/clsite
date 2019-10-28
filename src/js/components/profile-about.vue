@@ -25,8 +25,8 @@
             <ul :class="editState ? 'list--selectable' : ''" class="list">
                 <li @click="editState && showLanguageModal(index)" class="list__item"
                     v-for="(lang, index) in languages">
-                    {{ lang.name }},<br/>
-                    <span class="muted">{{ lang.proficiency_level }}</span>
+                    {{ getLanguageName(lang.name) }},<br/>
+                    <span class="muted">{{ getLanguageProficiencyLevel(lang.proficiency_level) }}</span>
                 </li>
                 <li @click="editState && showLanguageModal(null)" class="list__item" v-if="editState">
                     Add new language
@@ -65,6 +65,7 @@
     import profileBlock from './profile-block.vue'
     import languageModal from './modals/language-modal.vue'
     import subjectiveTagModal from './modals/subjective-tag-modal.vue'
+    import language_choices from '../../../app/clsite/choices/language_choices'
 
     export default {
         name: "profile-about",
@@ -97,9 +98,9 @@
         },
         methods: {
             updateData(data) {
-                this.summary = data.summary
-                this.bio = data.bio
-                this.languages = data.languages
+                this.summary = data.summary;
+                this.bio = data.bio;
+                this.languages = data.languages;
                 this.subjectiveTags = data.law_type_tags
             },
             editHandler() {
@@ -114,7 +115,7 @@
                 this.editState = !this.editState
             },
             cancelHandler() {
-                this.updateData(this.about)
+                this.updateData(this.about);
                 this.editState = !this.editState
             },
 
@@ -134,6 +135,19 @@
                 }
                 this.selectedLanguage = null
             },
+            getLanguageName(name) {
+                return language_choices[name]
+            },
+            getLanguageProficiencyLevel(proficiency_level) {
+                switch (proficiency_level) {
+                    case 'NS':
+                        return 'Native speaker';
+                    case 'PF':
+                        return 'Professional fluency';
+                    case 'CF':
+                        return 'Conversational fluency'
+                }
+            },
 
             showSubjectiveTagModal(index) {
                 if (index === null) {
@@ -145,7 +159,7 @@
             hideSubjectiveTagModal(value) {
                 const tagIndex = this.subjectiveTags.findIndex(e => {
                     return e === this.selectedSubjectiveTag
-                })
+                });
                 if (tagIndex === -1) {
                     this.subjectiveTags.push(value)
                 } else {
