@@ -5,9 +5,13 @@ from profiles.mixins import signup_flow_complete
 
 
 class InternalPagesMiddleware:
-    def process_view(self, request, view_func, *view_args, **view_kwargs):
+    def __init__(self, get_response):
+        self.get_response = get_response
+
+    def __call__(self, request):
         if request.path in settings.PUBLIC_PAGES:
-            return view_func(request, *view_args, **view_kwargs)
-        signup_flow_complete_decorated = signup_flow_complete(view_func)
+            return self.get_response(request)
+
+        signup_flow_complete_decorated = signup_flow_complete(self.get_response)
         login_required_decorated = login_required(signup_flow_complete_decorated)
-        return login_required_decorated(request, *view_args, **view_kwargs)
+        return login_required_decorated(request)

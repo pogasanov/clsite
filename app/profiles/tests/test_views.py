@@ -64,7 +64,7 @@ class RegisterViewTest(TestCase):
         user = ProfileFactory(empty_profile=True)
         self.client.force_login(user)
 
-        response = self.client.get('/', follow=True)
+        response = self.client.get('/profiles', follow=True)
         self.assertRedirects(response, '/profile')
 
 

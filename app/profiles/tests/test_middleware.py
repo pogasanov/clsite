@@ -18,7 +18,7 @@ class InternalPagesMiddlewareTest(TestCase):
         self.request = self.factory.get('/')
         self._get_messages_container(self.request)
         self.view = lambda *args: self.EXPECTED_RESULT
-        self.mm = InternalPagesMiddleware()
+        self.mm = InternalPagesMiddleware(self.view)
 
     def _get_messages_container(self, request):
         setattr(request, 'session', 'session')
@@ -30,7 +30,7 @@ class InternalPagesMiddlewareTest(TestCase):
         self.request.user = AnonymousUser()
 
         with self.settings(PUBLIC_PAGES=()):
-            response = self.mm.process_view(self.request, self.view, [], {})
+            response = self.mm(self.request)
         self.assertTrue(response.status_code, 302)
         self.assertNotEqual(response, self.EXPECTED_RESULT)
         self.assertEqual(response._headers['location'][1], f"{reverse('login')}?next=/")
@@ -39,7 +39,7 @@ class InternalPagesMiddlewareTest(TestCase):
         self.request.user = AnonymousUser()
 
         with self.settings(PUBLIC_PAGES=('/',)):
-            response = self.mm.process_view(self.request, self.view, [], {})
+            response = self.mm(self.request)
         self.assertTrue(response.status_code, 200)
         self.assertEqual(response, self.EXPECTED_RESULT)
 
@@ -48,7 +48,7 @@ class InternalPagesMiddlewareTest(TestCase):
         self.request.user = user
 
         with self.settings(PUBLIC_PAGES=()):
-            response = self.mm.process_view(self.request, self.view, [], {})
+            response = self.mm(self.request)
         self.assertTrue(response.status_code, 200)
         self.assertEqual(response, self.EXPECTED_RESULT)
 
@@ -57,7 +57,7 @@ class InternalPagesMiddlewareTest(TestCase):
         self.request.user = user
 
         with self.settings(PUBLIC_PAGES=()):
-            response = self.mm.process_view(self.request, self.view, [], {})
+            response = self.mm(self.request)
         self.assertTrue(response.status_code, 302)
         self.assertNotEqual(response, self.EXPECTED_RESULT)
         self.assertEqual(response._headers['location'][1], reverse('profile'))
@@ -67,7 +67,7 @@ class InternalPagesMiddlewareTest(TestCase):
         self.request.user = user
 
         with self.settings(PUBLIC_PAGES=()):
-            response = self.mm.process_view(self.request, self.view, [], {})
+            response = self.mm(self.request)
         self.assertTrue(response.status_code, 302)
         self.assertNotEqual(response, self.EXPECTED_RESULT)
         self.assertEqual(response._headers['location'][1], reverse('profile-proof'))
@@ -77,7 +77,7 @@ class InternalPagesMiddlewareTest(TestCase):
         self.request.user = user
 
         with self.settings(PUBLIC_PAGES=()):
-            response = self.mm.process_view(self.request, self.view, [], {})
+            response = self.mm(self.request)
         self.assertTrue(response.status_code, 302)
         self.assertNotEqual(response, self.EXPECTED_RESULT)
         self.assertEqual(response._headers['location'][1], reverse('profile-email-confirmation'))
