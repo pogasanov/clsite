@@ -47,11 +47,11 @@
             </ul>
         </template>
 
-        <language-modal :language="selectedLanguage"
-                        :deletable="(selectedLanguage ? languages.indexOf(selectedLanguage) !== -1 : false)"
-                        @cancel="selectedLanguage = null"
-                        @delete="deleteLanguageModal"
-                        @ok="hideLanguageModal">
+        <language-modal
+                :index="selectedLanguage"
+                @reset="selectedLanguage = undefined"
+                v-model="languages"
+        >
         </language-modal>
 
         <subjective-tag-modal :tag="selectedSubjectiveTag"
@@ -93,7 +93,7 @@
                 subjectiveTags: ['dummy', 'subjective', 'tags'],
                 showModal: false,
 
-                selectedLanguage: null,
+                selectedLanguage: undefined,
                 selectedSubjectiveTag: null
             }
         },
@@ -122,23 +122,10 @@
 
             showLanguageModal(index) {
                 if (index === null) {
-                    this.selectedLanguage = {
-                        name: 'en',
-                        proficiency_level: 'NS'
-                    }
+                    this.selectedLanguage = null
                 } else {
-                    this.selectedLanguage = this.languages[index]
+                    this.selectedLanguage = index
                 }
-            },
-            hideLanguageModal() {
-                if (this.languages.indexOf(this.selectedLanguage) === -1) {
-                    this.languages.push(this.selectedLanguage)
-                }
-                this.selectedLanguage = null
-            },
-            deleteLanguageModal() {
-                this.languages.pop(this.selectedLanguage);
-                this.selectedLanguage = null
             },
             getLanguageName(name) {
                 return language_choices[name]

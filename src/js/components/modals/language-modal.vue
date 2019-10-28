@@ -1,19 +1,22 @@
 <template>
     <modal
-            :deletable="deletable"
-            @cancel="$emit('cancel')"
-            @delete="$emit('delete')"
-            @ok="$emit('ok')"
-            v-if="language !== null"
+            :deletable="index !== null"
+
+            @cancel="$emit('reset')"
+
+            @delete="deleteLanguageModal"
+            @ok="hideLanguageModal"
+            v-if="index !== undefined"
     >
         <h3 slot="header">Edit language</h3>
         <div slot="body">
             <label for="language">Language</label>
-            <select id="language" v-model="language.name">
+            <select id="language" v-model="selectedLanguage.name">
                 <option :value="value" v-for="(label, value) in language_choices">{{label}}</option>
             </select>
+
             <label for="proficiency_level">Proficiency Level</label>
-            <select id="proficiency_level" v-model="language.proficiency_level">
+            <select id="proficiency_level" v-model="selectedLanguage.proficiency_level">
                 <option value="NS">Native speaker</option>
                 <option value="PF">Professional fluency</option>
                 <option value="CF">Conversational fluency</option>
@@ -31,18 +34,52 @@
         components: {
             modal
         },
+        model: {
+            prop: 'languages',
+            event: 'change'
+        },
         props: {
-            language: {
+            languages: {
                 required: true
             },
-            deletable: {
+            index: {
                 required: true
             }
         },
         data() {
             return {
-                language_choices: language_choices
+                language_choices: language_choices,
+                selectedLanguage: undefined
             }
         },
+        methods: {
+            hideLanguageModal() {
+                if (this.index === null) {
+                    this.languages.push(this.selectedLanguage)
+                } else {
+                    this.languages[this.index] = this.selectedLanguage
+                }
+                this.$emit('reset')
+            },
+            deleteLanguageModal() {
+                this.languages.splice(this.index, 1);
+                this.$emit('reset')
+            },
+        },
+        watch: {
+            index() {
+                if (this.index === undefined) {
+                    this.selectedLanguage = undefined
+                }
+                if (this.index === null) {
+                    this.selectedLanguage = {
+                        name: 'en',
+                        proficiency_level: 'NS'
+                    }
+                } else {
+                    this.selectedLanguage = Object.assign({}, this.languages[this.index])
+                }
+            }
+        }
     }
 </script>
