@@ -5,7 +5,7 @@ from django.test import TestCase, RequestFactory
 from django.urls import reverse
 
 from profiles.factories import ProfileFactory
-from profiles.middlewares import InternalPagesMiddleware
+from profiles.middleware import InternalPagesMiddleware
 
 
 class InternalPagesMiddlewareTest(TestCase):
