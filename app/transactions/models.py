@@ -12,10 +12,18 @@ class TransactionQuerySet(models.QuerySet):
     def unconfirmed(self):
         return self.filter(is_confirmed=None)
 
+    def is_ready(self):
+        return self.filter(is_confirmed=True, is_flagged=False, value_in_usd__isnull=False)
+
 
 class TransactionUnconfirmedManager(models.Manager):
     def get_queryset(self):
         return TransactionQuerySet(self.model, using=self._db).unconfirmed()
+
+
+class TransactionReadyManager(models.Manager):
+    def get_queryset(self):
+        return TransactionQuerySet(self.model, using=self._db).is_ready()
 
 
 class Transaction(models.Model):
@@ -55,6 +63,7 @@ class Transaction(models.Model):
 
     objects = TransactionQuerySet.as_manager()
     unconfirmed = TransactionUnconfirmedManager()
+    ready = TransactionReadyManager()
 
     class Meta:
         ordering = ['-created_at']

@@ -1,5 +1,4 @@
 from django.contrib import admin
-from django.db.models import Q
 from django.utils.html import format_html
 from django.utils.translation import ugettext_lazy as _
 
@@ -40,6 +39,7 @@ class TransactionAdmin(admin.ModelAdmin):
     list_editable = ('value_in_usd', 'is_flagged')
     ordering = ['-created_at']
     actions = [flag_transactions]
+    search_fields = ['requester__handle', 'requestee__handle', 'requester__email', 'requestee__email']
 
     class Media:
         css = {'all': ('admin.css',)}
