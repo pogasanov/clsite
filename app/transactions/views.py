@@ -1,13 +1,11 @@
 from django.contrib import messages
 from django.contrib.auth import get_user_model
-from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
 
 from .forms import TransactionForm, ConfirmTransactionForm
 from .models import Transaction
 
 
-@login_required
 def transaction(request, handle):
     requester = request.user
     requestee = get_object_or_404(get_user_model(), handle=handle)
@@ -32,7 +30,6 @@ def transaction(request, handle):
     return render(request, "transaction.html", context={'form': form})
 
 
-@login_required
 def confirm_transaction(request, transaction_id):
     user = request.user
     user_transaction = get_object_or_404(Transaction, id=transaction_id)

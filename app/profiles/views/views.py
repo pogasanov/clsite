@@ -1,12 +1,10 @@
 from itertools import groupby
 
 from django.contrib.auth import get_user_model
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Sum, Count
 from django.http import JsonResponse
 from django.shortcuts import render
-from django.utils.decorators import method_decorator
 from django.views.generic import ListView, DetailView
 
 from clsite.settings import DEFAULT_CHOICES_SELECTION
@@ -14,12 +12,10 @@ from profiles.forms import LanguageFormSet
 from profiles.forms import ProfileForm, EducationFormSet, WorkExperienceFormSet, AddressForm, AdmissionsFormSet, \
     LawSchoolForm, \
     OrganizationFormSet, AwardFormSet, JurisdictionFormSet
-from profiles.mixins import signup_flow_complete
 from profiles.models import Profile, Jurisdiction
 from profiles.utils import _get_states_for_country
 
 
-@login_required
 def get_states(request, handle=None):
     if request.method == 'POST':
         country = request.POST.get('country')
@@ -31,8 +27,6 @@ def get_states(request, handle=None):
         return JsonResponse({'data': []})
 
 
-@login_required
-@signup_flow_complete
 def profile(request, handle=None):
     user = request.user
     profile_form = ProfileForm(request.POST or None, instance=user, prefix='profile')
@@ -163,7 +157,6 @@ def update_user_profile_photo(user, photo):
     return user.photo.url
 
 
-@method_decorator(signup_flow_complete, name='dispatch')
 class UserListView(LoginRequiredMixin, ListView):
     model = get_user_model()
     template_name = 'user_list.html'
@@ -202,7 +195,6 @@ class UserListView(LoginRequiredMixin, ListView):
                                                     'users': list_users})
 
 
-@method_decorator(signup_flow_complete, name='dispatch')
 class BrowsingView(LoginRequiredMixin, ListView):
     model = get_user_model()
     template_name = 'browsing.html'
