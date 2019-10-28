@@ -13,6 +13,11 @@ module.exports = [
             filename: './js/main.js',
             path: path.resolve(__dirname, 'app/clsite/static')
         },
+        resolve: {
+            alias: {
+                '@': path.resolve(__dirname, 'src/js/')
+            }
+        },
         plugins: [
             new MiniCssExtractPlugin({
                 filename: './css/[name].css',

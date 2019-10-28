@@ -9,7 +9,7 @@
 </template>
 
 <script>
-    import modal from "./modal.vue";
+    import modal from "@/components/modals/modal.vue";
 
     export default {
         name: "subjective-tag-modal",

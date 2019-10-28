@@ -8,8 +8,8 @@
 </template>
 
 <script>
-    import profileAbout from '../components/profile-about.vue'
-    import {getCookie} from "../utils";
+    import profileAbout from '@/components/profile-about.vue'
+    import {getCookie} from "@/utils";
 
     export default {
         name: "Profile",

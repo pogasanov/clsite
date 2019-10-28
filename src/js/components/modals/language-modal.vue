@@ -25,7 +25,7 @@
 </template>
 
 <script>
-    import modal from "./modal.vue";
+    import modal from "@/components/modals/modal.vue";
     import language_choices from '../../../../app/clsite/choices/language_choices'
 
     export default {

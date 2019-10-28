@@ -63,9 +63,9 @@
 </template>
 
 <script>
-    import profileBlock from './profile-block.vue'
-    import languageModal from './modals/language-modal.vue'
-    import subjectiveTagModal from './modals/subjective-tag-modal.vue'
+    import profileBlock from '@/components/profile-block.vue'
+    import languageModal from '@/components/modals/language-modal.vue'
+    import subjectiveTagModal from '@/components/modals/subjective-tag-modal.vue'
     import language_choices from '../../../app/clsite/choices/language_choices'
 
     export default {
