@@ -86,7 +86,6 @@ class SignupFlowCompleteDecoratorTest(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response._headers['location'][1], reverse('profile-proof'))
 
-
     def test_redirected_if_no_attorney_proof(self):
         user = ProfileFactory(no_attorney_proof=True)
         self.request.user = user
