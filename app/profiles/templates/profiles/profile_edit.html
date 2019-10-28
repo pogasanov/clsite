@@ -8,27 +8,5 @@
     {% include 'profiles/includes/sidebar.html' %}
 
     <main class="profile" id="profile-edit">
-        <div class="container">
-            <profile-about :about="about" @update="updateHandler">
-            </profile-about>
-
-            {% include 'profiles/includes/details.html' %}
-
-            {% include 'profiles/includes/contacts.html' %}
-
-            {% include 'profiles/includes/socials.html' %}
-
-            {% include 'profiles/includes/locations.html' %}
-
-            {% include 'profiles/includes/educations.html' %}
-
-            {% include 'profiles/includes/work_experiences.html' %}
-
-            {% include 'profiles/includes/associations.html' %}
-
-            {% include 'profiles/includes/awards.html' %}
-
-            {% include 'profiles/includes/correspondences.html' %}
-        </div>
     </main>
 {% endblock %}

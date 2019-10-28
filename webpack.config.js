@@ -1,7 +1,7 @@
 const path = require('path');
 const webpack = require("webpack");
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const VueLoaderPlugin = require('vue-loader/lib/plugin')
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
 module.exports = [
     {
@@ -12,11 +12,6 @@ module.exports = [
         output: {
             filename: './js/main.js',
             path: path.resolve(__dirname, 'app/clsite/static')
-        },
-        resolve: {
-            alias: {
-                'vue$': 'vue/dist/vue.esm.js'
-            }
         },
         plugins: [
             new MiniCssExtractPlugin({
