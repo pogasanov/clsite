@@ -1,5 +1,11 @@
 <template>
-    <modal @cancel="$emit('cancel')" @ok="$emit('ok')" v-if="language !== null">
+    <modal
+            :deletable="deletable"
+            @cancel="$emit('cancel')"
+            @delete="$emit('delete')"
+            @ok="$emit('ok')"
+            v-if="language !== null"
+    >
         <h3 slot="header">Edit language</h3>
         <div slot="body">
             <label for="language">Language</label>
@@ -27,6 +33,9 @@
         },
         props: {
             language: {
+                required: true
+            },
+            deletable: {
                 required: true
             }
         },

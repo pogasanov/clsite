@@ -48,7 +48,9 @@
         </template>
 
         <language-modal :language="selectedLanguage"
+                        :deletable="(selectedLanguage ? languages.indexOf(selectedLanguage) !== -1 : false)"
                         @cancel="selectedLanguage = null"
+                        @delete="deleteLanguageModal"
                         @ok="hideLanguageModal">
         </language-modal>
 
@@ -56,7 +58,6 @@
                               @cancel="selectedSubjectiveTag = null"
                               @ok="hideSubjectiveTagModal"
         >
-
         </subjective-tag-modal>
     </profile-block>
 </template>
@@ -133,6 +134,10 @@
                 if (this.languages.indexOf(this.selectedLanguage) === -1) {
                     this.languages.push(this.selectedLanguage)
                 }
+                this.selectedLanguage = null
+            },
+            deleteLanguageModal() {
+                this.languages.pop(this.selectedLanguage);
                 this.selectedLanguage = null
             },
             getLanguageName(name) {
