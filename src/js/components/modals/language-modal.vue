@@ -1,11 +1,10 @@
 <template>
     <modal
+            @ok="confirmLanguageModal"
             :deletable="index !== null"
 
             @cancel="$emit('reset')"
-
             @delete="deleteLanguageModal"
-            @ok="hideLanguageModal"
             v-if="index !== undefined"
     >
         <h3 slot="header">Edit language</h3>
@@ -53,7 +52,7 @@
             }
         },
         methods: {
-            hideLanguageModal() {
+            confirmLanguageModal() {
                 if (this.index === null) {
                     this.languages.push(this.selectedLanguage)
                 } else {
