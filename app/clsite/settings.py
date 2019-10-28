@@ -181,3 +181,6 @@ DEFAULT_USER_PASSWORD_HASH = os.environ.get('DEFAULT_USER_PASSWORD_HASH',
 
 # Seed value for random modules to have deterministric randomness
 SEED_VALUE = 54321
+
+# List of pages urls that are not checked for user and their signup flow
+PUBLIC_PAGES = ()

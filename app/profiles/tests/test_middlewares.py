@@ -18,13 +18,22 @@ class InternalPagesMiddlewareTest(TestCase):
         self.view = lambda *args: self.EXPECTED_RESULT
         self.mm = InternalPagesMiddleware()
 
-    def test_redirected_if_anonymous_user(self):
+    def test_redirected_if_anonymous_user_and_path_not_exempt(self):
         self.request.user = AnonymousUser()
 
-        response = self.mm.process_view(self.request, self.view, [], {})
+        with self.settings(PUBLIC_PAGES=()):
+            response = self.mm.process_view(self.request, self.view, [], {})
         self.assertTrue(response.status_code, 302)
         self.assertNotEqual(response, self.EXPECTED_RESULT)
         self.assertEqual(response._headers['location'][1], f"{reverse('login')}?next=/")
+
+    def test_not_redirected_if_anonymous_user_and_path_exempt(self):
+        self.request.user = AnonymousUser()
+
+        with self.settings(PUBLIC_PAGES=('/',)):
+            response = self.mm.process_view(self.request, self.view, [], {})
+        self.assertTrue(response.status_code, 200)
+        self.assertEqual(response, self.EXPECTED_RESULT)
 
     def test_not_redirected_if_logged(self):
         user = ProfileFactory()
