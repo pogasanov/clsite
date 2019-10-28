@@ -55,10 +55,10 @@
                                 <div class="form-check">
                                     <label class="form-check-label">
                                         {{ form.agree_tos }}
-                                        {{ form.agree_tos.label }}
                                         <span class="form-check-sign">
                                             <span class="check"></span>
-                                          </span>
+                                        </span>
+                                        {{ form.agree_tos.label }}
                                     </label>
                                 </div>
                                 {{ form.non_field_errors }}
@@ -72,4 +72,5 @@
                 </div>
             </div>
         </div>
+    </div>
 {% endblock %}
