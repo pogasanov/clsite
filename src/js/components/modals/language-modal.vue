@@ -4,8 +4,7 @@
         <div slot="body">
             <label for="language">Language</label>
             <select id="language" v-model="language.name">
-                <option value="ru">Ru</option>
-                <option value="en">En</option>
+                <option :value="value" v-for="(label, value) in language_choices">{{label}}</option>
             </select>
             <label for="proficiency_level">Proficiency Level</label>
             <select id="proficiency_level" v-model="language.proficiency_level">
@@ -19,6 +18,7 @@
 
 <script>
     import modal from "./modal.vue";
+    import language_choices from '../../../../app/clsite/choices/language_choices'
 
     export default {
         name: "language-modal",
@@ -29,6 +29,11 @@
             language: {
                 required: true
             }
-        }
+        },
+        data() {
+            return {
+                language_choices: language_choices
+            }
+        },
     }
 </script>
