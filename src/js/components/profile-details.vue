@@ -50,7 +50,7 @@
     import viewableInput from '@/components/inputs/viewable-input.vue'
 
     export default {
-        name: "profile-about",
+        name: "profile-details",
         components: {
             profileBlock,
             subjectiveTagModal,
