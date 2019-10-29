@@ -7,7 +7,7 @@
                 {{ item }}
             </li>
             <li @click="onItemClicked(null)" class="tag tag--outline" v-if="editState">
-                Add new subjective tag
+                {{ newItemLabel }}
             </li>
         </ul>
     </div>
@@ -20,6 +20,10 @@
             editState: Boolean,
             value: Array,
             label: String,
+            newItemLabel: {
+                type: String,
+                default: 'Add new tag'
+            }
         },
         methods: {
             onItemClicked(index) {

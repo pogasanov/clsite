@@ -10,6 +10,7 @@
                 :edit-state="editState"
                 @item-clicked="showLawTypeTagsModal"
                 label="Practice areas"
+                new-item-label="Add new practice area"
                 v-model="lawTypeTags"
         >
         </viewable-tags>

@@ -35,6 +35,7 @@
                 :edit-state="editState"
                 @item-clicked="showSubjectiveTagModal"
                 label="Subjective Tags"
+                new-item-label="Add new subjective tag"
                 v-model="subjectiveTags"
         >
         </viewable-tags>
