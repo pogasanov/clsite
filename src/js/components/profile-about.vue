@@ -19,19 +19,17 @@
         >
         </viewable-textarea>
 
-        <template v-if="editState || languages">
-            <h6 class="text-header">Languages</h6>
-            <ul :class="editState ? 'list--selectable' : ''" class="list">
-                <li @click="editState && showLanguageModal(index)" class="list__item"
-                    v-for="(lang, index) in languages">
-                    {{ getLanguageName(lang.name) }},<br/>
-                    <span class="muted">{{ getLanguageProficiencyLevel(lang.proficiency_level) }}</span>
-                </li>
-                <li @click="editState && showLanguageModal(null)" class="list__item" v-if="editState">
-                    Add new language
-                </li>
-            </ul>
-        </template>
+        <viewable-list
+                :edit-state="editState"
+                @item-clicked="showLanguageModal"
+                label="Languages"
+                v-model="languages"
+        >
+            <template v-slot:default="slotProps">
+                {{ getLanguageName(slotProps.item.name) }},<br/>
+                <span class="muted">{{ getLanguageProficiencyLevel(slotProps.item.proficiency_level) }}</span>
+            </template>
+        </viewable-list>
 
         <template v-if="editState || subjectiveTags">
             <h6 class="text-header">Subjective Tags</h6>
@@ -68,6 +66,7 @@
     import subjectiveTagModal from '@/components/modals/subjective-tag-modal.vue'
     import language_choices from '../../../app/clsite/choices/language_choices'
     import viewableTextarea from '@/components/inputs/viewable-textarea.vue'
+    import viewableList from '@/components/inputs/viewable-list.vue'
 
     export default {
         name: "profile-about",
@@ -75,7 +74,8 @@
             profileBlock,
             languageModal,
             subjectiveTagModal,
-            viewableTextarea
+            viewableTextarea,
+            viewableList
         },
         props: ['about'],
         data: () => {
