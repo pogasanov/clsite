@@ -56,7 +56,6 @@
         },
         watch: {
             index() {
-                console.log(this.tags[this.index]);
                 if (this.index === undefined) {
                     this.selectedTag = undefined
                 }
