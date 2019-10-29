@@ -5,15 +5,11 @@
             section_id="profile-details"
             title="Professional Details"
     >
-
-        <viewable-tags
+        <law-type-tags-list
                 :edit-state="editState"
-                @item-clicked="showLawTypeTagsModal"
-                label="Practice areas"
-                new-item-label="Add new practice area"
                 v-model="lawTypeTags"
         >
-        </viewable-tags>
+        </law-type-tags-list>
 
         <div class="profile-block__row">
             <viewable-input
@@ -31,29 +27,20 @@
             >
             </viewable-input>
         </div>
-
-        <subjective-tag-modal
-                :index="selectedLawTypeTag"
-                @reset="selectedLawTypeTag = undefined"
-                v-model="lawTypeTags"
-        >
-        </subjective-tag-modal>
     </profile-block>
 </template>
 
 <script>
     import profileBlock from '@/components/profile-block.vue'
-    import subjectiveTagModal from '@/components/modals/subjective-tag-modal.vue'
     import viewableInput from '@/components/inputs/viewable-input.vue'
-    import viewableTags from '@/components/inputs/viewable-tags.vue'
+    import lawTypeTagsList from '@/components/items/law-type-tags-list.vue'
 
     export default {
         name: "profile-details",
         components: {
             profileBlock,
-            subjectiveTagModal,
+            lawTypeTagsList,
             viewableInput,
-            viewableTags
         },
         props: ['about'],
         data: () => {
@@ -62,9 +49,6 @@
                 lawTypeTags: ['dummy', 'subjective', 'tags'],
                 experience: '',
                 current_job: '',
-                showModal: false,
-
-                selectedLawTypeTag: undefined
             }
         },
         methods: {
@@ -86,10 +70,6 @@
             cancelHandler() {
                 this.updateData(this.about);
                 this.editState = !this.editState
-            },
-
-            showLawTypeTagsModal(index) {
-                this.selectedLawTypeTag = index
             },
         },
         created() {
