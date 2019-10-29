@@ -29,7 +29,16 @@ module.exports = [
             rules: [
                 {
                     test: /\.vue$/,
-                    loader: 'vue-loader'
+                    loader: 'vue-loader',
+                    options: {
+                        loaders: {}
+                        // other vue-loader options go here
+                    }
+                },
+                {
+                    test: /\.js$/,
+                    loader: 'babel-loader',
+                    exclude: /node_modules/
                 },
                 {
                     test: /\.(sa|sc|c)ss$/,
