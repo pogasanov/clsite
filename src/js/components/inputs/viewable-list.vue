@@ -3,8 +3,8 @@
         <h6 class="text-header">{{ label }}</h6>
         <ul :class="editState ? 'list--selectable' : ''" class="list">
             <li @click="onItemClicked(index)" class="list__item"
-                v-for="(lang, index) in value">
-                <slot :item="lang"></slot>
+                v-for="(item, index) in value">
+                <slot :item="item"></slot>
             </li>
             <li @click="onItemClicked(null)" class="list__item" v-if="editState">
                 Add new language
