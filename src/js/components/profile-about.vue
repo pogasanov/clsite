@@ -124,6 +124,10 @@
             showLanguageModal(index) {
                 this.selectedLanguage = index
             },
+            showSubjectiveTagModal(index) {
+                this.selectedSubjectiveTag = index
+            },
+
             getLanguageName(name) {
                 return language_choices[name]
             },
@@ -137,21 +141,6 @@
                         return 'Conversational fluency'
                 }
             },
-
-            showSubjectiveTagModal(index) {
-                this.selectedSubjectiveTag = index
-            },
-            hideSubjectiveTagModal(value) {
-                const tagIndex = this.subjectiveTags.findIndex(e => {
-                    return e === this.selectedSubjectiveTag
-                });
-                if (tagIndex === -1) {
-                    this.subjectiveTags.push(value)
-                } else {
-                    this.subjectiveTags[tagIndex] = value
-                }
-                this.selectedSubjectiveTag = null
-            }
         },
         created() {
             this.updateData(this.about)
