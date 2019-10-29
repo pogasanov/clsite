@@ -20,30 +20,32 @@ class ProfileSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Profile
-        fields = ['handle', 'summary', 'bio', 'languages', 'law_type_tags']
+        fields = ['handle', 'summary', 'bio', 'languages', 'subjective_tags', 'law_type_tags']
 
     def update(self, instance, validated_data):
         # Update the book instance
-        instance.summary = validated_data['summary']
-        instance.bio = validated_data['bio']
-        instance.law_type_tags = validated_data['law_type_tags']
-        instance.save()
+        languages = validated_data.pop('language_set', None)
+        if languages:
+            self._process_languages(instance, languages)
 
+        return super().update(instance, validated_data)
+
+    def _process_languages(self, instance, languages):
         # Delete any pages not included in the request
-        language_ids = [item['id'] for item in validated_data['language_set'] if 'id' in item]
+        language_ids = [item['id'] for item in languages if 'id' in item]
         for language in instance.language_set.all():
             if language.id not in language_ids:
                 language.delete()
 
         # Create or update page instances that are in the request
-        for item in validated_data['language_set']:
+        for item in languages:
             language = Language(**item, profile=instance)
             language.save()
 
-        return instance
-
     def to_representation(self, instance):
         data = super().to_representation(instance)
+        if not data['subjective_tags']:
+            data['subjective_tags'] = []
         if not data['law_type_tags']:
             data['law_type_tags'] = []
         return data
