@@ -19,25 +19,20 @@
         </template>
 
         <div class="profile-block__row">
-            <div v-if="editState || experience">
-                <h6 class="text-header">Years of Practice / Experience</h6>
-                <template v-if="editState">
-                    <input type="number" v-model="experience">
-                </template>
-                <template v-else>
-                    {{ experience }}
-                </template>
-            </div>
+            <viewable-input
+                    :edit-state="editState"
+                    label="Years of Practice / Experience"
+                    type="number"
+                    v-model="experience"
+            >
+            </viewable-input>
 
-            <div v-if="editState || current_job">
-                <h6 class="text-header">Current Job / Affiliation / Law Firm</h6>
-                <template v-if="editState">
-                    <input type="text" v-model="current_job">
-                </template>
-                <template v-else>
-                    {{ current_job }}
-                </template>
-            </div>
+            <viewable-input
+                    :edit-state="editState"
+                    label="Current Job / Affiliation / Law Firm"
+                    v-model="current_job"
+            >
+            </viewable-input>
         </div>
 
         <subjective-tag-modal
@@ -52,12 +47,14 @@
 <script>
     import profileBlock from '@/components/profile-block.vue'
     import subjectiveTagModal from '@/components/modals/subjective-tag-modal.vue'
+    import viewableInput from '@/components/inputs/viewable-input.vue'
 
     export default {
         name: "profile-about",
         components: {
             profileBlock,
-            subjectiveTagModal
+            subjectiveTagModal,
+            viewableInput
         },
         props: ['about'],
         data: () => {
