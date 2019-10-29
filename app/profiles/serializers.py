@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from profiles.models import Profile, Language
+from profiles.models import Profile, Language, Address
 
 
 class LanguageSerializer(serializers.ModelSerializer):
@@ -15,8 +15,21 @@ class LanguageSerializer(serializers.ModelSerializer):
         }
 
 
+class AddressSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Address
+        fields = ['id', 'country', 'state', 'city']
+        extra_kwargs = {
+            'id': {
+                'read_only': False,
+                'required': True
+            }
+        }
+
+
 class ProfileSerializer(serializers.HyperlinkedModelSerializer):
     languages = LanguageSerializer(source='language_set', many=True)
+    addresses = AddressSerializer(source='address')
 
     class Meta:
         model = Profile
@@ -30,6 +43,8 @@ class ProfileSerializer(serializers.HyperlinkedModelSerializer):
             'law_type_tags',
             'experience',
             'current_job',
+
+            'addresses'
         ]
 
     def update(self, instance, validated_data):
@@ -58,4 +73,6 @@ class ProfileSerializer(serializers.HyperlinkedModelSerializer):
             data['subjective_tags'] = []
         if not data['law_type_tags']:
             data['law_type_tags'] = []
+        if not data['addresses']:
+            data['addresses'] = []
         return data
