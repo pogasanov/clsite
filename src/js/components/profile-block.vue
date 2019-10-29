@@ -1,5 +1,5 @@
 <template>
-    <section class="profile-block" id="profile-about">
+    <section :id="section_id" class="profile-block">
         <header class="profile-block__header">
             <h2 class="profile-block__title">{{ title }}</h2>
 
@@ -18,7 +18,7 @@
 <script>
     export default {
         name: "profile-block",
-        props: ['title'],
+        props: ['title', 'section_id'],
         data: () => {
             return {
                 editState: false
@@ -26,11 +26,11 @@
         },
         methods: {
             toggleEdit() {
-                this.editState = !this.editState
+                this.editState = !this.editState;
                 this.$emit('edit')
             },
             cancelEdit() {
-                this.editState = false
+                this.editState = false;
                 this.$emit('cancel')
             }
         }

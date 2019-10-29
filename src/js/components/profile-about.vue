@@ -1,5 +1,10 @@
 <template>
-    <profile-block @cancel="cancelHandler" @edit="editHandler" title="About">
+    <profile-block
+            @cancel="cancelHandler"
+            @edit="editHandler"
+            section_id="profile-about"
+            title="About"
+    >
         <template v-if="editState || summary">
             <h6 class="text-header">Summary</h6>
             <template v-if="editState">

@@ -1,5 +1,10 @@
 <template>
-    <profile-block @cancel="cancelHandler" @edit="editHandler" title="Professional Details">
+    <profile-block
+            @cancel="cancelHandler"
+            @edit="editHandler"
+            section_id="profile-details"
+            title="Professional Details"
+    >
         <template v-if="editState || lawTypeTags">
             <h6 class="text-header">Practice areas</h6>
             <ul class="tag-container">
