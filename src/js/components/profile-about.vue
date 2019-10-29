@@ -23,42 +23,29 @@
                 :edit-state="editState"
                 v-model="languages"
         >
-
         </language-list>
 
-        <viewable-tags
+        <subjective-tags-list
                 :edit-state="editState"
-                @item-clicked="showSubjectiveTagModal"
-                label="Subjective Tags"
-                new-item-label="Add new subjective tag"
                 v-model="subjectiveTags"
         >
-        </viewable-tags>
-
-        <subjective-tag-modal
-                :index="selectedSubjectiveTag"
-                @reset="selectedSubjectiveTag = undefined"
-                v-model="subjectiveTags"
-        >
-        </subjective-tag-modal>
+        </subjective-tags-list>
     </profile-block>
 </template>
 
 <script>
     import profileBlock from '@/components/profile-block.vue'
-    import subjectiveTagModal from '@/components/modals/subjective-tag-modal.vue'
     import viewableTextarea from '@/components/inputs/viewable-textarea.vue'
-    import viewableTags from '@/components/inputs/viewable-tags.vue'
     import languageList from '@/components/items/language-list.vue'
+    import subjectiveTagsList from '@/components/items/subjective-tags-list.vue'
 
     export default {
         name: "profile-about",
         components: {
             profileBlock,
-            subjectiveTagModal,
             viewableTextarea,
-            viewableTags,
             languageList,
+            subjectiveTagsList
         },
         props: ['about'],
         data: () => {
@@ -76,9 +63,6 @@
                     }
                 ],
                 subjectiveTags: ['dummy', 'subjective', 'tags'],
-                showModal: false,
-
-                selectedSubjectiveTag: undefined
             }
         },
         methods: {
@@ -102,9 +86,6 @@
             cancelHandler() {
                 this.updateData(this.about);
                 this.editState = !this.editState
-            },
-            showSubjectiveTagModal(index) {
-                this.selectedSubjectiveTag = index
             },
         },
         created() {
