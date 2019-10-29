@@ -5,25 +5,19 @@
             section_id="profile-about"
             title="About"
     >
-        <template v-if="editState || summary">
-            <h6 class="text-header">Summary</h6>
-            <template v-if="editState">
-                <textarea cols="30" v-model="summary"></textarea>
-            </template>
-            <template v-else>
-                {{ summary }}
-            </template>
-        </template>
+        <viewable-textarea
+                :edit-state="editState"
+                label="Summary"
+                v-model="summary"
+        >
+        </viewable-textarea>
 
-        <template v-if="editState || bio">
-            <h6 class="text-header">Bio</h6>
-            <template v-if="editState">
-                <textarea cols="30" v-model="bio"></textarea>
-            </template>
-            <template v-else>
-                {{ bio }}
-            </template>
-        </template>
+        <viewable-textarea
+                :edit-state="editState"
+                label="Bio"
+                v-model="bio"
+        >
+        </viewable-textarea>
 
         <template v-if="editState || languages">
             <h6 class="text-header">Languages</h6>
@@ -73,13 +67,15 @@
     import languageModal from '@/components/modals/language-modal.vue'
     import subjectiveTagModal from '@/components/modals/subjective-tag-modal.vue'
     import language_choices from '../../../app/clsite/choices/language_choices'
+    import viewableTextarea from '@/components/inputs/viewable-textarea.vue'
 
     export default {
         name: "profile-about",
         components: {
             profileBlock,
             languageModal,
-            subjectiveTagModal
+            subjectiveTagModal,
+            viewableTextarea
         },
         props: ['about'],
         data: () => {
