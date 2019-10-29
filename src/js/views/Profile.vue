@@ -6,6 +6,9 @@
 
             <profile-details :about="about" @update="updateHandler">
             </profile-details>
+
+            <profile-contacts :about="about" @update="updateHandler">
+            </profile-contacts>
         </div>
     </main>
 </template>
@@ -13,13 +16,15 @@
 <script>
     import profileAbout from '@/components/profile/profile-about.vue'
     import profileDetails from '@/components/profile/profile-details.vue'
+    import profileContacts from '@/components/profile/profile-contacts.vue'
     import {getCookie} from "@/utils";
 
     export default {
         name: "Profile",
         components: {
             profileAbout,
-            profileDetails
+            profileDetails,
+            profileContacts,
         },
         data() {
             return {

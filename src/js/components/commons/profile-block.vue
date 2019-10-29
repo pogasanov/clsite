@@ -1,15 +1,17 @@
 <template>
-    <section :id="section_id" class="profile-block">
+    <section :class="{'profile-block--empty': !hasContent}" :id="section_id" class="profile-block">
         <header class="profile-block__header">
             <h2 class="profile-block__title">{{ title }}</h2>
 
-            <a @click="toggleEdit" class="btn btn--small" href="#0" v-if="!editState">Edit</a>
-            <template v-else>
-                <a @click="toggleEdit" class="btn btn--small" href="#0">Save</a>
-                <a @click="cancelEdit" class="btn btn--small btn--outline" href="#0">Cancel</a>
+            <template v-if="hasContent">
+                <a @click="toggleEdit" class="btn btn--small" href="#0" v-if="!editState">Edit</a>
+                <template v-else>
+                    <a @click="toggleEdit" class="btn btn--small" href="#0">Save</a>
+                    <a @click="cancelEdit" class="btn btn--small btn--outline" href="#0">Cancel</a>
+                </template>
             </template>
         </header>
-        <div class="profile-block__main">
+        <div class="profile-block__main" v-if="hasContent">
             <slot></slot>
         </div>
     </section>
@@ -32,6 +34,11 @@
             cancelEdit() {
                 this.editState = false;
                 this.$emit('cancel')
+            }
+        },
+        computed: {
+            hasContent() {
+                return !!this.$slots.default;
             }
         }
     }
