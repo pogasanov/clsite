@@ -56,7 +56,7 @@
                 if (this.index === null) {
                     this.languages.push(this.selectedLanguage)
                 } else {
-                    this.languages[this.index] = this.selectedLanguage
+                    Vue.set(this.languages, this.index, this.selectedLanguage)
                 }
                 this.$emit('reset')
             },

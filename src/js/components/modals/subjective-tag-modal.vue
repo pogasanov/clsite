@@ -16,6 +16,7 @@
 </template>
 
 <script>
+    import Vue from 'vue'
     import modal from "@/components/modals/modal.vue";
 
     export default {
@@ -45,7 +46,7 @@
                 if (this.index === null) {
                     this.tags.push(this.selectedTag)
                 } else {
-                    this.tags[this.index] = this.selectedTag
+                    Vue.set(this.tags, this.index, this.selectedTag)
                 }
                 this.$emit('reset')
             },
