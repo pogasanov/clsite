@@ -3,18 +3,23 @@
         <div class="container">
             <profile-about :about="about" @update="updateHandler">
             </profile-about>
+
+            <profile-details :about="about" @update="updateHandler">
+            </profile-details>
         </div>
     </main>
 </template>
 
 <script>
     import profileAbout from '@/components/profile-about.vue'
+    import profileDetails from '@/components/profile-details.vue'
     import {getCookie} from "@/utils";
 
     export default {
         name: "Profile",
         components: {
-            profileAbout
+            profileAbout,
+            profileDetails
         },
         data() {
             return {

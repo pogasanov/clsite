@@ -103,7 +103,7 @@
                 this.summary = data.summary;
                 this.bio = data.bio;
                 this.languages = data.languages;
-                this.subjectiveTags = data.law_type_tags
+                this.subjectiveTags = data.subjective_tags
             },
             editHandler() {
                 if (this.editState) {
@@ -111,7 +111,7 @@
                         summary: this.summary,
                         bio: this.bio,
                         languages: this.languages,
-                        law_type_tags: this.subjectiveTags
+                        subjective_tags: this.subjectiveTags
                     })
                 }
                 this.editState = !this.editState
