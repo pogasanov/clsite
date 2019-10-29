@@ -31,18 +31,13 @@
             </template>
         </viewable-list>
 
-        <template v-if="editState || subjectiveTags">
-            <h6 class="text-header">Subjective Tags</h6>
-            <ul class="tag-container">
-                <li @click="editState && showSubjectiveTagModal(index)" class="tag"
-                    v-for="(tag, index) in subjectiveTags">
-                    {{ tag }}
-                </li>
-                <li @click="editState && showSubjectiveTagModal(null)" class="tag tag--outline" v-if="editState">
-                    Add new subjective tag
-                </li>
-            </ul>
-        </template>
+        <viewable-tags
+                :edit-state="editState"
+                @item-clicked="showSubjectiveTagModal"
+                label="Subjective Tags"
+                v-model="subjectiveTags"
+        >
+        </viewable-tags>
 
         <language-modal
                 :index="selectedLanguage"
@@ -67,6 +62,7 @@
     import language_choices from '../../../app/clsite/choices/language_choices'
     import viewableTextarea from '@/components/inputs/viewable-textarea.vue'
     import viewableList from '@/components/inputs/viewable-list.vue'
+    import viewableTags from '@/components/inputs/viewable-tags.vue'
 
     export default {
         name: "profile-about",
@@ -75,7 +71,8 @@
             languageModal,
             subjectiveTagModal,
             viewableTextarea,
-            viewableList
+            viewableList,
+            viewableTags
         },
         props: ['about'],
         data: () => {

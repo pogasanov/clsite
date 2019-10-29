@@ -5,18 +5,14 @@
             section_id="profile-details"
             title="Professional Details"
     >
-        <template v-if="editState || lawTypeTags">
-            <h6 class="text-header">Practice areas</h6>
-            <ul class="tag-container">
-                <li @click="editState && showLawTypeTagsModal(index)" class="tag"
-                    v-for="(tag, index) in lawTypeTags">
-                    {{ tag }}
-                </li>
-                <li @click="editState && showLawTypeTagsModal(null)" class="tag tag--outline" v-if="editState">
-                    Add new practice area
-                </li>
-            </ul>
-        </template>
+
+        <viewable-tags
+                :edit-state="editState"
+                @item-clicked="showLawTypeTagsModal"
+                label="Practice areas"
+                v-model="lawTypeTags"
+        >
+        </viewable-tags>
 
         <div class="profile-block__row">
             <viewable-input
@@ -48,13 +44,15 @@
     import profileBlock from '@/components/profile-block.vue'
     import subjectiveTagModal from '@/components/modals/subjective-tag-modal.vue'
     import viewableInput from '@/components/inputs/viewable-input.vue'
+    import viewableTags from '@/components/inputs/viewable-tags.vue'
 
     export default {
         name: "profile-details",
         components: {
             profileBlock,
             subjectiveTagModal,
-            viewableInput
+            viewableInput,
+            viewableTags
         },
         props: ['about'],
         data: () => {
