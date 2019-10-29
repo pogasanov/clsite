@@ -22,6 +22,7 @@ class Command(BaseCommand):
                     raise CommandError('You need to generate profiles first. Use generateprofiles command.')
                 for _ in range(options['reviews_count']):
                     tried = 0
+                    # try again maximum 10 times before raising the error in case of integrity error on same values
                     while True:
                         try:
                             created_by, sent_to = random.sample(profiles, 2)
@@ -29,7 +30,7 @@ class Command(BaseCommand):
                         except IntegrityError as ie:
                             tried += 1
                             if tried == 10:
-                                raise CommandError('Unable to generate dummy reviews. generate more profiles first', ie)
+                                raise CommandError('Unable to generate more dummy reviews. generate more profiles first', ie)
                             continue
                         break
         except Exception as ex:
