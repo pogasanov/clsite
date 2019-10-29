@@ -9,7 +9,7 @@
                 </slot>
             </li>
             <li @click="onItemClicked(null)" class="list__item" v-if="editState">
-                Add new language
+                {{ newItemLabel }}
             </li>
         </ul>
     </div>
@@ -22,6 +22,10 @@
             editState: Boolean,
             value: Array,
             label: String,
+            newItemLabel: {
+                type: String,
+                default: "Add new item"
+            }
         },
         methods: {
             onItemClicked(index) {

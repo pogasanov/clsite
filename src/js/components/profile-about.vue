@@ -23,6 +23,7 @@
                 :edit-state="editState"
                 @item-clicked="showLanguageModal"
                 label="Languages"
+                new-item-label="Add new language"
                 v-model="languages"
         >
             <template v-slot:default="slotProps">
