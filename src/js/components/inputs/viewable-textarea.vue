@@ -20,10 +20,6 @@
             editState: Boolean,
             value: [String, Number],
             label: String,
-            type: {
-                type: String,
-                default: 'text'
-            }
         }
     }
 </script>
