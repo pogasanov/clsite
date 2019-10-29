@@ -4,7 +4,9 @@
         <ul :class="editState ? 'list--selectable' : ''" class="list">
             <li @click="onItemClicked(index)" class="list__item"
                 v-for="(item, index) in value">
-                <slot :item="item"></slot>
+                <slot :item="item">
+                    {{ item }}
+                </slot>
             </li>
             <li @click="onItemClicked(null)" class="list__item" v-if="editState">
                 Add new language
