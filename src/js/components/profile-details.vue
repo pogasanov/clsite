@@ -18,6 +18,28 @@
             </ul>
         </template>
 
+        <div class="profile-block__row">
+            <div v-if="editState || experience">
+                <h6 class="text-header">Years of Practice / Experience</h6>
+                <template v-if="editState">
+                    <input type="number" v-model="experience">
+                </template>
+                <template v-else>
+                    {{ experience }}
+                </template>
+            </div>
+
+            <div v-if="editState || current_job">
+                <h6 class="text-header">Current Job / Affiliation / Law Firm</h6>
+                <template v-if="editState">
+                    <input type="text" v-model="current_job">
+                </template>
+                <template v-else>
+                    {{ current_job }}
+                </template>
+            </div>
+        </div>
+
         <subjective-tag-modal
                 :index="selectedLawTypeTag"
                 @reset="selectedLawTypeTag = undefined"
@@ -42,6 +64,8 @@
             return {
                 editState: false,
                 lawTypeTags: ['dummy', 'subjective', 'tags'],
+                experience: '',
+                current_job: '',
                 showModal: false,
 
                 selectedLawTypeTag: undefined
@@ -49,12 +73,16 @@
         },
         methods: {
             updateData(data) {
-                this.lawTypeTags = data.law_type_tags
+                this.lawTypeTags = data.law_type_tags;
+                this.experience = data.experience;
+                this.current_job = data.current_job
             },
             editHandler() {
                 if (this.editState) {
                     this.$emit('update', {
-                        law_type_tags: this.lawTypeTags
+                        law_type_tags: this.lawTypeTags,
+                        experience: this.experience,
+                        current_job: this.current_job,
                     })
                 }
                 this.editState = !this.editState

@@ -20,7 +20,17 @@ class ProfileSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Profile
-        fields = ['handle', 'summary', 'bio', 'languages', 'subjective_tags', 'law_type_tags']
+        fields = [
+            'handle',
+            'summary',
+            'bio',
+            'languages',
+            'subjective_tags',
+
+            'law_type_tags',
+            'experience',
+            'current_job',
+        ]
 
     def update(self, instance, validated_data):
         # Update the book instance
