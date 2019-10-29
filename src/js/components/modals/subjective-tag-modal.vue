@@ -17,7 +17,7 @@
 
 <script>
     import Vue from 'vue'
-    import modal from "@/components/modals/modal.vue";
+    import modal from "@/components/commons/modal.vue";
 
     export default {
         name: "subjective-tag-modal",

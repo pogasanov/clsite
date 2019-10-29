@@ -31,7 +31,7 @@
 </template>
 
 <script>
-    import profileBlock from '@/components/profile-block.vue'
+    import profileBlock from '@/components/commons/profile-block.vue'
     import viewableInput from '@/components/inputs/viewable-input.vue'
     import lawTypeTagsList from '@/components/items/law-type-tags-list.vue'
 

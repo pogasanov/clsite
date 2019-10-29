@@ -11,8 +11,8 @@
 </template>
 
 <script>
-    import profileAbout from '@/components/profile-about.vue'
-    import profileDetails from '@/components/profile-details.vue'
+    import profileAbout from '@/components/profile/profile-about.vue'
+    import profileDetails from '@/components/profile/profile-details.vue'
     import {getCookie} from "@/utils";
 
     export default {

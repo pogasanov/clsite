@@ -34,7 +34,7 @@
 </template>
 
 <script>
-    import profileBlock from '@/components/profile-block.vue'
+    import profileBlock from '@/components/commons/profile-block.vue'
     import viewableTextarea from '@/components/inputs/viewable-textarea.vue'
     import languageList from '@/components/items/language-list.vue'
     import subjectiveTagsList from '@/components/items/subjective-tags-list.vue'
