@@ -19,18 +19,12 @@
         >
         </viewable-textarea>
 
-        <viewable-list
+        <language-list
                 :edit-state="editState"
-                @item-clicked="showLanguageModal"
-                label="Languages"
-                new-item-label="Add new language"
                 v-model="languages"
         >
-            <template v-slot:default="slotProps">
-                {{ getLanguageName(slotProps.item.name) }},<br/>
-                <span class="muted">{{ getLanguageProficiencyLevel(slotProps.item.proficiency_level) }}</span>
-            </template>
-        </viewable-list>
+
+        </language-list>
 
         <viewable-tags
                 :edit-state="editState"
@@ -40,13 +34,6 @@
                 v-model="subjectiveTags"
         >
         </viewable-tags>
-
-        <language-modal
-                :index="selectedLanguage"
-                @reset="selectedLanguage = undefined"
-                v-model="languages"
-        >
-        </language-modal>
 
         <subjective-tag-modal
                 :index="selectedSubjectiveTag"
@@ -59,22 +46,19 @@
 
 <script>
     import profileBlock from '@/components/profile-block.vue'
-    import languageModal from '@/components/modals/language-modal.vue'
     import subjectiveTagModal from '@/components/modals/subjective-tag-modal.vue'
-    import language_choices from '../../../app/clsite/choices/language_choices'
     import viewableTextarea from '@/components/inputs/viewable-textarea.vue'
-    import viewableList from '@/components/inputs/viewable-list.vue'
     import viewableTags from '@/components/inputs/viewable-tags.vue'
+    import languageList from '@/components/items/language-list.vue'
 
     export default {
         name: "profile-about",
         components: {
             profileBlock,
-            languageModal,
             subjectiveTagModal,
             viewableTextarea,
-            viewableList,
-            viewableTags
+            viewableTags,
+            languageList,
         },
         props: ['about'],
         data: () => {
@@ -94,7 +78,6 @@
                 subjectiveTags: ['dummy', 'subjective', 'tags'],
                 showModal: false,
 
-                selectedLanguage: undefined,
                 selectedSubjectiveTag: undefined
             }
         },
@@ -120,26 +103,8 @@
                 this.updateData(this.about);
                 this.editState = !this.editState
             },
-
-            showLanguageModal(index) {
-                this.selectedLanguage = index
-            },
             showSubjectiveTagModal(index) {
                 this.selectedSubjectiveTag = index
-            },
-
-            getLanguageName(name) {
-                return language_choices[name]
-            },
-            getLanguageProficiencyLevel(proficiency_level) {
-                switch (proficiency_level) {
-                    case 'NS':
-                        return 'Native speaker';
-                    case 'PF':
-                        return 'Professional fluency';
-                    case 'CF':
-                        return 'Conversational fluency'
-                }
             },
         },
         created() {
