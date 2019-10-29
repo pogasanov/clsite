@@ -10,6 +10,10 @@
                     <a @click="cancelEdit" class="btn btn--small btn--outline" href="#0">Cancel</a>
                 </template>
             </template>
+            <template v-else>
+                <span class="profile-block__subtitle">{{ title }} information is hidden untill you contact this user</span>
+                <a class="btn btn--small" href="#0">Contact</a>
+            </template>
         </header>
         <div class="profile-block__main" v-if="hasContent">
             <slot></slot>
