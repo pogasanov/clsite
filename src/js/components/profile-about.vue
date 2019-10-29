@@ -54,9 +54,10 @@
         >
         </language-modal>
 
-        <subjective-tag-modal :tag="selectedSubjectiveTag"
-                              @cancel="selectedSubjectiveTag = null"
-                              @ok="hideSubjectiveTagModal"
+        <subjective-tag-modal
+                :index="selectedSubjectiveTag"
+                @reset="selectedSubjectiveTag = undefined"
+                v-model="subjectiveTags"
         >
         </subjective-tag-modal>
     </profile-block>
@@ -94,7 +95,7 @@
                 showModal: false,
 
                 selectedLanguage: undefined,
-                selectedSubjectiveTag: null
+                selectedSubjectiveTag: undefined
             }
         },
         methods: {
@@ -121,11 +122,7 @@
             },
 
             showLanguageModal(index) {
-                if (index === null) {
-                    this.selectedLanguage = null
-                } else {
-                    this.selectedLanguage = index
-                }
+                this.selectedLanguage = index
             },
             getLanguageName(name) {
                 return language_choices[name]
@@ -142,11 +139,7 @@
             },
 
             showSubjectiveTagModal(index) {
-                if (index === null) {
-                    this.selectedSubjectiveTag = ''
-                } else {
-                    this.selectedSubjectiveTag = this.subjectiveTags[index]
-                }
+                this.selectedSubjectiveTag = index
             },
             hideSubjectiveTagModal(value) {
                 const tagIndex = this.subjectiveTags.findIndex(e => {
