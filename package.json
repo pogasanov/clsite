@@ -51,11 +51,11 @@
     "sticky-js": "^1.2.0",
     "style-loader": "^0.23.1",
     "typeface-frank-ruhl-libre": "0.0.72",
+    "v-calendar": "^1.0.0-beta.22",
     "vue": "^2.6.10",
     "vue-jest": "^3.0.5",
     "vue-loader": "^15.7.1",
     "vue-template-compiler": "^2.6.10",
-    "vuejs-datepicker": "^1.6.2",
     "webpack": "^4.41.2",
     "webpack-cli": "^3.3.9"
   }

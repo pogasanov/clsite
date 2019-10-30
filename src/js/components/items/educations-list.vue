@@ -34,8 +34,11 @@
                 <label for="state">Degree</label>
                 <input id="state" type="text" v-model="selectedEducation.degree">
 
-                <label for="city">Date of graduation</label>
-                <datepicker id="city" v-model="graduation_date"></datepicker>
+                <label for="graduation_date">Date of graduation</label>
+                <date-picker
+                        id="graduation_date"
+                        v-model="graduation_date"
+                />
             </div>
         </modal>
     </div>
@@ -44,13 +47,15 @@
 <script>
     import viewableList from '@/components/inputs/viewable-list.vue'
     import modal from "@/components/commons/modal.vue"
-    import Datepicker from 'vuejs-datepicker';
+    import DatePicker from 'v-calendar/lib/components/date-picker.umd'
     import Vue from 'vue'
+
+    Vue.component('date-picker', DatePicker);
 
     export default {
         name: "educations-list",
         components: {
-            Datepicker,
+            DatePicker,
             viewableList,
             modal
         },
@@ -67,7 +72,6 @@
                 selectedEducation: undefined,
                 index: undefined,
                 graduation_date: new Date(2016, 9, 16),
-                test: ''
             }
         },
         methods: {
@@ -83,14 +87,12 @@
                     this.graduation_date = new Date(2016, 9, 16)
                 } else {
                     this.selectedEducation = Object.assign({}, this.value[index]);
-                    this.graduation_date = this.value[index].graduation_date
-                    // const parts = this.value.graduation_date.split('-');
-                    // this.selectedEducation.graduation_date = new Date(parts[0], parts[1] - 1, parts[2])
+                    this.graduation_date = this.$options.filters.stringToDate(this.value[index].graduation_date)
                 }
                 this.index = index
             },
             modalConfirmHandle() {
-                this.selectedEducation.graduation_date = this.$options.filters.formatDate(this.graduation_date);
+                this.selectedEducation.graduation_date = this.$options.filters.dateToString(this.graduation_date);
                 if (this.index === null) {
                     this.value.push(this.selectedEducation)
                 } else {
