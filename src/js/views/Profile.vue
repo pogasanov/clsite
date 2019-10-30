@@ -21,6 +21,9 @@
 
             <profile-work-experiences :about="about" @update="updateHandler">
             </profile-work-experiences>
+
+            <profile-associations :about="about" @update="updateHandler">
+            </profile-associations>
         </div>
     </main>
 </template>
@@ -33,6 +36,7 @@
     import profileLocations from '@/components/profile/profile-locations.vue'
     import profileEducations from '@/components/profile/profile-educations.vue'
     import profileWorkExperiences from '@/components/profile/profile-work-experiences.vue'
+    import profileAssociations from '@/components/profile/profile-associations.vue'
     import {getCookie} from "@/utils";
 
     export default {
@@ -45,6 +49,7 @@
             profileLocations,
             profileEducations,
             profileWorkExperiences,
+            profileAssociations,
         },
         data() {
             return {
