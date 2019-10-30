@@ -1,6 +1,8 @@
+import json
+
 from rest_framework import serializers
 
-from profiles.models import Profile, Language, Address, Education
+from profiles.models import Profile, Language, Address, Education, WorkExperience
 
 
 class LanguageSerializer(serializers.ModelSerializer):
@@ -33,10 +35,23 @@ class EducationSerializer(serializers.ModelSerializer):
         }
 
 
+class WorkExperienceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = WorkExperience
+        fields = ['id', 'company_name', 'position', 'duration']
+        extra_kwargs = {
+            'id': {
+                'read_only': False,
+                'required': True
+            }
+        }
+
+
 class ProfileSerializer(serializers.HyperlinkedModelSerializer):
     languages = LanguageSerializer(source='language_set', many=True)
     address = AddressSerializer()
     educations = EducationSerializer(source='education_set', many=True)
+    work_experiences = WorkExperienceSerializer(source='workexperience_set', many=True)
 
     class Meta:
         model = Profile
@@ -52,8 +67,8 @@ class ProfileSerializer(serializers.HyperlinkedModelSerializer):
             'current_job',
 
             'address',
-
             'educations',
+            'work_experiences',
         ]
 
     def update(self, instance, validated_data):
@@ -69,6 +84,10 @@ class ProfileSerializer(serializers.HyperlinkedModelSerializer):
         educations = validated_data.pop('education_set', None)
         if educations is not None:
             self._process_educations(instance, educations)
+
+        work_experiences = validated_data.pop('workexperience_set', None)
+        if work_experiences is not None:
+            self._process_work_experiences(instance, work_experiences)
 
         return super().update(instance, validated_data)
 
@@ -110,6 +129,18 @@ class ProfileSerializer(serializers.HyperlinkedModelSerializer):
             education = Education(**item, profile=instance)
             education.save()
 
+    def _process_work_experiences(self, instance, work_experiences):
+        # Delete any pages not included in the request
+        language_ids = [item['id'] for item in work_experiences if 'id' in item]
+        for work_experience in instance.workexperience_set.all():
+            if work_experience.id not in language_ids:
+                work_experience.delete()
+
+        # Create or update page instances that are in the request
+        for item in work_experiences:
+            work_experience = WorkExperience(**item, profile=instance)
+            work_experience.save()
+
     def to_representation(self, instance):
         data = super().to_representation(instance)
         if not data['subjective_tags']:
@@ -121,6 +152,9 @@ class ProfileSerializer(serializers.HyperlinkedModelSerializer):
             data['addresses'] = [addresses, ]
         else:
             data['addresses'] = []
+        if data['work_experiences']:
+            for exp in data['work_experiences']:
+                exp['duration'] = json.loads(exp['duration'])
         return data
 
     def to_internal_value(self, data):
@@ -129,4 +163,7 @@ class ProfileSerializer(serializers.HyperlinkedModelSerializer):
             data['address'] = addresses[0]
         else:
             data['address'] = {}
+        if data['work_experiences']:
+            for exp in data['work_experiences']:
+                exp['duration'] = json.dumps(exp['duration'])
         return super().to_internal_value(data)
