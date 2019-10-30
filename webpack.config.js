@@ -2,6 +2,7 @@ const path = require('path');
 const webpack = require("webpack");
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
+const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
 
 module.exports = [
     {
@@ -23,7 +24,8 @@ module.exports = [
                 filename: './css/[name].css',
                 chunkFilename: './css/[id].css',
             }),
-            new VueLoaderPlugin()
+            new VueLoaderPlugin(),
+            new MomentLocalesPlugin(),
         ],
         module: {
             rules: [

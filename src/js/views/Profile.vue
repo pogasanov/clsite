@@ -15,6 +15,9 @@
 
             <profile-locations :about="about" @update="updateHandler">
             </profile-locations>
+
+            <profile-educations :about="about" @update="updateHandler">
+            </profile-educations>
         </div>
     </main>
 </template>
@@ -25,6 +28,7 @@
     import profileContacts from '@/components/profile/profile-contacts.vue'
     import profileSocials from '@/components/profile/profile-socials.vue'
     import profileLocations from '@/components/profile/profile-locations.vue'
+    import profileEducations from '@/components/profile/profile-educations.vue'
     import {getCookie} from "@/utils";
 
     export default {
@@ -34,7 +38,8 @@
             profileDetails,
             profileContacts,
             profileSocials,
-            profileLocations
+            profileLocations,
+            profileEducations,
         },
         data() {
             return {
