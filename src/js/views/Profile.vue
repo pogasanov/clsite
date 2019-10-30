@@ -12,6 +12,9 @@
 
             <profile-socials :about="about" @update="updateHandler">
             </profile-socials>
+
+            <profile-locations :about="about" @update="updateHandler">
+            </profile-locations>
         </div>
     </main>
 </template>
@@ -21,6 +24,7 @@
     import profileDetails from '@/components/profile/profile-details.vue'
     import profileContacts from '@/components/profile/profile-contacts.vue'
     import profileSocials from '@/components/profile/profile-socials.vue'
+    import profileLocations from '@/components/profile/profile-locations.vue'
     import {getCookie} from "@/utils";
 
     export default {
@@ -30,6 +34,7 @@
             profileDetails,
             profileContacts,
             profileSocials,
+            profileLocations
         },
         data() {
             return {
