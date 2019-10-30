@@ -18,18 +18,12 @@ class LanguageSerializer(serializers.ModelSerializer):
 class AddressSerializer(serializers.ModelSerializer):
     class Meta:
         model = Address
-        fields = ['id', 'country', 'state', 'city']
-        extra_kwargs = {
-            'id': {
-                'read_only': False,
-                'required': True
-            }
-        }
+        fields = ['country', 'state', 'city']
 
 
 class ProfileSerializer(serializers.HyperlinkedModelSerializer):
     languages = LanguageSerializer(source='language_set', many=True)
-    addresses = AddressSerializer(source='address')
+    address = AddressSerializer()
 
     class Meta:
         model = Profile
@@ -44,14 +38,18 @@ class ProfileSerializer(serializers.HyperlinkedModelSerializer):
             'experience',
             'current_job',
 
-            'addresses'
+            'address'
         ]
 
     def update(self, instance, validated_data):
         # Update the book instance
         languages = validated_data.pop('language_set', None)
-        if languages:
+        if languages is not None:
             self._process_languages(instance, languages)
+
+        address = validated_data.pop('address', None)
+        if address is not None:
+            self._process_address(instance, address)
 
         return super().update(instance, validated_data)
 
@@ -67,12 +65,37 @@ class ProfileSerializer(serializers.HyperlinkedModelSerializer):
             language = Language(**item, profile=instance)
             language.save()
 
+    def _process_address(self, instance, address):
+        if not address:
+            if hasattr(instance, 'address'):
+                instance.address.delete()
+                instance.address = None
+            return
+
+        if hasattr(instance, 'address'):
+            for key, attr in address.items():
+                setattr(instance.address, key, attr)
+            instance.address.save()
+        else:
+            Address.objects.create(profile=instance, **address)
+
     def to_representation(self, instance):
         data = super().to_representation(instance)
         if not data['subjective_tags']:
             data['subjective_tags'] = []
         if not data['law_type_tags']:
             data['law_type_tags'] = []
-        if not data['addresses']:
+        addresses = data.pop('address', [])
+        if addresses:
+            data['addresses'] = [addresses, ]
+        else:
             data['addresses'] = []
         return data
+
+    def to_internal_value(self, data):
+        addresses = data.pop('addresses', None)
+        if addresses:
+            data['address'] = addresses[0]
+        else:
+            data['address'] = {}
+        return super().to_internal_value(data)
