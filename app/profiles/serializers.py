@@ -163,7 +163,7 @@ class ProfileSerializer(serializers.HyperlinkedModelSerializer):
             data['address'] = addresses[0]
         else:
             data['address'] = {}
-        if data['work_experiences']:
+        if 'work_experiences' in data:
             for exp in data['work_experiences']:
                 exp['duration'] = json.dumps(exp['duration'])
         return super().to_internal_value(data)
