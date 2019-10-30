@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from profiles.models import Profile, Language, Address
+from profiles.models import Profile, Language, Address, Education
 
 
 class LanguageSerializer(serializers.ModelSerializer):
@@ -21,9 +21,22 @@ class AddressSerializer(serializers.ModelSerializer):
         fields = ['country', 'state', 'city']
 
 
+class EducationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Education
+        fields = ['id', 'school', 'degree', 'graduation_date']
+        extra_kwargs = {
+            'id': {
+                'read_only': False,
+                'required': True
+            }
+        }
+
+
 class ProfileSerializer(serializers.HyperlinkedModelSerializer):
     languages = LanguageSerializer(source='language_set', many=True)
     address = AddressSerializer()
+    educations = EducationSerializer(source='education_set', many=True)
 
     class Meta:
         model = Profile
@@ -38,7 +51,9 @@ class ProfileSerializer(serializers.HyperlinkedModelSerializer):
             'experience',
             'current_job',
 
-            'address'
+            'address',
+
+            'educations',
         ]
 
     def update(self, instance, validated_data):
@@ -50,6 +65,10 @@ class ProfileSerializer(serializers.HyperlinkedModelSerializer):
         address = validated_data.pop('address', None)
         if address is not None:
             self._process_address(instance, address)
+
+        educations = validated_data.pop('education_set', None)
+        if educations is not None:
+            self._process_educations(instance, educations)
 
         return super().update(instance, validated_data)
 
@@ -78,6 +97,18 @@ class ProfileSerializer(serializers.HyperlinkedModelSerializer):
             instance.address.save()
         else:
             Address.objects.create(profile=instance, **address)
+
+    def _process_educations(self, instance, educations):
+        # Delete any pages not included in the request
+        language_ids = [item['id'] for item in educations if 'id' in item]
+        for education in instance.education_set.all():
+            if education.id not in language_ids:
+                education.delete()
+
+        # Create or update page instances that are in the request
+        for item in educations:
+            education = Education(**item, profile=instance)
+            education.save()
 
     def to_representation(self, instance):
         data = super().to_representation(instance)

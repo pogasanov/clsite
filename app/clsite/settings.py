@@ -182,7 +182,7 @@ DEFAULT_USER_LANGUAGE = 'en'
 # Value is 'password'
 DEFAULT_USER_PASSWORD = os.environ.get('DEFAULT_USER_PASSWORD', 'password')
 DEFAULT_USER_PASSWORD_HASH = os.environ.get('DEFAULT_USER_PASSWORD_HASH',
-                                       'pbkdf2_sha256$150000$2bhhJByaRefj$YjOjogq8+zzorhEeQgTyLYFSZD+tOLgYNeOWbSYhIVg=')
+                                            'pbkdf2_sha256$150000$2bhhJByaRefj$YjOjogq8+zzorhEeQgTyLYFSZD+tOLgYNeOWbSYhIVg=')
 
 # Seed value for random modules to have deterministric randomness
 SEED_VALUE = 54321
@@ -192,5 +192,6 @@ REST_FRAMEWORK = {
     # or allow read-only access for unauthenticated users.
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny'
-    ]
+    ],
+    "DATE_INPUT_FORMATS": ["%Y-%m-%d"],
 }
