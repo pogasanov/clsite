@@ -194,4 +194,5 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.AllowAny'
     ],
     "DATE_INPUT_FORMATS": ["%Y-%m-%d"],
+    'TEST_REQUEST_DEFAULT_FORMAT': 'json'
 }
