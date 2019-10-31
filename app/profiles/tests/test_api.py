@@ -26,3 +26,7 @@ class LanguageSerializerTest(APITestCase):
 
         response = self.client.get(self.VIEW_URL)
         self.assertEqual(response.status_code, 403)
+
+    def test_user_cant_delete_profile(self):
+        response = self.client.delete(self.VIEW_URL)
+        self.assertEqual(response.status_code, 405)
