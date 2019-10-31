@@ -1,5 +1,5 @@
 import random
-
+import sys
 from django.core.management.base import BaseCommand, CommandError
 from django.db import IntegrityError
 
@@ -20,22 +20,24 @@ class Command(BaseCommand):
             else:
                 profiles = list(Profile.objects.all())
                 if not profiles:
-                    raise CommandError('You need to generate profiles first. Use generateprofiles command.')
+                    raise CommandError('You need to generate profiles first. Use `generateprofiles` command.')
                 for _ in range(options['reviews_count']):
-                    tried = 0
+                    tries = 0
                     # try again maximum 10 times before raising the error in case of integrity error on same values
                     while True:
                         try:
                             created_by, sent_to = random.sample(profiles, 2)
                             ReviewFactory(created_by=created_by, sent_to=sent_to)
                         except IntegrityError as ie:
-                            tried += 1
-                            if tried == 10:
-                                review_count = Review.objects.count()
-                                return str(review_count) + ' reviews generated. Unable to generate more reviews. ' \
-                                                           'You need to generate more profiles first. ' \
-                                                           'Truncate your database and use `generateprofiles` command.'
+                            tries += 1
+                            if tries == 10:
+                                self.stdout.write(f'{_} reviews generated. Unable to generate more reviews. '
+                                                  f'You need to generate more profiles first. '
+                                                  f'Truncate your database and use `generateprofiles` command.')
+                                sys.exit()
                             continue
                         break
+        except IntegrityError as ie:
+            raise CommandError("Truncate your database and run this command again", ie)
         except Exception as ex:
             raise CommandError('Unable to generate dummy profiles.', ex)
