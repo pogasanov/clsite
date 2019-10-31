@@ -5,6 +5,7 @@ from django.db import IntegrityError
 
 from profiles.models import Profile
 from reviews.factories import ReviewFactory
+from reviews.models import Review
 
 
 class Command(BaseCommand):
@@ -30,7 +31,10 @@ class Command(BaseCommand):
                         except IntegrityError as ie:
                             tried += 1
                             if tried == 10:
-                                raise CommandError('Unable to generate more dummy reviews. generate more profiles first', ie)
+                                review_count = Review.objects.count()
+                                return str(review_count) + ' reviews generated. Unable to generate more reviews. ' \
+                                                           'You need to generate more profiles first. ' \
+                                                           'Truncate your database and use `generateprofiles` command.'
                             continue
                         break
         except Exception as ex:
