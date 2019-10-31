@@ -2,7 +2,7 @@
     <div>
         <viewable-list
                 :edit-state="editState"
-                @item-clicked="showLanguageModal"
+                @item-clicked="showModal"
                 label="Languages"
                 new-item-label="Add new language"
                 v-model="value"
@@ -13,36 +13,87 @@
             </template>
         </viewable-list>
 
-        <language-modal
-                :index="selectedLanguage"
-                @reset="selectedLanguage = undefined"
-                v-model="value"
+        <modal
+                :deletable="index !== null"
+                @cancel="hideModal"
+
+                @delete="deleteModal"
+                @ok="confirmModal"
+                v-if="selectedLanguage !== undefined"
         >
-        </language-modal>
+            <h3 slot="header">Edit language</h3>
+            <div slot="body">
+                <label for="language">Language</label>
+                <select id="language" v-model="selectedLanguage.name">
+                    <option :value="value" v-for="(label, value) in language_choices">{{label}}</option>
+                </select>
+
+                <label for="proficiency_level">Proficiency Level</label>
+                <select id="proficiency_level" v-model="selectedLanguage.proficiency_level">
+                    <option value="NS">Native speaker</option>
+                    <option value="PF">Professional fluency</option>
+                    <option value="CF">Conversational fluency</option>
+                </select>
+            </div>
+        </modal>
     </div>
 </template>
 
 <script>
     import language_choices from '../../../../app/clsite/choices/language_choices'
     import viewableList from '@/components/inputs/viewable-list.vue'
-    import languageModal from '@/components/modals/language-modal.vue'
+    import modal from "@/components/commons/modal.vue";
+    import Vue from 'vue'
 
     export default {
         name: "language-list",
         components: {
             viewableList,
-            languageModal
+            modal
         },
-        props: ['value', 'editState'],
+        model: {
+            prop: 'value',
+            event: 'change'
+        },
+        props: {
+            value: Array,
+            editState: Boolean
+        },
         data() {
             return {
                 language_choices: language_choices,
-                selectedLanguage: undefined
+                selectedLanguage: undefined,
+                index: undefined
             }
         },
         methods: {
-            showLanguageModal(index) {
-                this.selectedLanguage = index
+            showModal(index) {
+                if (index === undefined) {
+                    this.selectedLanguage = undefined
+                } else if (index === null) {
+                    this.selectedLanguage = {
+                        name: 'en',
+                        proficiency_level: 'NS'
+                    }
+                } else {
+                    this.selectedLanguage = Object.assign({}, this.value[index])
+                }
+                this.index = index
+            },
+            confirmModal() {
+                if (this.index === null) {
+                    this.value.push(this.selectedLanguage)
+                } else {
+                    Vue.set(this.value, this.index, this.selectedLanguage)
+                }
+                this.hideModal()
+            },
+            deleteModal() {
+                this.value.splice(this.index, 1);
+                this.hideModal()
+            },
+            hideModal() {
+                this.selectedLanguage = undefined
             },
 
             getLanguageName(name) {
@@ -58,6 +109,6 @@
                         return 'Conversational fluency'
                 }
             },
-        }
+        },
     }
 </script>
