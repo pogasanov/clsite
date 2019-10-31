@@ -9,7 +9,8 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView
-from rest_framework import viewsets
+from rest_framework import generics
+from rest_framework.permissions import IsAuthenticated
 
 from clsite.settings import DEFAULT_CHOICES_SELECTION
 from profiles.serializers import ProfileSerializer
@@ -255,7 +256,10 @@ class BrowsingView(LoginRequiredMixin, ListView):
                       {'users': list_users, 'jurisdiction_list': jurisdiction_list, 'law_tags_list': law_tags_list})
 
 
-class ProfileViewSet(viewsets.ModelViewSet):
+class ProfileViewSet(generics.RetrieveUpdateAPIView):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
-    lookup_field = 'handle'
+    permission_classes = [IsAuthenticated]
+
+    def get_object(self):
+        return self.request.user

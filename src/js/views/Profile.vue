@@ -62,14 +62,14 @@
             }
         },
         mounted() {
-            fetch('/api/profiles/admin/')
+            fetch('/api/profile')
                 .then(stream => stream.json())
                 .then(data => this.about = data)
                 .catch(error => console.error(error))
         },
         methods: {
             updateHandler(newAbout) {
-                fetch('/api/profiles/admin/', {
+                fetch('/api/profile', {
                     method: 'PATCH',
                     headers: {
                         'Content-Type': 'application/json',

@@ -1,14 +1,9 @@
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
-from django.urls import path, include
-from rest_framework import routers
+from django.urls import path
 
 from clsite.settings import MEDIA_URL, MEDIA_ROOT
-from profiles.views import ProfileViewSet
 from . import views
-
-router = routers.DefaultRouter()
-router.register(r'profiles', ProfileViewSet, basename='users')
 
 urlpatterns = \
     [
@@ -24,5 +19,6 @@ urlpatterns = \
              views.BrowsingView.as_view(), name='profiles-browsing'),
 
         path('states', views.get_states, name='states'),
-        path('api/', include(router.urls))
+
+        path('api/profile', views.ProfileViewSet.as_view(), name='api-profile')
     ] + static(MEDIA_URL, document_root=MEDIA_ROOT)
