@@ -8,9 +8,9 @@ class ProfileViewSetTest(APITestCase):
     @classmethod
     def setUpTestData(cls):
         cls.VIEW_URL = '/api/profile'
-        cls.user = ProfileFactory()
 
     def setUp(self):
+        self.user = ProfileFactory()
         self.client.force_login(self.user)
 
     def test_view_url_exists_at_desired_location(self):
