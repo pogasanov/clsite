@@ -257,7 +257,6 @@ class BrowsingView(LoginRequiredMixin, ListView):
 
 
 class ProfileViewSet(generics.RetrieveUpdateAPIView):
-    queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
     permission_classes = [IsAuthenticated]
 
