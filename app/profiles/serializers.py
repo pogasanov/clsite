@@ -100,44 +100,31 @@ class ProfileSerializer(serializers.HyperlinkedModelSerializer):
         ]
 
     def update(self, instance, validated_data):
-        # Update the book instance
-        languages = validated_data.pop('language_set', None)
-        if languages is not None:
-            self._process_languages(instance, languages)
-
         address = validated_data.pop('address', None)
         if address is not None:
             self._process_address(instance, address)
 
+        languages = validated_data.pop('language_set', None)
+        if languages is not None:
+            self._sync_foreign_model(instance, languages, Language, 'language_set')
+
         educations = validated_data.pop('education_set', None)
         if educations is not None:
-            self._process_educations(instance, educations)
+            self._sync_foreign_model(instance, educations, Education, 'education_set')
 
         work_experiences = validated_data.pop('workexperience_set', None)
         if work_experiences is not None:
-            self._process_work_experiences(instance, work_experiences)
+            self._sync_foreign_model(instance, work_experiences, WorkExperience, 'workexperience_set')
 
         organizations = validated_data.pop('organization_set', None)
         if organizations is not None:
-            self._process_organizations(instance, organizations)
+            self._sync_foreign_model(instance, organizations, Organization, 'organization_set')
 
         awards = validated_data.pop('award_set', None)
         if awards is not None:
-            self._process_awards(instance, awards)
+            self._sync_foreign_model(instance, awards, Award, 'award_set')
 
         return super().update(instance, validated_data)
-
-    def _process_languages(self, instance, languages):
-        # Delete any pages not included in the request
-        language_ids = [item['id'] for item in languages if 'id' in item]
-        for language in instance.language_set.all():
-            if language.id not in language_ids:
-                language.delete()
-
-        # Create or update page instances that are in the request
-        for item in languages:
-            language = Language(**item, profile=instance)
-            language.save()
 
     def _process_address(self, instance, address):
         if not address:
@@ -153,53 +140,22 @@ class ProfileSerializer(serializers.HyperlinkedModelSerializer):
         else:
             Address.objects.create(profile=instance, **address)
 
-    def _process_educations(self, instance, educations):
-        # Delete any pages not included in the request
-        language_ids = [item['id'] for item in educations if 'id' in item]
-        for education in instance.education_set.all():
-            if education.id not in language_ids:
-                education.delete()
+    def _sync_foreign_model(self, instance, data, cls, manager_name):
+        """
+        Sync all foreign models in instance to data using their
+        class object and manager name. More info
+        https://www.django-rest-framework.org/api-guide/relations/#writable-nested-serializers
+        """
+        # Remove all foreign instances that are not featured in data
+        data_ids = [item['id'] for item in data if 'id' in item]
+        for existing_foreigns in getattr(instance, manager_name).all():
+            if existing_foreigns.id not in data_ids:
+                existing_foreigns.delete()
 
-        # Create or update page instances that are in the request
-        for item in educations:
-            education = Education(**item, profile=instance)
-            education.save()
-
-    def _process_work_experiences(self, instance, work_experiences):
-        # Delete any pages not included in the request
-        language_ids = [item['id'] for item in work_experiences if 'id' in item]
-        for work_experience in instance.workexperience_set.all():
-            if work_experience.id not in language_ids:
-                work_experience.delete()
-
-        # Create or update page instances that are in the request
-        for item in work_experiences:
-            work_experience = WorkExperience(**item, profile=instance)
-            work_experience.save()
-
-    def _process_organizations(self, instance, organizations):
-        # Delete any pages not included in the request
-        language_ids = [item['id'] for item in organizations if 'id' in item]
-        for organization in instance.organization_set.all():
-            if organization.id not in language_ids:
-                organization.delete()
-
-        # Create or update page instances that are in the request
-        for item in organizations:
-            organization = Organization(**item, profile=instance)
-            organization.save()
-
-    def _process_awards(self, instance, awards):
-        # Delete any pages not included in the request
-        language_ids = [item['id'] for item in awards if 'id' in item]
-        for award in instance.award_set.all():
-            if award.id not in language_ids:
-                award.delete()
-
-        # Create or update page instances that are in the request
-        for item in awards:
-            award = Award(**item, profile=instance)
-            award.save()
+        # Update all foreign instances using data
+        for item in data:
+            new_foreign = cls(**item, profile=instance)
+            new_foreign.save()
 
     def to_representation(self, instance):
         data = super().to_representation(instance)
