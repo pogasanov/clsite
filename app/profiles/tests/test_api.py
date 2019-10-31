@@ -30,3 +30,63 @@ class ProfileViewSetTest(APITestCase):
     def test_user_cant_delete_profile(self):
         response = self.client.delete(self.VIEW_URL)
         self.assertEqual(response.status_code, 405)
+
+    def test_contains_profile_data(self):
+        response = self.client.get(self.VIEW_URL)
+
+        self.assertContains(response, self.user.summary)
+        self.assertContains(response, self.user.bio)
+        self.assertContains(response, self.user.experience)
+        self.assertContains(response, self.user.current_job)
+        for tag in self.user.law_type_tags:
+            self.assertContains(response, tag)
+        for tag in self.user.subjective_tags:
+            self.assertContains(response, tag)
+
+    def test_contains_address_data(self):
+        response = self.client.get(self.VIEW_URL)
+
+        self.assertContains(response, self.user.address.country)
+        self.assertContains(response, self.user.address.state)
+        self.assertContains(response, self.user.address.city)
+
+    def test_contains_language_data(self):
+        response = self.client.get(self.VIEW_URL)
+
+        for language in self.user.language_set.all():
+            self.assertContains(response, language.name)
+            self.assertContains(response, language.proficiency_level)
+
+    def test_contains_education_data(self):
+        response = self.client.get(self.VIEW_URL)
+
+        for education in self.user.education_set.all():
+            self.assertContains(response, education.school)
+            self.assertContains(response, education.degree)
+            self.assertContains(response, education.graduation_data)
+
+    def test_contains_work_experience_data(self):
+        response = self.client.get(self.VIEW_URL)
+
+        for work_experience in self.user.workexperience_set.all():
+            self.assertContains(response, work_experience.company_name)
+            self.assertContains(response, work_experience.position)
+            self.assertContains(response, work_experience.duration.lower)
+            self.assertContains(response, work_experience.duration.upper)
+
+    def test_contains_organization_data(self):
+        response = self.client.get(self.VIEW_URL)
+
+        for organization in self.user.organization_set.all():
+            self.assertContains(response, organization.name)
+            self.assertContains(response, organization.position)
+            self.assertContains(response, organization.duration.lower)
+            self.assertContains(response, organization.duration.upper)
+
+    def test_contains_award_data(self):
+        response = self.client.get(self.VIEW_URL)
+
+        for award in self.user.award_set.all():
+            self.assertContains(response, award.title)
+            self.assertContains(response, award.presented_by)
+            self.assertContains(response, award.year)
