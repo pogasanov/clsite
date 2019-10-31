@@ -2,7 +2,7 @@ import json
 
 from rest_framework import serializers
 
-from profiles.models import Profile, Language, Address, Education, WorkExperience, Organization
+from profiles.models import Profile, Language, Address, Education, WorkExperience, Organization, Award
 
 
 class LanguageSerializer(serializers.ModelSerializer):
@@ -59,12 +59,25 @@ class OrganizationSerializer(serializers.ModelSerializer):
         }
 
 
+class AwardSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Award
+        fields = ['id', 'title', 'presented_by', 'year']
+        extra_kwargs = {
+            'id': {
+                'read_only': False,
+                'required': True
+            }
+        }
+
+
 class ProfileSerializer(serializers.HyperlinkedModelSerializer):
     languages = LanguageSerializer(source='language_set', many=True)
     address = AddressSerializer()
     educations = EducationSerializer(source='education_set', many=True)
     work_experiences = WorkExperienceSerializer(source='workexperience_set', many=True)
     organizations = OrganizationSerializer(source='organization_set', many=True)
+    awards = AwardSerializer(source='award_set', many=True)
 
     class Meta:
         model = Profile
@@ -82,7 +95,8 @@ class ProfileSerializer(serializers.HyperlinkedModelSerializer):
             'address',
             'educations',
             'work_experiences',
-            'organizations'
+            'organizations',
+            'awards'
         ]
 
     def update(self, instance, validated_data):
@@ -106,6 +120,10 @@ class ProfileSerializer(serializers.HyperlinkedModelSerializer):
         organizations = validated_data.pop('organization_set', None)
         if organizations is not None:
             self._process_organizations(instance, organizations)
+
+        awards = validated_data.pop('award_set', None)
+        if awards is not None:
+            self._process_awards(instance, awards)
 
         return super().update(instance, validated_data)
 
@@ -170,6 +188,18 @@ class ProfileSerializer(serializers.HyperlinkedModelSerializer):
         for item in organizations:
             organization = Organization(**item, profile=instance)
             organization.save()
+
+    def _process_awards(self, instance, awards):
+        # Delete any pages not included in the request
+        language_ids = [item['id'] for item in awards if 'id' in item]
+        for award in instance.award_set.all():
+            if award.id not in language_ids:
+                award.delete()
+
+        # Create or update page instances that are in the request
+        for item in awards:
+            award = Award(**item, profile=instance)
+            award.save()
 
     def to_representation(self, instance):
         data = super().to_representation(instance)
