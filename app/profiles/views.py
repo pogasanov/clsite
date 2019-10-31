@@ -10,7 +10,6 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView
 from rest_framework import generics
-from rest_framework.permissions import IsAuthenticated
 
 from clsite.settings import DEFAULT_CHOICES_SELECTION
 from profiles.serializers import ProfileSerializer
@@ -182,7 +181,6 @@ class BrowsingView(LoginRequiredMixin, ListView):
 
 class ProfileViewSet(generics.RetrieveUpdateAPIView):
     serializer_class = ProfileSerializer
-    permission_classes = [IsAuthenticated]
 
     def get_object(self):
         return self.request.user

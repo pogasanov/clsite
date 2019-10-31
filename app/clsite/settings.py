@@ -188,10 +188,8 @@ DEFAULT_USER_PASSWORD_HASH = os.environ.get('DEFAULT_USER_PASSWORD_HASH',
 SEED_VALUE = 54321
 
 REST_FRAMEWORK = {
-    # Use Django's standard `django.contrib.auth` permissions,
-    # or allow read-only access for unauthenticated users.
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.AllowAny'
+        'rest_framework.permissions.IsAuthenticated'
     ],
     "DATE_INPUT_FORMATS": ["%Y-%m-%d"],
     'TEST_REQUEST_DEFAULT_FORMAT': 'json'
