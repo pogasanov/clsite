@@ -221,15 +221,16 @@ class ProfileSerializer(serializers.HyperlinkedModelSerializer):
         return data
 
     def to_internal_value(self, data):
-        addresses = data.pop('addresses', None)
+        new_data = super().to_internal_value(data).copy()
+        addresses = new_data.pop('addresses', None)
         if addresses:
-            data['address'] = addresses[0]
+            new_data['address'] = addresses[0]
         else:
-            data['address'] = {}
-        if 'work_experiences' in data:
-            for exp in data['work_experiences']:
+            new_data['address'] = {}
+        if 'work_experiences' in new_data:
+            for exp in new_data['work_experiences']:
                 exp['duration'] = json.dumps(exp['duration'])
-        if 'organizations' in data:
-            for exp in data['organizations']:
+        if 'organizations' in new_data:
+            for exp in new_data['organizations']:
                 exp['duration'] = json.dumps(exp['duration'])
-        return super().to_internal_value(data)
+        return new_data

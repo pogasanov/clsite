@@ -90,3 +90,40 @@ class ProfileViewSetTest(APITestCase):
             self.assertContains(response, award.title)
             self.assertContains(response, award.presented_by)
             self.assertContains(response, award.year)
+
+    def test_update_profile_data(self):
+        NEW_SUMMARY = 'Dummy summary'
+        NEW_BIO = 'Dummy summary'
+        NEW_SUBJECTIVE_TAGS = ['Testing', 'Subjective', 'Tags']
+        NEW_LAW_TYPE_TAGS = ['Testing', 'Law', 'Type', 'Tags']
+        NEW_EXPERIENCE = '10'
+        NEW_CURRENT_JOB = 'Dummy current job'
+
+        response = self.client.patch(self.VIEW_URL, {
+            'summary': NEW_SUMMARY,
+            'bio': NEW_BIO,
+            'subjective_tags': NEW_SUBJECTIVE_TAGS,
+            'law_type_tags': NEW_LAW_TYPE_TAGS,
+            'experience': NEW_EXPERIENCE,
+            'current_job': NEW_CURRENT_JOB
+        })
+        self.assertEqual(response.status_code, 200)
+        self.user.refresh_from_db()
+        self.assertEqual(NEW_SUMMARY, self.user.summary)
+        self.assertEqual(NEW_BIO, self.user.bio)
+        self.assertEqual(NEW_EXPERIENCE, self.user.experience)
+        self.assertEqual(NEW_CURRENT_JOB, self.user.current_job)
+        self.assertSequenceEqual(NEW_LAW_TYPE_TAGS, self.user.law_type_tags)
+        self.assertSequenceEqual(NEW_SUBJECTIVE_TAGS, self.user.subjective_tags)
+
+    def test_partial_update(self):
+        NEW_SUMMARY = 'New summary'
+        OLD_BIO = self.user.bio
+
+        response = self.client.patch(self.VIEW_URL, {
+            'summary': NEW_SUMMARY
+        })
+        self.assertEqual(response.status_code, 200)
+        self.user.refresh_from_db()
+        self.assertEqual(NEW_SUMMARY, self.user.summary)
+        self.assertEqual(OLD_BIO, self.user.bio)
