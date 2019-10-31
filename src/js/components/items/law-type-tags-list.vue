@@ -2,41 +2,82 @@
     <div>
         <viewable-tags
                 :edit-state="editState"
-                @item-clicked="showLawTypeTagsModal"
+                @item-clicked="showModal"
                 label="Practice areas"
                 new-item-label="Add new practice area"
                 v-model="value"
         >
         </viewable-tags>
 
-        <subjective-tag-modal
-                :index="selectedLawTypeTag"
-                @reset="selectedLawTypeTag = undefined"
-                v-model="value"
+        <modal
+                :deletable="index !== null"
+                @cancel="hideModal"
+
+                @delete="deleteTagModal"
+                @ok="confirmTagModal"
+                v-if="selectedTag !== undefined"
         >
-        </subjective-tag-modal>
+            <h3 slot="header">Edit tag</h3>
+            <div slot="body">
+                <label for="subjective-tag">Subjective Tag</label>
+                <input id="subjective-tag" type="text" v-model="selectedTag">
+            </div>
+        </modal>
     </div>
 </template>
 
 <script>
     import viewableTags from '@/components/inputs/viewable-tags.vue'
-    import subjectiveTagModal from '@/components/modals/subjective-tag-modal.vue'
+    import modal from "@/components/commons/modal.vue";
+    import Vue from 'vue'
+
 
     export default {
         name: "subjective-tags-list",
         components: {
             viewableTags,
-            subjectiveTagModal
+            modal
         },
-        props: ['value', 'editState'],
+        model: {
+            prop: 'value',
+            event: 'change'
+        },
+        props: {
+            value: Array,
+            editState: Boolean
+        },
         data() {
             return {
-                selectedLawTypeTag: undefined
+                selectedTag: undefined,
+                index: undefined
             }
         },
         methods: {
-            showLawTypeTagsModal(index) {
-                this.selectedLawTypeTag = index
+            showModal(index) {
+                if (index === undefined) {
+                    this.selectedTag = undefined
+                }
+                if (index === null) {
+                    this.selectedTag = ""
+                } else {
+                    this.selectedTag = this.value[index]
+                }
+                this.index = index
+            },
+            confirmTagModal() {
+                if (this.index === null) {
+                    this.value.push(this.selectedTag)
+                } else {
+                    Vue.set(this.value, this.index, this.selectedTag)
+                }
+                this.hideModal()
+            },
+            deleteTagModal() {
+                this.value.splice(this.index, 1);
+                this.hideModal()
+            },
+            hideModal() {
+                this.selectedTag = undefined
             },
         }
     }
