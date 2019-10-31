@@ -4,7 +4,7 @@ from rest_framework.test import APITestCase
 from profiles.factories import ProfileFactory
 
 
-class LanguageSerializerTest(APITestCase):
+class ProfileViewSetTest(APITestCase):
     @classmethod
     def setUpTestData(cls):
         cls.VIEW_URL = '/api/profile'
