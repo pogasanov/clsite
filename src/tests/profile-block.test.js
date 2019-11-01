@@ -42,5 +42,17 @@ describe('profile-block', () => {
         });
         expect(wrapper.props().section_id).toBe(EXPECTED_SECTION_ID);
         expect(wrapper.find('section').attributes().id).toBe(EXPECTED_SECTION_ID)
+    });
+
+    it('detect if it has content', () => {
+        let wrapper = shallowMount(profileBlock, {
+            slots: {
+                default: EXPECTED_SLOT_CONTENT
+            }
+        });
+        expect(wrapper.vm.hasContent).toBeTruthy();
+
+        wrapper = shallowMount(profileBlock);
+        expect(wrapper.vm.hasContent).toBeFalsy()
     })
 });
