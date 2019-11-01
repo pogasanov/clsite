@@ -20,13 +20,16 @@
             <h3 slot="header">Edit tag</h3>
             <div slot="body">
                 <label for="subjective-tag">Subjective Tag</label>
-                <input id="subjective-tag" type="text" v-model="selectedTag">
+                <select id="subjective-tag" v-model="selectedTag">
+                    <option :value="tag" v-for="tag in subjectiveTags">{{tag}}</option>
+                </select>
             </div>
         </modal>
     </div>
 </template>
 
 <script>
+    import subjective_tags_choices from '../../../../app/clsite/choices/subjective-tags'
     import viewableTags from '@/components/inputs/viewable-tags.vue'
     import modal from "@/components/commons/modal.vue";
     import Vue from 'vue'
@@ -47,6 +50,7 @@
         },
         data() {
             return {
+                subjectiveTags: subjective_tags_choices,
                 selectedTag: undefined,
                 index: undefined
             }
