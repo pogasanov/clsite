@@ -3,12 +3,31 @@ import profileBlock from '../js/components/commons/profile-block.vue'
 
 describe('profile-block', () => {
     test('is a Vue instance', () => {
+        const wrapper = shallowMount(profileBlock);
+        expect(wrapper.isVueInstance()).toBeTruthy()
+    });
+
+    test('set title', () => {
+        const EXPECTED_TITLE = 'Tested title';
+
         const wrapper = shallowMount(profileBlock, {
             propsData: {
-                languages: [],
-                index: undefined
+                title: EXPECTED_TITLE
             }
         });
-        expect(wrapper.isVueInstance()).toBeTruthy()
+        expect(wrapper.props().title).toBe(EXPECTED_TITLE);
+        expect(wrapper.find('h2').text()).toBe(EXPECTED_TITLE)
+    });
+
+    test('set section id', () => {
+        const EXPECTED_ID = 'tested_id';
+
+        const wrapper = shallowMount(profileBlock, {
+            propsData: {
+                section_id: EXPECTED_ID
+            }
+        });
+        expect(wrapper.props().section_id).toBe(EXPECTED_ID);
+        expect(wrapper.find('section').attributes().id).toBe(EXPECTED_ID)
     })
 });
