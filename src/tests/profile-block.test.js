@@ -1,9 +1,9 @@
 import {shallowMount} from '@vue/test-utils'
-import languageModal from '../js/components/modals/language-modal.vue'
+import profileBlock from '../js/components/commons/profile-block.vue'
 
-describe('languageModal', () => {
+describe('profile-block', () => {
     test('is a Vue instance', () => {
-        const wrapper = shallowMount(languageModal, {
+        const wrapper = shallowMount(profileBlock, {
             propsData: {
                 languages: [],
                 index: undefined
