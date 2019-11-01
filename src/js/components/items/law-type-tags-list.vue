@@ -88,7 +88,9 @@
                 let result = [];
                 law_type_tags_choices.forEach(el => {
                     el.subareas.forEach(el => {
-                        result.push(el.name)
+                        if (this.value.indexOf(el.name) === -1) {
+                            result.push(el.name)
+                        }
                     })
                 });
                 return result.sort()
