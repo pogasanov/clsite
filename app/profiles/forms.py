@@ -3,12 +3,12 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
 from django.forms import ModelForm, inlineformset_factory
 from django_select2.forms import Select2TagWidget
-from django.conf import settings
 
 from clsite.settings import DEFAULT_CHOICES_SELECTION, DEFAULT_COUNTRY
 from .models import (Profile, Education, WorkExperience, Address, Admissions,
                      LawSchool, Organization, Award, Jurisdiction, Language)
-from .utils import LAW_TYPE_TAGS_CHOICES, SUBJECTIVE_TAGS_CHOICES, _get_states_for_country, CUSTOM_SORTED_LANGUAGES_CHOICES
+from .utils import LAW_TYPE_TAGS_CHOICES, SUBJECTIVE_TAGS_CHOICES, _get_states_for_country, \
+    CUSTOM_SORTED_LANGUAGES_CHOICES
 
 
 def unique_field_formset(*fields):
@@ -246,9 +246,6 @@ class LawSchoolForm(ModelForm):
                 field.widget.attrs.update({'class': 'form-control'})
 
         self.fields['state'].label = 'State/Province'
-
-
-
 
 
 class JurisdictionForm(ModelForm):

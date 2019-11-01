@@ -1,8 +1,11 @@
 import json
 import os
-from clsite.settings import BASE_DIR
+
 from django.conf import settings
+
+from clsite.settings import BASE_DIR, PROJECT_ROOT
 from .choices import LANGUAGES_CHOICES
+
 
 def _read_json(path):
     """
@@ -19,8 +22,7 @@ def _get_all_subjective_tags_tuple():
     file in the form of choices readable tuple.
     """
 
-    path = 'profiles/subjectivetags/subjective-tags.json'
-    file_path = os.path.join(BASE_DIR, path)
+    file_path = os.path.join(PROJECT_ROOT, 'choices', 'subjective-tags.json')
 
     tags = _read_json(file_path)
     result_list = []
