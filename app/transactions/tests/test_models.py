@@ -55,8 +55,8 @@ class TransactionModelTest(TestCase):
         transaction = TransactionFactory(is_confirmed=True, currency='USD')
         self.assertTrue(transaction.is_ready)
 
-    def test_requestee_eq_reqeuester_fail(self):
+    def test_sent_to_eq_created_by_fail(self):
         profile = ProfileFactory()
-        transaction = TransactionFactory(requestee=profile, requester=profile)
+        transaction = TransactionFactory(sent_to=profile, created_by=profile)
         with self.assertRaises(ValidationError):
             transaction.full_clean()
