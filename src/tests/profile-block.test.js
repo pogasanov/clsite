@@ -2,6 +2,10 @@ import {shallowMount} from '@vue/test-utils'
 import profileBlock from '../js/components/commons/profile-block.vue'
 
 describe('profile-block', () => {
+    const EXPECTED_TITLE = 'Tested title';
+    const EXPECTED_SECTION_ID = 'tested_id';
+    const EXPECTED_SLOT_CONTENT = '<div>Tested slot</div>';
+
     it('is a Vue instance', () => {
         const wrapper = shallowMount(profileBlock);
         expect(wrapper.isVueInstance()).toBeTruthy()
@@ -10,19 +14,17 @@ describe('profile-block', () => {
     it('renders correctly', () => {
         const wrapper = shallowMount(profileBlock, {
             propsData: {
-                title: 'Tested title',
-                section_id: 'tested_id'
+                title: EXPECTED_TITLE,
+                section_id: EXPECTED_SECTION_ID
             },
             slots: {
-                default: '<div>Tested slot</div>'
+                default: EXPECTED_SLOT_CONTENT
             }
         });
         expect(wrapper.element).toMatchSnapshot()
     });
 
     it('set title', () => {
-        const EXPECTED_TITLE = 'Tested title';
-
         const wrapper = shallowMount(profileBlock, {
             propsData: {
                 title: EXPECTED_TITLE
@@ -33,14 +35,12 @@ describe('profile-block', () => {
     });
 
     it('set section id', () => {
-        const EXPECTED_ID = 'tested_id';
-
         const wrapper = shallowMount(profileBlock, {
             propsData: {
-                section_id: EXPECTED_ID
+                section_id: EXPECTED_SECTION_ID
             }
         });
-        expect(wrapper.props().section_id).toBe(EXPECTED_ID);
-        expect(wrapper.find('section').attributes().id).toBe(EXPECTED_ID)
+        expect(wrapper.props().section_id).toBe(EXPECTED_SECTION_ID);
+        expect(wrapper.find('section').attributes().id).toBe(EXPECTED_SECTION_ID)
     })
 });
