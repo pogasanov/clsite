@@ -7,6 +7,19 @@ describe('profile-block', () => {
         expect(wrapper.isVueInstance()).toBeTruthy()
     });
 
+    it('renders correctly', () => {
+        const wrapper = shallowMount(profileBlock, {
+            propsData: {
+                title: 'Tested title',
+                section_id: 'tested_id'
+            },
+            slots: {
+                default: '<div>Tested slot</div>'
+            }
+        });
+        expect(wrapper.element).toMatchSnapshot()
+    });
+
     it('set title', () => {
         const EXPECTED_TITLE = 'Tested title';
 
