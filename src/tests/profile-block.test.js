@@ -50,9 +50,35 @@ describe('profile-block', () => {
                 default: EXPECTED_SLOT_CONTENT
             }
         });
-        expect(wrapper.vm.hasContent).toBeTruthy();
+        expect(wrapper.find('.js-edit').exists()).toBe(true);
 
         wrapper = shallowMount(profileBlock);
-        expect(wrapper.vm.hasContent).toBeFalsy()
+        expect(wrapper.text()).toContain('information is hidden')
+    });
+
+    it('trigger edit and save', () => {
+        const wrapper = shallowMount(profileBlock, {
+            slots: {
+                default: EXPECTED_SLOT_CONTENT
+            }
+        });
+        wrapper.find('.js-edit').trigger('click');
+        expect(wrapper.emitted().edit).toBeTruthy();
+
+        wrapper.find('.js-save').trigger('click');
+        expect(wrapper.emitted().edit.length).toBe(2)
+    });
+
+    it('trigger edit and cancel', () => {
+        const wrapper = shallowMount(profileBlock, {
+            slots: {
+                default: EXPECTED_SLOT_CONTENT
+            }
+        });
+        wrapper.find('.js-edit').trigger('click');
+        expect(wrapper.emitted().edit).toBeTruthy();
+
+        wrapper.find('.js-cancel').trigger('click');
+        expect(wrapper.emitted().cancel).toBeTruthy()
     })
 });

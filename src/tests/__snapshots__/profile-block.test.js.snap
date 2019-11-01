@@ -15,7 +15,7 @@ exports[`profile-block renders correctly 1`] = `
     </h2>
      
     <a
-      class="btn btn--small"
+      class="btn btn--small js-edit"
       href="#0"
     >
       Edit

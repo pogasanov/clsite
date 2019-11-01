@@ -4,10 +4,10 @@
             <h2 class="profile-block__title">{{ title }}</h2>
 
             <template v-if="hasContent">
-                <a @click="toggleEdit" class="btn btn--small" href="#0" v-if="!editState">Edit</a>
+                <a @click="toggleEdit" class="btn btn--small js-edit" href="#0" v-if="!editState">Edit</a>
                 <template v-else>
-                    <a @click="toggleEdit" class="btn btn--small" href="#0">Save</a>
-                    <a @click="cancelEdit" class="btn btn--small btn--outline" href="#0">Cancel</a>
+                    <a @click="toggleEdit" class="btn btn--small js-save" href="#0">Save</a>
+                    <a @click="cancelEdit" class="btn btn--small btn--outline js-cancel" href="#0">Cancel</a>
                 </template>
             </template>
             <template v-else>
