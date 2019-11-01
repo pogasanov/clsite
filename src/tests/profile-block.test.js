@@ -2,12 +2,12 @@ import {shallowMount} from '@vue/test-utils'
 import profileBlock from '../js/components/commons/profile-block.vue'
 
 describe('profile-block', () => {
-    test('is a Vue instance', () => {
+    it('is a Vue instance', () => {
         const wrapper = shallowMount(profileBlock);
         expect(wrapper.isVueInstance()).toBeTruthy()
     });
 
-    test('set title', () => {
+    it('set title', () => {
         const EXPECTED_TITLE = 'Tested title';
 
         const wrapper = shallowMount(profileBlock, {
@@ -19,7 +19,7 @@ describe('profile-block', () => {
         expect(wrapper.find('h2').text()).toBe(EXPECTED_TITLE)
     });
 
-    test('set section id', () => {
+    it('set section id', () => {
         const EXPECTED_ID = 'tested_id';
 
         const wrapper = shallowMount(profileBlock, {
