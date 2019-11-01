@@ -20,13 +20,16 @@
             <h3 slot="header">Edit tag</h3>
             <div slot="body">
                 <label for="subjective-tag">Subjective Tag</label>
-                <input id="subjective-tag" type="text" v-model="selectedTag">
+                <select id="subjective-tag" v-model="selectedTag">
+                    <option :value="tag" v-for="tag in lawTypeTags">{{tag}}</option>
+                </select>
             </div>
         </modal>
     </div>
 </template>
 
 <script>
+    import law_type_tags_choices from '../../../../app/clsite/choices/law-type-tags-ontology'
     import viewableTags from '@/components/inputs/viewable-tags.vue'
     import modal from "@/components/commons/modal.vue";
     import Vue from 'vue'
@@ -79,6 +82,17 @@
             hideModal() {
                 this.selectedTag = undefined
             },
+        },
+        computed: {
+            lawTypeTags() {
+                let result = [];
+                law_type_tags_choices.forEach(el => {
+                    el.subareas.forEach(el => {
+                        result.push(el.name)
+                    })
+                });
+                return result.sort()
+            }
         }
     }
 </script>
