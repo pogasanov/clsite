@@ -23,7 +23,6 @@ def _get_all_subjective_tags_tuple():
     """
 
     file_path = os.path.join(PROJECT_ROOT, 'choices', 'subjective-tags.json')
-
     tags = _read_json(file_path)
     result_list = []
     for name in tags:
@@ -38,8 +37,7 @@ def _get_all_law_type_tags_tuple():
     file in the form of choices readable tuple.
     """
 
-    path = 'profiles/lawtypetags/law-type-tags-ontology.json'
-    file_path = os.path.join(BASE_DIR, path)
+    file_path = os.path.join(PROJECT_ROOT, 'choices', 'law-type-tags-ontology.json')
     tags_dict = _read_json(file_path)
     result_list = []
     for area in tags_dict:
