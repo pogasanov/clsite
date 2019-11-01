@@ -50,7 +50,6 @@
         },
         data() {
             return {
-                subjectiveTags: subjective_tags_choices,
                 selectedTag: undefined,
                 index: undefined
             }
@@ -82,6 +81,13 @@
             hideModal() {
                 this.selectedTag = undefined
             },
+        },
+        computed: {
+            subjectiveTags() {
+                return subjective_tags_choices.filter(el => {
+                    return this.value.indexOf(el) === -1
+                })
+            }
         }
     }
 </script>
