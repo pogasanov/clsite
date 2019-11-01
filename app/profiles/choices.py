@@ -3,7 +3,7 @@ import os
 
 from django.conf import settings
 
-LANGUAGE_CHOICES_PATH = os.path.join(settings.PROJECT_ROOT, 'choices', 'language_choices.json')
+LANGUAGE_CHOICES_PATH = os.path.join(settings.PROJECT_ROOT, 'choices', 'languages.json')
 
 USA_STATES = (
     ('AL', 'Alabama'),

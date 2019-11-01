@@ -40,7 +40,7 @@
 </template>
 
 <script>
-    import language_choices from '../../../../app/clsite/choices/language_choices'
+    import language_choices from '../../../../app/clsite/choices/languages'
     import viewableList from '@/components/inputs/viewable-list.vue'
     import modal from "@/components/commons/modal.vue";
     import Vue from 'vue'
