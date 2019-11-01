@@ -11,7 +11,7 @@ class GenerateReviewsCommandTest(TransactionTestCase):
     REVIEWS_TO_CREATE = 20
 
     def test_generatereviews(self):
-        PROFILES_TO_CREATE = 10
+        PROFILES_TO_CREATE = 20
 
         ProfileFactory.create_batch(PROFILES_TO_CREATE)
         call_command('generatereviews', reviews_count=self.REVIEWS_TO_CREATE)
