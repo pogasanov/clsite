@@ -37,6 +37,18 @@ must copy and paste. Comments should use `#` so that code blocks
 can be pasted into the shell without the comments affecting the
 runtime.
 
+## Before submitting
+
+We are using multiple tools to enforce similar conding conventions on
+all of our devs machines:
+1. [black](https://github.com/psf/black) is opinionated code formatter
+1. [flake8](http://flake8.pycqa.org/en/latest/) is python linter for PEP8
+1. [pre-commit framework](https://github.com/pre-commit/pre-commit) to
+automatically use them on `git commit`
+
+To use pre-commit framework, run `pre-commit install`. This will make 
+neccessary pre-commit git hooks to run black and flake8 against your code.
+
 ## Git workflow
 
 Each time you are creating a new feature, create a git branch called
