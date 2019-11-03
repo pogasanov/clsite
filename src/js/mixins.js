@@ -17,7 +17,7 @@ export const modalManipulation = {
     methods: {
         showModal(index) {
             this.modalIndex = index;
-            this.modalSelectedItem = (this.isNew ? "" : this.value[index])
+            this.modalSelectedItem = (this.isNew ? this.emptyItem() : this.existingItem())
         },
         confirmModal() {
             if (this.isNew) {
@@ -34,6 +34,13 @@ export const modalManipulation = {
         hideModal() {
             this.modalSelectedItem = undefined
         },
+
+        existingItem() {
+            return this.value[this.modalIndex]
+        },
+        emptyItem() {
+            return ""
+        },
     },
     computed: {
         isNew() {
@@ -41,6 +48,6 @@ export const modalManipulation = {
         },
         isModalDisplayed() {
             return this.modalSelectedItem !== undefined
-        }
+        },
     }
 };

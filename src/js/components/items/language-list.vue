@@ -14,22 +14,22 @@
         </viewable-list>
 
         <modal
-                :deletable="index !== null"
+                :deletable="!isNew"
                 @cancel="hideModal"
 
                 @delete="deleteModal"
                 @ok="confirmModal"
-                v-if="selectedLanguage !== undefined"
+                v-if="isModalDisplayed"
         >
             <h3 slot="header">Edit language</h3>
             <div slot="body">
                 <label for="language">Language</label>
-                <select id="language" v-model="selectedLanguage.name">
+                <select id="language" v-model="modalSelectedItem.name">
                     <option :value="value" v-for="(label, value) in language_choices">{{label}}</option>
                 </select>
 
                 <label for="proficiency_level">Proficiency Level</label>
-                <select id="proficiency_level" v-model="selectedLanguage.proficiency_level">
+                <select id="proficiency_level" v-model="modalSelectedItem.proficiency_level">
                     <option value="NS">Native speaker</option>
                     <option value="PF">Professional fluency</option>
                     <option value="CF">Conversational fluency</option>
@@ -43,57 +43,32 @@
     import language_choices from '../../../../app/clsite/choices/languages'
     import viewableList from '@/components/inputs/viewable-list.vue'
     import modal from "@/components/commons/modal.vue";
-    import Vue from 'vue'
+    import {modalManipulation} from "@/mixins";
 
     export default {
         name: "language-list",
+        mixins: [modalManipulation],
         components: {
             viewableList,
             modal
         },
-        model: {
-            prop: 'value',
-            event: 'change'
-        },
         props: {
-            value: Array,
             editState: Boolean
         },
         data() {
             return {
                 language_choices: language_choices,
-                selectedLanguage: undefined,
-                index: undefined
             }
         },
         methods: {
-            showModal(index) {
-                if (index === undefined) {
-                    this.selectedLanguage = undefined
-                } else if (index === null) {
-                    this.selectedLanguage = {
-                        name: 'en',
-                        proficiency_level: 'NS'
-                    }
-                } else {
-                    this.selectedLanguage = Object.assign({}, this.value[index])
+            emptyItem() {
+                return {
+                    name: 'en',
+                    proficiency_level: 'NS'
                 }
-                this.index = index
             },
-            confirmModal() {
-                if (this.index === null) {
-                    this.value.push(this.selectedLanguage)
-                } else {
-                    Vue.set(this.value, this.index, this.selectedLanguage)
-                }
-                this.hideModal()
-            },
-            deleteModal() {
-                this.value.splice(this.index, 1);
-                this.hideModal()
-            },
-            hideModal() {
-                this.selectedLanguage = undefined
+            existingItem() {
+                return Object.assign({}, this.value[this.modalIndex])
             },
 
             getLanguageName(name) {
