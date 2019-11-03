@@ -56,18 +56,11 @@
         },
         methods: {
             showModal(index) {
-                if (index === undefined) {
-                    this.selectedTag = undefined
-                }
-                if (index === null) {
-                    this.selectedTag = ""
-                } else {
-                    this.selectedTag = this.value[index]
-                }
-                this.index = index
+                this.index = index;
+                this.selectedTag = (this.isNew ? "" : this.value[index])
             },
             confirmTagModal() {
-                if (this.index === null) {
+                if (this.isNew) {
                     this.value.push(this.selectedTag)
                 } else {
                     Vue.set(this.value, this.index, this.selectedTag)
@@ -83,8 +76,11 @@
             },
         },
         computed: {
+            isNew() {
+                return this.index === null
+            },
             subjectiveTags() {
-                if (this.index === null) {
+                if (this.isNew) {
                     return subjective_tags_choices.filter(el => {
                         return this.value.indexOf(el) === -1
                     })
