@@ -2,10 +2,10 @@
     <div>
         <viewable-list
                 :edit-state="editState"
-                @item-clicked="showLanguageModal"
+                @item-clicked="showModal"
                 label="Addresses"
                 new-item-label="Add new address"
-                v-model="value"
+                v-model="modalItems"
         >
             <template v-slot:default="slotProps">
                 <ul class="list list--condensed">
@@ -17,23 +17,23 @@
         </viewable-list>
 
         <modal
-                :deletable="selectedAddress !== null"
+                :deletable="!isNew"
                 @cancel="hideModal"
 
-                @delete="deleteLanguageModal"
-                @ok="confirmLanguageModal"
-                v-if="selectedAddress !== undefined"
+                @delete="deleteModal"
+                @ok="confirmModal"
+                v-if="isModalDisplayed"
         >
             <h3 slot="header">Edit address</h3>
             <div slot="body">
                 <label for="country">Country</label>
-                <input id="country" type="text" v-model="selectedAddress.country">
+                <input id="country" type="text" v-model="modalSelectedItem.country">
 
                 <label for="state">State</label>
-                <input id="state" type="text" v-model="selectedAddress.state">
+                <input id="state" type="text" v-model="modalSelectedItem.state">
 
                 <label for="city">City</label>
-                <input id="city" type="text" v-model="selectedAddress.city">
+                <input id="city" type="text" v-model="modalSelectedItem.city">
             </div>
         </modal>
     </div>
@@ -42,57 +42,28 @@
 <script>
     import viewableList from '@/components/inputs/viewable-list.vue'
     import modal from "@/components/commons/modal.vue"
-    import Vue from 'vue'
+    import {modalManipulation} from "@/mixins";
 
     export default {
         name: "addresses-list",
+        mixins: [modalManipulation],
         components: {
             viewableList,
             modal
         },
-        model: {
-            prop: 'value',
-            event: 'change'
-        },
         props: {
-            value: Array,
             editState: Boolean,
         },
-        data() {
-            return {
-                selectedAddress: undefined,
-                index: undefined,
-            }
-        },
         methods: {
-            showLanguageModal(index) {
-                if (index === undefined) {
-                    this.selectedAddress = undefined
-                } else if (index === null) {
-                    this.selectedAddress = {
-                        country: '',
-                        state: '',
-                        city: '',
-                    }
-                } else {
-                    this.selectedAddress = Object.assign({}, this.value[index])
+            emptyItem() {
+                return {
+                    country: '',
+                    state: '',
+                    city: '',
                 }
-                this.index = index
             },
-            confirmLanguageModal() {
-                if (this.index === null) {
-                    this.value.push(this.selectedAddress)
-                } else {
-                    Vue.set(this.value, this.index, this.selectedAddress)
-                }
-                this.hideModal()
-            },
-            deleteLanguageModal() {
-                this.value.splice(this.index, 1);
-                this.hideModal()
-            },
-            hideModal() {
-                this.selectedAddress = undefined
+            existingItem() {
+                return Object.assign({}, this.modalItems[this.modalIndex])
             },
         }
     }
