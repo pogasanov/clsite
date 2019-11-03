@@ -84,9 +84,13 @@
         },
         computed: {
             subjectiveTags() {
-                return subjective_tags_choices.filter(el => {
-                    return this.value.indexOf(el) === -1
-                })
+                if (this.index === null) {
+                    return subjective_tags_choices.filter(el => {
+                        return this.value.indexOf(el) === -1
+                    })
+                } else {
+                    return subjective_tags_choices
+                }
             }
         }
     }
