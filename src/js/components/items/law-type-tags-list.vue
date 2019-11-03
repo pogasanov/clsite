@@ -13,8 +13,8 @@
                 :deletable="!isNew"
                 @cancel="hideModal"
 
-                @delete="deleteTagModal"
-                @ok="confirmTagModal"
+                @delete="deleteModal"
+                @ok="confirmModal"
                 v-if="isModalDisplayed"
         >
             <h3 slot="header">Edit tag</h3>

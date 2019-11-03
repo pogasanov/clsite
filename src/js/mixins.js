@@ -19,7 +19,7 @@ export const modalManipulation = {
             this.modalIndex = index;
             this.modalSelectedItem = (this.isNew ? "" : this.value[index])
         },
-        confirmTagModal() {
+        confirmModal() {
             if (this.isNew) {
                 this.value.push(this.modalSelectedItem)
             } else {
@@ -27,7 +27,7 @@ export const modalManipulation = {
             }
             this.hideModal()
         },
-        deleteTagModal() {
+        deleteModal() {
             this.value.splice(this.modalIndex, 1);
             this.hideModal()
         },
