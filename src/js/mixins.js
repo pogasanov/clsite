@@ -2,11 +2,11 @@ import Vue from 'vue'
 
 export const modalManipulation = {
     model: {
-        prop: 'value',
+        prop: 'modalItems',
         event: 'change'
     },
     props: {
-        value: Array,
+        modalItems: Array,
     },
     data() {
         return {
@@ -21,14 +21,14 @@ export const modalManipulation = {
         },
         confirmModal() {
             if (this.isNew) {
-                this.value.push(this.modalSelectedItem)
+                this.modalItems.push(this.modalSelectedItem)
             } else {
-                Vue.set(this.value, this.modalIndex, this.modalSelectedItem)
+                Vue.set(this.modalItems, this.modalIndex, this.modalSelectedItem)
             }
             this.hideModal()
         },
         deleteModal() {
-            this.value.splice(this.modalIndex, 1);
+            this.modalItems.splice(this.modalIndex, 1);
             this.hideModal()
         },
         hideModal() {
@@ -36,7 +36,7 @@ export const modalManipulation = {
         },
 
         existingItem() {
-            return this.value[this.modalIndex]
+            return this.modalItems[this.modalIndex]
         },
         emptyItem() {
             return ""

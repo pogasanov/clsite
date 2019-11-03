@@ -5,7 +5,7 @@
                 @item-clicked="showModal"
                 label="Subjective Tags"
                 new-item-label="Add new subjective tag"
-                v-model="value"
+                v-model="modalItems"
         >
         </viewable-tags>
 
@@ -48,7 +48,7 @@
             subjectiveTags() {
                 if (this.isNew) {
                     return subjective_tags_choices.filter(el => {
-                        return this.value.indexOf(el) === -1
+                        return this.modalItems.indexOf(el) === -1
                     })
                 } else {
                     return subjective_tags_choices

@@ -5,7 +5,7 @@
                 @item-clicked="showModal"
                 label="Practice areas"
                 new-item-label="Add new practice area"
-                v-model="value"
+                v-model="modalItems"
         >
         </viewable-tags>
 
@@ -50,7 +50,7 @@
                 let result = [];
                 law_type_tags_choices.forEach(el => {
                     el.subareas.forEach(el => {
-                        if (!this.isNew || this.value.indexOf(el.name) === -1) {
+                        if (!this.isNew || this.modalItems.indexOf(el.name) === -1) {
                             result.push(el.name)
                         }
                     })

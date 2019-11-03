@@ -5,7 +5,7 @@
                 @item-clicked="showModal"
                 label="Languages"
                 new-item-label="Add new language"
-                v-model="value"
+                v-model="modalItems"
         >
             <template v-slot:default="slotProps">
                 {{ getLanguageName(slotProps.item.name) }},<br/>
@@ -68,7 +68,7 @@
                 }
             },
             existingItem() {
-                return Object.assign({}, this.value[this.modalIndex])
+                return Object.assign({}, this.modalItems[this.modalIndex])
             },
 
             getLanguageName(name) {
