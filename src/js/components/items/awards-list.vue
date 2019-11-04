@@ -5,7 +5,7 @@
                 @item-clicked="showModal"
                 label="Awards"
                 new-item-label="Add new award"
-                v-model="value"
+                v-model="modalItems"
         >
             <template v-slot:default="slotProps">
                 <ul class="list list--condensed">
@@ -20,23 +20,23 @@
         </viewable-list>
 
         <modal
-                :deletable="selectedEducation !== null"
+                :deletable="!isNew"
                 @cancel="hideModal"
 
-                @delete="modalDeleteHandle"
-                @ok="modalConfirmHandle"
-                v-if="selectedEducation !== undefined"
+                @delete="deleteModal"
+                @ok="confirmModal"
+                v-if="isModalDisplayed"
         >
             <h3 slot="header">Edit address</h3>
             <div slot="body">
                 <label for="country">Title</label>
-                <input id="country" type="text" v-model="selectedEducation.title">
+                <input id="country" type="text" v-model="modalSelectedItem.title">
 
                 <label for="state">Presented by</label>
-                <input id="state" type="text" v-model="selectedEducation.presented_by">
+                <input id="state" type="text" v-model="modalSelectedItem.presented_by">
 
                 <label for="year">Year</label>
-                <input id="year" type="number" v-model="selectedEducation.year">
+                <input id="year" type="number" v-model="modalSelectedItem.year">
             </div>
         </modal>
     </div>
@@ -45,53 +45,21 @@
 <script>
     import viewableList from '@/components/inputs/viewable-list.vue'
     import modal from "@/components/commons/modal.vue"
-    import Vue from 'vue'
+    import {modalManipulation} from "@/mixins";
 
     export default {
         name: "awards-list",
+        mixins: [modalManipulation],
         components: {
             viewableList,
             modal
         },
-        model: {
-            prop: 'value',
-            event: 'change'
-        },
         props: {
-            value: Array,
             editState: Boolean,
         },
-        data() {
-            return {
-                selectedEducation: undefined,
-                index: undefined,
-            }
-        },
         methods: {
-            showModal(index) {
-                if (index === undefined) {
-                    this.selectedEducation = undefined
-                } else if (index === null) {
-                    this.selectedEducation = {};
-                } else {
-                    this.selectedEducation = Object.assign({}, this.value[index]);
-                }
-                this.index = index
-            },
-            modalConfirmHandle() {
-                if (this.index === null) {
-                    this.value.push(this.selectedEducation)
-                } else {
-                    Vue.set(this.value, this.index, this.selectedEducation)
-                }
-                this.hideModal()
-            },
-            modalDeleteHandle() {
-                this.value.splice(this.index, 1);
-                this.hideModal()
-            },
-            hideModal() {
-                this.selectedEducation = undefined
+            emptyItem() {
+                return {}
             },
         },
     }
