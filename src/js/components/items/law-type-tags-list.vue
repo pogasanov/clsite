@@ -21,7 +21,7 @@
             <div slot="body">
                 <label for="subjective-tag">Subjective Tag</label>
                 <select id="subjective-tag" v-model="modalSelectedItem">
-                    <option :value="tag" v-for="tag in lawTypeTags">{{tag}}</option>
+                    <option :value="tag" v-for="tag in choosableLawTypeTags">{{tag}}</option>
                 </select>
             </div>
         </modal>
@@ -46,16 +46,19 @@
             editState: Boolean
         },
         computed: {
-            lawTypeTags() {
+            allLawTypeTags() {
                 let result = [];
                 law_type_tags_choices.forEach(el => {
                     el.subareas.forEach(el => {
-                        if (!this.isNew || this.modalItems.indexOf(el.name) === -1) {
-                            result.push(el.name)
-                        }
+                        result.push(el.name)
                     })
                 });
                 return result.sort()
+            },
+            choosableLawTypeTags() {
+                return this.allLawTypeTags.filter(el => {
+                    return (this.isNew || this.modalSelectedItem !== el) ? this.modalItems.indexOf(el) === -1 : true
+                })
             }
         }
     }
