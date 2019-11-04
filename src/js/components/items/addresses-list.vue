@@ -62,9 +62,6 @@
                     city: '',
                 }
             },
-            existingItem() {
-                return Object.assign({}, this.modalItems[this.modalIndex])
-            },
         }
     }
 </script>
