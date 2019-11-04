@@ -21,7 +21,7 @@
             <div slot="body">
                 <label for="subjective-tag">Subjective Tag</label>
                 <select id="subjective-tag" v-model="modalSelectedItem">
-                    <option :value="tag" v-for="tag in choosable_subjective_tags">{{tag}}</option>
+                    <option :value="tag" v-for="tag in choosableSubjectiveTags">{{tag}}</option>
                 </select>
             </div>
         </modal>
@@ -46,12 +46,12 @@
         },
         data() {
             return {
-                all_subjective_tags: subjective_tags_choices,
+                allSubjectiveTags: subjective_tags_choices,
             }
         },
         computed: {
-            choosable_subjective_tags() {
-                return this.all_subjective_tags.filter(el => {
+            choosableSubjectiveTags() {
+                return this.allSubjectiveTags.filter(el => {
                     return (this.isNew || this.modalSelectedItem !== el) ? this.modalItems.indexOf(el) === -1 : true
                 })
             }
