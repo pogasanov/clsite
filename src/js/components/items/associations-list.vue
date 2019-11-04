@@ -5,7 +5,7 @@
                 @item-clicked="showModal"
                 label="Associations"
                 new-item-label="Add new associations"
-                v-model="value"
+                v-model="modalItems"
         >
             <template v-slot:default="slotProps">
                 <ul class="list list--condensed">
@@ -19,20 +19,20 @@
         </viewable-list>
 
         <modal
-                :deletable="selectedAssociation !== null"
+                :deletable="!isNew"
                 @cancel="hideModal"
 
-                @delete="modalDeleteHandle"
-                @ok="modalConfirmHandle"
-                v-if="selectedAssociation !== undefined"
+                @delete="deleteModal"
+                @ok="confirmModal"
+                v-if="isModalDisplayed"
         >
             <h3 slot="header">Edit address</h3>
             <div slot="body">
                 <label for="country">Company</label>
-                <input id="country" type="text" v-model="selectedAssociation.name">
+                <input id="country" type="text" v-model="modalSelectedItem.name">
 
                 <label for="state">Position</label>
-                <input id="state" type="text" v-model="selectedAssociation.position">
+                <input id="state" type="text" v-model="modalSelectedItem.position">
 
                 <label for="duration">Duration</label>
                 <date-picker
@@ -49,29 +49,24 @@
     import viewableList from '@/components/inputs/viewable-list.vue'
     import modal from "@/components/commons/modal.vue"
     import DatePicker from 'v-calendar/lib/components/date-picker.umd'
+    import {modalManipulation} from "@/mixins";
     import Vue from 'vue'
 
     Vue.component('date-picker', DatePicker);
 
     export default {
         name: "associations-list",
+        mixins: [modalManipulation],
         components: {
             DatePicker,
             viewableList,
             modal
         },
-        model: {
-            prop: 'value',
-            event: 'change'
-        },
         props: {
-            value: Array,
             editState: Boolean,
         },
         data() {
             return {
-                selectedAssociation: undefined,
-                index: undefined,
                 duration: {
                     start: new Date(2016, 9, 16),
                     end: new Date(2016, 9, 17)
@@ -79,47 +74,34 @@
             }
         },
         methods: {
+            emptyItem() {
+                return {
+                    name: '',
+                    position: '',
+                    duration: {
+                        lower: new Date(2016, 9, 16),
+                        upper: new Date(2016, 9, 17)
+                    }
+                }
+            },
             showModal(index) {
-                if (index === undefined) {
-                    this.selectedAssociation = undefined
-                } else if (index === null) {
-                    this.selectedAssociation = {
-                        name: '',
-                        position: '',
-                        duration: {
-                            lower: new Date(2016, 9, 16),
-                            upper: new Date(2016, 9, 17)
-                        }
-                    };
+                modalManipulation.methods.showModal.call(this, index);
+                if (!this.isNew) {
+                    this.duration = {
+                        start: this.$options.filters.stringToDate(this.modalItems[index].duration.lower),
+                        end: this.$options.filters.stringToDate(this.modalItems[index].duration.upper)
+                    }
+                } else {
                     this.duration = {
                         start: new Date(2016, 9, 16),
                         end: new Date(2016, 9, 17)
                     }
-                } else {
-                    this.selectedAssociation = Object.assign({}, this.value[index]);
-                    this.duration = {
-                        start: this.$options.filters.stringToDate(this.value[index].duration.lower),
-                        end: this.$options.filters.stringToDate(this.value[index].duration.upper)
-                    }
                 }
-                this.index = index
             },
-            modalConfirmHandle() {
-                this.selectedAssociation.duration.lower = this.$options.filters.dateToString(this.duration.start);
-                this.selectedAssociation.duration.upper = this.$options.filters.dateToString(this.duration.end);
-                if (this.index === null) {
-                    this.value.push(this.selectedAssociation)
-                } else {
-                    Vue.set(this.value, this.index, this.selectedAssociation)
-                }
-                this.hideModal()
-            },
-            modalDeleteHandle() {
-                this.value.splice(this.index, 1);
-                this.hideModal()
-            },
-            hideModal() {
-                this.selectedAssociation = undefined
+            confirmModal() {
+                this.modalSelectedItem.duration.lower = this.$options.filters.dateToString(this.duration.start);
+                this.modalSelectedItem.duration.upper = this.$options.filters.dateToString(this.duration.end);
+                modalManipulation.methods.confirmModal.call(this)
             },
         },
     }
