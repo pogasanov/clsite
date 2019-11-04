@@ -25,7 +25,7 @@
             <div slot="body">
                 <label for="language">Language</label>
                 <select id="language" v-model="modalSelectedItem.name">
-                    <option :value="value" v-for="(label, value) in choosable_languages">{{label}}</option>
+                    <option :value="value" v-for="(label, value) in choosableLanguages">{{label}}</option>
                 </select>
 
                 <label for="proficiency_level">Proficiency Level</label>
@@ -57,7 +57,7 @@
         },
         data() {
             return {
-                all_languages: language_choices
+                allLanguages: language_choices
             }
         },
         methods: {
@@ -69,7 +69,7 @@
             },
 
             getLanguageName(name) {
-                return this.all_languages[name]
+                return this.allLanguages[name]
             },
             getLanguageProficiencyLevel(proficiency_level) {
                 switch (proficiency_level) {
@@ -83,9 +83,9 @@
             },
         },
         computed: {
-            choosable_languages() {
+            choosableLanguages() {
                 const names = this.modalItems.map(i => i.name);
-                return Object.fromEntries(Object.entries(this.all_languages).filter(el => {
+                return Object.fromEntries(Object.entries(this.allLanguages).filter(el => {
                     return (this.isNew || this.modalSelectedItem.name !== el[0]) ? names.indexOf(el[0]) === -1 : true
                 }))
             }
