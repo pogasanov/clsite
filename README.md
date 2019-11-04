@@ -11,6 +11,8 @@ developers!
 
 ## Initial setup
 
+### Heroku
+
 Install
 [heroku-cli](https://devcenter.heroku.com/articles/heroku-cli#download-and-install). On OSX:
 
@@ -59,6 +61,17 @@ do run `makemigrations`, in which case you should do:
 ```
 heroku run python app/manage.py makemigrations
 heroku run python app/manage.py migrate
+```
+
+### Before submitting
+
+Before submitting any new commits, please read `CONTRIBUTING.md`.
+
+Make sure you run code style tools - `black` and `flake8`.  
+Run:
+```
+# Setup git pre-commit hooks to run code style tools on every new commit
+pre-commit install
 ```
 
 ## Sites
@@ -135,6 +148,9 @@ python app/manage.py generateprofiles 1000
 
 # Optional: Create 1000 dummy transactions shared randomly between existing profiles
 python app/manage.py generatetransactions 1000
+
+# Optional: Create 1000 dummy reviews shared randomly between existing profiles
+python app/manage.py generatereviews 1000
 
 python app/manage.py runserver
 ```
