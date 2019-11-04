@@ -36,6 +36,9 @@ export const modalManipulation = {
         },
 
         existingItem() {
+            if (typeof this.modalItems[this.modalIndex] === 'object') {
+                return Object.assign({}, this.modalItems[this.modalIndex])
+            }
             return this.modalItems[this.modalIndex]
         },
         emptyItem() {
