@@ -27,10 +27,15 @@
             <h3 slot="header">Edit address</h3>
             <div slot="body">
                 <label for="country">Country</label>
-                <input id="country" type="text" v-model="modalSelectedItem.country">
+                <select id="country" v-model="modalSelectedItem.country">
+                    <option :value="country" v-for="country in allCountries">{{country}}</option>
+                </select>
 
                 <label for="state">State</label>
-                <input id="state" type="text" v-model="modalSelectedItem.state">
+                <select id="state" v-model="modalSelectedItem.state">
+                    <option :value="state" v-for="state in getStatesByCountry(modalSelectedItem.country)">{{state}}
+                    </option>
+                </select>
 
                 <label for="city">City</label>
                 <input id="city" type="text" v-model="modalSelectedItem.city">
@@ -40,6 +45,7 @@
 </template>
 
 <script>
+    import languages_states_choices from '../../../../app/clsite/choices/countries+states'
     import viewableList from '@/components/inputs/viewable-list.vue'
     import modal from "@/components/commons/modal.vue"
     import {modalManipulation} from "@/mixins";
@@ -57,11 +63,21 @@
         methods: {
             emptyItem() {
                 return {
-                    country: '',
+                    country: 'United States of America',
                     state: '',
                     city: '',
                 }
             },
+            getStatesByCountry(country) {
+                return languages_states_choices.find(el => {
+                    return el.name === this.modalSelectedItem.country
+                }).states
+            }
+        },
+        computed: {
+            allCountries() {
+                return languages_states_choices.map(el => el.name)
+            }
         }
     }
 </script>
