@@ -88,8 +88,8 @@
                 modalManipulation.methods.showModal.call(this, index);
                 if (!this.isNew) {
                     this.duration = {
-                        start: this.$options.filters.stringToDate(this.modalItems[index].duration.lower),
-                        end: this.$options.filters.stringToDate(this.modalItems[index].duration.upper)
+                        start: this.$options.filters.stringToDate(this.modalSelectedItem.duration.lower),
+                        end: this.$options.filters.stringToDate(this.modalSelectedItem.duration.upper)
                     }
                 } else {
                     this.duration = {
