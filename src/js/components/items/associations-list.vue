@@ -26,7 +26,7 @@
                 @ok="confirmModal"
                 v-if="isModalDisplayed"
         >
-            <h3 slot="header">Edit address</h3>
+            <h3 slot="header">Edit association</h3>
             <div slot="body">
                 <label for="country">Company</label>
                 <input id="country" type="text" v-model="modalSelectedItem.name">
