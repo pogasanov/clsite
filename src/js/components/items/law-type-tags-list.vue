@@ -17,9 +17,9 @@
                 @ok="confirmModal"
                 v-if="isModalDisplayed"
         >
-            <h3 slot="header">Edit tag</h3>
+            <h3 slot="header">Edit practice area</h3>
             <div slot="body">
-                <label for="subjective-tag">Subjective Tag</label>
+                <label for="subjective-tag">Practice area</label>
                 <select id="subjective-tag" v-model="modalSelectedItem">
                     <option :value="tag" v-for="tag in choosableLawTypeTags">{{tag}}</option>
                 </select>
