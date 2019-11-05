@@ -136,11 +136,6 @@ class ProfileSerializer(serializers.HyperlinkedModelSerializer):
             data["subjective_tags"] = []
         if not data["law_type_tags"]:
             data["law_type_tags"] = []
-        addresses = data.pop("address", [])
-        if addresses:
-            data["addresses"] = [addresses]
-        else:
-            data["addresses"] = []
         if data["work_experiences"]:
             for exp in data["work_experiences"]:
                 exp["duration"] = json.loads(exp["duration"])
@@ -151,9 +146,6 @@ class ProfileSerializer(serializers.HyperlinkedModelSerializer):
 
     def to_internal_value(self, data):
         new_data = data.copy()
-        addresses = new_data.pop("addresses", None)
-        if addresses is not None:
-            new_data["address"] = addresses[0]
         if "work_experiences" in new_data:
             for exp in new_data["work_experiences"]:
                 exp["duration"] = json.dumps(exp["duration"])

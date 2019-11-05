@@ -139,7 +139,7 @@ class ProfileViewSetTest(APITestCase):
     def test_update_address_data(self):
         ADDRESSES_PAYLOAD = {"country": "Iran", "state": "Dummy state", "city": "Dummy city"}
 
-        response = self.client.patch(self.VIEW_URL, {"addresses": [ADDRESSES_PAYLOAD]})
+        response = self.client.patch(self.VIEW_URL, {"address": ADDRESSES_PAYLOAD})
         self.assertEqual(response.status_code, 200)
         self.user.refresh_from_db()
         self.assertEqual(ADDRESSES_PAYLOAD["country"], self.user.address.country)
