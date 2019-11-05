@@ -8,6 +8,9 @@ Vue.filter('dateToString', function (value) {
 Vue.filter('stringToDate', function (value) {
     return moment(value).toDate()
 });
+Vue.filter('dateDiff', function (date1, date2) {
+    return moment.duration(moment(date1).diff(moment(date2))).humanize()
+})
 
 new Vue({
     render: h => h(Profile),

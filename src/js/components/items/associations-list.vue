@@ -11,8 +11,10 @@
                 <ul class="list list--condensed">
                     <li class="list__item"><span class="muted">Name:</span> {{ slotProps.item.name }}</li>
                     <li class="list__item"><span class="muted">Position:</span> {{ slotProps.item.position }}</li>
-                    <li class="list__item"><span class="muted">Duration:</span> {{ slotProps.item.duration.lower }} - {{
-                        slotProps.item.duration.upper }}
+                    <li class="list__item">
+                        <span class="muted">Duration:</span>
+                        {{ slotProps.item.duration.lower }} - {{ slotProps.item.duration.upper }}
+                        <span class="muted">({{ slotProps.item.duration.upper | dateDiff(slotProps.item.duration.lower) }})</span>
                     </li>
                 </ul>
             </template>
