@@ -7,7 +7,7 @@ from django.utils.html import format_html
 class ReviewAdmin(admin.ModelAdmin):
 
     list_display = (
-        'created_by', 'payment_direction', 'sent_to', 'get_rating',
+        'created_by', 'payment_direction', 'link_to_profile', 'get_rating',
         'work_description_private', 'recommendation', 'is_deleted'
     )
     search_fields = [
@@ -34,3 +34,8 @@ class ReviewAdmin(admin.ModelAdmin):
     def get_rating(self, obj):
         return obj.rating
     get_rating.short_description = 'Rating'
+
+    def link_to_profile(self, obj):
+        anchor = ("<a href='/profile/%s'>%s</a>" % (obj.sent_to.handle, obj.sent_to.full_name))
+        return format_html(anchor)
+    link_to_profile.short_description = 'Sent To'
