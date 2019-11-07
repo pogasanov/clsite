@@ -7,7 +7,7 @@ from django.utils.html import format_html
 class ReviewAdmin(admin.ModelAdmin):
 
     list_display = (
-        'created_by', 'payment_direction', 'sent_to', 'rating',
+        'created_by', 'payment_direction', 'sent_to', 'get_rating',
         'work_description_private', 'recommendation', 'is_deleted'
     )
     search_fields = [
@@ -23,9 +23,14 @@ class ReviewAdmin(admin.ModelAdmin):
     def payment_direction(self, obj):
         arrow_tag = '<img src="/static/admin/img/tooltag-arrowright.svg" class="{}"alt="None">'
 
-        if obj.is_sender_principal == True:
+        if obj.is_sender_principal is True:
             return format_html(arrow_tag.format('custom-arrow-right'))
-        if obj. is_sender_principal == False:
+        if obj. is_sender_principal is False:
             return format_html(arrow_tag.format('custom-arrow-left'))
-        if obj.is_sender_principal == None:
-            return format_html(arrow_tag.format('custom-arrow-left') + '  ' + arrow_tag.format('custom-arrow-right'))
+        if obj.is_sender_principal is None:
+            return format_html(arrow_tag.format('custom-arrow-left')
+                               + '  ' + arrow_tag.format('custom-arrow-right'))
+
+    def get_rating(self, obj):
+        return obj.rating
+    get_rating.short_description = 'Rating'

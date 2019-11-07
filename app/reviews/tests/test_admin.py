@@ -29,3 +29,7 @@ class ReviewAdminTest(TestCase):
         response = self.admin.payment_direction(review).split('  ')
         self.assertIn('custom-arrow-left', response[0])
         self.assertIn('custom-arrow-right', response[1])
+
+    def test_rating_integer(self):
+        review = ReviewFactory()
+        self.assertIsInstance(self.admin.get_rating(review), int)
