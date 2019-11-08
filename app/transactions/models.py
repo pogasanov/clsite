@@ -50,10 +50,10 @@ class Transaction(models.Model):
                                       verbose_name='Transaction Proof')
 
     created_by = models.ForeignKey('profiles.Profile', on_delete=models.CASCADE,
-                                  related_name='transaction_created_by', verbose_name='Created by')
+                                   related_name='transaction_created_by', verbose_name='Created by')
 
     sent_to = models.ForeignKey('profiles.Profile', on_delete=models.CASCADE,
-                                  related_name='transaction_sent_to', verbose_name='Sent to')
+                                related_name='transaction_sent_to', verbose_name='Sent to')
 
     is_confirmed = models.NullBooleanField(default=None, verbose_name='Requestee Confirmed')
     is_flagged = models.BooleanField(default=False, verbose_name='Flagged')
