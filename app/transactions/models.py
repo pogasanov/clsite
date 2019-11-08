@@ -41,7 +41,8 @@ class Transaction(models.Model):
 
     date = models.DateField(verbose_name='Transaction Date')
     amount = models.DecimalField(max_digits=14, decimal_places=2, verbose_name='Transaction Amount')
-    value_in_usd = models.DecimalField(max_digits=14, decimal_places=2, verbose_name='Value in USD', null=True,
+    value_in_usd = models.DecimalField(max_digits=14, decimal_places=2,
+                                       verbose_name='Value in USD', null=True,
                                        blank=True)
     currency = models.CharField(max_length=3, choices=CURRENCY_CHOICES,
                                 default='USD', verbose_name='Currency')
@@ -86,4 +87,5 @@ class Transaction(models.Model):
     def clean(self):
         super().clean()
         if self.created_by == self.sent_to:
-            raise ValidationError('created_by and sent_to cannot be the same user', code='same-created_by-sent_to')
+            raise ValidationError('created_by and sent_to cannot be the same user',
+                                  code='same-created_by-sent_to')
