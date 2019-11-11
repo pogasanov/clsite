@@ -42,6 +42,7 @@
     import profileAssociations from '@/components/profile/profile-associations.vue'
     import profileAwards from '@/components/profile/profile-awards.vue'
     import {getCookie} from "@/utils";
+    import {scrollspy} from "@/profile";
 
     export default {
         name: "Profile",
@@ -65,6 +66,7 @@
             fetch('/api/profile')
                 .then(stream => stream.json())
                 .then(data => this.about = data)
+                .then(scrollspy.update_sections_id_with_position())
                 .catch(error => console.error(error))
         },
         methods: {
@@ -79,6 +81,7 @@
                 })
                     .then(stream => stream.json())
                     .then(data => this.about = data)
+                    .then(scrollspy.update_sections_id_with_position())
                     .catch(error => console.error(error))
             }
         }
