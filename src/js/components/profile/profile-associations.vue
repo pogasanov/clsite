@@ -2,7 +2,7 @@
     <profile-block
             @cancel="cancelHandler"
             @edit="editHandler"
-            section_id="profile-workexperiences"
+            section_id="profile-associations"
             title="Professional Associations"
     >
         <associations-list
