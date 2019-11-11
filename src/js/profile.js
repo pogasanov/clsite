@@ -27,4 +27,4 @@ export function profile_sidebar_update_active() {
     }
 }
 
-window.onscroll = profile_sidebar_update_active
+document.addEventListener('scroll', profile_sidebar_update_active, false)
