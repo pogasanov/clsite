@@ -17,7 +17,6 @@ class ScrollSpy {
             sections_id_with_position[e.id] = e.offsetTop;
         });
         this.sections_id_with_position = sections_id_with_position
-        console.log(this.sections_id_with_position)
     }
 
     profile_sidebar_set_active() {
