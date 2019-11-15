@@ -1,24 +1,47 @@
 const path = require('path');
 const webpack = require("webpack");
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
+const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
 
 module.exports = [
     {
         name: 'app',
         mode: 'development',
         entry: './src/entry.js',
+        devtool: 'eval-source-map',
         output: {
             filename: './js/main.js',
             path: path.resolve(__dirname, 'app/clsite/static')
+        },
+        resolve: {
+            alias: {
+                '@': path.resolve(__dirname, 'src/js/')
+            }
         },
         plugins: [
             new MiniCssExtractPlugin({
                 filename: './css/[name].css',
                 chunkFilename: './css/[id].css',
             }),
+            new VueLoaderPlugin(),
+            new MomentLocalesPlugin(),
         ],
         module: {
             rules: [
+                {
+                    test: /\.vue$/,
+                    loader: 'vue-loader',
+                    options: {
+                        loaders: {}
+                        // other vue-loader options go here
+                    }
+                },
+                {
+                    test: /\.js$/,
+                    loader: 'babel-loader',
+                    exclude: /node_modules/
+                },
                 {
                     test: /\.(sa|sc|c)ss$/,
                     use: [

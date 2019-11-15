@@ -5,7 +5,7 @@ from django.core.management import call_command
 from django.test import TestCase, override_settings
 
 from profiles.factories import ProfileFactory
-from .models import Profile
+from profiles.models import Profile
 
 
 @override_settings(STATICFILES_STORAGE='django.contrib.staticfiles.storage.StaticFilesStorage')
@@ -181,36 +181,3 @@ class ProfileTests(TestCase):
         # Expects 302 and redirect to profile)
         self.assertRedirects(response, '/profile')
         self.assertTrue(response.context['user'].is_active)
-
-    def test_update_profile(self):
-        # User go to homepage
-        response = self.client.get('/')
-        # Expects 200 and rendered page
-        self.assertEqual(response.status_code, 200)
-
-        # User types correctly
-        response = self.client.post('/login?next=/profile', self.credentials, follow=True)
-        # Expects 302 and redirect to profile)
-        self.assertRedirects(response, '/profile')
-        self.assertTrue(response.context['user'].is_active)
-
-        # Try to Update the data with incorrect parameters
-        response = self.client.post('/profile', self.incorrect_update_data, follow=True)
-        self.assertEqual(response.status_code, 400)
-        self.assertEqual(response.json().get('message'), 'Invalid data provided!')
-
-        # Update the data with correct parameters
-        response = self.client.post('/profile', self.correct_update_data, follow=True)
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.json().get('message'), 'Your data has been updated successfully!')
-
-        # Go to profile view page to see the updated data
-        response = self.client.get('/profile/' + '-'.join(self.signup_credentials['full_name'].lower().split(' ')))
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.context['user'].full_name, self.correct_update_data['profile-full_name'])
-        self.assertEqual(response.context['user'].summary, self.correct_update_data['profile-summary'])
-        self.assertEqual(response.context['user'].bio, self.correct_update_data['profile-bio'])
-        self.assertEqual(response.context['user'].website, self.correct_update_data['profile-website'])
-        self.assertEqual(response.context['user'].twitter, self.correct_update_data['profile-twitter'])
-        self.assertEqual(response.context['user'].linkedin, self.correct_update_data['profile-linkedin'])
-        self.assertEqual(response.context['user'].facebook, self.correct_update_data['profile-facebook'])

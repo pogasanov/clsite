@@ -19,4 +19,6 @@ urlpatterns = \
              views.BrowsingView.as_view(), name='profiles-browsing'),
 
         path('states', views.get_states, name='states'),
+
+        path('api/profile', views.ProfileViewSet.as_view(), name='api-profile')
     ] + static(MEDIA_URL, document_root=MEDIA_ROOT)
