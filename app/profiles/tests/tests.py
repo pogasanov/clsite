@@ -38,72 +38,26 @@ class ProfileTests(TestCase):
             "password2": "test_password",
         }
         cls.correct_update_data = {
-            "profile-full_name": "John Doe",
-            "profile-languages": "ru,en",
-            "profile-summary": "Test Summary for having 5 years of experience in the field of shipping.",
-            "profile-bio": "Test bio",
-            "profile-phone": "+7(923)111-11-11",
-            "profile-email": "test@example.com",
-            "profile-website": "http://www.test.com",
-            "profile-twitter": "Test twitter",
-            "profile-linkedin": "Test linkedin",
-            "profile-facebook": "Test facebook",
-            "profile-preferred_communication_method": 0,
-            "profile-experience": "",
-            "profile-publish_to_thb": True,
-            "profile-law_type_tags": ["Pre-nuptial Agreement", "Business Law"],
-            "address-country": "United States of America",
-            "address-state": "Alabama",
-            "address-city": "City",
-            "address-zipcode": "12345",
-            "address-street": "Street",
-            "address-building": "z",
-            "lawschool-school": "school",
-            "lawschool-country": "United States of America",
-            "lawschool-state": "Alabama",
-            "jurisdiction-0-id": "",
-            "jurisdiction-0-country": "United States of America",
-            "jurisdiction-0-state": "Arizona",
-            "jurisdiction-0-city": "City",
-            "language-0-name": "en",
-            "language-0-proficiency_level": "NS",
-            "education-TOTAL_FORMS": 0,
-            "education-INITIAL_FORMS": 0,
-            "admissions-TOTAL_FORMS": 0,
-            "admissions-INITIAL_FORMS": 0,
-            "workexperience-TOTAL_FORMS": 0,
-            "workexperience-INITIAL_FORMS": 0,
-            "organization-TOTAL_FORMS": 0,
-            "organization-INITIAL_FORMS": 0,
-            "award-TOTAL_FORMS": 0,
-            "award-INITIAL_FORMS": 0,
-            "jurisdiction-TOTAL_FORMS": 1,
-            "jurisdiction-INITIAL_FORMS": 0,
-            "language-TOTAL_FORMS": 1,
-            "language-INITIAL_FORMS": 0,
-        }
-        cls.incorrect_update_data = {
-            "profile-full_name": "John Doe",
-            "profile-bio": "Test bio",
-            "profile-website": "http://www.test.com",
-            "profile-twitter": "Test twitter",
-            "profile-linkedin": "Test linkedin",
-            "profile-facebook": "Test facebook",
-            "education-TOTAL_FORMS": 0,
-            "education-INITIAL_FORMS": 0,
-            "admissions-TOTAL_FORMS": 0,
-            "admissions-INITIAL_FORMS": 0,
-            "workexperience-TOTAL_FORMS": 0,
-            "workexperience-INITIAL_FORMS": 0,
-            "organization-TOTAL_FORMS": 0,
-            "organization-INITIAL_FORMS": 0,
-            "award-TOTAL_FORMS": 0,
-            "award-INITIAL_FORMS": 0,
-            "jurisdiction-country": "Invalid Jurisdiciton",
-            "jurisdiction-TOTAL_FORMS": 0,
-            "jurisdiction-INITIAL_FORMS": 0,
-            "language-TOTAL_FORMS": 0,
-            "language-INITIAL_FORMS": 0,
+            "full_name": "John Doe",
+            "summary": "Test Summary for having 5 years of experience in the field of shipping.",
+            "bio": "Test bio",
+            "phone": "+7(923)111-11-11",
+            "email": "test@example.com",
+            "website": "http://www.test.com",
+            "twitter": "Test twitter",
+            "linkedin": "Test linkedin",
+            "facebook": "Test facebook",
+            "preferred_communication_method": 0,
+            "experience": "",
+            "publish_to_thb": True,
+            "law_type_tags": ["Pre-nuptial Agreement", "Business Law"],
+            "country": "United States of America",
+            "state": "Alabama",
+            "city": "City",
+            "languages": [{"name": "en", "proficiency_level": "NS"}],
+            "jurisdictions": [
+                {"country": "United States of America", "state": "New York", "city": "New York"}
+            ],
         }
 
     def setUp(self):
@@ -206,7 +160,9 @@ class ProfileTests(TestCase):
         self.assertRedirects(response, reverse("profile"))
 
         # Users fills out required fields
-        response = self.client.post(reverse("profile"), self.correct_update_data, follow=True)
+        response = self.client.patch(
+            reverse("api-profile"), self.correct_update_data, content_type="application/json"
+        )
         # Expects 200
         self.assertEqual(response.status_code, 200)
 
@@ -238,38 +194,3 @@ class ProfileTests(TestCase):
         response = self.client.get(reverse("profiles"))
         # Expects 200
         self.assertEqual(response.status_code, 200)
-
-    def test_update_profile(self):
-        # User go to homepage
-        response = self.client.get("/")
-        # Expects 200 and rendered page
-        self.assertEqual(response.status_code, 200)
-
-        # User types correctly
-        response = self.client.post("/login?next=/profile", self.credentials, follow=True)
-        # Expects 302 and redirect to profile)
-        self.assertRedirects(response, "/profile")
-        self.assertTrue(response.context["user"].is_active)
-
-        # Try to Update the data with incorrect parameters
-        response = self.client.post("/profile", self.incorrect_update_data, follow=True)
-        self.assertEqual(response.status_code, 400)
-        self.assertEqual(response.json().get("message"), "Invalid data provided!")
-
-        # Update the data with correct parameters
-        response = self.client.post("/profile", self.correct_update_data, follow=True)
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.json().get("message"), "Your data has been updated successfully!")
-
-        # Go to profile view page to see the updated data
-        response = self.client.get(
-            "/profile/" + "-".join(self.signup_credentials["full_name"].lower().split(" "))
-        )
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.context["user"].full_name, self.correct_update_data["profile-full_name"])
-        self.assertEqual(response.context["user"].summary, self.correct_update_data["profile-summary"])
-        self.assertEqual(response.context["user"].bio, self.correct_update_data["profile-bio"])
-        self.assertEqual(response.context["user"].website, self.correct_update_data["profile-website"])
-        self.assertEqual(response.context["user"].twitter, self.correct_update_data["profile-twitter"])
-        self.assertEqual(response.context["user"].linkedin, self.correct_update_data["profile-linkedin"])
-        self.assertEqual(response.context["user"].facebook, self.correct_update_data["profile-facebook"])

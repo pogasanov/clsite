@@ -187,4 +187,5 @@ PUBLIC_PAGES = (
     reverse_lazy("login"),
     reverse_lazy("logout"),
     reverse_lazy("register"),
+    reverse_lazy("api-profile"),
 )
