@@ -1,14 +1,17 @@
 import json
 import os
-from clsite.settings import BASE_DIR
+
 from django.conf import settings
+
+from clsite.settings import PROJECT_ROOT
 from .choices import LANGUAGES_CHOICES
+
 
 def _read_json(path):
     """
     Reads a json file and returns the results.
     """
-    with open(path, 'r') as file:
+    with open(path, "r") as file:
         data = json.load(file)
         return data
 
@@ -19,9 +22,7 @@ def _get_all_subjective_tags_tuple():
     file in the form of choices readable tuple.
     """
 
-    path = 'profiles/subjectivetags/subjective-tags.json'
-    file_path = os.path.join(BASE_DIR, path)
-
+    file_path = os.path.join(PROJECT_ROOT, "choices", "subjective-tags.json")
     tags = _read_json(file_path)
     result_list = []
     for name in tags:
@@ -36,8 +37,7 @@ def _get_all_law_type_tags_tuple():
     file in the form of choices readable tuple.
     """
 
-    path = 'profiles/lawtypetags/law-type-tags-ontology.json'
-    file_path = os.path.join(BASE_DIR, path)
+    file_path = os.path.join(PROJECT_ROOT, "choices", "law-type-tags-ontology.json")
     tags_dict = _read_json(file_path)
     result_list = []
     for area in tags_dict:
@@ -45,12 +45,12 @@ def _get_all_law_type_tags_tuple():
             subarea_list = area.pop("subareas")
             subarea_names_list = []
             for subarea in subarea_list:
-                subarea_names_list.append((subarea['name'], subarea['name']))
+                subarea_names_list.append((subarea["name"], subarea["name"]))
                 # throw value error if ontology exceeds two levels
-                if subarea.get('subareas'):
+                if subarea.get("subareas"):
                     raise ValueError("Only two levels are allowed in law-tag-type-ontology.json")
 
-            area_tuple = (area['name'], tuple(subarea_names_list))
+            area_tuple = (area["name"], tuple(subarea_names_list))
             result_list.append(area_tuple)
     return tuple(result_list)
 
@@ -60,12 +60,11 @@ def _get_all_countries_tuple():
     Returns all countries in the form of choices readable tuple.
     """
 
-    path = 'profiles/countriesstatescities/countries+states.json'
-    file_path = os.path.join(BASE_DIR, path)
+    file_path = os.path.join(PROJECT_ROOT, "choices", "countries+states.json")
     countries_states_cities = _read_json(file_path)
     result_list = []
     for row in countries_states_cities:
-        country_tuple = (row['name'], row['name'])
+        country_tuple = (row["name"], row["name"])
         result_list.append(country_tuple)
 
     return tuple(result_list)
@@ -75,13 +74,13 @@ def _get_states_for_country(country_name):
     """
     Returns all the states of a given country in the form of choices readable tuple.
     """
-    path = 'profiles/countriesstatescities/countries+states.json'
-    file_path = os.path.join(BASE_DIR, path)
+
+    file_path = os.path.join(PROJECT_ROOT, "choices", "countries+states.json")
     countries_states_cities = _read_json(file_path)
     result_list = []
     for row in countries_states_cities:
-        if row['name'] == country_name:
-            list_states = row['states']
+        if row["name"] == country_name:
+            list_states = row["states"]
             result_list = [(state, state) for state in list_states]
             return tuple(result_list)
 
