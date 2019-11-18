@@ -8,6 +8,7 @@ from profiles.factories import (
     WorkExperienceFactory,
     OrganizationFactory,
     AwardFactory,
+    JurisdictionFactory,
 )
 
 
@@ -56,6 +57,14 @@ class ProfileViewSetTest(APITestCase):
         self.assertContains(response, self.user.address.country)
         self.assertContains(response, self.user.address.state)
         self.assertContains(response, self.user.address.city)
+
+    def test_contains_jurisdiction_data(self):
+        response = self.client.get(self.VIEW_URL)
+
+        for jurisdiction in self.user.jurisdiction_set.all():
+            self.assertContains(response, jurisdiction.country)
+            self.assertContains(response, jurisdiction.state)
+            self.assertContains(response, jurisdiction.city)
 
     def test_contains_language_data(self):
         response = self.client.get(self.VIEW_URL)
@@ -204,6 +213,36 @@ class ProfileViewSetTest(APITestCase):
                 self.assertEqual(education.id, existing_educations[0].id)
             if education.school == "Dummy school2":
                 self.assertEqual(education.id, existing_educations[1].id)
+
+    def test_update_and_add_jurisdiction_data(self):
+        self.user.jurisdiction_set.all().delete()
+        existing_jurisdictions = JurisdictionFactory.create_batch(profile=self.user, size=2)
+        UPDATED_JURISDICTIONS_PAYLOAD = [
+            {
+                "id": existing_jurisdictions[0].id,
+                "country": "United States of America",
+                "state": "Arkansas",
+                "city": "a",
+            },
+            {
+                "id": existing_jurisdictions[1].id,
+                "country": "United States of America",
+                "state": "Alabama",
+                "city": "b",
+            },
+            {"country": "United States of America", "state": "Alaska", "city": "c"},
+            {"country": "United States of America", "state": "Arizona", "city": "d"},
+        ]
+
+        response = self.client.patch(self.VIEW_URL, {"jurisdictions": UPDATED_JURISDICTIONS_PAYLOAD})
+        self.assertEqual(response.status_code, 200)
+        jurisdictions = self.user.jurisdiction_set.all()
+        self.assertEqual(len(jurisdictions), 4)
+        for jurisdiction in jurisdictions:
+            if jurisdiction.state == "Arkansas":
+                self.assertEqual(jurisdiction.id, existing_jurisdictions[0].id)
+            if jurisdiction.state == "Alabama":
+                self.assertEqual(jurisdiction.id, existing_jurisdictions[1].id)
 
     def test_update_and_add_work_experience_data(self):
         self.user.workexperience_set.all().delete()
