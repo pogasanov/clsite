@@ -17,7 +17,7 @@
                 :edit-state="editState"
                 label="State"
                 v-model="state"
-                :options="getStatesByCountry"
+                :options="statesByCountry"
         >
         </viewable-select>
 
@@ -31,10 +31,10 @@
 </template>
 
 <script>
-    import languages_states_choices from '../../../../app/clsite/choices/countries+states'
     import profileBlock from '@/components/commons/profile-block.vue'
     import viewableSelect from '@/components/inputs/viewable-select.vue'
     import viewableInput from '@/components/inputs/viewable-input.vue'
+    import {getAllCountries, getStatesByCountry} from "@/utils";
 
     export default {
         name: "profile-locations",
@@ -50,6 +50,8 @@
                 country: "",
                 state: "",
                 city: "",
+
+                allCountries: getAllCountries()
             }
         },
         methods: {
@@ -77,27 +79,21 @@
                 this.editState = !this.editState
             },
         },
-        computed: {
-            allCountries() {
-                return languages_states_choices.map(el => el.name)
-            },
-            getStatesByCountry() {
-                const choice = languages_states_choices.find(el => {
-                    return el.name === this.country
-                })
-                return choice ? choice.states : []
-            },
-        },
         created() {
             this.updateData(this.about)
+        },
+        computed: {
+            statesByCountry() {
+                return getStatesByCountry(this.country)
+            }
         },
         watch: {
             about(newAbout, oldAbout) {
                 this.updateData(newAbout)
             },
             country(newCountry, oldCountry) {
-                if (this.getStatesByCountry.indexOf(this.state) === -1) {
-                    this.state = this.getStatesByCountry[0]
+                if (this.statesByCountry.indexOf(this.state) === -1) {
+                    this.state = this.statesByCountry[0]
                 }
             }
         }

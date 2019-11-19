@@ -27,6 +27,12 @@
             >
             </viewable-input>
         </div>
+
+        <jurisdictions-list
+                :edit-state="editState"
+                v-model="jurisdictions"
+        >
+        </jurisdictions-list>
     </profile-block>
 </template>
 
@@ -34,10 +40,12 @@
     import profileBlock from '@/components/commons/profile-block.vue'
     import viewableInput from '@/components/inputs/viewable-input.vue'
     import lawTypeTagsList from '@/components/items/law-type-tags-list.vue'
+    import JurisdictionsList from "@/components/items/jurisdictions-list.vue";
 
     export default {
         name: "profile-details",
         components: {
+            JurisdictionsList,
             profileBlock,
             lawTypeTagsList,
             viewableInput,
@@ -49,13 +57,15 @@
                 lawTypeTags: ['dummy', 'subjective', 'tags'],
                 experience: '',
                 current_job: '',
+                jurisdictions: [],
             }
         },
         methods: {
             updateData(data) {
                 this.lawTypeTags = data.law_type_tags;
                 this.experience = data.experience;
-                this.current_job = data.current_job
+                this.current_job = data.current_job;
+                this.jurisdictions = data.jurisdictions;
             },
             editHandler() {
                 if (this.editState) {
@@ -63,6 +73,7 @@
                         law_type_tags: this.lawTypeTags,
                         experience: this.experience,
                         current_job: this.current_job,
+                        jurisdictions: this.jurisdictions,
                     })
                 }
                 this.editState = !this.editState

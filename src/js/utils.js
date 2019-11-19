@@ -1,3 +1,5 @@
+import languages_states_choices from '../../app/clsite/choices/countries+states'
+
 export function getCookie(name) {
     var cookieValue = null;
     if (document.cookie && document.cookie !== '') {
@@ -12,4 +14,16 @@ export function getCookie(name) {
         }
     }
     return cookieValue;
+}
+
+
+export function getAllCountries() {
+    return languages_states_choices.map(el => el.name)
+}
+
+export function getStatesByCountry(country) {
+    const choice = languages_states_choices.find(el => {
+        return el.name === country
+    })
+    return choice ? choice.states : []
 }
