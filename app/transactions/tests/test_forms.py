@@ -1,14 +1,9 @@
-from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase, override_settings
 from django.utils import timezone
 
 from profiles.factories import ProfileFactory
 from transactions.factories import TransactionFactory
 from transactions.forms import TransactionForm, ConfirmTransactionForm
-from transactions.models import Transaction
-
-TEST_IMAGE_DATA = b'GIF87a\x01\x00\x01\x00\x80\x01\x00\x00\x00\x00ccc,\x00' \
-                  b'\x00\x00\x00\x01\x00\x01\x00\x00\x02\x02D\x01\x00;'
 
 
 @override_settings(STATICFILES_STORAGE='django.contrib.staticfiles.storage.StaticFilesStorage')

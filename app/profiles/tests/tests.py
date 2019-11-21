@@ -1,129 +1,78 @@
 import sys
 
-from django.contrib.auth import get_user_model
 from django.core.management import call_command
 from django.test import TestCase, override_settings
+from django.urls import reverse
+from django.utils import timezone
 
 from profiles.factories import ProfileFactory
 from profiles.models import Profile
 
 
-@override_settings(STATICFILES_STORAGE='django.contrib.staticfiles.storage.StaticFilesStorage')
+@override_settings(STATICFILES_STORAGE="django.contrib.staticfiles.storage.StaticFilesStorage")
 class ProfileTests(TestCase):
     @classmethod
     def setUpTestData(cls):
         cls.signup_credentials = {
-            'full_name': 'Test User',
-            'email': 'test_user@gmail.com',
-            'password': 'test_password'
+            "full_name": "Test User",
+            "email": "test_user@gmail.com",
+            "password": "test_password",
         }
         cls.credentials = {
-            'username': 'test_user@gmail.com', # because we overwrote username field with email field
-            'password': 'test_password'
+            "username": "test_user@gmail.com",  # because we overwrote username field with email field
+            "password": "test_password",
         }
-        cls.incorrect_credentials = {
-            'username': 'test_user@gmail.com',
-            'password': 'INCORRECT'
-        }
+        cls.incorrect_credentials = {"username": "test_user@gmail.com", "password": "INCORRECT"}
 
         cls.new_user_data = {
-            'full_name': 'Test User New',
-            'email': 'test_user_new@gmail.com',
-            'password1': 'test_password',
-            'password2': 'test_password'
+            "full_name": "Test User",
+            "email": "test_user_new@gmail.com",
+            "password1": "test_password",
+            "password2": "test_password",
+            "agree_tos": "on",
         }
         cls.incorrect_new_user_data = {
-            'full_name': 'Test User',
-            'email': 'test_user@gmail.com',
-            'password1': 'test_password',
-            'password2': 'test_password'
+            "full_name": "Test User",
+            "email": "test_user@gmail.com",
+            "password1": "test_password",
+            "password2": "test_password",
         }
         cls.correct_update_data = {
-            'profile-full_name': 'John Doe',
-            'profile-languages': 'ru,en',
-            'profile-summary': 'Test Summary for having 5 years of experience in the field of shipping.',
-            'profile-bio': 'Test bio',
-            'profile-phone': '+7(923)111-11-11',
-            'profile-email': 'test@example.com',
-            'profile-website': 'http://www.test.com',
-            'profile-twitter': 'Test twitter',
-            'profile-linkedin': 'Test linkedin',
-            'profile-facebook': 'Test facebook',
-            'profile-preferred_communication_method': 0,
-            'profile-experience': '',
-            'profile-publish_to_thb': True,
-
-            'address-country': 'United States of America',
-            'address-state': 'Alabama',
-            'address-city': 'City',
-            'address-zipcode': '12345',
-            'address-street': 'Street',
-            'address-building': 'z',
-
-            'lawschool-school': 'school',
-            'lawschool-country': 'United States of America',
-            'lawschool-state': 'Alabama',
-
-            'jurisdiction-0-id': '',
-            'jurisdiction-0-country': 'United States of America',
-            'jurisdiction-0-state': 'Arizona',
-            'jurisdiction-0-city': 'City',
-
-            'language-0-name': 'en',
-            'language-0-proficiency_level': 'NS',
-
-            'education-TOTAL_FORMS': 0,
-            'education-INITIAL_FORMS': 0,
-            'admissions-TOTAL_FORMS': 0,
-            'admissions-INITIAL_FORMS': 0,
-            'workexperience-TOTAL_FORMS': 0,
-            'workexperience-INITIAL_FORMS': 0,
-            'organization-TOTAL_FORMS': 0,
-            'organization-INITIAL_FORMS': 0,
-            'award-TOTAL_FORMS': 0,
-            'award-INITIAL_FORMS': 0,
-            'jurisdiction-TOTAL_FORMS': 1,
-            'jurisdiction-INITIAL_FORMS': 0,
-            'language-TOTAL_FORMS': 1,
-            'language-INITIAL_FORMS': 0
-
-        }
-        cls.incorrect_update_data = {
-            'profile-full_name': 'John Doe',
-            'profile-bio': 'Test bio',
-            'profile-website': 'http://www.test.com',
-            'profile-twitter': 'Test twitter',
-            'profile-linkedin': 'Test linkedin',
-            'profile-facebook': 'Test facebook',
-
-            'education-TOTAL_FORMS': 0,
-            'education-INITIAL_FORMS': 0,
-            'admissions-TOTAL_FORMS': 0,
-            'admissions-INITIAL_FORMS': 0,
-            'workexperience-TOTAL_FORMS': 0,
-            'workexperience-INITIAL_FORMS': 0,
-            'organization-TOTAL_FORMS': 0,
-            'organization-INITIAL_FORMS': 0,
-            'award-TOTAL_FORMS': 0,
-            'award-INITIAL_FORMS': 0,
-            'jurisdiction-country': 'Invalid Jurisdiciton',
-            'jurisdiction-TOTAL_FORMS': 0,
-            'jurisdiction-INITIAL_FORMS': 0,
-            'language-TOTAL_FORMS': 0,
-            'language-INITIAL_FORMS': 0
+            "full_name": "John Doe",
+            "summary": "Test Summary for having 5 years of experience in the field of shipping.",
+            "bio": "Test bio",
+            "phone": "+7(923)111-11-11",
+            "email": "test@example.com",
+            "website": "http://www.test.com",
+            "twitter": "Test twitter",
+            "linkedin": "Test linkedin",
+            "facebook": "Test facebook",
+            "preferred_communication_method": 0,
+            "experience": "",
+            "publish_to_thb": True,
+            "law_type_tags": ["Pre-nuptial Agreement", "Business Law"],
+            "country": "United States of America",
+            "state": "Alabama",
+            "city": "City",
+            "languages": [{"name": "en", "proficiency_level": "NS"}],
+            "jurisdictions": [
+                {"country": "United States of America", "state": "New York", "city": "New York"}
+            ],
         }
 
     def setUp(self):
-        get_user_model().objects.create_user(**self.signup_credentials)
+        self.user = ProfileFactory(**self.signup_credentials)
+        self.user.set_password(self.signup_credentials["password"])
+        self.user.save()
 
     def test_python_version_correct(self):
         self.assertEqual(sys.version_info.major, 3)
         self.assertEqual(sys.version_info.minor, 7)
 
     def test_fixtures_faker_correct(self):
-        call_command('loaddata', 'admin', verbosity=0)
-        call_command('loaddata', 'handcrafted', verbosity=0)
-        call_command('generateprofiles', 100, verbosity=0)
+        call_command("loaddata", "admin", verbosity=0)
+        call_command("loaddata", "handcrafted", verbosity=0)
+        call_command("generateprofiles", 100, verbosity=0)
 
     def test_generate_profiles_working(self):
         GENERATED_MODELS_COUNT = 25
@@ -138,46 +87,110 @@ class ProfileTests(TestCase):
 
     def test_login(self):
         # User go to homepage
-        response = self.client.get('/')
+        response = self.client.get("/")
         # Expects 200 and rendered page
         self.assertEqual(response.status_code, 200)
 
         # User goes to profile
-        response = self.client.get('/profile')
+        response = self.client.get("/profile")
         # Expects 302 and redirected to login page
-        self.assertRedirects(response, '/login?next=/profile')
+        self.assertRedirects(response, "/login?next=/profile")
 
         # User types incorrectly
-        response = self.client.post('/login?next=/profile', self.incorrect_credentials)
+        response = self.client.post("/login?next=/profile", self.incorrect_credentials)
         # expects 200 and not authenticated
         self.assertEqual(response.status_code, 200)
-        self.assertFalse(response.context['user'].is_active)
+        self.assertFalse(response.context["user"].is_active)
 
         # User types correctly
-        response = self.client.post('/login?next=/profile', self.credentials, follow=True)
+        response = self.client.post("/login?next=/profile", self.credentials, follow=True)
         # Expects 302 and redirect to profile)
-        self.assertRedirects(response, '/profile')
-        self.assertTrue(response.context['user'].is_active)
+        self.assertRedirects(response, "/profile")
+        self.assertTrue(response.context["user"].is_active)
 
-    def test_register(self):
+    def test_logout(self):
+        # User is already logged in
+        self.client.force_login(self.user)
+
+        # User goes to profile
+        response = self.client.get("/profile")
+        # Expects 200 and rendered page
+        self.assertEqual(response.status_code, 200)
+
+        # User goes to logout
+        response = self.client.get("/logout", follow=True)
+        # Expects 302 and redirected to homepage
+        self.assertRedirects(response, "/")
+
+        # User is logged out
+        self.assertFalse(response.context["user"].is_active)
+
+    def test_signup_flow(self):
         # User go to homepage
-        response = self.client.get('/')
+        response = self.client.get(reverse("home"))
         # Expects 200 and rendered page
         self.assertEqual(response.status_code, 200)
 
         # User goes to profile
-        response = self.client.get('/register')
+        response = self.client.get(reverse("register"))
         # Expects 302 and redirected to login page
         self.assertEqual(response.status_code, 200)
 
         # User types incorrectly
-        response = self.client.post('/register', self.incorrect_new_user_data)
+        response = self.client.post(reverse("register"), self.incorrect_new_user_data)
         # expects 200 and not authenticated
         self.assertEqual(response.status_code, 200)
-        self.assertFalse(response.context['user'].is_active)
+        self.assertFalse(response.context["user"].is_active)
 
         # User types correctly
-        response = self.client.post('/register', self.new_user_data, follow=True)
-        # Expects 302 and redirect to profile)
-        self.assertRedirects(response, '/profile')
-        self.assertTrue(response.context['user'].is_active)
+        response = self.client.post(reverse("register"), self.new_user_data, follow=True)
+        # Expects 302 and redirect to profile
+        self.assertRedirects(response, reverse("profile"))
+        self.assertTrue(response.context["user"].is_active)
+
+        user = Profile.objects.get(email=self.new_user_data["email"])
+
+        # Temporary hack to set email not confirmed while email story is not yet implemented
+        user.email_confirmed_at = None
+        user.save()
+
+        # User tries to leave profile
+        response = self.client.get(reverse("profiles"))
+        # Expects 302 and redirect to profile
+        self.assertRedirects(response, reverse("profile"))
+
+        # Users fills out required fields
+        response = self.client.patch(
+            reverse("api-profile"), self.correct_update_data, content_type="application/json"
+        )
+        # Expects 200
+        self.assertEqual(response.status_code, 200)
+
+        # User tries to leave profile
+        response = self.client.get(reverse("profiles"))
+        # Expects 302 and redirect to profile attorney proof
+        self.assertRedirects(response, reverse("profile-proof"))
+
+        # User fills attorney proof
+        response = self.client.post(
+            reverse("profile-proof"),
+            {
+                "passport_photo": ProfileFactory.create_passport_photo(),
+                "bar_license_photo": ProfileFactory.create_bar_license_photo(),
+                "attorney_confirm": "on",
+            },
+            follow=True,
+        )
+
+        # Expects 302 and redirect to email confirmation
+        self.assertRedirects(response, reverse("profile-email-confirmation"))
+
+        # User confirms email
+        user.refresh_from_db()
+        user.email_confirmed_at = timezone.now()
+        user.save()
+
+        # User tries to leave profile
+        response = self.client.get(reverse("profiles"))
+        # Expects 200
+        self.assertEqual(response.status_code, 200)

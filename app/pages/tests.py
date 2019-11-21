@@ -20,3 +20,18 @@ class HomeTest(TestCase):
         response = self.client.get(self.HOME_URL)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'pages/home.html')
+
+
+@override_settings(STATICFILES_STORAGE='django.contrib.staticfiles.storage.StaticFilesStorage')
+class PrivacyTermsConditionsViewTest(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.VIEW_URL = '/privacy-terms-and-conditions'
+
+    def test_view_url_exists_at_desired_location(self):
+        response = self.client.get(self.VIEW_URL)
+        self.assertEqual(response.status_code, 200)
+
+    def test_view_url_accessible_by_name(self):
+        response = self.client.get(reverse('privacy-terms-and-conditions'))
+        self.assertEqual(response.status_code, 200)

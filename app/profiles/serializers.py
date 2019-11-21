@@ -2,7 +2,16 @@ import json
 
 from rest_framework import serializers
 
-from profiles.models import Profile, Language, Address, Education, WorkExperience, Organization, Award
+from profiles.models import (
+    Profile,
+    Language,
+    Address,
+    Education,
+    WorkExperience,
+    Organization,
+    Award,
+    Jurisdiction,
+)
 
 
 class LanguageSerializer(serializers.ModelSerializer):
@@ -16,6 +25,13 @@ class AddressSerializer(serializers.ModelSerializer):
     class Meta:
         model = Address
         fields = ["country", "state", "city"]
+
+
+class JurisdictionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Jurisdiction
+        fields = ["id", "country", "state", "city"]
+        extra_kwargs = {"id": {"read_only": False, "required": True}}
 
 
 class EducationSerializer(serializers.ModelSerializer):
@@ -49,6 +65,7 @@ class AwardSerializer(serializers.ModelSerializer):
 class ProfileSerializer(serializers.HyperlinkedModelSerializer):
     languages = LanguageSerializer(source="language_set", many=True)
     address = AddressSerializer()
+    jurisdictions = JurisdictionSerializer(source="jurisdiction_set", many=True)
     educations = EducationSerializer(source="education_set", many=True)
     work_experiences = WorkExperienceSerializer(source="workexperience_set", many=True)
     organizations = OrganizationSerializer(source="organization_set", many=True)
@@ -66,6 +83,7 @@ class ProfileSerializer(serializers.HyperlinkedModelSerializer):
             "experience",
             "current_job",
             "address",
+            "jurisdictions",
             "educations",
             "work_experiences",
             "organizations",
@@ -80,6 +98,10 @@ class ProfileSerializer(serializers.HyperlinkedModelSerializer):
         languages = validated_data.pop("language_set", None)
         if languages is not None:
             self._sync_foreign_model(instance, languages, Language, "language_set")
+
+        jurisdictions = validated_data.pop("jurisdiction_set", None)
+        if jurisdictions is not None:
+            self._sync_foreign_model(instance, jurisdictions, Jurisdiction, "jurisdiction_set")
 
         educations = validated_data.pop("education_set", None)
         if educations is not None:
