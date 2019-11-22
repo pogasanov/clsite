@@ -1,11 +1,9 @@
 import random
-import sys
 from django.core.management.base import BaseCommand, CommandError
 from django.db import IntegrityError
 
 from profiles.models import Profile
 from reviews.factories import ReviewFactory
-from reviews.models import Review
 
 
 class Command(BaseCommand):
