@@ -142,3 +142,11 @@ class SignupFlowCompleteDecoratorTest(TestCase):
         response = self.view(request)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response, EXPECTED_RESULT)
+
+    def test_not_redirected_if_super_user(self):
+        user = ProfileFactory(empty_profile=True)
+        user.is_superuser = True
+        self.request.user = user
+
+        response = self.view(self.request)
+        self.assertEqual(response, EXPECTED_RESULT)
