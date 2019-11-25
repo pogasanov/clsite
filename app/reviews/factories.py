@@ -16,9 +16,11 @@ class ReviewFactory(factory.django.DjangoModelFactory):
     sent_to = factory.SubFactory(ProfileFactory)
     rating = factory.fuzzy.FuzzyChoice(Review.REVIEW_CHOICES, getter=lambda c: c[0])
     is_sender_principal = factory.fuzzy.FuzzyChoice(Review.IS_SENDER_PRINCIPAL_CHOICES, getter=lambda c: c[0])
-    work_description_private = factory.LazyFunction(lambda: "".join(factory.Faker('paragraphs', nb=3).generate()))
+    work_description_private = factory.LazyFunction(
+        lambda: "".join(factory.Faker('paragraphs', nb=3).generate()))
     recommendation = factory.LazyFunction(lambda: "".join(factory.Faker('paragraphs', nb=3).generate()))
-    created_at = factory.fuzzy.FuzzyDateTime(datetime.now(tz=pytz.UTC) - timedelta(days=30), datetime.now(tz=pytz.UTC))
+    created_at = factory.fuzzy.FuzzyDateTime(
+        datetime.now(tz=pytz.UTC) - timedelta(days=30), datetime.now(tz=pytz.UTC))
 
     @factory.lazy_attribute
     def is_deleted(self):
