@@ -5,10 +5,11 @@ from django.contrib.postgres.fields import ArrayField, DateRangeField
 from django.contrib.staticfiles.templatetags.staticfiles import static
 from django.db import models
 from django.urls import reverse
+from django.utils import timezone
 
 from clsite.storage_backends import variativeStorage
-from .utils import COUNTRIES_CHOICES
 from .choices import LANGUAGES_CHOICES
+from .utils import COUNTRIES_CHOICES
 
 
 class Address(models.Model):
@@ -153,11 +154,22 @@ class Profile(AbstractUser):
         (2, 'Call'),
         (3, 'In-Person')
     )
+    REGISTER_STATUS_EMPTY_PROFILE = 0
+    REGISTER_STATUS_NO_ATTORNEY_PROOF = 1
+    REGISTER_STATUS_EMAIL_NOT_CONFIRMED = 2
+    REGISTER_STATUS_COMPLETE = 3
+    REGISTER_STATUSES = (
+        (REGISTER_STATUS_EMPTY_PROFILE, 'Empty profile'),
+        (REGISTER_STATUS_NO_ATTORNEY_PROOF, 'No attorney proof'),
+        (REGISTER_STATUS_EMAIL_NOT_CONFIRMED, 'Email not confirmed'),
+        (REGISTER_STATUS_COMPLETE, 'Complete')
+    )
     username = None
     full_name = models.CharField(max_length=100)
 
     handle = models.CharField(max_length=50, unique=True, null=True, blank=True)
     email = models.EmailField(verbose_name='Email address', unique=True)
+    email_confirmed_at = models.DateTimeField(default=timezone.now, null=True, blank=True)
 
     phone = models.CharField(max_length=20, verbose_name='Contact Number (Office)', blank=True)
     photo = models.ImageField(upload_to=get_image_path, storage=variativeStorage(), verbose_name='Profile Picture',
@@ -187,19 +199,25 @@ class Profile(AbstractUser):
 
     publish_to_thb = models.BooleanField(default=False, verbose_name='Publish To THB')
 
+    passport_photo = models.ImageField(upload_to=get_image_path, storage=variativeStorage(),
+                                       verbose_name='Passport photo',
+                                       blank=True, null=True)
+    bar_license_photo = models.ImageField(upload_to=get_image_path, storage=variativeStorage(),
+                                          verbose_name='Bar license photo',
+                                          blank=True, null=True)
+
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
 
     objects = UserManager()
 
     def save(self, *args, **kwargs):
-        super(Profile, self).save(*args, **kwargs)
-        if not self.handle:
+        if self._state.adding:
             reference = '-'.join(self.full_name.lower().split(' '))
             full_name_profiles = Profile.objects.filter(handle=reference).count()
             reference_id = str(full_name_profiles + 1) if full_name_profiles else ''
             self.handle = reference + reference_id
-            self.save(*args, **kwargs)
+        return super(Profile, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
         return reverse('profile-detail', kwargs={'handle': self.handle})
@@ -251,3 +269,19 @@ class Profile(AbstractUser):
 
     def __str__(self):
         return self.handle
+
+    def is_filled(self):
+        return self.full_name and self.jurisdiction_set.exists() and self.law_type_tags and self.language_set.exists()
+
+    def is_attorney_proof_submitted(self):
+        return self.passport_photo and self.bar_license_photo
+
+    @property
+    def register_status(self):
+        if not self.is_filled():
+            return self.REGISTER_STATUS_EMPTY_PROFILE
+        if not self.is_attorney_proof_submitted():
+            return self.REGISTER_STATUS_NO_ATTORNEY_PROOF
+        if not self.email_confirmed_at:
+            return self.REGISTER_STATUS_EMAIL_NOT_CONFIRMED
+        return self.REGISTER_STATUS_COMPLETE
