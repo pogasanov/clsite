@@ -5,6 +5,8 @@ from django.db import IntegrityError
 from profiles.models import Profile
 from reviews.factories import ReviewFactory
 
+MAX_RETRIES = 10
+
 
 class Command(BaseCommand):
     def add_arguments(self, parser):
@@ -25,7 +27,7 @@ class Command(BaseCommand):
                 raise CommandError('You need to generate profiles first. Use `generateprofiles` command.')
 
             retries = 0
-            while len(combinations) < reviews_count and retries < 10:
+            while len(combinations) < reviews_count and retries < MAX_RETRIES:
                 retries += 1
                 created_by, sent_to = random.sample(profiles, 2)
                 targeted_combinition = (created_by.id, sent_to.id,)
@@ -35,7 +37,7 @@ class Command(BaseCommand):
                     combinations.append(targeted_combinition)
                     retries = 0
 
-            if len(combinations) < options['reviews_count']:
+            if len(combinations) < reviews_count:
                 self.stdout.write(
                     f'{len(combinations)} reviews generated. Unable to generate more reviews. '
                     f'You need to generate more profiles first. '
