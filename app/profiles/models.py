@@ -228,15 +228,15 @@ class Profile(AbstractUser):
         return static('dummy-img.png')
 
     def unconfirmed_transactions(self):
-        return self.requestee.unconfirmed()
+        return self.transaction_sent_to.unconfirmed()
 
     def ready_transactions_where_amount_received(self):
-        return self.requestee.is_ready().filter(is_requester_principal=True) | \
-               self.requester.is_ready().filter(is_requester_principal=False)
+        return self.transaction_sent_to.is_ready().filter(is_requester_principal=True) | \
+               self.transaction_created_by.is_ready().filter(is_requester_principal=False)
 
     def ready_transactions_where_amount_sent(self):
-        return self.requestee.is_ready().filter(is_requester_principal=False) | \
-               self.requester.is_ready().filter(is_requester_principal=True)
+        return self.transaction_sent_to.is_ready().filter(is_requester_principal=False) | \
+               self.transaction_created_by.is_ready().filter(is_requester_principal=True)
 
     def _compile_headline(self):
         headline_format = '{tags} attorney{jurisdictions}'

@@ -41,9 +41,9 @@ class ProfileDetailView(LoginRequiredMixin, DetailView):
         context = super().get_context_data(**kwargs)
 
         user = self.get_object()
-        requester_profiles = Profile.objects.filter(requester__in=user.requestee.all())
-        requestee_profiles = Profile.objects.filter(requestee__in=user.requester.all())
-        context["correspondents"] = requester_profiles.union(requestee_profiles)
+        transaction_by_profiles = Profile.objects.filter(transaction_created_by__in=user.transaction_sent_to.all())
+        transaction_to_profiles = Profile.objects.filter(transaction_sent_to__in=user.transaction_created_by.all())
+        context["correspondents"] = transaction_by_profiles.union(transaction_to_profiles)
 
         received_ready_transactions = user.ready_transactions_where_amount_received()
         sent_ready_transactions = user.ready_transactions_where_amount_sent()

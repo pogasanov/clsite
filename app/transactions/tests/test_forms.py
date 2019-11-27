@@ -10,8 +10,8 @@ from transactions.forms import TransactionForm, ConfirmTransactionForm
 class TransactionFormTestCase(TestCase):
     @classmethod
     def setUpTestData(cls):
-        cls.requester = ProfileFactory()
-        cls.requestee = ProfileFactory()
+        cls.created_by = ProfileFactory()
+        cls.sent_to = ProfileFactory()
 
         cls.data_payload = {
             'date': timezone.now(),
@@ -20,34 +20,34 @@ class TransactionFormTestCase(TestCase):
             'is_requester_principal': True
         }
 
-    def test_require_requester_and_requestee(self):
+    def test_require_created_by_and_sent_to(self):
         with self.assertRaises(KeyError):
             TransactionForm()
 
         with self.assertRaises(KeyError):
-            TransactionForm(requester=self.requester)
+            TransactionForm(created_by=self.created_by)
 
         with self.assertRaises(KeyError):
-            TransactionForm(requestee=self.requestee)
+            TransactionForm(sent_to=self.sent_to)
 
     def test_valid_with_correct_payload(self):
         files = {
             'proof_receipt': TransactionFactory.create_proof_receipt()
         }
 
-        form = TransactionForm(requester=self.requester, requestee=self.requestee, data=self.data_payload, files=files)
+        form = TransactionForm(created_by=self.created_by, sent_to=self.sent_to, data=self.data_payload, files=files)
         self.assertTrue(form.is_valid())
 
-    def test_pass_requester_requestee_to_instance(self):
+    def test_pass_created_by_sent_to_to_instance(self):
         files = {
             'proof_receipt': TransactionFactory.create_proof_receipt()
         }
 
-        form = TransactionForm(requester=self.requester, requestee=self.requestee, data=self.data_payload, files=files)
+        form = TransactionForm(created_by=self.created_by, sent_to=self.sent_to, data=self.data_payload, files=files)
         transaction = form.save()
 
-        self.assertIs(transaction.requester, self.requester)
-        self.assertIs(transaction.requestee, self.requestee)
+        self.assertIs(transaction.created_by, self.created_by)
+        self.assertIs(transaction.sent_to, self.sent_to)
 
 
 @override_settings(STATICFILES_STORAGE='django.contrib.staticfiles.storage.StaticFilesStorage')
@@ -59,7 +59,7 @@ class ConfirmTransactionFormTest(TestCase):
         }
 
     def setUp(self):
-        self.transaction = TransactionFactory(requestee_not_checked=True)
+        self.transaction = TransactionFactory(sent_to_not_checked=True)
 
     def test_valid_with_correct_payload(self):
         form = ConfirmTransactionForm(data=self.data_payload, instance=self.transaction)

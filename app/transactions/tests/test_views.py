@@ -13,8 +13,8 @@ from transactions.models import Transaction
 class TransactionViewTest(TestCase):
     @classmethod
     def setUpTestData(cls):
-        cls.requester, cls.requestee = ProfileFactory.create_batch(size=2)
-        cls.TRANSACTION_URL = f'/transaction/{cls.requestee.handle}'
+        cls.created_by, cls.sent_to = ProfileFactory.create_batch(size=2)
+        cls.TRANSACTION_URL = f'/transaction/{cls.sent_to.handle}'
 
         cls.data_payload = {
             'date': timezone.now().strftime('%m/%d/%Y'),
@@ -25,7 +25,7 @@ class TransactionViewTest(TestCase):
         }
 
     def setUp(self):
-        self.client.login(username=self.requester.email, password=settings.DEFAULT_USER_PASSWORD)
+        self.client.login(username=self.created_by.email, password=settings.DEFAULT_USER_PASSWORD)
 
     def test_redirect_to_login_for_not_logged_user(self):
         self.client.logout()
@@ -38,7 +38,7 @@ class TransactionViewTest(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_view_url_accessible_by_name(self):
-        response = self.client.get(reverse('create_transaction', kwargs={'handle': self.requestee.handle}))
+        response = self.client.get(reverse('create_transaction', kwargs={'handle': self.sent_to.handle}))
         self.assertEqual(response.status_code, 200)
 
     def test_view_uses_correct_template(self):
@@ -46,14 +46,14 @@ class TransactionViewTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'transaction.html')
 
-    def test_requester_requestee_passed_to_form(self):
+    def test_created_by_sent_to_passed_to_form(self):
         response = self.client.get(self.TRANSACTION_URL)
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.context['form'].instance.requester.id, self.requester.id)
-        self.assertEqual(response.context['form'].instance.requestee.id, self.requestee.id)
+        self.assertEqual(response.context['form'].instance.created_by.id, self.created_by.id)
+        self.assertEqual(response.context['form'].instance.sent_to.id, self.sent_to.id)
 
-    def test_requester_eq_requestee_redirected_to_profile(self):
-        response = self.client.get(reverse('create_transaction', kwargs={'handle': self.requester.handle}))
+    def test_created_by_eq_sent_to_redirected_to_profile(self):
+        response = self.client.get(reverse('create_transaction', kwargs={'handle': self.created_by.handle}))
         self.assertRedirects(response, reverse('profile'))
 
     def test_create_transaction_and_redirects_home_on_form_valid(self):
@@ -68,7 +68,7 @@ class TransactionViewTest(TestCase):
 class ConfirmTransactionViewTest(TestCase):
     @classmethod
     def setUpTestData(cls):
-        cls.transaction = TransactionFactory(requestee_not_checked=True)
+        cls.transaction = TransactionFactory(sent_to_not_checked=True)
         cls.TRANSACTION_URL = f'/confirm-transaction/{cls.transaction.id}'
 
         cls.data_payload = {
@@ -76,7 +76,7 @@ class ConfirmTransactionViewTest(TestCase):
         }
 
     def setUp(self):
-        self.client.login(username=self.transaction.requestee.email, password=settings.DEFAULT_USER_PASSWORD)
+        self.client.login(username=self.transaction.sent_to.email, password=settings.DEFAULT_USER_PASSWORD)
 
     def test_redirect_to_login_for_not_logged_user(self):
         self.client.logout()
@@ -84,9 +84,9 @@ class ConfirmTransactionViewTest(TestCase):
         response = self.client.get(self.TRANSACTION_URL)
         self.assertRedirects(response, f'/login?next={self.TRANSACTION_URL}')
 
-    def test_redirect_if_not_requestee_accessed(self):
+    def test_redirect_if_not_sent_to_accessed(self):
         self.client.logout()
-        self.client.login(username=self.transaction.requester.email, password=settings.DEFAULT_USER_PASSWORD)
+        self.client.login(username=self.transaction.created_by.email, password=settings.DEFAULT_USER_PASSWORD)
 
         response = self.client.get(self.TRANSACTION_URL)
         self.assertRedirects(response, reverse('profile'))

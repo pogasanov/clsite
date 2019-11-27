@@ -7,23 +7,23 @@ from .models import Transaction
 
 
 def transaction(request, handle):
-    requester = request.user
-    requestee = get_object_or_404(get_user_model(), handle=handle)
+    created_by = request.user
+    sent_to = get_object_or_404(get_user_model(), handle=handle)
 
-    if requester == requestee:
+    if created_by == sent_to:
         return redirect('profile')
 
     form = TransactionForm(request.POST or None,
                            request.FILES or None,
-                           requester=requester,
-                           requestee=requestee)
+                           created_by=created_by,
+                           sent_to=sent_to)
 
     if request.method == 'POST' and form.is_valid():
         form.save()
         messages.info(
             request,
             "Thank you. We have contacted {} to confirm the transaction with the following details.".format(
-                requestee.full_name.upper()),
+                sent_to.full_name.upper()),
         )
         return redirect('home')
 

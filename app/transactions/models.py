@@ -41,7 +41,8 @@ class Transaction(models.Model):
 
     date = models.DateField(verbose_name='Transaction Date')
     amount = models.DecimalField(max_digits=14, decimal_places=2, verbose_name='Transaction Amount')
-    value_in_usd = models.DecimalField(max_digits=14, decimal_places=2, verbose_name='Value in USD', null=True,
+    value_in_usd = models.DecimalField(max_digits=14, decimal_places=2,
+                                       verbose_name='Value in USD', null=True,
                                        blank=True)
     currency = models.CharField(max_length=3, choices=CURRENCY_CHOICES,
                                 default='USD', verbose_name='Currency')
@@ -49,11 +50,11 @@ class Transaction(models.Model):
     proof_receipt = models.ImageField(upload_to=get_image_path, storage=variativeStorage(),
                                       verbose_name='Transaction Proof')
 
-    requester = models.ForeignKey('profiles.Profile', on_delete=models.CASCADE,
-                                  related_name='requester', verbose_name='Requester')
+    created_by = models.ForeignKey('profiles.Profile', on_delete=models.CASCADE,
+                                   related_name='transaction_created_by', verbose_name='Created by')
 
-    requestee = models.ForeignKey('profiles.Profile', on_delete=models.CASCADE,
-                                  related_name='requestee', verbose_name='Requestee')
+    sent_to = models.ForeignKey('profiles.Profile', on_delete=models.CASCADE,
+                                related_name='transaction_sent_to', verbose_name='Sent to')
 
     is_confirmed = models.NullBooleanField(default=None, verbose_name='Requestee Confirmed')
     is_flagged = models.BooleanField(default=False, verbose_name='Flagged')
@@ -85,5 +86,6 @@ class Transaction(models.Model):
 
     def clean(self):
         super().clean()
-        if self.requester == self.requestee:
-            raise ValidationError('Requester and requestee cannot be the same user', code='same-requester-requestee')
+        if self.created_by == self.sent_to:
+            raise ValidationError('created_by and sent_to cannot be the same user',
+                                  code='same-created_by-sent_to')

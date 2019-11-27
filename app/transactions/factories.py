@@ -12,12 +12,12 @@ class TransactionFactory(factory.django.DjangoModelFactory):
         model = 'transactions.Transaction'
 
     class Params:
-        requestee_not_checked = factory.Trait(
+        sent_to_not_checked = factory.Trait(
             is_confirmed=None
         )
 
-    requester = factory.SubFactory(ProfileFactory)
-    requestee = factory.SubFactory(ProfileFactory)
+    created_by = factory.SubFactory(ProfileFactory)
+    sent_to = factory.SubFactory(ProfileFactory)
     amount = factory.Faker('pyfloat', right_digits=2, min_value=1, max_value=100000)
 
     @factory.lazy_attribute
@@ -38,13 +38,13 @@ class TransactionFactory(factory.django.DjangoModelFactory):
     @factory.lazy_attribute
     def is_confirmed(self):
         probability = random.random()
-        # 10% chance for the transaction to get denied from the requestee
+        # 10% chance for the transaction to get denied from the sent_to
         if probability < 0.1:
             return False
-        # 40% chance for transaction to get confirmed from the requestee
+        # 40% chance for transaction to get confirmed from the sent_to
         if 0.1 <= probability < 0.5:
             return True
-        # 50% chance for transaction to stay unconfirmed from requestee
+        # 50% chance for transaction to stay unconfirmed from sent_to
         return None
 
     @factory.lazy_attribute

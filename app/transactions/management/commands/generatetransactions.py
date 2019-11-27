@@ -21,8 +21,8 @@ class Command(BaseCommand):
                 if not profiles:
                     raise CommandError('You need to generate profiles first. Use generateprofiles command.')
                 for _ in range(options['transactions_count']):
-                    requester, requestee = random.sample(profiles, 2)
-                    TransactionFactory(requester=requester, requestee=requestee)
+                    created_by, sent_to = random.sample(profiles, 2)
+                    TransactionFactory(created_by=created_by, sent_to=sent_to)
         except IntegrityError as ie:
             raise CommandError('Unable to generate dummy profiles, truncate your database and try again.', ie)
         except Exception as ex:

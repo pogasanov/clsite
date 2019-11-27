@@ -20,12 +20,12 @@ class TransactionForm(ModelForm):
         }
 
     def __init__(self, *args, **kwargs):
-        requester = kwargs.pop('requester')
-        requestee = kwargs.pop('requestee')
+        created_by = kwargs.pop('created_by')
+        sent_to = kwargs.pop('sent_to')
         super().__init__(*args, **kwargs)
 
-        self.instance.requester = requester
-        self.instance.requestee = requestee
+        self.instance.created_by = created_by
+        self.instance.sent_to = sent_to
 
         for key, field in self.fields.items():
             field.widget.attrs.update({'class': 'form-control'})

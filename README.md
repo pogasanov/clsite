@@ -405,7 +405,7 @@ profiles = ProfileFactory.create_batch(100)
 # 2 new profiles will be created and saved
 transaction = TransactionFactory()
 # Will create only 1 new profile
-transaction = TransactionFactory(requestee=profile_saved)
+transaction = TransactionFactory(sent_to=profile_saved)
 
 # will add 20 reviews in DB
 reviews=ReviewFactory.create_batch(20)

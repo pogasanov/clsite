@@ -33,13 +33,13 @@ class TransactionAdmin(admin.ModelAdmin):
     change_list_template = 'transaction_admin.html'
     list_filter = ['is_flagged', TransactionValueInUSDEmptyFilter]
     list_display = (
-        'requester', 'amount_direction', 'requestee', 'amount', 'currency', 'date',
+        'created_by', 'amount_direction', 'sent_to', 'amount', 'currency', 'date',
         'value_in_usd', 'currency_conversion', 'is_confirmed', 'is_flagged', 'is_ready', 'proof_receipt'
     )
     list_editable = ('value_in_usd', 'is_flagged')
     ordering = ['-created_at']
     actions = [flag_transactions]
-    search_fields = ['requester__handle', 'requestee__handle', 'requester__email', 'requestee__email']
+    search_fields = ['created_by__handle', 'sent_to__handle', 'created_by__email', 'sent_to__email']
 
     class Media:
         css = {'all': ('admin.css',)}

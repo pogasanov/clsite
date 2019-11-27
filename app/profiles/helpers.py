@@ -11,11 +11,11 @@ def get_user_relationships(user):
     """
     transactions = {}
 
-    for transaction in Transaction.ready.filter(Q(requester=user) | Q(requestee=user)):
-        other_user_handle = transaction.requester.handle
+    for transaction in Transaction.ready.filter(Q(created_by=user) | Q(sent_to=user)):
+        other_user_handle = transaction.created_by.handle
 
-        if user == transaction.requester:
-            other_user_handle = transaction.requestee.handle
+        if user == transaction.created_by:
+            other_user_handle = transaction.sent_to.handle
 
         if other_user_handle not in transactions:
             transactions[other_user_handle] = []
