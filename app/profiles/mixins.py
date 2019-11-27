@@ -10,7 +10,7 @@ from profiles.models import Profile
 def signup_flow_complete(function):
     @wraps(function)
     def wrap(request, *args, **kwargs):
-        if not request.user.is_anonymous:
+        if not request.user.is_anonymous and not request.user.is_superuser:
             if request.path != reverse('profile') \
                     and request.user.register_status == Profile.REGISTER_STATUS_EMPTY_PROFILE:
                 messages.add_message(request, messages.ERROR, 'You should fill out profile')
